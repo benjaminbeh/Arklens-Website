@@ -41,9 +41,7 @@ const features = [
         <div class="grid sm:grid-cols-2 gap-4 mb-8">
           {features.map((feature) => (
             <div class="flex items-start space-x-3">
-              <svg class="w-6 h-6 text-primary-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-              </svg>
+              <i class="ph ph-check-circle text-2xl text-primary-600 flex-shrink-0"></i>
               <span class="text-neutral-700">{t(`freeOffer.features.${feature}` as any)}</span>
             </div>
           ))}
@@ -52,9 +50,7 @@ const features = [
         <!-- Domain Notice -->
         <div class="bg-primary-50 border border-primary-200 rounded-xl p-6 mb-8">
           <div class="flex items-start space-x-3">
-            <svg class="w-6 h-6 text-primary-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+            <i class="ph ph-info text-2xl text-primary-600 flex-shrink-0"></i>
             <p class="text-neutral-700">
               {t('freeOffer.domain')}
             </p>

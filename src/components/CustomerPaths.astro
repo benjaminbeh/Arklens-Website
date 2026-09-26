@@ -48,19 +48,13 @@ const paths = [
           <!-- Icon -->
           <div class="w-14 h-14 rounded-xl bg-primary-100 flex items-center justify-center mb-6 group-hover:bg-primary-200 transition-colors">
             {path.icon === 'new' && (
-              <svg class="w-7 h-7 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-              </svg>
+              <i class="ph ph-plus-circle text-3xl text-primary-600"></i>
             )}
             {path.icon === 'update' && (
-              <svg class="w-7 h-7 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
+              <i class="ph ph-arrow-clockwise text-3xl text-primary-600"></i>
             )}
             {path.icon === 'more' && (
-              <svg class="w-7 h-7 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
+              <i class="ph ph-lightning text-3xl text-primary-600"></i>
             )}
           </div>
 
@@ -78,9 +72,7 @@ const paths = [
             class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors group"
           >
             {path.cta}
-            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
+            <i class="ph ph-arrow-right text-lg ml-2 group-hover:translate-x-1 transition-transform"></i>
           </a>
         </div>
       ))}

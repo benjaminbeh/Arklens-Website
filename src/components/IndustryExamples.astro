@@ -10,14 +10,14 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const examples = [
-  { key: 'restaurant', icon: '🍽️' },
-  { key: 'beauty', icon: '💇' },
-  { key: 'trades', icon: '🔧' },
-  { key: 'consultant', icon: '💼' },
-  { key: 'health', icon: '⚕️' },
-  { key: 'garage', icon: '🚗' },
-  { key: 'shop', icon: '🏪' },
-  { key: 'services', icon: '📋' },
+  { key: 'restaurant', icon: 'fork-knife' },
+  { key: 'beauty', icon: 'scissors' },
+  { key: 'trades', icon: 'wrench' },
+  { key: 'consultant', icon: 'briefcase' },
+  { key: 'health', icon: 'first-aid' },
+  { key: 'garage', icon: 'car' },
+  { key: 'shop', icon: 'storefront' },
+  { key: 'services', icon: 'clipboard-text' },
 ];
 ---
 
@@ -35,7 +35,7 @@ const examples = [
           type="button"
           class="card card-hover text-left group cursor-pointer transition-all"
         >
-          <div class="text-4xl mb-4">{example.icon}</div>
+          <i class={`ph ph-${example.icon} text-5xl text-primary-600 mb-4`}></i>
           <h3 class="text-heading-sm text-neutral-900 group-hover:text-primary-600 transition-colors">
             {t(`examples.${example.key}` as any)}
           </h3>

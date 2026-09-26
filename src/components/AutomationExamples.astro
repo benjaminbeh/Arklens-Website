@@ -10,12 +10,12 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const examples = [
-  { key: 'enquiries', icon: '💬' },
-  { key: 'quotes', icon: '📋' },
-  { key: 'documents', icon: '📚' },
-  { key: 'support', icon: '🎧' },
-  { key: 'admin', icon: '⚙️' },
-  { key: 'reporting', icon: '📊' },
+  { key: 'enquiries', icon: 'chats-circle' },
+  { key: 'quotes', icon: 'clipboard-text' },
+  { key: 'documents', icon: 'books' },
+  { key: 'support', icon: 'headset' },
+  { key: 'admin', icon: 'gear' },
+  { key: 'reporting', icon: 'chart-bar' },
 ];
 ---
 
@@ -30,7 +30,7 @@ const examples = [
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
       {examples.map((example) => (
         <div class="card card-hover">
-          <div class="text-3xl mb-4">{example.icon}</div>
+          <i class={`ph ph-${example.icon} text-4xl text-primary-600 mb-4`}></i>
           <h3 class="text-heading-sm mb-2 text-neutral-900">
             {t(`automation.${example.key}.title` as any)}
           </h3>
