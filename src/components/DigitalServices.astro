@@ -1,0 +1,52 @@
+---
+import type { Language } from '@i18n/index';
+import { useTranslations } from '@i18n/index';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const services = [
+  { key: 'languages', icon: '🌍' },
+  { key: 'pages', icon: '📄' },
+  { key: 'booking', icon: '📅' },
+  { key: 'forms', icon: '📝' },
+  { key: 'email', icon: '📧' },
+  { key: 'payments', icon: '💳' },
+  { key: 'google', icon: '🔍' },
+  { key: 'seo', icon: '📈' },
+  { key: 'analytics', icon: '📊' },
+  { key: 'reviews', icon: '⭐' },
+  { key: 'crm', icon: '🔗' },
+];
+---
+
+<section class="section bg-neutral-50" id="add-features">
+  <div class="container-custom">
+    <div class="text-center mb-16 max-w-3xl mx-auto">
+      <h2 class="text-display-sm md:text-display-md mb-6 text-neutral-900">
+        {t('services.title')}
+      </h2>
+      <p class="text-body-lg text-neutral-600">
+        {t('services.subtitle')}
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      {services.map((service) => (
+        <div class="card card-hover group">
+          <div class="text-3xl mb-4">{service.icon}</div>
+          <h3 class="text-heading-sm mb-2 text-neutral-900 group-hover:text-primary-600 transition-colors">
+            {t(`services.${service.key}.title` as any)}
+          </h3>
+          <p class="text-neutral-600 text-sm">
+            {t(`services.${service.key}.desc` as any)}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,146 @@
+---
+import type { Language } from '@i18n/index';
+import { useTranslations, languages, getLocalizedPath } from '@i18n/index';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-neutral-200">
+  <nav class="container-custom py-4" aria-label="Main navigation">
+    <div class="flex items-center justify-between">
+      <!-- Logo -->
+      <a href={getLocalizedPath('/', lang)} class="flex items-center space-x-2 text-2xl font-bold text-neutral-900 hover:text-primary-600 transition-colors">
+        <span>Arklens</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden lg:flex items-center space-x-8">
+        <a href={getLocalizedPath('/#how-it-works', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
+          {t('nav.howItWorks')}
+        </a>
+        <a href={getLocalizedPath('/#what-we-offer', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
+          {t('nav.whatWeOffer')}
+        </a>
+        <a href={getLocalizedPath('/#examples', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
+          {t('nav.examples')}
+        </a>
+        <a href={getLocalizedPath('/#for-business', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
+          {t('nav.forBusiness')}
+        </a>
+        <a href={getLocalizedPath('/#faq', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
+          {t('nav.faq')}
+        </a>
+      </div>
+
+      <!-- Language Switcher & CTA -->
+      <div class="hidden lg:flex items-center space-x-4">
+        <!-- Language Switcher -->
+        <div class="relative language-switcher">
+          <button 
+            type="button"
+            class="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-neutral-100 transition-colors"
+            aria-label="Switch language"
+            aria-haspopup="true"
+          >
+            <span class="text-sm font-medium text-neutral-700">{languages[lang]}</span>
+            <svg class="w-4 h-4 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="language-menu absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-medium border border-neutral-200 py-2 hidden">
+            {Object.entries(languages).map(([code, name]) => (
+              <a 
+                href={code === 'fr' ? '/' : `/${code}/`}
+                class="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 transition-colors"
+              >
+                {name}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <!-- CTA Button -->
+        <a href={getLocalizedPath('/#get-started', lang)} class="btn btn-primary">
+          {t('nav.getStarted')}
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button 
+        type="button"
+        class="lg:hidden mobile-menu-button p-2 rounded-lg hover:bg-neutral-100 transition-colors"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <svg class="w-6 h-6 text-neutral-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path class="menu-icon-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          <path class="menu-icon-close hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu lg:hidden hidden mt-4 pb-4 border-t border-neutral-200 pt-4">
+      <div class="flex flex-col space-y-4">
+        <a href={getLocalizedPath('/#how-it-works', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
+          {t('nav.howItWorks')}
+        </a>
+        <a href={getLocalizedPath('/#what-we-offer', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
+          {t('nav.whatWeOffer')}
+        </a>
+        <a href={getLocalizedPath('/#examples', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
+          {t('nav.examples')}
+        </a>
+        <a href={getLocalizedPath('/#for-business', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
+          {t('nav.forBusiness')}
+        </a>
+        <a href={getLocalizedPath('/#faq', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
+          {t('nav.faq')}
+        </a>
+        <div class="pt-4 border-t border-neutral-200">
+          <a href={getLocalizedPath('/#get-started', lang)} class="btn btn-primary w-full">
+            {t('nav.getStarted')}
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Mobile menu toggle
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuButton = document.querySelector('.mobile-menu-button');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const openIcon = document.querySelector('.menu-icon-open');
+    const closeIcon = document.querySelector('.menu-icon-close');
+
+    menuButton?.addEventListener('click', () => {
+      const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!isExpanded));
+      mobileMenu?.classList.toggle('hidden');
+      openIcon?.classList.toggle('hidden');
+      closeIcon?.classList.toggle('hidden');
+    });
+
+    // Language switcher
+    const langButton = document.querySelector('.language-switcher button');
+    const langMenu = document.querySelector('.language-menu');
+
+    langButton?.addEventListener('click', () => {
+      langMenu?.classList.toggle('hidden');
+    });
+
+    // Close language menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!langButton?.contains(e.target as Node) && !langMenu?.contains(e.target as Node)) {
+        langMenu?.classList.add('hidden');
+      }
+    });
+  });
+</script>

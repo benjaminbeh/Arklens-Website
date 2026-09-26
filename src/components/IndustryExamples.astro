@@ -1,0 +1,57 @@
+---
+import type { Language } from '@i18n/index';
+import { useTranslations } from '@i18n/index';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const examples = [
+  { key: 'restaurant', icon: '🍽️' },
+  { key: 'beauty', icon: '💇' },
+  { key: 'trades', icon: '🔧' },
+  { key: 'consultant', icon: '💼' },
+  { key: 'health', icon: '⚕️' },
+  { key: 'garage', icon: '🚗' },
+  { key: 'shop', icon: '🏪' },
+  { key: 'services', icon: '📋' },
+];
+---
+
+<section class="section bg-white" id="examples">
+  <div class="container-custom">
+    <div class="text-center mb-16">
+      <h2 class="text-display-sm md:text-display-md mb-4 text-neutral-900">
+        {t('examples.title')}
+      </h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+      {examples.map((example) => (
+        <button
+          type="button"
+          class="card card-hover text-left group cursor-pointer transition-all"
+        >
+          <div class="text-4xl mb-4">{example.icon}</div>
+          <h3 class="text-heading-sm text-neutral-900 group-hover:text-primary-600 transition-colors">
+            {t(`examples.${example.key}` as any)}
+          </h3>
+        </button>
+      ))}
+    </div>
+
+    <div class="mt-16 max-w-4xl mx-auto">
+      <div class="card bg-neutral-50 p-8 text-center">
+        <p class="text-neutral-600 mb-6">
+          {lang === 'en' && 'Each industry template includes professional design adapted to your business type.'}
+          {lang === 'fr' && 'Chaque modèle de secteur comprend un design professionnel adapté à votre type d\'entreprise.'}
+          {lang === 'de' && 'Jede Branchenvorlage umfasst professionelles Design, das an Ihren Geschäftstyp angepasst ist.'}
+          {lang === 'it' && 'Ogni modello di settore include un design professionale adattato al tuo tipo di attività.'}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

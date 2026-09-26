@@ -1,0 +1,44 @@
+---
+import type { Language } from '@i18n/index';
+import { useTranslations } from '@i18n/index';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const examples = [
+  { key: 'enquiries', icon: '💬' },
+  { key: 'quotes', icon: '📋' },
+  { key: 'documents', icon: '📚' },
+  { key: 'support', icon: '🎧' },
+  { key: 'admin', icon: '⚙️' },
+  { key: 'reporting', icon: '📊' },
+];
+---
+
+<section class="section bg-white">
+  <div class="container-custom">
+    <div class="text-center mb-16">
+      <h2 class="text-display-sm md:text-display-md mb-4 text-neutral-900">
+        {t('automation.title')}
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      {examples.map((example) => (
+        <div class="card card-hover">
+          <div class="text-3xl mb-4">{example.icon}</div>
+          <h3 class="text-heading-sm mb-2 text-neutral-900">
+            {t(`automation.${example.key}.title` as any)}
+          </h3>
+          <p class="text-neutral-600 text-sm">
+            {t(`automation.${example.key}.desc` as any)}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

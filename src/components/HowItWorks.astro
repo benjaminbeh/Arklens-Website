@@ -1,0 +1,64 @@
+---
+import type { Language } from '@i18n/index';
+import { useTranslations } from '@i18n/index';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const steps = [
+  { number: '1', key: 'step1', icon: 'form' },
+  { number: '2', key: 'step2', icon: 'build' },
+  { number: '3', key: 'step3', icon: 'launch' },
+];
+---
+
+<section class="section bg-neutral-50">
+  <div class="container-custom">
+    <div class="text-center mb-16">
+      <h2 class="text-display-sm md:text-display-md mb-4 text-neutral-900">
+        {t('howItWorks.title')}
+      </h2>
+    </div>
+
+    <div class="max-w-5xl mx-auto">
+      <div class="grid md:grid-cols-3 gap-8 md:gap-12">
+        {steps.map((step, index) => (
+          <div class="relative">
+            {/* Connector Line (hidden on mobile, shown on desktop between steps) */}
+            {index < steps.length - 1 && (
+              <div class="hidden md:block absolute top-12 left-1/2 w-full h-0.5 bg-neutral-300 -z-10" />
+            )}
+
+            <div class="relative">
+              {/* Step Number */}
+              <div class="w-24 h-24 mx-auto mb-6 rounded-2xl bg-primary-600 flex items-center justify-center shadow-soft">
+                <span class="text-4xl font-bold text-white">{step.number}</span>
+              </div>
+
+              {/* Content */}
+              <div class="text-center">
+                <h3 class="text-heading-md mb-3 text-neutral-900">
+                  {t(`howItWorks.${step.key}.title` as any)}
+                </h3>
+                <p class="text-neutral-600">
+                  {t(`howItWorks.${step.key}.text` as any)}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* CTA */}
+      <div class="text-center mt-12">
+        <a href="#get-started" class="btn btn-primary btn-lg">
+          {t('howItWorks.cta')}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

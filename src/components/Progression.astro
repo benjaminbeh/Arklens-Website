@@ -1,0 +1,54 @@
+---
+import type { Language } from '@i18n/index';
+import { useTranslations } from '@i18n/index';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const steps = [
+  { key: 'step1', icon: '🌐' },
+  { key: 'step2', icon: '🛠️' },
+  { key: 'step3', icon: '🔗' },
+  { key: 'step4', icon: '⚡' },
+  { key: 'step5', icon: '🤖' },
+];
+---
+
+<section class="section bg-gradient-to-b from-white to-neutral-50" id="for-business">
+  <div class="container-custom">
+    <div class="text-center mb-16 max-w-3xl mx-auto">
+      <h2 class="text-display-sm md:text-display-md mb-6 text-neutral-900">
+        {t('progression.title')}
+      </h2>
+      <p class="text-body-lg text-neutral-600">
+        {t('progression.text')}
+      </p>
+    </div>
+
+    <div class="max-w-5xl mx-auto">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        {steps.map((step, index) => (
+          <div class="flex items-center">
+            <div class="flex flex-col items-center">
+              <div class="w-20 h-20 rounded-2xl bg-white border-2 border-primary-600 flex items-center justify-center shadow-soft">
+                <span class="text-3xl">{step.icon}</span>
+              </div>
+              <p class="mt-4 text-sm font-medium text-neutral-700 text-center">
+                {t(`progression.${step.key}` as any)}
+              </p>
+            </div>
+            {index < steps.length - 1 && (
+              <svg class="w-8 h-8 text-primary-400 mx-2 hidden md:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

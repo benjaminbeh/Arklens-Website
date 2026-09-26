@@ -1,0 +1,54 @@
+---
+import type { Language } from '@i18n/index';
+import { useTranslations } from '@i18n/index';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="section bg-gradient-to-b from-neutral-50 to-white" id="get-started">
+  <div class="container-custom">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-display-sm md:text-display-md mb-6 text-neutral-900">
+        {t('finalCta.title')}
+      </h2>
+      <p class="text-body-lg text-neutral-600 mb-10">
+        {t('finalCta.text')}
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#contact-form" class="btn btn-primary btn-lg">
+          {t('finalCta.primary')}
+        </a>
+        <a href="#contact-form" class="btn btn-secondary btn-lg">
+          {t('finalCta.secondary')}
+        </a>
+      </div>
+
+      <div class="mt-12 flex flex-wrap justify-center items-center gap-8 text-sm text-neutral-600">
+        <div class="flex items-center space-x-2">
+          <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>CHF 0</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>{lang === 'en' ? 'Your domain' : lang === 'fr' ? 'Votre domaine' : lang === 'de' ? 'Ihre Domain' : 'Il tuo dominio'}</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>{lang === 'en' ? 'No commitment' : lang === 'fr' ? 'Sans engagement' : lang === 'de' ? 'Keine Verpflichtung' : 'Nessun impegno'}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

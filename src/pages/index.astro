@@ -1,0 +1,45 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import Hero from '@components/Hero.astro';
+import CustomerPaths from '@components/CustomerPaths.astro';
+import FreeOffer from '@components/FreeOffer.astro';
+import WhyFree from '@components/WhyFree.astro';
+import IndustryExamples from '@components/IndustryExamples.astro';
+import HowItWorks from '@components/HowItWorks.astro';
+import DigitalServices from '@components/DigitalServices.astro';
+import Progression from '@components/Progression.astro';
+import AutomationExamples from '@components/AutomationExamples.astro';
+import DigitalCheck from '@components/DigitalCheck.astro';
+import SwissTrust from '@components/SwissTrust.astro';
+import FAQ from '@components/FAQ.astro';
+import FinalCTA from '@components/FinalCTA.astro';
+import { useTranslations } from '@i18n/index';
+
+const lang = 'fr'; // Default language
+const t = useTranslations(lang);
+
+const title = t('hero.title');
+const description = t('hero.subtitle');
+---
+
+<BaseLayout title={title} description={description} lang={lang}>
+  <Header lang={lang} />
+  <main>
+    <Hero lang={lang} />
+    <CustomerPaths lang={lang} />
+    <FreeOffer lang={lang} />
+    <WhyFree lang={lang} />
+    <IndustryExamples lang={lang} />
+    <HowItWorks lang={lang} />
+    <DigitalServices lang={lang} />
+    <Progression lang={lang} />
+    <AutomationExamples lang={lang} />
+    <DigitalCheck lang={lang} />
+    <SwissTrust lang={lang} />
+    <FAQ lang={lang} />
+    <FinalCTA lang={lang} />
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>

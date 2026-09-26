@@ -1,0 +1,84 @@
+---
+import type { Language } from '@i18n/index';
+import { useTranslations, getLocalizedPath } from '@i18n/index';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-neutral-50 border-t border-neutral-200 mt-24">
+  <div class="container-custom py-12 md:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+      <!-- Brand -->
+      <div class="lg:col-span-2">
+        <a href={getLocalizedPath('/', lang)} class="inline-block text-2xl font-bold text-neutral-900 hover:text-primary-600 transition-colors mb-4">
+          Arklens
+        </a>
+        <p class="text-neutral-600 max-w-md">
+          {t('footer.tagline')}
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3 class="font-semibold text-neutral-900 mb-4">Navigation</h3>
+        <ul class="space-y-3">
+          <li>
+            <a href={getLocalizedPath('/#how-it-works', lang)} class="text-neutral-600 hover:text-neutral-900 transition-colors">
+              {t('nav.howItWorks')}
+            </a>
+          </li>
+          <li>
+            <a href={getLocalizedPath('/#what-we-offer', lang)} class="text-neutral-600 hover:text-neutral-900 transition-colors">
+              {t('nav.whatWeOffer')}
+            </a>
+          </li>
+          <li>
+            <a href={getLocalizedPath('/#examples', lang)} class="text-neutral-600 hover:text-neutral-900 transition-colors">
+              {t('nav.examples')}
+            </a>
+          </li>
+          <li>
+            <a href={getLocalizedPath('/#faq', lang)} class="text-neutral-600 hover:text-neutral-900 transition-colors">
+              {t('nav.faq')}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div>
+        <h3 class="font-semibold text-neutral-900 mb-4">Legal</h3>
+        <ul class="space-y-3">
+          <li>
+            <a href={getLocalizedPath('/privacy', lang)} class="text-neutral-600 hover:text-neutral-900 transition-colors">
+              {t('footer.privacy')}
+            </a>
+          </li>
+          <li>
+            <a href={getLocalizedPath('/legal', lang)} class="text-neutral-600 hover:text-neutral-900 transition-colors">
+              {t('footer.legal')}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="mt-12 pt-8 border-t border-neutral-200">
+      <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <p class="text-sm text-neutral-600">
+          {t('footer.copyright').replace('2025', String(currentYear))}
+        </p>
+        <div class="flex items-center space-x-6">
+          <span class="text-sm text-neutral-600">🇨🇭 Made for Swiss SMEs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

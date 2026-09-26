@@ -1,0 +1,103 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+
+const lang = 'fr';
+const title = 'Mentions légales';
+const description = 'Mentions légales et informations sur Arklens.';
+---
+
+<BaseLayout title={title} description={description} lang={lang}>
+  <Header lang={lang} />
+  <main class="pt-32 pb-24">
+    <div class="container-custom max-w-4xl">
+      <h1 class="text-display-md mb-8 text-neutral-900">Mentions légales</h1>
+      
+      <div class="prose prose-lg max-w-none">
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">Informations sur l'entreprise</h2>
+          <div class="text-neutral-700 space-y-2">
+            <p><strong>Nom de l'entreprise :</strong> Arklens</p>
+            <p><strong>Forme juridique :</strong> [À compléter]</p>
+            <p><strong>Adresse :</strong> [À compléter]</p>
+            <p><strong>Suisse</strong></p>
+            <p><strong>Email :</strong> contact@arklens.ch</p>
+            <p><strong>Site web :</strong> www.arklens.ch</p>
+          </div>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">Représentant légal</h2>
+          <p class="text-neutral-700">
+            [À compléter : Nom du directeur ou représentant légal]
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">Numéro d'identification</h2>
+          <div class="text-neutral-700 space-y-2">
+            <p><strong>IDE/UID :</strong> [À compléter]</p>
+            <p><strong>TVA :</strong> [À compléter si assujetti]</p>
+          </div>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">Hébergement</h2>
+          <div class="text-neutral-700">
+            <p><strong>Hébergeur :</strong> Cloudflare, Inc.</p>
+            <p>101 Townsend St, San Francisco, CA 94107, USA</p>
+            <p>Site web : <a href="https://www.cloudflare.com" target="_blank" rel="noopener noreferrer" class="text-primary-600 hover:text-primary-700">www.cloudflare.com</a></p>
+          </div>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">Propriété intellectuelle</h2>
+          <p class="text-neutral-700">
+            L'ensemble du contenu de ce site (textes, images, graphiques, logo, icônes, etc.) est la propriété d'Arklens, sauf mention contraire. 
+            Toute reproduction, distribution, modification ou utilisation sans autorisation préalable est interdite.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">Responsabilité</h2>
+          <p class="text-neutral-700">
+            Arklens s'efforce de fournir des informations exactes et à jour sur ce site. Toutefois, nous ne pouvons garantir l'exactitude, 
+            la précision ou l'exhaustivité des informations fournies. Nous déclinons toute responsabilité en cas d'erreur ou d'omission.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">Liens externes</h2>
+          <p class="text-neutral-700">
+            Ce site peut contenir des liens vers des sites web externes. Arklens n'a aucun contrôle sur le contenu de ces sites 
+            et décline toute responsabilité concernant leur contenu ou leur disponibilité.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">Droit applicable</h2>
+          <p class="text-neutral-700">
+            Ces mentions légales sont régies par le droit suisse. Tout litige sera soumis à la juridiction exclusive des tribunaux suisses.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">Protection des données</h2>
+          <p class="text-neutral-700">
+            Pour plus d'informations sur la façon dont nous traitons vos données personnelles, veuillez consulter notre 
+            <a href="/privacy" class="text-primary-600 hover:text-primary-700">Politique de confidentialité</a>.
+          </p>
+        </section>
+
+        <div class="bg-neutral-50 rounded-xl p-6 mt-12 border border-neutral-200">
+          <p class="text-sm text-neutral-600">
+            <strong>Note :</strong> Ces mentions légales sont fournies à titre de modèle. 
+            Il est recommandé de les faire réviser par un conseiller juridique pour assurer leur conformité avec la législation suisse applicable.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>
