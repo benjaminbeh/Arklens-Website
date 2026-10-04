@@ -1,6 +1,8 @@
 ---
 import type { Language } from '@i18n/index';
 import { useTranslations } from '@i18n/index';
+import { pick } from '@lib/pick';
+import { ArrowRight, Check } from '@lucide/astro';
 
 interface Props {
   lang: Language;
@@ -8,47 +10,51 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+
+const points = [
+  pick(lang, { en: 'Website CHF 0', fr: 'Site web CHF 0', de: 'Website CHF 0', it: 'Sito web CHF 0' }),
+  pick(lang, { en: 'Your domain stays yours', fr: 'Votre domaine reste le vôtre', de: 'Ihre Domain bleibt Ihre', it: 'Il dominio resta tuo' }),
+  pick(lang, { en: 'No commitment', fr: 'Sans engagement', de: 'Keine Verpflichtung', it: 'Nessun impegno' }),
+];
 ---
 
-<section class="section bg-gradient-to-b from-neutral-50 to-white" id="get-started">
+<section class="relative isolate overflow-hidden border-t border-ink-900/10 bg-paper py-24 md:py-32" id="get-started" aria-labelledby="final-title">
+  <div class="final-grid grid-bg absolute inset-0 -z-10" aria-hidden="true"></div>
+
   <div class="container-custom">
-    <div class="max-w-4xl mx-auto text-center">
-      <h2 class="text-display-sm md:text-display-md mb-6 text-neutral-900">
-        {t('finalCta.title')}
-      </h2>
-      <p class="text-body-lg text-neutral-600 mb-10">
-        {t('finalCta.text')}
+    <div class="max-w-4xl">
+      <p class="eyebrow flex items-center gap-3 mb-8">
+        <span class="h-px w-8 bg-signal-600" aria-hidden="true"></span>
+        {pick(lang, { en: 'Start here', fr: 'Commencer ici', de: 'Hier starten', it: 'Inizia qui' })}
       </p>
+      <h2 id="final-title" class="text-display-lg">{t('finalCta.title')}</h2>
+      <p class="lead mt-6">{t('finalCta.text')}</p>
 
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="#contact-form" class="btn btn-primary btn-lg">
+      <div class="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+        <a href="/start" class="btn btn-primary btn-lg">
           {t('finalCta.primary')}
+          <ArrowRight size={18} class="arrow" stroke-width={1.75} />
         </a>
-        <a href="#contact-form" class="btn btn-secondary btn-lg">
+        <a href="/start?path=extend" class="link-arrow self-start sm:self-auto py-2">
           {t('finalCta.secondary')}
+          <ArrowRight size={16} stroke-width={1.75} />
         </a>
       </div>
 
-      <div class="mt-12 flex flex-wrap justify-center items-center gap-8 text-sm text-neutral-600">
-        <div class="flex items-center space-x-2">
-          <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg>
-          <span>CHF 0</span>
-        </div>
-        <div class="flex items-center space-x-2">
-          <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg>
-          <span>{lang === 'en' ? 'Your domain' : lang === 'fr' ? 'Votre domaine' : lang === 'de' ? 'Ihre Domain' : 'Il tuo dominio'}</span>
-        </div>
-        <div class="flex items-center space-x-2">
-          <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg>
-          <span>{lang === 'en' ? 'No commitment' : lang === 'fr' ? 'Sans engagement' : lang === 'de' ? 'Keine Verpflichtung' : 'Nessun impegno'}</span>
-        </div>
-      </div>
+      <ul class="mt-12 flex flex-col sm:flex-row gap-x-8 gap-y-3 text-sm text-steel-700">
+        {points.map((p) => (
+          <li class="flex items-center gap-2.5">
+            <Check size={16} class="text-signal-600" stroke-width={2} />{p}
+          </li>
+        ))}
+      </ul>
     </div>
   </div>
 </section>
+
+<style>
+  .final-grid {
+    mask-image: radial-gradient(ellipse 70% 80% at 90% 50%, #000 10%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 80% at 90% 50%, #000 10%, transparent 70%);
+  }
+</style>

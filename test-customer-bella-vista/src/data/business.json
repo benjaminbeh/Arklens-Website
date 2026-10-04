@@ -1,0 +1,12 @@
+{
+  "name": "Restaurant Bella Vista",
+  "tagline": "Authentic Italian Cuisine in the Heart of Bern",
+  "description": "Welcome to Restaurant Bella Vista, where traditional Italian flavors meet Swiss hospitality. Since 2015, we've been serving authentic pasta, wood-fired pizzas, and seasonal specialties using the finest ingredients from local Swiss suppliers and imported Italian delicacies. Our family-run restaurant offers a warm, welcoming atmosphere perfect for romantic dinners, family gatherings, and business lunches.",
+  "logo": "/images/logo.png",
+  "brandColor": "#c41e3a",
+  "languages": ["en", "fr"],
+  "defaultLanguage": "en",
+  "founded": "2015",
+  "email": "info@bellavista-bern.ch",
+  "phone": "+41 31 123 45 67"
+}

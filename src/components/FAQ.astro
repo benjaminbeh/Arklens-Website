@@ -1,6 +1,8 @@
 ---
 import type { Language } from '@i18n/index';
 import { useTranslations } from '@i18n/index';
+import { pick } from '@lib/pick';
+import { Plus, ArrowRight } from '@lucide/astro';
 
 interface Props {
   lang: Language;
@@ -9,50 +11,58 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-const faqs = [
-  { q: 'q1', a: 'a1' },
-  { q: 'q2', a: 'a2' },
-  { q: 'q3', a: 'a3' },
-  { q: 'q4', a: 'a4' },
-  { q: 'q5', a: 'a5' },
-  { q: 'q6', a: 'a6' },
-  { q: 'q7', a: 'a7' },
-  { q: 'q8', a: 'a8' },
-];
+// Display order groups related topics: offer, ownership, portability, exit, fair use.
+const order = [1, 2, 3, 10, 4, 5, 6, 7, 8, 13, 14, 9, 11, 12, 15, 16];
+const faqs = order.map((n) => ({ q: `q${n}`, a: `a${n}` }));
 ---
 
-<section class="section bg-white" id="faq">
+<section class="section" id="faq" aria-labelledby="faq-title">
   <div class="container-custom">
-    <div class="text-center mb-16">
-      <h2 class="text-display-sm md:text-display-md mb-4 text-neutral-900">
-        {t('faq.title')}
-      </h2>
-    </div>
-
-    <div class="max-w-3xl mx-auto space-y-4">
-      {faqs.map((faq, index) => (
-        <details class="group bg-neutral-50 rounded-xl border border-neutral-200 hover:border-neutral-300 transition-colors">
-          <summary class="flex items-center justify-between px-6 py-4 cursor-pointer list-none">
-            <h3 class="text-heading-sm text-neutral-900 font-medium pr-4">
-              {t(`faq.${faq.q}` as any)}
-            </h3>
-            <svg class="w-5 h-5 text-neutral-600 flex-shrink-0 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </summary>
-          <div class="px-6 pb-4">
-            <p class="text-neutral-600">
-              {t(`faq.${faq.a}` as any)}
-            </p>
+    <div class="grid grid-cols-12 gap-x-6 gap-y-10 rule pt-6">
+      <div class="col-span-12 lg:col-span-4">
+        <div class="lg:sticky lg:top-[calc(var(--sfg-header-h)+2rem)]">
+          <div class="flex items-baseline gap-3 mb-5">
+            <span class="index-num index-accent">10</span>
+            <p class="eyebrow">FAQ</p>
           </div>
-        </details>
-      ))}
+          <h2 id="faq-title" class="text-display-md">{t('faq.title')}</h2>
+          <a href="/terms" class="link-arrow mt-6 py-2 text-sm">
+            {pick(lang, { en: 'Read the Terms of Use', fr: "Lire les conditions d'utilisation", de: 'Nutzungsbedingungen lesen', it: 'Leggi i termini di utilizzo' })}
+            <ArrowRight size={14} stroke-width={1.75} />
+          </a>
+        </div>
+      </div>
+
+      <div class="col-span-12 lg:col-span-8">
+        <ul class="border-t border-ink-900/15">
+          {faqs.map((faq, i) => (
+            <li class="border-b border-ink-900/15">
+              <details class="faq group">
+                <summary class="flex cursor-pointer list-none items-start gap-4 py-5 md:py-6 focus-visible:outline-offset-[-2px]">
+                  <span class="index-num w-7 flex-none pt-0.5">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 class="flex-1 text-heading-sm text-ink-900 font-medium">{t(`faq.${faq.q}` as any)}</h3>
+                  <span class="mt-0.5 flex h-6 w-6 flex-none items-center justify-center text-ink-900 transition-transform duration-300 ease-swiss group-open:rotate-45" aria-hidden="true">
+                    <Plus size={18} stroke-width={1.5} />
+                  </span>
+                </summary>
+                <div class="pb-6 pl-11 pr-10">
+                  <div class="space-y-3 max-w-2xl">
+                    {String(t(`faq.${faq.a}` as any)).split("\n\n").map((para) => (
+                      <p class="text-steel-700 leading-relaxed">{para}</p>
+                    ))}
+                  </div>
+                </div>
+              </details>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  details > summary::-webkit-details-marker {
+  .faq > summary::-webkit-details-marker {
     display: none;
   }
 </style>

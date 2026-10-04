@@ -1,0 +1,35 @@
+---
+/**
+ * Swiss Future Grid section header.
+ * Editorial 12-column layout: index + eyebrow on the left, headline + lead on the right.
+ * Collapses to a single column on mobile.
+ */
+interface Props {
+  index?: string;
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  id?: string;
+  as?: 'h1' | 'h2';
+  size?: 'md' | 'lg';
+  class?: string;
+}
+
+const { index, eyebrow, title, lead, id, as = 'h2', size = 'md', class: className = '' } = Astro.props;
+const Heading = as;
+const titleClass = size === 'lg' ? 'text-display-lg' : 'text-display-md';
+---
+
+<header class:list={['grid grid-cols-12 gap-x-6 gap-y-5 pt-6 rule mb-12 md:mb-16', className]}>
+  {(index || eyebrow) && (
+    <div class="col-span-12 md:col-span-4 lg:col-span-3 flex items-baseline gap-3">
+      {index && <span class="index-num index-accent">{index}</span>}
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    </div>
+  )}
+  <div class:list={['col-span-12', (index || eyebrow) ? 'md:col-span-8 lg:col-span-9' : '']}>
+    <Heading id={id} class:list={[titleClass, 'max-w-4xl']}>{title}</Heading>
+    {lead && <p class="lead mt-5">{lead}</p>}
+    <slot />
+  </div>
+</header>

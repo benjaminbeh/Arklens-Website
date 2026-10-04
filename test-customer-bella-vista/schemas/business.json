@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Business Information",
+  "description": "Core business information and branding",
+  "type": "object",
+  "required": ["name", "tagline", "description", "brandColor", "languages", "defaultLanguage"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "Business name"
+    },
+    "tagline": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 150,
+      "description": "Short tagline or slogan"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500,
+      "description": "Longer business description"
+    },
+    "logo": {
+      "type": "string",
+      "pattern": "^/images/.*\\.(png|jpg|jpeg|svg|webp)$",
+      "description": "Path to logo image"
+    },
+    "brandColor": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "description": "Brand color in hex format (e.g., #0070e0)"
+    },
+    "languages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": ["en", "fr", "de", "it"]
+      },
+      "description": "Supported languages"
+    },
+    "defaultLanguage": {
+      "type": "string",
+      "enum": ["en", "fr", "de", "it"],
+      "description": "Default language"
+    },
+    "founded": {
+      "type": "string",
+      "pattern": "^[0-9]{4}$",
+      "description": "Year founded (YYYY)"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Primary business email"
+    },
+    "phone": {
+      "type": "string",
+      "pattern": "^\\+?[0-9\\s\\-\\(\\)]+$",
+      "description": "Primary business phone"
+    }
+  }
+}

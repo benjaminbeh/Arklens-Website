@@ -1,0 +1,35 @@
+{
+  "primary": {
+    "text": {
+      "en": "Reserve a Table",
+      "fr": "Réserver une Table"
+    },
+    "url": "https://booking.bellavista-bern.ch",
+    "enabled": true,
+    "style": "solid"
+  },
+  "secondary": {
+    "text": {
+      "en": "View Menu",
+      "fr": "Voir le Menu"
+    },
+    "url": "/services",
+    "enabled": true,
+    "style": "outline"
+  },
+  "banner": {
+    "enabled": true,
+    "text": {
+      "en": "❄️ Winter Truffle Special Now Available! Limited time through February.",
+      "fr": "❄️ Spécial Truffes d'Hiver Maintenant Disponible ! Temps limité jusqu'en février."
+    },
+    "linkText": {
+      "en": "See Menu",
+      "fr": "Voir le Menu"
+    },
+    "linkUrl": "/services",
+    "dismissible": true,
+    "backgroundColor": "#c41e3a",
+    "textColor": "#ffffff"
+  }
+}

@@ -1,6 +1,9 @@
 ---
 import type { Language } from '@i18n/index';
 import { useTranslations } from '@i18n/index';
+import { pick } from '@lib/pick';
+import { KeyRound, Receipt, MapPin, Languages, ShieldCheck, ListChecks, LockOpen } from '@lucide/astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
 
 interface Props {
   lang: Language;
@@ -10,51 +13,47 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const trustPoints = [
-  'domain',
-  'pricing',
-  'focus',
-  'multilingual',
-  'privacy',
-  'clear',
-  'subscription',
+  { key: 'domain', icon: KeyRound },
+  { key: 'pricing', icon: Receipt },
+  { key: 'focus', icon: MapPin },
+  { key: 'multilingual', icon: Languages },
+  { key: 'privacy', icon: ShieldCheck },
+  { key: 'clear', icon: ListChecks },
+  { key: 'subscription', icon: LockOpen },
 ];
 ---
 
-<section class="section bg-neutral-50">
+<section class="section bg-white border-y border-ink-900/10" aria-labelledby="trust-title">
   <div class="container-custom">
-    <div class="text-center mb-16">
-      <h2 class="text-display-sm md:text-display-md mb-4 text-neutral-900">
-        {t('trust.title')}
-      </h2>
-    </div>
+    <SectionHeader
+      id="trust-title"
+      index="09"
+      eyebrow={pick(lang, { en: 'Principles', fr: 'Principes', de: 'Grundsätze', it: 'Principi' })}
+      title={t('trust.title')}
+    />
 
-    <div class="max-w-4xl mx-auto">
-      <div class="grid sm:grid-cols-2 gap-6">
-        {trustPoints.map((point) => (
-          <div class="flex items-start space-x-4 bg-white rounded-xl p-6 border border-neutral-200 hover:border-primary-300 transition-colors">
-            <div class="flex-shrink-0">
-              <i class="ph ph-shield-check text-2xl text-primary-600"></i>
-            </div>
-            <div>
-              <p class="text-neutral-900 font-medium">
-                {t(`trust.${point}` as any)}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div class="mt-12 text-center">
-        <div class="inline-flex items-center space-x-3 text-neutral-600 bg-white rounded-2xl px-6 py-4 border border-neutral-200">
-          <i class="ph ph-flag text-3xl text-red-600"></i>
-          <span class="text-body-lg">
-            {lang === 'en' && 'Designed with Swiss privacy and data-protection requirements in mind'}
-            {lang === 'fr' && 'Conçu en tenant compte des exigences suisses en matière de confidentialité et de protection des données'}
-            {lang === 'de' && 'Unter Berücksichtigung der Schweizer Datenschutz- und Datenschutzanforderungen entwickelt'}
-            {lang === 'it' && 'Progettato tenendo conto dei requisiti svizzeri in materia di privacy e protezione dei dati'}
-          </span>
-        </div>
-      </div>
-    </div>
+    <ul class="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-ink-900/10 border border-ink-900/10 rounded-md overflow-hidden">
+      {trustPoints.map(({ key, icon: Icon }) => (
+        <li class="flex flex-col gap-6 bg-white p-6 min-h-[9rem]">
+          <Icon size={20} class="text-ink-900" stroke-width={1.5} />
+          <span class="font-medium text-ink-900">{t(`trust.${key}` as any)}</span>
+        </li>
+      ))}
+      <!-- 8th cell completes the grid with the privacy statement -->
+      <li class="flex flex-col gap-6 bg-paper p-6 min-h-[9rem]">
+        <svg width="20" height="20" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" fill="#D52B1E" />
+          <path d="M13 6h6v7h7v6h-7v7h-6v-7H6v-6h7z" fill="#fff" />
+        </svg>
+        <span class="text-sm text-steel-700">
+          {pick(lang, {
+            en: 'Designed with Swiss privacy and data-protection requirements in mind',
+            fr: 'Conçu en tenant compte des exigences suisses en matière de confidentialité et de protection des données',
+            de: 'Unter Berücksichtigung der Schweizer Datenschutzanforderungen entwickelt',
+            it: 'Progettato tenendo conto dei requisiti svizzeri in materia di privacy e protezione dei dati',
+          })}
+        </span>
+      </li>
+    </ul>
   </div>
 </section>

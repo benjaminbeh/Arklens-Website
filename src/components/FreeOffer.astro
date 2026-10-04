@@ -1,6 +1,9 @@
 ---
 import type { Language } from '@i18n/index';
 import { useTranslations } from '@i18n/index';
+import { pick } from '@lib/pick';
+import { Check, ArrowRight, KeyRound } from '@lucide/astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
 
 interface Props {
   lang: Language;
@@ -10,59 +13,68 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const features = [
-  'website',
-  'domain',
-  'hosting',
-  'ssl',
-  'mobile',
-  'seo',
-  'intro',
-  'services',
-  'contact',
-  'hours',
-  'map',
-  'social',
-  'language',
-  'revision',
+  'website', 'domain', 'hosting', 'ssl', 'mobile', 'seo', 'intro',
+  'services', 'contact', 'hours', 'map', 'social', 'language', 'revision',
 ];
 ---
 
-<section class="section bg-neutral-50" id="what-we-offer">
+<section class="section bg-white border-y border-ink-900/10" id="what-we-offer" aria-labelledby="offer-title">
   <div class="container-custom">
-    <div class="text-center mb-16 max-w-3xl mx-auto">
-      <h2 class="text-display-sm md:text-display-md mb-6 text-neutral-900">
-        {t('freeOffer.title')}
-      </h2>
-    </div>
+    <SectionHeader
+      id="offer-title"
+      index="02"
+      eyebrow={pick(lang, { en: 'The offer', fr: "L'offre", de: 'Das Angebot', it: "L'offerta" })}
+      title={t('freeOffer.title')}
+    />
 
-    <div class="max-w-4xl mx-auto">
-      <!-- Features Grid -->
-      <div class="card bg-white p-8 md:p-12">
-        <div class="grid sm:grid-cols-2 gap-4 mb-8">
-          {features.map((feature) => (
-            <div class="flex items-start space-x-3">
-              <i class="ph ph-check-circle text-2xl text-primary-600 flex-shrink-0"></i>
-              <span class="text-neutral-700">{t(`freeOffer.features.${feature}` as any)}</span>
-            </div>
-          ))}
-        </div>
-
-        <!-- Domain Notice -->
-        <div class="bg-primary-50 border border-primary-200 rounded-xl p-6 mb-8">
-          <div class="flex items-start space-x-3">
-            <i class="ph ph-info text-2xl text-primary-600 flex-shrink-0"></i>
-            <p class="text-neutral-700">
-              {t('freeOffer.domain')}
+    <div class="grid grid-cols-12 gap-x-6 gap-y-12">
+      <!-- Price block -->
+      <div class="col-span-12 lg:col-span-4">
+        <div class="lg:sticky lg:top-[calc(var(--sfg-header-h)+2rem)]">
+          <div class="border border-ink-900/15 rounded-md p-7">
+            <p class="eyebrow">{pick(lang, { en: 'Website', fr: 'Site web', de: 'Website', it: 'Sito web' })}</p>
+            <p class="mt-2 text-[3.5rem] leading-none font-semibold tracking-[-0.04em] text-ink-900">CHF 0</p>
+            <p class="mt-4 text-sm text-steel-600">
+              {pick(lang, {
+                en: 'Hosting included under the Free Website Programme.',
+                fr: 'Hébergement inclus dans le Programme Site Web Gratuit.',
+                de: 'Hosting im Rahmen des Kostenlosen Website-Programms inbegriffen.',
+                it: 'Hosting incluso nel Programma Sito Web Gratuito.',
+              })}
             </p>
+            <div class="mt-7">
+              <a href="/start" class="btn btn-primary btn-block">
+                {pick(lang, { en: 'Get my free website', fr: 'Obtenir mon site gratuit', de: 'Meine kostenlose Website', it: 'Ottieni il mio sito gratuito' })}
+                <ArrowRight size={16} class="arrow" stroke-width={1.75} />
+              </a>
+            </div>
+          </div>
+
+          <!-- Domain ownership note -->
+          <div class="mt-4 flex gap-4 border-l-2 border-signal-600 bg-paper p-5">
+            <KeyRound size={20} class="flex-none mt-0.5 text-ink-900" stroke-width={1.5} />
+            <div>
+              <p class="font-medium text-ink-900">
+                {pick(lang, { en: 'Your domain always belongs to you', fr: 'Votre domaine vous appartient toujours', de: 'Ihre Domain gehört immer Ihnen', it: 'Il tuo dominio ti appartiene sempre' })}
+              </p>
+              <p class="mt-1.5 text-sm text-steel-600">{t('freeOffer.domain')}</p>
+            </div>
           </div>
         </div>
+      </div>
 
-        <!-- CTA -->
-        <div class="text-center">
-          <a href="#get-started" class="btn btn-primary btn-lg">
-            {t('freeOffer.cta')}
-          </a>
-        </div>
+      <!-- Spec sheet -->
+      <div class="col-span-12 lg:col-span-8">
+        <p class="eyebrow mb-4">{pick(lang, { en: 'Included', fr: 'Inclus', de: 'Inbegriffen', it: 'Incluso' })} · {features.length}</p>
+        <ul class="grid sm:grid-cols-2 sm:gap-x-10 border-t border-ink-900/10">
+          {features.map((feature, i) => (
+            <li class="flex items-center gap-4 border-b border-ink-900/10 py-4">
+              <span class="index-num w-6 flex-none">{String(i + 1).padStart(2, '0')}</span>
+              <span class="flex-1 text-ink-900">{t(`freeOffer.features.${feature}` as any)}</span>
+              <Check size={16} class="flex-none text-signal-600" stroke-width={2} />
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   </div>

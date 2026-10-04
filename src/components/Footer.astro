@@ -1,6 +1,7 @@
 ---
 import type { Language } from '@i18n/index';
 import { useTranslations, getLocalizedPath } from '@i18n/index';
+import { pick } from '@lib/pick';
 
 interface Props {
   lang: Language;
@@ -9,76 +10,61 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const currentYear = new Date().getFullYear();
+
+const navLinks = [
+  { href: '/#how-it-works', label: t('nav.howItWorks') },
+  { href: '/#what-we-offer', label: t('nav.whatWeOffer') },
+  { href: '/#examples', label: t('nav.examples') },
+  { href: '/#faq', label: t('nav.faq') },
+  { href: '/start', label: t('nav.getStarted') },
+];
+
+const legalLinks = [
+  { href: '/terms', label: pick(lang, { en: 'Terms of Use', fr: "Conditions d'utilisation", de: 'Nutzungsbedingungen', it: 'Termini di utilizzo' }) },
+  { href: '/privacy', label: t('footer.privacy') },
+  { href: '/legal', label: t('footer.legal') },
+];
 ---
 
-<footer class="bg-neutral-50 border-t border-neutral-200 mt-24">
-  <div class="container-custom py-12 md:py-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-      <!-- Brand -->
-      <div class="lg:col-span-2">
-        <a href={getLocalizedPath('/', lang)} class="inline-block text-2xl font-bold text-neutral-900 hover:text-primary-600 transition-colors mb-4">
-          Arklens
+<footer class="bg-paper-100 border-t border-ink-900/10">
+  <div class="container-custom pt-16 pb-10 md:pt-20">
+    <div class="grid grid-cols-12 gap-x-6 gap-y-12">
+      <div class="col-span-12 lg:col-span-6">
+        <a href={getLocalizedPath('/', lang)} class="inline-flex items-center gap-2.5 text-ink-900" aria-label="Arklens, home">
+          <span class="block h-3 w-3 bg-signal-600" aria-hidden="true"></span>
+          <span class="text-2xl font-semibold tracking-[-0.03em]">Arklens</span>
         </a>
-        <p class="text-neutral-600 max-w-md">
-          {t('footer.tagline')}
-        </p>
+        <p class="mt-5 max-w-sm text-steel-600">{t('footer.tagline')}</p>
       </div>
 
-      <!-- Quick Links -->
-      <div>
-        <h3 class="font-semibold text-neutral-900 mb-4">Navigation</h3>
+      <nav class="col-span-6 lg:col-span-3" aria-labelledby="footer-nav">
+        <h2 id="footer-nav" class="eyebrow mb-5">Navigation</h2>
         <ul class="space-y-3">
-          <li>
-            <a href={getLocalizedPath('/#how-it-works', lang)} class="text-neutral-600 hover:text-neutral-900 transition-colors">
-              {t('nav.howItWorks')}
-            </a>
-          </li>
-          <li>
-            <a href={getLocalizedPath('/#what-we-offer', lang)} class="text-neutral-600 hover:text-neutral-900 transition-colors">
-              {t('nav.whatWeOffer')}
-            </a>
-          </li>
-          <li>
-            <a href={getLocalizedPath('/#examples', lang)} class="text-neutral-600 hover:text-neutral-900 transition-colors">
-              {t('nav.examples')}
-            </a>
-          </li>
-          <li>
-            <a href={getLocalizedPath('/#faq', lang)} class="text-neutral-600 hover:text-neutral-900 transition-colors">
-              {t('nav.faq')}
-            </a>
-          </li>
+          {navLinks.map((l) => (
+            <li><a href={getLocalizedPath(l.href, lang)} class="text-ink-900 hover:text-signal-700 transition-colors">{l.label}</a></li>
+          ))}
         </ul>
-      </div>
+      </nav>
 
-      <!-- Legal -->
-      <div>
-        <h3 class="font-semibold text-neutral-900 mb-4">Legal</h3>
+      <nav class="col-span-6 lg:col-span-3" aria-labelledby="footer-legal">
+        <h2 id="footer-legal" class="eyebrow mb-5">Legal</h2>
         <ul class="space-y-3">
-          <li>
-            <a href={getLocalizedPath('/privacy', lang)} class="text-neutral-600 hover:text-neutral-900 transition-colors">
-              {t('footer.privacy')}
-            </a>
-          </li>
-          <li>
-            <a href={getLocalizedPath('/legal', lang)} class="text-neutral-600 hover:text-neutral-900 transition-colors">
-              {t('footer.legal')}
-            </a>
-          </li>
+          {legalLinks.map((l) => (
+            <li><a href={getLocalizedPath(l.href, lang)} class="text-ink-900 hover:text-signal-700 transition-colors">{l.label}</a></li>
+          ))}
         </ul>
-      </div>
+      </nav>
     </div>
 
-    <!-- Bottom Bar -->
-    <div class="mt-12 pt-8 border-t border-neutral-200">
-      <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-        <p class="text-sm text-neutral-600">
-          {t('footer.copyright').replace('2025', String(currentYear))}
-        </p>
-        <div class="flex items-center space-x-6">
-          <span class="text-sm text-neutral-600">🇨🇭 Made for Swiss SMEs</span>
-        </div>
-      </div>
+    <div class="mt-16 pt-6 border-t border-ink-900/10 flex flex-col sm:flex-row gap-3 justify-between text-sm text-steel-600">
+      <p>{t('footer.copyright').replace('2025', String(currentYear))}</p>
+      <p class="inline-flex items-center gap-2">
+        <svg width="14" height="14" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" fill="#D52B1E" />
+          <path d="M13 6h6v7h7v6h-7v7h-6v-7H6v-6h7z" fill="#fff" />
+        </svg>
+        {pick(lang, { en: 'Made for Swiss SMEs', fr: 'Conçu pour les PME suisses', de: 'Für Schweizer KMU', it: 'Per le PMI svizzere' })}
+      </p>
     </div>
   </div>
 </footer>

@@ -1,0 +1,258 @@
+{
+  "services": [
+    {
+      "id": "pasta-specialties",
+      "name": {
+        "en": "Fresh Pasta Specialties",
+        "fr": "Spécialités de Pâtes Fraîches"
+      },
+      "description": {
+        "en": "Handmade daily using traditional recipes passed down through generations. Choose from classic carbonara, rich bolognese, or seasonal truffle pasta.",
+        "fr": "Faites à la main quotidiennement selon des recettes traditionnelles transmises de génération en génération. Choisissez parmi carbonara classique, bolognaise riche ou pâtes aux truffes de saison."
+      },
+      "price": "CHF 24-32",
+      "priceNote": {
+        "en": "per dish",
+        "fr": "par plat"
+      },
+      "image": "/images/services/pasta.jpg",
+      "active": true,
+      "order": 1,
+      "category": "mains",
+      "features": [
+        {
+          "en": "Fresh ingredients daily",
+          "fr": "Ingrédients frais quotidiennement"
+        },
+        {
+          "en": "Vegetarian options available",
+          "fr": "Options végétariennes disponibles"
+        },
+        {
+          "en": "Gluten-free pasta on request",
+          "fr": "Pâtes sans gluten sur demande"
+        }
+      ]
+    },
+    {
+      "id": "wood-fired-pizza",
+      "name": {
+        "en": "Wood-Fired Pizza",
+        "fr": "Pizza au Feu de Bois"
+      },
+      "description": {
+        "en": "Authentic Neapolitan-style pizzas baked at 450°C in our imported Italian wood-fired oven. Crispy crust, fresh mozzarella, and creative toppings.",
+        "fr": "Pizzas authentiques de style napolitain cuites à 450°C dans notre four à bois italien importé. Croûte croustillante, mozzarella fraîche et garnitures créatives."
+      },
+      "price": "CHF 18-28",
+      "priceNote": {
+        "en": "per pizza",
+        "fr": "par pizza"
+      },
+      "image": "/images/services/pizza.jpg",
+      "active": true,
+      "order": 2,
+      "category": "mains",
+      "features": [
+        {
+          "en": "450°C wood-fired oven",
+          "fr": "Four à bois 450°C"
+        },
+        {
+          "en": "Traditional Neapolitan recipes",
+          "fr": "Recettes napolitaines traditionnelles"
+        },
+        {
+          "en": "Vegan cheese available",
+          "fr": "Fromage végétalien disponible"
+        }
+      ]
+    },
+    {
+      "id": "seasonal-risotto",
+      "name": {
+        "en": "Seasonal Risotto",
+        "fr": "Risotto de Saison"
+      },
+      "description": {
+        "en": "Creamy Arborio rice slow-cooked to perfection with seasonal ingredients. Our signature dish changes monthly based on the freshest local produce.",
+        "fr": "Riz Arborio crémeux cuit lentement à la perfection avec des ingrédients de saison. Notre plat signature change mensuellement selon les produits locaux les plus frais."
+      },
+      "price": "CHF 26-34",
+      "priceNote": {
+        "en": "per dish",
+        "fr": "par plat"
+      },
+      "image": "/images/services/risotto.jpg",
+      "active": true,
+      "order": 3,
+      "category": "mains",
+      "features": [
+        {
+          "en": "Monthly changing menu",
+          "fr": "Menu changeant mensuellement"
+        },
+        {
+          "en": "Local Swiss ingredients",
+          "fr": "Ingrédients suisses locaux"
+        }
+      ]
+    },
+    {
+      "id": "lunch-menu",
+      "name": {
+        "en": "Business Lunch Menu",
+        "fr": "Menu Déjeuner d'Affaires"
+      },
+      "description": {
+        "en": "Perfect for your lunch break! Choose from our daily selection of pasta, pizza, or salad, served with bread and your choice of coffee or dessert.",
+        "fr": "Parfait pour votre pause déjeuner ! Choisissez parmi notre sélection quotidienne de pâtes, pizza ou salade, servi avec du pain et votre choix de café ou dessert."
+      },
+      "price": "CHF 22",
+      "priceNote": {
+        "en": "includes starter & coffee",
+        "fr": "comprend entrée et café"
+      },
+      "image": "/images/services/lunch.jpg",
+      "active": true,
+      "order": 4,
+      "category": "lunch",
+      "features": [
+        {
+          "en": "Monday to Friday 11:30-14:00",
+          "fr": "Lundi au vendredi 11h30-14h00"
+        },
+        {
+          "en": "Quick service",
+          "fr": "Service rapide"
+        }
+      ]
+    },
+    {
+      "id": "wine-selection",
+      "name": {
+        "en": "Italian Wine Selection",
+        "fr": "Sélection de Vins Italiens"
+      },
+      "description": {
+        "en": "Carefully curated collection of Italian wines from renowned regions including Tuscany, Piedmont, and Veneto. Our sommelier is happy to recommend the perfect pairing for your meal.",
+        "fr": "Collection soigneusement sélectionnée de vins italiens de régions renommées dont la Toscane, le Piémont et la Vénétie. Notre sommelier se fera un plaisir de recommander l'accord parfait pour votre repas."
+      },
+      "price": "CHF 8-45",
+      "priceNote": {
+        "en": "per glass / bottle",
+        "fr": "par verre / bouteille"
+      },
+      "image": "/images/services/wine.jpg",
+      "active": true,
+      "order": 5,
+      "category": "beverages",
+      "features": []
+    },
+    {
+      "id": "winter-truffle-special",
+      "name": {
+        "en": "Winter Truffle Special",
+        "fr": "Spécial Truffes d'Hiver"
+      },
+      "description": {
+        "en": "Homemade tagliatelle with black truffles from Piedmont, finished with aged Parmigiano Reggiano and a touch of cream. A luxurious winter exclusive available through February.",
+        "fr": "Tagliatelle maison aux truffes noires du Piémont, finies avec Parmigiano Reggiano vieilli et une touche de crème. Une exclusivité hivernale luxueuse disponible jusqu'en février."
+      },
+      "price": "CHF 42",
+      "priceNote": {
+        "en": "per dish",
+        "fr": "par plat"
+      },
+      "image": "/images/services/truffle-special.jpg",
+      "active": true,
+      "order": 7,
+      "category": "seasonal",
+      "features": [
+        {
+          "en": "Available Tuesday-Saturday only",
+          "fr": "Disponible mardi-samedi uniquement"
+        },
+        {
+          "en": "Limited time through February",
+          "fr": "Temps limité jusqu'en février"
+        },
+        {
+          "en": "Black truffles from Piedmont",
+          "fr": "Truffes noires du Piémont"
+        }
+      ]
+    },
+    {
+      "id": "private-events",
+      "name": {
+        "en": "Private Events & Catering",
+        "fr": "Événements Privés et Restauration"
+      },
+      "description": {
+        "en": "Host your special occasion at Bella Vista! We offer private dining for groups of 15-40 guests, with customizable menus and dedicated service. Perfect for birthdays, corporate events, and celebrations.",
+        "fr": "Organisez votre occasion spéciale chez Bella Vista ! Nous proposons des repas privés pour des groupes de 15 à 40 personnes, avec des menus personnalisables et un service dédié. Parfait pour anniversaires, événements d'entreprise et célébrations."
+      },
+      "price": "From CHF 65",
+      "priceNote": {
+        "en": "per person",
+        "fr": "par personne"
+      },
+      "image": "/images/services/events.jpg",
+      "active": true,
+      "order": 6,
+      "category": "events",
+      "features": [
+        {
+          "en": "Capacity: 15-40 guests",
+          "fr": "Capacité : 15-40 invités"
+        },
+        {
+          "en": "Customizable menus",
+          "fr": "Menus personnalisables"
+        },
+        {
+          "en": "Advance booking required",
+          "fr": "Réservation à l'avance requise"
+        }
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "id": "mains",
+      "name": {
+        "en": "Main Courses",
+        "fr": "Plats Principaux"
+      }
+    },
+    {
+      "id": "lunch",
+      "name": {
+        "en": "Lunch Specials",
+        "fr": "Spéciaux Déjeuner"
+      }
+    },
+    {
+      "id": "beverages",
+      "name": {
+        "en": "Beverages",
+        "fr": "Boissons"
+      }
+    },
+    {
+      "id": "events",
+      "name": {
+        "en": "Events & Catering",
+        "fr": "Événements et Restauration"
+      }
+    },
+    {
+      "id": "seasonal",
+      "name": {
+        "en": "Seasonal Specials",
+        "fr": "Spéciaux de Saison"
+      }
+    }
+  ]
+}

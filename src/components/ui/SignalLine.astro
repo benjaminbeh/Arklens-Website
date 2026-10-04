@@ -1,0 +1,182 @@
+---
+/**
+ * Arklens Signal Line
+ * A thin line connecting stages (Website → Digital Tools → Integrations → Automation → AI).
+ * Horizontal from md, vertical on mobile. When it scrolls into view the line is drawn
+ * segment by segment and each node is "lit". With reduced motion (or no JS) the
+ * final state is shown immediately.
+ */
+interface Step {
+  title: string;
+  desc?: string;
+}
+
+interface Props {
+  steps: Step[];
+  label: string;
+  class?: string;
+}
+
+const { steps, label, class: className = '' } = Astro.props;
+---
+
+<ol class:list={['signal', className]} data-signal aria-label={label} style={`--count:${steps.length}`}>
+  {steps.map((step, i) => (
+    <li class="signal-step" style={`--i:${i}`} data-last={i === steps.length - 1 ? '' : undefined}>
+      <span class="signal-node" aria-hidden="true"></span>
+      <span class="index-num signal-index">{String(i + 1).padStart(2, '0')}</span>
+      <h3 class="signal-title">{step.title}</h3>
+      {step.desc && <p class="signal-desc">{step.desc}</p>}
+    </li>
+  ))}
+</ol>
+
+<style>
+  .signal {
+    --node: 11px;
+    --node-offset: 6px; /* distance from step top to node centre */
+    --step-delay: 320ms;
+    display: grid;
+    grid-template-columns: 1fr;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .signal-step {
+    position: relative;
+    padding: 0 0 2.25rem 2.25rem;
+  }
+  .signal-step[data-last] {
+    padding-bottom: 0;
+  }
+
+  /* Base hairline + accent progress, one segment per step (except the last) */
+  .signal-step:not([data-last])::before,
+  .signal-step:not([data-last])::after {
+    content: '';
+    position: absolute;
+    left: calc(var(--node) / 2 - 0.5px);
+    top: calc(var(--node-offset) + var(--node) / 2);
+    bottom: calc(-1 * (var(--node-offset) + var(--node) / 2));
+    width: 1px;
+  }
+  .signal-step::before {
+    background: var(--sfg-line-strong);
+  }
+  .signal-step::after {
+    background: theme('colors.signal.600');
+    transform-origin: top;
+  }
+
+  .signal-node {
+    position: absolute;
+    left: 0;
+    top: var(--node-offset);
+    width: var(--node);
+    height: var(--node);
+    border: 1px solid theme('colors.signal.600');
+    background: theme('colors.signal.600');
+    z-index: 1;
+  }
+  .signal-step[data-last] .signal-node {
+    box-shadow: 0 0 0 4px rgba(213, 43, 30, 0.18);
+  }
+
+  .signal-index {
+    display: block;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+  }
+  .signal-title {
+    font-size: 1.125rem;
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .signal-desc {
+    margin-top: 0.375rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: theme('colors.steel.600');
+  }
+
+  :global(.theme-dark) .signal-step::after,
+  :global(.theme-dark) .signal-node {
+    background: theme('colors.signal.400');
+    border-color: theme('colors.signal.400');
+  }
+  :global(.theme-dark) .signal-step[data-last] .signal-node {
+    box-shadow: 0 0 0 4px rgba(255, 107, 94, 0.16);
+  }
+  :global(.theme-dark) .signal-desc {
+    color: theme('colors.steel.300');
+  }
+  :global(.theme-dark) .signal-title {
+    color: #fff;
+  }
+
+  @media (min-width: 768px) {
+    .signal {
+      grid-template-columns: repeat(var(--count), minmax(0, 1fr));
+    }
+    .signal-step {
+      padding: calc(var(--node) + 1.75rem) 1.5rem 0 0;
+    }
+    .signal-step:not([data-last])::before,
+    .signal-step:not([data-last])::after {
+      left: var(--node);
+      right: 0;
+      top: calc(var(--node) / 2 - 0.5px);
+      bottom: auto;
+      width: auto;
+      height: 1px;
+    }
+    .signal-step::after {
+      transform-origin: left;
+    }
+    .signal-node {
+      top: 0;
+    }
+  }
+
+  /* ---- Motion: only when allowed (see BaseLayout bootstrap) ---- */
+  :global(.motion-ok) .signal-step::after {
+    transform: scaleY(0);
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.1, 1);
+    transition-delay: calc(var(--i) * var(--step-delay) + 120ms);
+  }
+  :global(.motion-ok) .signal-node {
+    background: transparent;
+    border-color: var(--sfg-line-strong);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.4s ease;
+    transition-delay: calc(var(--i) * var(--step-delay));
+  }
+  :global(.motion-ok) .signal-step[data-last] .signal-node {
+    box-shadow: 0 0 0 0 rgba(213, 43, 30, 0);
+  }
+
+  @media (min-width: 768px) {
+    :global(.motion-ok) .signal-step::after {
+      transform: scaleX(0);
+    }
+  }
+
+  :global(.motion-ok) .signal:global(.is-visible) .signal-step::after {
+    transform: none;
+  }
+  :global(.motion-ok) .signal:global(.is-visible) .signal-node {
+    background: theme('colors.signal.600');
+    border-color: theme('colors.signal.600');
+  }
+  :global(.motion-ok .theme-dark) .signal:global(.is-visible) .signal-node {
+    background: theme('colors.signal.400');
+    border-color: theme('colors.signal.400');
+  }
+  :global(.motion-ok) .signal:global(.is-visible) .signal-step[data-last] .signal-node {
+    box-shadow: 0 0 0 4px rgba(213, 43, 30, 0.18);
+  }
+  :global(.motion-ok .theme-dark) .signal:global(.is-visible) .signal-step[data-last] .signal-node {
+    box-shadow: 0 0 0 4px rgba(255, 107, 94, 0.16);
+  }
+</style>

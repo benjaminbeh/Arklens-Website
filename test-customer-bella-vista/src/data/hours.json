@@ -1,0 +1,88 @@
+{
+  "regularHours": {
+    "monday": {
+      "open": "",
+      "close": "",
+      "closed": true
+    },
+    "tuesday": {
+      "open": "11:30",
+      "close": "14:00",
+      "closed": false
+    },
+    "wednesday": {
+      "open": "11:30",
+      "close": "14:00",
+      "closed": false
+    },
+    "thursday": {
+      "open": "11:30",
+      "close": "14:00",
+      "closed": false
+    },
+    "friday": {
+      "open": "11:30",
+      "close": "14:00",
+      "closed": false
+    },
+    "saturday": {
+      "open": "17:00",
+      "close": "23:00",
+      "closed": false
+    },
+    "sunday": {
+      "open": "",
+      "close": "",
+      "closed": true
+    }
+  },
+  "specialHours": [
+    {
+      "date": "2024-12-24",
+      "description": {
+        "en": "Christmas Eve - Closing early",
+        "fr": "Réveillon de Noël - Fermeture anticipée"
+      },
+      "closed": false,
+      "open": "11:30",
+      "close": "16:00"
+    },
+    {
+      "date": "2024-12-25",
+      "description": {
+        "en": "Christmas Day",
+        "fr": "Jour de Noël"
+      },
+      "closed": true
+    },
+    {
+      "date": "2024-12-26",
+      "description": {
+        "en": "Boxing Day",
+        "fr": "Lendemain de Noël"
+      },
+      "closed": true
+    },
+    {
+      "date": "2025-01-01",
+      "description": {
+        "en": "New Year's Day",
+        "fr": "Jour de l'An"
+      },
+      "closed": true
+    },
+    {
+      "date": "2025-08-01",
+      "description": {
+        "en": "Swiss National Day",
+        "fr": "Fête Nationale Suisse"
+      },
+      "closed": true
+    }
+  ],
+  "timezone": "Europe/Zurich",
+  "notes": {
+    "en": "Tuesday-Friday: Lunch service only. Saturday: Dinner service (no lunch). Closed Sundays & Mondays for winter season. Reservations recommended for weekends.",
+    "fr": "Mardi-vendredi : Service déjeuner uniquement. Samedi : Service dîner (pas de déjeuner). Fermé dimanches et lundis pour la saison d'hiver. Réservations recommandées pour les week-ends."
+  }
+}

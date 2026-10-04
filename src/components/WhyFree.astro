@@ -1,6 +1,9 @@
 ---
 import type { Language } from '@i18n/index';
 import { useTranslations } from '@i18n/index';
+import { pick } from '@lib/pick';
+import { Check } from '@lucide/astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
 
 interface Props {
   lang: Language;
@@ -9,46 +12,32 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-const trustPoints = [
-  'noSetup',
-  'noHosting',
-  'noCard',
-  'optional',
-  'clear',
-  'yourDomain',
-];
+const trustPoints = ['noSetup', 'noHosting', 'noCard', 'optional', 'clear', 'yourDomain'];
 ---
 
-<section class="section bg-white">
+<section class="section" aria-labelledby="why-title">
   <div class="container-custom">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center mb-12">
-        <h2 class="text-display-sm md:text-display-md mb-6 text-neutral-900">
-          {t('whyFree.title')}
-        </h2>
+    <SectionHeader
+      id="why-title"
+      index="03"
+      eyebrow={pick(lang, { en: 'Transparency', fr: 'Transparence', de: 'Transparenz', it: 'Trasparenza' })}
+      title={t('whyFree.title')}
+    >
+      <div class="mt-6 grid md:grid-cols-2 gap-6 md:gap-10 max-w-4xl">
+        <p class="text-body-lg text-steel-700">{t('whyFree.text1')}</p>
+        <p class="text-body-lg text-steel-700">{t('whyFree.text2')}</p>
       </div>
+    </SectionHeader>
 
-      <div class="space-y-8">
-        <!-- Explanation Text -->
-        <div class="prose prose-lg max-w-none">
-          <p class="text-body-lg text-neutral-700 mb-6">
-            {t('whyFree.text1')}
-          </p>
-          <p class="text-body-lg text-neutral-700">
-            {t('whyFree.text2')}
-          </p>
-        </div>
-
-        <!-- Trust Points -->
-        <div class="grid sm:grid-cols-2 gap-4 pt-8">
-          {trustPoints.map((point) => (
-            <div class="flex items-start space-x-3">
-              <i class="ph ph-check-circle text-2xl text-green-600 flex-shrink-0"></i>
-              <span class="text-neutral-700 font-medium">{t(`whyFree.trust.${point}` as any)}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-ink-900/10 border border-ink-900/10 rounded-md overflow-hidden">
+      {trustPoints.map((point) => (
+        <li class="flex items-start gap-3 bg-paper p-6">
+          <span class="mt-0.5 flex h-5 w-5 flex-none items-center justify-center bg-ink-900 text-white rounded-xs" aria-hidden="true">
+            <Check size={13} stroke-width={2.5} />
+          </span>
+          <span class="font-medium text-ink-900">{t(`whyFree.trust.${point}` as any)}</span>
+        </li>
+      ))}
+    </ul>
   </div>
 </section>

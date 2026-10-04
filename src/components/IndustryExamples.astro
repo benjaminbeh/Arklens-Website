@@ -1,6 +1,10 @@
 ---
 import type { Language } from '@i18n/index';
 import { useTranslations } from '@i18n/index';
+import { pick } from '@lib/pick';
+import { ArrowRight } from '@lucide/astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import SiteMockup from '@components/ui/SiteMockup.astro';
 
 interface Props {
   lang: Language;
@@ -9,49 +13,169 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-const examples = [
-  { key: 'restaurant', icon: 'fork-knife' },
-  { key: 'beauty', icon: 'scissors' },
-  { key: 'trades', icon: 'wrench' },
-  { key: 'consultant', icon: 'briefcase' },
-  { key: 'health', icon: 'first-aid' },
-  { key: 'garage', icon: 'car' },
-  { key: 'shop', icon: 'storefront' },
-  { key: 'services', icon: 'clipboard-text' },
-];
+const L = {
+  website: pick(lang, { en: 'Website', fr: 'Site web', de: 'Website', it: 'Sito web' }),
+  booking: pick(lang, { en: 'Booking', fr: 'Réservation', de: 'Buchung', it: 'Prenotazioni' }),
+  reservations: pick(lang, { en: 'Reservations', fr: 'Réservations', de: 'Reservationen', it: 'Prenotazioni' }),
+  quotes: pick(lang, { en: 'Quote form', fr: 'Devis', de: 'Offertanfrage', it: 'Preventivi' }),
+  multilingual: pick(lang, { en: 'Multilingual', fr: 'Multilingue', de: 'Mehrsprachig', it: 'Multilingue' }),
+  reviews: pick(lang, { en: 'Reviews', fr: 'Avis', de: 'Bewertungen', it: 'Recensioni' }),
+  payments: pick(lang, { en: 'Payments', fr: 'Paiements', de: 'Zahlungen', it: 'Pagamenti' }),
+  crm: 'CRM',
+  google: 'Google',
+  contact: pick(lang, { en: 'Contact', fr: 'Contact', de: 'Kontakt', it: 'Contatti' }),
+  open: pick(lang, { en: 'Open', fr: 'Ouvert', de: 'Geöffnet', it: 'Aperto' }),
+  address: pick(lang, { en: 'Address', fr: 'Adresse', de: 'Adresse', it: 'Indirizzo' }),
+  phone: pick(lang, { en: 'Phone', fr: 'Tél.', de: 'Telefon', it: 'Tel.' }),
+};
+
+// Illustrative concepts — not client references.
+const projects = [
+  {
+    key: 'restaurant', name: 'Maison Dupont', city: 'Fribourg', url: 'maison-dupont.ch',
+    headline: 'Seasonal cooking in the old town.', sub: 'Lunch and dinner, Tuesday to Saturday.', cta: 'Reserve',
+    nav: ['Menu', 'About', L.contact], info: [{ k: L.open, v: 'Tue–Sat' }, { k: L.address, v: 'Rue de Lausanne 12' }, { k: L.phone, v: '026 000 00 00' }],
+    palette: { bg: '#F7F3EC', ink: '#1F1A14', accent: '#8A3B1F', tone: '#E6DCCB', tone2: '#CDBB9E' }, motif: 'arch',
+    tags: [L.website, L.reservations, L.google],
+  },
+  {
+    key: 'beauty', name: 'Atelier Lumière', city: 'Lausanne', url: 'atelier-lumiere.ch',
+    headline: 'Hair and colour, done with care.', sub: 'Book your next appointment in two clicks.', cta: 'Book',
+    nav: ['Services', 'Team', L.contact], info: [{ k: L.open, v: 'Mon–Sat' }, { k: L.address, v: 'Av. de Rumine 4' }, { k: L.phone, v: '021 000 00 00' }],
+    palette: { bg: '#FBF7F5', ink: '#2A2224', accent: '#7A4E5A', tone: '#EBDCD8', tone2: '#D6BDB8' }, motif: 'circle',
+    tags: [L.website, L.booking, L.reviews],
+  },
+  {
+    key: 'trades', name: 'Schreinerei Bühler', city: 'Bern', url: 'buehler-schreinerei.ch',
+    headline: 'Custom joinery, built to last.', sub: 'Kitchens, interiors and repairs across the canton.', cta: 'Request a quote',
+    nav: ['Projects', 'About', L.contact], info: [{ k: 'Region', v: 'Kanton Bern' }, { k: L.address, v: 'Industriestr. 8' }, { k: L.phone, v: '031 000 00 00' }],
+    palette: { bg: '#F5F4F0', ink: '#1C1D1A', accent: '#3F5A3A', tone: '#DEDBD0', tone2: '#BFB9A6' }, motif: 'stack',
+    tags: [L.website, L.quotes, L.google],
+  },
+  {
+    key: 'consultant', name: 'Keller Advisory', city: 'Zürich', url: 'keller-advisory.ch',
+    headline: 'Clear advice for growing companies.', sub: 'Strategy, finance and operations for SMEs.', cta: 'Book a call',
+    nav: ['Services', 'Insights', L.contact], info: [{ k: 'Focus', v: 'SME strategy' }, { k: L.address, v: 'Seefeldstr. 20' }, { k: L.phone, v: '044 000 00 00' }],
+    palette: { bg: '#F4F6F8', ink: '#121820', accent: '#1F3B5B', tone: '#DCE3EA', tone2: '#B9C6D3' }, motif: 'grid',
+    tags: [L.website, L.multilingual, L.crm],
+  },
+  {
+    key: 'health', name: 'Physio am See', city: 'Luzern', url: 'physio-am-see.ch',
+    headline: 'Physiotherapy close to home.', sub: 'Appointments for rehabilitation and sports injuries.', cta: 'Book',
+    nav: ['Therapy', 'Team', L.contact], info: [{ k: L.open, v: 'Mon–Fri' }, { k: L.address, v: 'Haldenstr. 3' }, { k: L.phone, v: '041 000 00 00' }],
+    palette: { bg: '#F3F7F6', ink: '#122220', accent: '#1E6B63', tone: '#D6E6E2', tone2: '#AFCFC8' }, motif: 'circle',
+    tags: [L.website, L.booking, L.multilingual],
+  },
+  {
+    key: 'garage', name: 'Garage Rossi', city: 'Lugano', url: 'garage-rossi.ch',
+    headline: 'Service and repairs for every make.', sub: 'MFK preparation, tyres and diagnostics.', cta: 'Book a service',
+    nav: ['Service', 'Vehicles', L.contact], info: [{ k: L.open, v: 'Mon–Fri' }, { k: L.address, v: 'Via Cantonale 21' }, { k: L.phone, v: '091 000 00 00' }],
+    palette: { bg: '#F4F4F4', ink: '#151515', accent: '#A0281E', tone: '#DDDDDB', tone2: '#BDBDB9' }, motif: 'stack',
+    tags: [L.website, L.booking, L.google],
+  },
+  {
+    key: 'shop', name: 'Épicerie du Bourg', city: 'Neuchâtel', url: 'epicerie-du-bourg.ch',
+    headline: 'Regional products, every day.', sub: 'Cheese, bread and wine from local producers.', cta: 'Visit us',
+    nav: ['Products', 'About', L.contact], info: [{ k: L.open, v: 'Mon–Sat' }, { k: L.address, v: 'Rue du Bourg 6' }, { k: L.phone, v: '032 000 00 00' }],
+    palette: { bg: '#F8F6EE', ink: '#1E1C12', accent: '#6B5A16', tone: '#E8E2C9', tone2: '#D2C79B' }, motif: 'arch',
+    tags: [L.website, L.payments, L.google],
+  },
+  {
+    key: 'services', name: 'Weber & Partner', city: 'Basel', url: 'weber-partner.ch',
+    headline: 'Fiduciary and tax services.', sub: 'Accounting and payroll for Swiss companies.', cta: 'Get in touch',
+    nav: ['Services', 'Team', L.contact], info: [{ k: 'Focus', v: 'Treuhand' }, { k: L.address, v: 'Aeschenplatz 2' }, { k: L.phone, v: '061 000 00 00' }],
+    palette: { bg: '#F5F5F7', ink: '#16161C', accent: '#3A3A6A', tone: '#E0E0E8', tone2: '#C2C2D2' }, motif: 'grid',
+    tags: [L.website, L.multilingual, L.crm],
+  },
+] as const;
+
+const total = String(projects.length).padStart(2, '0');
 ---
 
-<section class="section bg-white" id="examples">
+<section class="section bg-white border-y border-ink-900/10" id="examples" aria-labelledby="examples-title">
   <div class="container-custom">
-    <div class="text-center mb-16">
-      <h2 class="text-display-sm md:text-display-md mb-4 text-neutral-900">
-        {t('examples.title')}
-      </h2>
-    </div>
+    <SectionHeader
+      id="examples-title"
+      index="04"
+      eyebrow={pick(lang, { en: 'Concept designs', fr: 'Concepts', de: 'Konzepte', it: 'Concept' })}
+      title={t('examples.title')}
+      lead={pick(lang, {
+        en: 'Illustrative concepts showing how a professional template adapts to each industry.',
+        fr: 'Concepts illustratifs montrant comment un modèle professionnel s’adapte à chaque secteur.',
+        de: 'Illustrative Konzepte, wie sich eine professionelle Vorlage an jede Branche anpasst.',
+        it: 'Concept illustrativi di come un modello professionale si adatta a ogni settore.',
+      })}
+    />
+  </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-      {examples.map((example) => (
-        <button
-          type="button"
-          class="card card-hover text-left group cursor-pointer transition-all"
-        >
-          <i class={`ph ph-${example.icon} text-5xl text-primary-600 mb-4`}></i>
-          <h3 class="text-heading-sm text-neutral-900 group-hover:text-primary-600 transition-colors">
-            {t(`examples.${example.key}` as any)}
-          </h3>
-        </button>
+  <!-- Mobile: horizontal rail. Desktop: two-column portfolio grid. -->
+  <div class="container-custom max-md:px-0">
+    <ul
+      class="portfolio max-md:flex max-md:overflow-x-auto max-md:snap-x max-md:snap-mandatory max-md:gap-4 max-md:px-5 max-md:pb-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-x-8 md:gap-y-14"
+      tabindex="0"
+      aria-label={t('examples.title')}
+    >
+      {projects.map((p, i) => (
+        <li class:list={["max-md:w-[84%] max-md:flex-none max-md:snap-start", i === 0 && "lg:col-span-2", i === 1 && "lg:self-end"]}>
+          <article aria-labelledby={`project-${p.key}`}>
+            <div class="flex items-baseline justify-between border-t border-ink-900 pt-3 mb-5">
+              <span class="eyebrow text-ink-900">{t(`examples.${p.key}` as any)}</span>
+              <span class="index-num">{String(i + 1).padStart(2, '0')} / {total}</span>
+            </div>
+
+            <SiteMockup
+              name={p.name}
+              city={p.city}
+              url={`www.${p.url}`}
+              headline={p.headline}
+              sub={p.sub}
+              cta={p.cta}
+              nav={[...p.nav]}
+              info={[...p.info]}
+              palette={p.palette}
+              motif={p.motif}
+              label={`${t(`examples.${p.key}` as any)}: ${p.name}, ${p.city}`}
+            />
+
+            <div class="mt-5 flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+              <div>
+                <h3 id={`project-${p.key}`} class="text-heading-md text-ink-900">{p.name}</h3>
+                <p class="text-sm text-steel-600 mt-0.5">{p.city}</p>
+              </div>
+              <ul class="flex flex-wrap gap-1.5" aria-label={pick(lang, { en: 'Capabilities', fr: 'Fonctionnalités', de: 'Funktionen', it: 'Funzionalità' })}>
+                {p.tags.map((tag) => <li class="tag">{tag}</li>)}
+              </ul>
+            </div>
+          </article>
+        </li>
       ))}
-    </div>
+    </ul>
+  </div>
 
-    <div class="mt-16 max-w-4xl mx-auto">
-      <div class="card bg-neutral-50 p-8 text-center">
-        <p class="text-neutral-600 mb-6">
-          {lang === 'en' && 'Each industry template includes professional design adapted to your business type.'}
-          {lang === 'fr' && 'Chaque modèle de secteur comprend un design professionnel adapté à votre type d\'entreprise.'}
-          {lang === 'de' && 'Jede Branchenvorlage umfasst professionelles Design, das an Ihren Geschäftstyp angepasst ist.'}
-          {lang === 'it' && 'Ogni modello di settore include un design professionale adattato al tuo tipo di attività.'}
-        </p>
-      </div>
+  <div class="container-custom">
+    <div class="mt-14 flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-t border-ink-900/10 pt-8">
+      <p class="text-steel-600 max-w-xl">
+        {pick(lang, {
+          en: 'Each template includes professional design adapted to your business type.',
+          fr: "Chaque modèle comprend un design professionnel adapté à votre type d'entreprise.",
+          de: 'Jede Vorlage enthält ein professionelles Design, angepasst an Ihre Branche.',
+          it: 'Ogni modello include un design professionale adattato al tuo settore.',
+        })}
+      </p>
+      <a href="/start" class="btn btn-secondary self-start sm:self-auto">
+        {pick(lang, { en: 'Get my free website', fr: 'Obtenir mon site gratuit', de: 'Meine kostenlose Website', it: 'Ottieni il mio sito gratuito' })}
+        <ArrowRight size={16} class="arrow" stroke-width={1.75} />
+      </a>
     </div>
   </div>
 </section>
+
+<style>
+  .portfolio {
+    scrollbar-width: thin;
+    scroll-padding-left: 1.25rem;
+  }
+  .portfolio:focus-visible {
+    outline-offset: 4px;
+  }
+</style>

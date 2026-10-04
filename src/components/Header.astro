@@ -1,6 +1,7 @@
 ---
 import type { Language } from '@i18n/index';
 import { useTranslations, languages, getLocalizedPath } from '@i18n/index';
+import { ChevronDown, Menu, X, ArrowRight } from '@lucide/astro';
 
 interface Props {
   lang: Language;
@@ -8,135 +9,182 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+
+const navItems = [
+  { href: '/#how-it-works', label: t('nav.howItWorks') },
+  { href: '/#what-we-offer', label: t('nav.whatWeOffer') },
+  { href: '/#examples', label: t('nav.examples') },
+  { href: '/#for-business', label: t('nav.forBusiness') },
+  { href: '/#faq', label: t('nav.faq') },
+];
+
+const langHref = (code: string) => (code === 'en' ? '/' : `/${code}/`);
+const langShort = (code: string) => code.toUpperCase();
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-neutral-200">
-  <nav class="container-custom py-4" aria-label="Main navigation">
-    <div class="flex items-center justify-between">
-      <!-- Logo -->
-      <a href={getLocalizedPath('/', lang)} class="flex items-center space-x-2 text-2xl font-bold text-neutral-900 hover:text-primary-600 transition-colors">
-        <span>Arklens</span>
-      </a>
+<header class="site-header fixed top-0 inset-x-0 z-50 border-b border-ink-900/10 bg-paper/95 backdrop-blur-md">
+  <nav class="container-custom h-[var(--sfg-header-h)] flex items-center justify-between gap-6" aria-label="Main navigation">
+    <!-- Wordmark -->
+    <a href={getLocalizedPath('/', lang)} class="flex items-center gap-2.5 text-ink-900 shrink-0" aria-label="Arklens, home">
+      <span class="block h-3 w-3 bg-signal-600" aria-hidden="true"></span>
+      <span class="text-[1.25rem] font-semibold tracking-[-0.03em]">Arklens</span>
+    </a>
 
-      <!-- Desktop Navigation -->
-      <div class="hidden lg:flex items-center space-x-8">
-        <a href={getLocalizedPath('/#how-it-works', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
-          {t('nav.howItWorks')}
-        </a>
-        <a href={getLocalizedPath('/#what-we-offer', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
-          {t('nav.whatWeOffer')}
-        </a>
-        <a href={getLocalizedPath('/#examples', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
-          {t('nav.examples')}
-        </a>
-        <a href={getLocalizedPath('/#for-business', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
-          {t('nav.forBusiness')}
-        </a>
-        <a href={getLocalizedPath('/#faq', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
-          {t('nav.faq')}
-        </a>
-      </div>
+    <!-- Desktop navigation -->
+    <ul class="hidden lg:flex items-center gap-8">
+      {navItems.map((item) => (
+        <li>
+          <a href={getLocalizedPath(item.href, lang)} class="nav-link text-[0.9375rem] text-steel-700 hover:text-ink-900 transition-colors">
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
 
-      <!-- Language Switcher & CTA -->
-      <div class="hidden lg:flex items-center space-x-4">
-        <!-- Language Switcher -->
-        <div class="relative language-switcher">
-          <button 
-            type="button"
-            class="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-neutral-100 transition-colors"
-            aria-label="Switch language"
-            aria-haspopup="true"
-          >
-            <span class="text-sm font-medium text-neutral-700">{languages[lang]}</span>
-            <i class="ph ph-caret-down text-neutral-600"></i>
-          </button>
-          <div class="language-menu absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-medium border border-neutral-200 py-2 hidden">
-            {Object.entries(languages).map(([code, name]) => (
-              <a 
-                href={code === 'fr' ? '/' : `/${code}/`}
-                class="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 transition-colors"
+    <div class="hidden lg:flex items-center gap-3">
+      <!-- Language switcher -->
+      <div class="relative" data-lang-switcher>
+        <button
+          type="button"
+          class="flex items-center gap-1.5 h-10 px-3 rounded-[4px] font-mono text-xs tracking-[0.08em] text-steel-700 hover:text-ink-900 hover:bg-ink-900/[0.04] transition-colors"
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-controls="lang-menu"
+          data-lang-button
+        >
+          <span class="sr-only">Language: </span>{langShort(lang)}
+          <ChevronDown size={14} stroke-width={1.75} />
+        </button>
+        <ul id="lang-menu" class="absolute right-0 mt-2 w-44 bg-white border border-ink-900/10 rounded-md shadow-lift py-1.5 hidden" data-lang-menu>
+          {Object.entries(languages).map(([code, name]) => (
+            <li>
+              <a
+                href={langHref(code)}
+                hreflang={code}
+                lang={code}
+                aria-current={code === lang ? 'true' : undefined}
+                class="flex items-center justify-between px-4 py-2.5 text-sm text-steel-700 hover:bg-paper hover:text-ink-900"
               >
                 {name}
+                <span class="font-mono text-[0.6875rem] text-steel-500">{langShort(code)}</span>
               </a>
-            ))}
-          </div>
-        </div>
-
-        <!-- CTA Button -->
-        <a href={getLocalizedPath('/#get-started', lang)} class="btn btn-primary">
-          {t('nav.getStarted')}
-        </a>
+            </li>
+          ))}
+        </ul>
       </div>
 
-      <!-- Mobile Menu Button -->
-      <button 
+      <a href="/start" class="btn btn-primary min-h-[2.75rem] px-5">
+        {t('nav.getStarted')}
+        <ArrowRight size={16} class="arrow" stroke-width={1.75} />
+      </a>
+    </div>
+
+    <!-- Mobile: CTA stays visible, menu behind a toggle -->
+    <div class="flex lg:hidden items-center gap-2">
+      <a href="/start" class="btn btn-primary min-h-[2.75rem] px-3.5 min-[375px]:px-4 text-sm">
+        {t('nav.getStarted')}
+      </a>
+      <button
         type="button"
-        class="lg:hidden mobile-menu-button p-2 rounded-lg hover:bg-neutral-100 transition-colors"
-        aria-label="Toggle menu"
+        class="flex h-11 w-11 items-center justify-center rounded-[4px] text-ink-900 hover:bg-ink-900/[0.05]"
+        aria-label="Open menu"
         aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-button
       >
-        <i class="ph ph-list text-2xl text-neutral-900 menu-icon-open"></i>
-        <i class="ph ph-x text-2xl text-neutral-900 menu-icon-close hidden"></i>
+        <Menu size={22} stroke-width={1.75} data-icon-open />
+        <X size={22} stroke-width={1.75} class="hidden" data-icon-close />
       </button>
     </div>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu lg:hidden hidden mt-4 pb-4 border-t border-neutral-200 pt-4">
-      <div class="flex flex-col space-y-4">
-        <a href={getLocalizedPath('/#how-it-works', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
-          {t('nav.howItWorks')}
-        </a>
-        <a href={getLocalizedPath('/#what-we-offer', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
-          {t('nav.whatWeOffer')}
-        </a>
-        <a href={getLocalizedPath('/#examples', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
-          {t('nav.examples')}
-        </a>
-        <a href={getLocalizedPath('/#for-business', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
-          {t('nav.forBusiness')}
-        </a>
-        <a href={getLocalizedPath('/#faq', lang)} class="text-neutral-700 hover:text-neutral-900 font-medium transition-colors">
-          {t('nav.faq')}
-        </a>
-        <div class="pt-4 border-t border-neutral-200">
-          <a href={getLocalizedPath('/#get-started', lang)} class="btn btn-primary w-full">
-            {t('nav.getStarted')}
-          </a>
-        </div>
-      </div>
-    </div>
   </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="lg:hidden hidden border-t border-ink-900/10 bg-paper" data-mobile-menu>
+    <div class="container-custom py-4">
+      <ul class="flex flex-col">
+        {navItems.map((item, i) => (
+          <li class="border-b border-ink-900/10">
+            <a href={getLocalizedPath(item.href, lang)} class="flex items-center justify-between py-4 text-lg font-medium text-ink-900" data-mobile-link>
+              {item.label}
+              <span class="font-mono text-xs text-steel-500">{String(i + 1).padStart(2, '0')}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div class="flex gap-2 py-5" role="group" aria-label="Language">
+        {Object.entries(languages).map(([code, name]) => (
+          <a
+            href={langHref(code)}
+            hreflang={code}
+            lang={code}
+            aria-label={name}
+            aria-current={code === lang ? 'true' : undefined}
+            class:list={[
+              'flex h-11 min-w-[2.75rem] items-center justify-center rounded-[4px] border font-mono text-xs tracking-[0.08em]',
+              code === lang ? 'border-ink-900 text-ink-900' : 'border-ink-900/15 text-steel-600',
+            ]}
+          >
+            {langShort(code)}
+          </a>
+        ))}
+      </div>
+      <a href="/start" class="btn btn-primary btn-lg btn-block">
+        {t('nav.getStarted')}
+        <ArrowRight size={18} class="arrow" stroke-width={1.75} />
+      </a>
+    </div>
+  </div>
 </header>
 
 <script>
-  // Mobile menu toggle
-  document.addEventListener('DOMContentLoaded', () => {
-    const menuButton = document.querySelector('.mobile-menu-button');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const openIcon = document.querySelector('.menu-icon-open');
-    const closeIcon = document.querySelector('.menu-icon-close');
+  const menuButton = document.querySelector<HTMLButtonElement>('[data-menu-button]');
+  const mobileMenu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+  const iconOpen = document.querySelector('[data-icon-open]');
+  const iconClose = document.querySelector('[data-icon-close]');
 
-    menuButton?.addEventListener('click', () => {
-      const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
-      menuButton.setAttribute('aria-expanded', String(!isExpanded));
-      mobileMenu?.classList.toggle('hidden');
-      openIcon?.classList.toggle('hidden');
-      closeIcon?.classList.toggle('hidden');
-    });
+  function setMenu(open: boolean) {
+    if (!menuButton || !mobileMenu) return;
+    menuButton.setAttribute('aria-expanded', String(open));
+    menuButton.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    mobileMenu.classList.toggle('hidden', !open);
+    iconOpen?.classList.toggle('hidden', open);
+    iconClose?.classList.toggle('hidden', !open);
+  }
 
-    // Language switcher
-    const langButton = document.querySelector('.language-switcher button');
-    const langMenu = document.querySelector('.language-menu');
+  menuButton?.addEventListener('click', () => {
+    setMenu(menuButton.getAttribute('aria-expanded') !== 'true');
+  });
+  document.querySelectorAll('[data-mobile-link]').forEach((link) => {
+    link.addEventListener('click', () => setMenu(false));
+  });
 
-    langButton?.addEventListener('click', () => {
-      langMenu?.classList.toggle('hidden');
-    });
+  const langButton = document.querySelector<HTMLButtonElement>('[data-lang-button]');
+  const langMenu = document.querySelector<HTMLElement>('[data-lang-menu]');
 
-    // Close language menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!langButton?.contains(e.target as Node) && !langMenu?.contains(e.target as Node)) {
-        langMenu?.classList.add('hidden');
-      }
-    });
+  function setLang(open: boolean) {
+    if (!langButton || !langMenu) return;
+    langButton.setAttribute('aria-expanded', String(open));
+    langMenu.classList.toggle('hidden', !open);
+  }
+
+  langButton?.addEventListener('click', () => {
+    setLang(langButton.getAttribute('aria-expanded') !== 'true');
+  });
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as Node;
+    if (langButton && langMenu && !langButton.contains(target) && !langMenu.contains(target)) setLang(false);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (langButton?.getAttribute('aria-expanded') === 'true') {
+      setLang(false);
+      langButton.focus();
+    }
+    if (menuButton?.getAttribute('aria-expanded') === 'true') {
+      setMenu(false);
+      menuButton.focus();
+    }
   });
 </script>

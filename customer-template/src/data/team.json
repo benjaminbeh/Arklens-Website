@@ -1,0 +1,26 @@
+{
+  "showTeam": false,
+  "members": [
+    {
+      "id": "member-1",
+      "name": "Full Name",
+      "role": {
+        "en": "Position Title",
+        "fr": "Titre du Poste"
+      },
+      "bio": {
+        "en": "Short biography about this team member, their experience, and expertise.",
+        "fr": "Courte biographie de ce membre de l'équipe, son expérience et son expertise."
+      },
+      "image": "/images/team/member-1.jpg",
+      "email": "member@business.ch",
+      "phone": "",
+      "active": true,
+      "order": 1,
+      "social": {
+        "linkedin": "",
+        "twitter": ""
+      }
+    }
+  ]
+}

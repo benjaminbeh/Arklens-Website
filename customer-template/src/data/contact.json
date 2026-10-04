@@ -1,0 +1,38 @@
+{
+  "email": "info@business.ch",
+  "phone": "+41 XX XXX XX XX",
+  "whatsapp": "+41 XX XXX XX XX",
+  "address": {
+    "street": "Street Name 123",
+    "city": "Bern",
+    "postalCode": "3000",
+    "country": "Switzerland"
+  },
+  "coordinates": {
+    "lat": 46.9480,
+    "lng": 7.4474
+  },
+  "bookingUrl": "",
+  "contactForm": {
+    "enabled": true,
+    "emailRecipient": "info@business.ch",
+    "fields": [
+      {
+        "name": "name",
+        "required": true
+      },
+      {
+        "name": "email",
+        "required": true
+      },
+      {
+        "name": "phone",
+        "required": false
+      },
+      {
+        "name": "message",
+        "required": true
+      }
+    ]
+  }
+}

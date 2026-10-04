@@ -1,0 +1,47 @@
+{
+  "showTeam": true,
+  "members": [
+    {
+      "id": "marco-rossi",
+      "name": "Marco Rossi",
+      "role": {
+        "en": "Owner & Head Chef",
+        "fr": "Propriétaire et Chef"
+      },
+      "bio": {
+        "en": "Born in Naples, Marco brings 25 years of culinary expertise to Bella Vista. After training in Michelin-starred restaurants across Italy, he moved to Switzerland in 2010 to share his passion for authentic Italian cuisine. Marco personally sources ingredients and creates our seasonal menus.",
+        "fr": "Né à Naples, Marco apporte 25 ans d'expertise culinaire à Bella Vista. Après s'être formé dans des restaurants étoilés Michelin à travers l'Italie, il s'est installé en Suisse en 2010 pour partager sa passion pour la cuisine italienne authentique. Marco sélectionne personnellement les ingrédients et crée nos menus de saison."
+      },
+      "image": "/images/team/marco-rossi.jpg",
+      "email": "marco@bellavista-bern.ch",
+      "phone": "",
+      "active": true,
+      "order": 1,
+      "social": {
+        "linkedin": "",
+        "twitter": ""
+      }
+    },
+    {
+      "id": "sofia-mueller",
+      "name": "Sofia Müller",
+      "role": {
+        "en": "Restaurant Manager & Sommelier",
+        "fr": "Directrice de Restaurant et Sommelière"
+      },
+      "bio": {
+        "en": "Swiss-Italian Sofia combines hospitality expertise with certified sommelier knowledge. She ensures every guest feels welcome and pairs the perfect wine with each meal. Sofia manages our private events and catering services.",
+        "fr": "Suisse-italienne, Sofia combine expertise en hospitalité et connaissances certifiées de sommelière. Elle s'assure que chaque invité se sente le bienvenu et accompagne le vin parfait à chaque repas. Sofia gère nos événements privés et services de restauration."
+      },
+      "image": "/images/team/sofia-mueller.jpg",
+      "email": "sofia@bellavista-bern.ch",
+      "phone": "",
+      "active": true,
+      "order": 2,
+      "social": {
+        "linkedin": "",
+        "twitter": ""
+      }
+    }
+  ]
+}

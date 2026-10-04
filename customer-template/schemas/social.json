@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Social Media Links",
+  "description": "Social media and review platform links",
+  "type": "object",
+  "properties": {
+    "facebook": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^(https?://)?(www\\.)?facebook\\.com/.*$",
+      "description": "Facebook page URL"
+    },
+    "instagram": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^(https?://)?(www\\.)?instagram\\.com/.*$",
+      "description": "Instagram profile URL"
+    },
+    "tripadvisor": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^(https?://)?(www\\.)?tripadvisor\\.(com|ch)/.*$",
+      "description": "TripAdvisor listing URL"
+    },
+    "googleMaps": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^(https?://)?(www\\.)?google\\.(com|ch)/maps/.*$",
+      "description": "Google Maps listing URL"
+    },
+    "linkedin": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^(https?://)?(www\\.)?linkedin\\.com/.*$",
+      "description": "LinkedIn page URL"
+    },
+    "twitter": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^(https?://)?(www\\.)?(twitter|x)\\.com/.*$",
+      "description": "Twitter/X profile URL"
+    },
+    "youtube": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^(https?://)?(www\\.)?youtube\\.com/.*$",
+      "description": "YouTube channel URL"
+    },
+    "tiktok": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^(https?://)?(www\\.)?tiktok\\.com/.*$",
+      "description": "TikTok profile URL"
+    },
+    "pinterest": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^(https?://)?(www\\.)?pinterest\\.(com|ch)/.*$",
+      "description": "Pinterest profile URL"
+    }
+  },
+  "additionalProperties": false
+}

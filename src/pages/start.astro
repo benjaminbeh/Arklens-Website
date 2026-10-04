@@ -1,0 +1,601 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import { pick } from '@lib/pick';
+import { ArrowRight, ArrowLeft, Check, SquarePlus, RefreshCw, Blocks, Activity } from '@lucide/astro';
+
+const lang = 'en'; // Will be updated with proper routing later
+
+const steps = [
+  pick(lang, { en: 'Starting point', fr: 'Point de départ', de: 'Ausgangspunkt', it: 'Punto di partenza' }),
+  pick(lang, { en: 'Your business', fr: 'Votre entreprise', de: 'Ihr Unternehmen', it: 'La tua azienda' }),
+  pick(lang, { en: 'Contact', fr: 'Contact', de: 'Kontakt', it: 'Contatto' }),
+];
+
+const paths = [
+  {
+    value: 'new',
+    icon: SquarePlus,
+    title: pick(lang, { en: 'I need a website', fr: "J'ai besoin d'un site web", de: 'Ich brauche eine Website', it: 'Ho bisogno di un sito web' }),
+    text: pick(lang, { en: 'Start fresh with a professional online presence', fr: 'Commencez avec une présence en ligne professionnelle', de: 'Neu starten mit einer professionellen Online-Präsenz', it: 'Parti da zero con una presenza online professionale' }),
+  },
+  {
+    value: 'update',
+    icon: RefreshCw,
+    title: pick(lang, { en: 'My website needs an update', fr: "Mon site a besoin d'une mise à jour", de: 'Meine Website braucht ein Update', it: 'Il mio sito ha bisogno di un aggiornamento' }),
+    text: pick(lang, { en: 'Modernise or improve your existing website', fr: 'Modernisez ou améliorez votre site existant', de: 'Bestehende Website modernisieren oder verbessern', it: 'Modernizza o migliora il tuo sito esistente' }),
+  },
+  {
+    value: 'extend',
+    icon: Blocks,
+    title: pick(lang, { en: 'My website works, but I need more', fr: "Mon site fonctionne, mais j'ai besoin de plus", de: 'Meine Website funktioniert, aber ich brauche mehr', it: 'Il mio sito funziona, ma mi serve di più' }),
+    text: pick(lang, { en: 'Add features, integrations or automation', fr: 'Ajoutez fonctionnalités, intégrations ou automatisation', de: 'Funktionen, Integrationen oder Automatisierung ergänzen', it: 'Aggiungi funzionalità, integrazioni o automazione' }),
+  },
+  {
+    value: 'check',
+    icon: Activity,
+    title: pick(lang, { en: 'Check my business first', fr: "D'abord évaluer mon entreprise", de: 'Zuerst mein Unternehmen prüfen', it: 'Prima controlla la mia azienda' }),
+    text: pick(lang, { en: 'Free Digital Business Check with practical recommendations', fr: 'Évaluation numérique gratuite avec recommandations', de: 'Kostenloser Digital-Check mit Empfehlungen', it: 'Check digitale gratuito con raccomandazioni' }),
+  },
+];
+
+const industries = [
+  { value: 'restaurant', label: 'Restaurant / Café' },
+  { value: 'beauty', label: pick(lang, { en: 'Hair & Beauty', fr: 'Coiffure & Beauté', de: 'Coiffeur & Beauty', it: 'Parrucchiere & Beauty' }) },
+  { value: 'trades', label: pick(lang, { en: 'Trades / Crafts', fr: 'Artisan / Métiers', de: 'Handwerk', it: 'Artigianato' }) },
+  { value: 'consultant', label: pick(lang, { en: 'Consulting', fr: 'Conseil', de: 'Beratung', it: 'Consulenza' }) },
+  { value: 'health', label: pick(lang, { en: 'Healthcare', fr: 'Santé', de: 'Gesundheit', it: 'Sanità' }) },
+  { value: 'garage', label: pick(lang, { en: 'Garage / Automotive', fr: 'Garage / Automobile', de: 'Garage / Auto', it: 'Garage / Auto' }) },
+  { value: 'retail', label: pick(lang, { en: 'Retail / Shop', fr: 'Commerce / Magasin', de: 'Detailhandel', it: 'Negozio' }) },
+  { value: 'services', label: pick(lang, { en: 'Professional Services', fr: 'Services professionnels', de: 'Dienstleistungen', it: 'Servizi professionali' }) },
+  { value: 'other', label: pick(lang, { en: 'Other', fr: 'Autre', de: 'Andere', it: 'Altro' }) },
+];
+
+const next = [
+  pick(lang, { en: "We'll review your information (usually within 24 hours)", fr: 'Nous examinerons vos informations (généralement sous 24 heures)', de: 'Wir prüfen Ihre Angaben (meist innerhalb von 24 Stunden)', it: 'Esaminiamo le tue informazioni (di solito entro 24 ore)' }),
+  pick(lang, { en: "You'll receive a personalised proposal with next steps", fr: 'Vous recevrez une proposition personnalisée avec les prochaines étapes', de: 'Sie erhalten einen persönlichen Vorschlag mit nächsten Schritten', it: 'Riceverai una proposta personalizzata con i prossimi passi' }),
+  pick(lang, { en: "We'll schedule a brief call to confirm details and start your project", fr: 'Nous planifierons un bref appel pour confirmer les détails et démarrer votre projet', de: 'Ein kurzes Gespräch klärt Details und startet Ihr Projekt', it: 'Una breve chiamata per confermare i dettagli e avviare il progetto' }),
+];
+
+const T = {
+  required: pick(lang, { en: 'required', fr: 'obligatoire', de: 'Pflichtfeld', it: 'obbligatorio' }),
+  optional: pick(lang, { en: 'Optional', fr: 'Optionnel', de: 'Optional', it: 'Facoltativo' }),
+  continue: pick(lang, { en: 'Continue', fr: 'Continuer', de: 'Weiter', it: 'Continua' }),
+  back: pick(lang, { en: 'Back', fr: 'Retour', de: 'Zurück', it: 'Indietro' }),
+  submit: pick(lang, { en: 'Send my request', fr: 'Envoyer ma demande', de: 'Anfrage senden', it: 'Invia la richiesta' }),
+  stepOf: pick(lang, { en: 'Step {n} of {t}', fr: 'Étape {n} sur {t}', de: 'Schritt {n} von {t}', it: 'Passo {n} di {t}' }),
+};
+---
+
+<BaseLayout
+  title={pick(lang, { en: 'Get Started', fr: 'Commencer', de: 'Loslegen', it: 'Inizia' })}
+  description={pick(lang, { en: 'Start your digital journey with Arklens', fr: 'Commencez votre parcours numérique avec Arklens', de: 'Starten Sie Ihre digitale Reise mit Arklens', it: 'Inizia il tuo percorso digitale con Arklens' })}
+  lang={lang}
+>
+  <Header lang={lang} />
+
+  <main id="main" class="pt-[calc(var(--sfg-header-h)+2.5rem)] md:pt-[calc(var(--sfg-header-h)+4rem)] pb-20 md:pb-28">
+    <div class="container-custom">
+      <div class="grid grid-cols-12 gap-x-6 gap-y-10">
+        <!-- Guide column -->
+        <aside class="col-span-12 lg:col-span-4">
+          <div class="lg:sticky lg:top-[calc(var(--sfg-header-h)+2.5rem)]">
+            <p class="eyebrow flex items-center gap-3 mb-6">
+              <span class="h-px w-8 bg-signal-600" aria-hidden="true"></span>
+              {pick(lang, { en: 'Free Website Programme', fr: 'Programme Site Web Gratuit', de: 'Kostenloses Website-Programm', it: 'Programma Sito Web Gratuito' })}
+            </p>
+            <h1 class="text-display-md">{pick(lang, { en: "Let's get started", fr: 'Commençons', de: 'Legen wir los', it: 'Iniziamo' })}</h1>
+            <p class="lead mt-5">
+              {pick(lang, {
+                en: 'Tell us about your business so we can create the right starting point for you. It takes about two minutes.',
+                fr: 'Parlez-nous de votre entreprise afin que nous puissions créer le bon point de départ. Cela prend environ deux minutes.',
+                de: 'Erzählen Sie uns von Ihrem Unternehmen, damit wir den richtigen Ausgangspunkt schaffen. Dauert etwa zwei Minuten.',
+                it: 'Raccontaci della tua azienda per creare il giusto punto di partenza. Richiede circa due minuti.',
+              })}
+            </p>
+
+            <!-- Progress (Signal Line) -->
+            <ol class="progress mt-10" aria-label={pick(lang, { en: 'Progress', fr: 'Progression', de: 'Fortschritt', it: 'Avanzamento' })} data-progress>
+              {steps.map((label, i) => (
+                <li class="progress-step" data-step-indicator={i} aria-current={i === 0 ? 'step' : undefined}>
+                  <span class="progress-node" aria-hidden="true"></span>
+                  <span class="index-num">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="progress-label">{label}</span>
+                </li>
+              ))}
+            </ol>
+
+            <div class="hidden lg:block mt-12 border-t border-ink-900/10 pt-6">
+              <h2 class="eyebrow mb-4">{pick(lang, { en: 'What happens next?', fr: 'Que se passe-t-il ensuite ?', de: 'Wie geht es weiter?', it: 'Cosa succede dopo?' })}</h2>
+              <ul class="space-y-3">
+                {next.map((n) => (
+                  <li class="flex gap-3 text-sm text-steel-700">
+                    <Check size={16} class="mt-0.5 flex-none text-signal-600" stroke-width={2} />{n}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Form column -->
+        <div class="col-span-12 lg:col-span-8">
+          <div class="bg-white border border-ink-900/10 rounded-md">
+            <p class="sr-only" aria-live="polite" data-step-announcer></p>
+
+            <form id="onboarding-form" class="p-6 sm:p-10" novalidate>
+              <!-- Step 1 -->
+              <fieldset class="step" data-step="0">
+                <legend class="step-legend">
+                  <span class="eyebrow block mb-3">{T.stepOf.replace('{n}', '1').replace('{t}', '3')}</span>
+                  <span class="block text-heading-lg text-ink-900">{pick(lang, { en: 'What brings you here today?', fr: "Qu'est-ce qui vous amène ici aujourd'hui ?", de: 'Was führt Sie heute zu uns?', it: 'Cosa ti porta qui oggi?' })}</span>
+                </legend>
+
+                <div class="mt-8 grid gap-3">
+                  {paths.map((p) => {
+                    const Icon = p.icon;
+                    return (
+                      <label class="choice">
+                        <input type="radio" name="path" value={p.value} required />
+                        <span class="max-sm:hidden flex h-10 w-10 flex-none items-center justify-center border border-ink-900/15 rounded-[4px] text-ink-900">
+                          <Icon size={20} stroke-width={1.5} />
+                        </span>
+                        <span class="flex-1">
+                          <span class="block font-medium text-ink-900">{p.title}</span>
+                          <span class="block text-sm text-steel-600 mt-1">{p.text}</span>
+                        </span>
+                        <span class="choice-mark" aria-hidden="true"><Check size={12} stroke-width={3} /></span>
+                      </label>
+                    );
+                  })}
+                </div>
+                <p id="path-error" class="error hidden" data-error-for="path">
+                  {pick(lang, { en: 'Please choose a starting point.', fr: 'Veuillez choisir un point de départ.', de: 'Bitte wählen Sie einen Ausgangspunkt.', it: 'Scegli un punto di partenza.' })}
+                </p>
+
+                <div id="current-website-field" class="mt-8 hidden">
+                  <label for="current-website" class="field-label">
+                    {pick(lang, { en: 'Current website URL', fr: 'URL du site actuel', de: 'Aktuelle Website-URL', it: 'URL del sito attuale' })}
+                  </label>
+                  <input
+                    type="url"
+                    id="current-website"
+                    name="current-website"
+                    inputmode="url"
+                    autocomplete="url"
+                    class="field"
+                    placeholder="https://www.your-website.ch"
+                    aria-describedby="current-website-hint current-website-error"
+                  />
+                  <p id="current-website-hint" class="field-hint">
+                    {pick(lang, { en: "We'll review your current site to understand what you already have.", fr: 'Nous examinerons votre site actuel pour comprendre ce que vous avez déjà.', de: 'Wir sehen uns Ihre aktuelle Website an.', it: 'Esamineremo il tuo sito attuale.' })}
+                  </p>
+                  <p id="current-website-error" class="error hidden" data-error-for="current-website">
+                    {pick(lang, { en: 'Please enter a full address, starting with https://', fr: 'Veuillez saisir une adresse complète, commençant par https://', de: 'Bitte vollständige Adresse mit https:// eingeben.', it: 'Inserisci un indirizzo completo che inizi con https://' })}
+                  </p>
+                </div>
+              </fieldset>
+
+              <!-- Step 2 -->
+              <fieldset class="step" data-step="1">
+                <legend class="step-legend">
+                  <span class="eyebrow block mb-3">{T.stepOf.replace('{n}', '2').replace('{t}', '3')}</span>
+                  <span class="block text-heading-lg text-ink-900">{pick(lang, { en: 'Tell us about your business', fr: 'Parlez-nous de votre entreprise', de: 'Erzählen Sie uns von Ihrem Unternehmen', it: 'Raccontaci della tua azienda' })}</span>
+                </legend>
+
+                <div class="mt-8">
+                  <label for="business-name" class="field-label">
+                    {pick(lang, { en: 'Business name', fr: "Nom de l'entreprise", de: 'Firmenname', it: "Nome dell'azienda" })}
+                  </label>
+                  <input
+                    type="text"
+                    id="business-name"
+                    name="business-name"
+                    required
+                    autocomplete="organization"
+                    class="field"
+                    aria-describedby="business-name-error"
+                  />
+                  <p id="business-name-error" class="error hidden" data-error-for="business-name">
+                    {pick(lang, { en: 'Please enter your business name.', fr: "Veuillez saisir le nom de l'entreprise.", de: 'Bitte Firmennamen eingeben.', it: "Inserisci il nome dell'azienda." })}
+                  </p>
+                </div>
+
+                <fieldset class="mt-8" aria-describedby="industry-error">
+                  <legend class="field-label">{pick(lang, { en: 'Industry', fr: 'Secteur', de: 'Branche', it: 'Settore' })}</legend>
+                  <div class="grid grid-cols-1 min-[420px]:grid-cols-2 sm:grid-cols-3 gap-2">
+                    {industries.map((ind) => (
+                      <label class="choice py-3.5 px-4 items-center gap-3">
+                        <input type="radio" name="industry" value={ind.value} required />
+                        <span class="choice-mark choice-mark-square mt-0" aria-hidden="true"><Check size={12} stroke-width={3} /></span>
+                        <span class="text-[0.9375rem] text-ink-900">{ind.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <p id="industry-error" class="error hidden" data-error-for="industry">
+                    {pick(lang, { en: 'Please choose the closest industry.', fr: 'Veuillez choisir le secteur le plus proche.', de: 'Bitte die passendste Branche wählen.', it: 'Scegli il settore più vicino.' })}
+                  </p>
+                </fieldset>
+
+                <div class="mt-8">
+                  <label for="goals" class="field-label">
+                    {pick(lang, { en: 'What do you want to achieve?', fr: 'Que souhaitez-vous accomplir ?', de: 'Was möchten Sie erreichen?', it: 'Cosa vuoi ottenere?' })}
+                    <span class="ml-2 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-steel-500">{T.optional}</span>
+                  </label>
+                  <textarea
+                    id="goals"
+                    name="goals"
+                    rows="4"
+                    class="field resize-y"
+                    aria-describedby="goals-hint"
+                  ></textarea>
+                  <p id="goals-hint" class="field-hint">
+                    {pick(lang, { en: 'Goals, target customers or specific features you need. A sentence or two is enough.', fr: 'Objectifs, clients cibles ou fonctionnalités souhaitées. Une ou deux phrases suffisent.', de: 'Ziele, Zielkunden oder gewünschte Funktionen. Ein, zwei Sätze genügen.', it: 'Obiettivi, clienti target o funzionalità richieste. Bastano una o due frasi.' })}
+                  </p>
+                </div>
+              </fieldset>
+
+              <!-- Step 3 -->
+              <fieldset class="step" data-step="2">
+                <legend class="step-legend">
+                  <span class="eyebrow block mb-3">{T.stepOf.replace('{n}', '3').replace('{t}', '3')}</span>
+                  <span class="block text-heading-lg text-ink-900">{pick(lang, { en: 'How can we reach you?', fr: 'Comment pouvons-nous vous joindre ?', de: 'Wie erreichen wir Sie?', it: 'Come possiamo contattarti?' })}</span>
+                </legend>
+
+                <div class="mt-8">
+                  <label for="email" class="field-label">{pick(lang, { en: 'Email address', fr: 'Adresse e-mail', de: 'E-Mail-Adresse', it: 'Indirizzo e-mail' })}</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    autocomplete="email"
+                    inputmode="email"
+                    class="field"
+                    placeholder="name@business.ch"
+                    aria-describedby="email-error"
+                  />
+                  <p id="email-error" class="error hidden" data-error-for="email">
+                    {pick(lang, { en: 'Please enter a valid email address.', fr: 'Veuillez saisir une adresse e-mail valide.', de: 'Bitte gültige E-Mail-Adresse eingeben.', it: 'Inserisci un indirizzo e-mail valido.' })}
+                  </p>
+                </div>
+
+                <div class="mt-8">
+                  <label for="phone" class="field-label">
+                    {pick(lang, { en: 'Phone number', fr: 'Numéro de téléphone', de: 'Telefonnummer', it: 'Numero di telefono' })}
+                    <span class="ml-2 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-steel-500">{T.optional}</span>
+                  </label>
+                  <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" class="field" placeholder="+41 XX XXX XX XX" />
+                </div>
+
+                <p class="mt-8 text-sm text-steel-600">
+                  {pick(lang, { en: 'By sending, you agree to our ', fr: 'En envoyant, vous acceptez notre ', de: 'Mit dem Senden akzeptieren Sie unsere ', it: 'Inviando, accetti la nostra ' })}
+                  <a href="/privacy" class="text-ink-900 underline underline-offset-4 decoration-1 hover:text-signal-700">
+                    {pick(lang, { en: 'Privacy Policy', fr: 'Politique de confidentialité', de: 'Datenschutzerklärung', it: 'Informativa sulla privacy' })}
+                  </a>.
+                </p>
+              </fieldset>
+
+              <!-- Navigation -->
+              <div class="mt-10 pt-6 border-t border-ink-900/10 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-4">
+                <button type="button" class="btn btn-secondary hidden" data-back>
+                  <ArrowLeft size={16} stroke-width={1.75} />{T.back}
+                </button>
+                <span class="hidden sm:block" data-spacer></span>
+                <button type="button" class="btn btn-primary btn-lg" data-next>
+                  {T.continue}<ArrowRight size={18} class="arrow" stroke-width={1.75} />
+                </button>
+                <button type="submit" class="btn btn-primary btn-lg" data-submit>
+                  {T.submit}<ArrowRight size={18} class="arrow" stroke-width={1.75} />
+                </button>
+              </div>
+            </form>
+
+            <!-- Confirmation -->
+            <div class="hidden p-6 sm:p-10" data-success tabindex="-1">
+              <span class="flex h-12 w-12 items-center justify-center bg-ink-900 text-white rounded-[4px]" aria-hidden="true">
+                <Check size={22} stroke-width={2} />
+              </span>
+              <h2 class="mt-8 text-heading-xl">{pick(lang, { en: 'Thank you. We have your request.', fr: 'Merci. Nous avons bien reçu votre demande.', de: 'Danke. Ihre Anfrage ist eingegangen.', it: 'Grazie. Abbiamo ricevuto la tua richiesta.' })}</h2>
+              <p class="lead mt-4">{pick(lang, { en: "We'll be in touch within 24 hours.", fr: 'Nous vous contacterons sous 24 heures.', de: 'Wir melden uns innerhalb von 24 Stunden.', it: 'Ti contatteremo entro 24 ore.' })}</p>
+              <ol class="mt-8 border-t border-ink-900/10">
+                {next.map((n, i) => (
+                  <li class="flex gap-4 border-b border-ink-900/10 py-4 text-ink-900">
+                    <span class="index-num w-6 flex-none">{String(i + 1).padStart(2, '0')}</span>{n}
+                  </li>
+                ))}
+              </ol>
+              <a href="/" class="link-arrow mt-8">
+                {pick(lang, { en: 'Back to the homepage', fr: "Retour à l'accueil", de: 'Zurück zur Startseite', it: 'Torna alla home' })}
+                <ArrowRight size={16} stroke-width={1.75} />
+              </a>
+            </div>
+          </div>
+
+          <!-- What happens next (mobile) -->
+          <div class="lg:hidden mt-10 border-t border-ink-900/10 pt-6">
+            <h2 class="eyebrow mb-4">{pick(lang, { en: 'What happens next?', fr: 'Que se passe-t-il ensuite ?', de: 'Wie geht es weiter?', it: 'Cosa succede dopo?' })}</h2>
+            <ul class="space-y-3">
+              {next.map((n) => (
+                <li class="flex gap-3 text-sm text-steel-700">
+                  <Check size={16} class="mt-0.5 flex-none text-signal-600" stroke-width={2} />{n}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>
+
+<style>
+  :global(form:not(.js-steps)) .step + .step {
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(17, 20, 24, 0.1);
+  }
+  /* With JS, show one step at a time */
+  :global(.js-steps) .step {
+    display: none;
+  }
+  :global(.js-steps) .step[data-active] {
+    display: block;
+  }
+  :global(.motion-ok .js-steps) .step[data-active] {
+    animation: step-in 0.4s cubic-bezier(0.2, 0.7, 0.1, 1);
+  }
+  @keyframes step-in {
+    from { opacity: 0; transform: translateX(12px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .step-legend {
+    padding: 0;
+  }
+
+  .error {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    color: theme('colors.signal.700');
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+  }
+  .error::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    flex: none;
+    background: currentColor;
+    transform: translateY(-1px);
+  }
+  .error.hidden {
+    display: none;
+  }
+
+  /* Progress — a compact signal line */
+  .progress {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    list-style: none;
+    padding: 0;
+  }
+  .progress-step {
+    position: relative;
+    padding-top: 1.25rem;
+    padding-right: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .progress-step::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 4px;
+    height: 1px;
+    background: rgba(17, 20, 24, 0.18);
+  }
+  .progress-step::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 3.5px;
+    height: 2px;
+    width: 100%;
+    background: theme('colors.signal.600');
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.1, 1);
+  }
+  .progress-node {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 9px;
+    height: 9px;
+    background: theme('colors.paper.DEFAULT');
+    border: 1px solid rgba(17, 20, 24, 0.35);
+    z-index: 1;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  .progress-label {
+    font-size: 0.875rem;
+    color: theme('colors.steel.600');
+    transition: color 0.3s ease;
+  }
+  .progress-step[data-state='current'] .progress-node,
+  .progress-step[data-state='done'] .progress-node {
+    background: theme('colors.signal.600');
+    border-color: theme('colors.signal.600');
+  }
+  .progress-step[data-state='current'] .progress-label {
+    color: theme('colors.ink.900');
+    font-weight: 500;
+  }
+  .progress-step[data-state='done']::after {
+    transform: scaleX(1);
+  }
+</style>
+
+<script>
+  const form = document.getElementById('onboarding-form') as HTMLFormElement | null;
+  const stepsEls = Array.from(document.querySelectorAll<HTMLElement>('.step'));
+  const indicators = Array.from(document.querySelectorAll<HTMLElement>('[data-step-indicator]'));
+  const backBtn = document.querySelector<HTMLButtonElement>('[data-back]');
+  const nextBtn = document.querySelector<HTMLButtonElement>('[data-next]');
+  const submitBtn = document.querySelector<HTMLButtonElement>('[data-submit]');
+  const spacer = document.querySelector<HTMLElement>('[data-spacer]');
+  const announcer = document.querySelector<HTMLElement>('[data-step-announcer]');
+  const success = document.querySelector<HTMLElement>('[data-success]');
+  const urlWrap = document.getElementById('current-website-field');
+  const urlInput = document.getElementById('current-website') as HTMLInputElement | null;
+
+  let current = 0;
+
+  function setError(name: string, show: boolean) {
+    const msg = document.querySelector<HTMLElement>(`[data-error-for="${name}"]`);
+    msg?.classList.toggle('hidden', !show);
+    form?.querySelectorAll<HTMLInputElement>(`[name="${name}"]`).forEach((el) => {
+      if (el.type === 'radio') return;
+      if (show) el.setAttribute('aria-invalid', 'true');
+      else el.removeAttribute('aria-invalid');
+    });
+  }
+
+  function validateStep(index: number): boolean {
+    const step = stepsEls[index];
+    if (!step) return true;
+    let firstInvalid: HTMLElement | null = null;
+    const checkedGroups = new Set<string>();
+
+    step.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea').forEach((el) => {
+      if (el.closest('.hidden')) return;
+      const name = el.name;
+      if (el instanceof HTMLInputElement && el.type === 'radio') {
+        if (checkedGroups.has(name)) return;
+        checkedGroups.add(name);
+        const ok = !el.required || !!step.querySelector(`input[name="${name}"]:checked`);
+        setError(name, !ok);
+        if (!ok && !firstInvalid) firstInvalid = el;
+        return;
+      }
+      const ok = el.checkValidity();
+      setError(name, !ok);
+      if (!ok && !firstInvalid) firstInvalid = el;
+    });
+
+    (firstInvalid as HTMLElement | null)?.focus();
+    return !firstInvalid;
+  }
+
+  function render(focus = true) {
+    stepsEls.forEach((s, i) => s.toggleAttribute('data-active', i === current));
+    indicators.forEach((ind, i) => {
+      ind.dataset.state = i < current ? 'done' : i === current ? 'current' : 'todo';
+      if (i === current) ind.setAttribute('aria-current', 'step');
+      else ind.removeAttribute('aria-current');
+    });
+    const last = current === stepsEls.length - 1;
+    backBtn?.classList.toggle('hidden', current === 0);
+    spacer?.classList.toggle('sm:block', current === 0);
+    nextBtn?.classList.toggle('hidden', last);
+    submitBtn?.classList.toggle('hidden', !last);
+
+    const legendParts = Array.from(stepsEls[current]?.querySelectorAll('legend > span') ?? []).map((s) => s.textContent?.trim());
+    if (announcer) announcer.textContent = legendParts.filter(Boolean).join('. ');
+
+    if (focus) {
+      const target = stepsEls[current]?.querySelector<HTMLElement>('input:not([type="hidden"]), textarea');
+      target?.focus({ preventScroll: true });
+      form?.closest('.bg-white')?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
+  }
+
+  function handlePathChange(path: string) {
+    const needsUrl = path === 'update' || path === 'extend';
+    urlWrap?.classList.toggle('hidden', !needsUrl);
+    if (urlInput) {
+      urlInput.required = needsUrl;
+      if (!needsUrl) {
+        urlInput.value = '';
+        setError('current-website', false);
+      }
+    }
+    setError('path', false);
+  }
+
+  if (form) {
+    form.classList.add('js-steps');
+
+    form.querySelectorAll<HTMLInputElement>('input[name="path"]').forEach((radio) => {
+      radio.addEventListener('change', () => handlePathChange(radio.value));
+    });
+    form.querySelectorAll<HTMLInputElement>('input[name="industry"]').forEach((radio) => {
+      radio.addEventListener('change', () => setError('industry', false));
+    });
+    form.querySelectorAll<HTMLInputElement>('input:not([type="radio"])').forEach((input) => {
+      input.addEventListener('input', () => {
+        if (input.getAttribute('aria-invalid') === 'true' && input.checkValidity()) setError(input.name, false);
+      });
+    });
+
+    // Preselect from ?path= (homepage CTAs)
+    const pathParam = new URLSearchParams(window.location.search).get('path');
+    if (pathParam) {
+      const radio = form.querySelector<HTMLInputElement>(`input[name="path"][value="${CSS.escape(pathParam)}"]`);
+      if (radio) {
+        radio.checked = true;
+        handlePathChange(pathParam);
+      }
+    }
+
+    nextBtn?.addEventListener('click', () => {
+      if (!validateStep(current)) return;
+      current = Math.min(current + 1, stepsEls.length - 1);
+      render();
+    });
+
+    backBtn?.addEventListener('click', () => {
+      current = Math.max(current - 1, 0);
+      render();
+    });
+
+    // Enter in a text field advances instead of submitting early
+    form.addEventListener('keydown', (e) => {
+      const target = e.target as HTMLElement;
+      if (e.key === 'Enter' && target.tagName === 'INPUT' && current < stepsEls.length - 1) {
+        e.preventDefault();
+        nextBtn?.click();
+      }
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      for (let i = 0; i < stepsEls.length; i++) {
+        if (!validateStep(i)) {
+          current = i;
+          render(false);
+          validateStep(i);
+          return;
+        }
+      }
+
+      const data = Object.fromEntries(new FormData(form).entries());
+      // In production this would be sent to an API endpoint.
+      console.log('Form submitted:', data);
+
+      form.classList.add('hidden');
+      indicators.forEach((ind) => (ind.dataset.state = 'done'));
+      success?.classList.remove('hidden');
+      success?.focus();
+    });
+
+    render(false);
+  }
+</script>

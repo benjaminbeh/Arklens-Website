@@ -1,0 +1,38 @@
+{
+  "email": "info@bellavista-bern.ch",
+  "phone": "+41 31 123 45 67",
+  "whatsapp": "+41 79 123 45 67",
+  "address": {
+    "street": "Kornhausplatz 12",
+    "city": "Bern",
+    "postalCode": "3011",
+    "country": "Switzerland"
+  },
+  "coordinates": {
+    "lat": 46.9489,
+    "lng": 7.4474
+  },
+  "bookingUrl": "https://booking.bellavista-bern.ch",
+  "contactForm": {
+    "enabled": true,
+    "emailRecipient": "reservations@bellavista-bern.ch",
+    "fields": [
+      {
+        "name": "name",
+        "required": true
+      },
+      {
+        "name": "email",
+        "required": true
+      },
+      {
+        "name": "phone",
+        "required": true
+      },
+      {
+        "name": "message",
+        "required": true
+      }
+    ]
+  }
+}

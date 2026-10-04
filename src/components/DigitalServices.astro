@@ -1,52 +1,92 @@
 ---
 import type { Language } from '@i18n/index';
-import { useTranslations } from '@i18n/index';
+import { pick } from '@lib/pick';
+import { Users, MessageSquareText, ChartLine, Timer, ArrowRight } from '@lucide/astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
 
 interface Props {
   lang: Language;
 }
 
 const { lang } = Astro.props;
-const t = useTranslations(lang);
+const en = lang === 'en';
 
-const services = [
-  { key: 'languages', icon: 'globe' },
-  { key: 'pages', icon: 'file-text' },
-  { key: 'booking', icon: 'calendar-check' },
-  { key: 'forms', icon: 'note-pencil' },
-  { key: 'email', icon: 'envelope-simple' },
-  { key: 'payments', icon: 'credit-card' },
-  { key: 'google', icon: 'magnifying-glass' },
-  { key: 'seo', icon: 'chart-line-up' },
-  { key: 'analytics', icon: 'chart-bar' },
-  { key: 'reviews', icon: 'star' },
-  { key: 'crm', icon: 'link' },
+const serviceCategories = [
+  {
+    key: 'get_customers',
+    icon: Users,
+    title: pick(lang, { en: 'Get more customers', fr: 'Obtenir plus de clients', de: 'Mehr Kunden gewinnen', it: 'Ottenere più clienti' }),
+    services: en ? ['Local SEO', 'Google Business Profile', 'Multilingual', 'Review management'] : ['SEO local', 'Profil Google Business', 'Multilingue', 'Gestion des avis'],
+  },
+  {
+    key: 'serve_customers',
+    icon: MessageSquareText,
+    title: pick(lang, { en: 'Serve customers better', fr: 'Mieux servir les clients', de: 'Kunden besser bedienen', it: 'Servire meglio i clienti' }),
+    services: en ? ['Online booking', 'Quote requests', 'Accept payments', 'Business email'] : ['Réservation en ligne', 'Demandes de devis', 'Accepter les paiements', 'E-mail professionnel'],
+  },
+  {
+    key: 'run_business',
+    icon: ChartLine,
+    title: pick(lang, { en: 'Run your business better', fr: 'Mieux gérer votre entreprise', de: 'Ihr Geschäft besser führen', it: 'Gestire meglio la tua azienda' }),
+    services: en ? ['Understand visitors', 'Track leads', 'More pages'] : ['Comprendre les visiteurs', 'Suivre les prospects', 'Plus de pages'],
+  },
+  {
+    key: 'save_time',
+    icon: Timer,
+    title: pick(lang, { en: 'Save time', fr: 'Gagner du temps', de: 'Zeit sparen', it: 'Risparmiare tempo' }),
+    services: en ? ['Automate tasks', 'Connect tools', 'Business workflows'] : ['Automatiser les tâches', 'Connecter les outils', 'Flux de travail'],
+  },
 ];
 ---
 
-<section class="section bg-neutral-50" id="add-features">
+<section class="section bg-white border-y border-ink-900/10" id="add-features" aria-labelledby="services-title">
   <div class="container-custom">
-    <div class="text-center mb-16 max-w-3xl mx-auto">
-      <h2 class="text-display-sm md:text-display-md mb-6 text-neutral-900">
-        {t('services.title')}
-      </h2>
-      <p class="text-body-lg text-neutral-600">
-        {t('services.subtitle')}
-      </p>
-    </div>
+    <SectionHeader
+      id="services-title"
+      index="06"
+      eyebrow={pick(lang, { en: 'Add-ons', fr: 'Options', de: 'Erweiterungen', it: 'Componenti aggiuntivi' })}
+      title={pick(lang, { en: 'Add what your business needs', fr: 'Ajoutez ce dont votre entreprise a besoin', de: 'Ergänzen Sie, was Ihr Unternehmen braucht', it: 'Aggiungi ciò di cui la tua azienda ha bisogno' })}
+      lead={pick(lang, {
+        en: 'Start with a free website. Add paid services only when they create value for your business.',
+        fr: "Commencez avec un site gratuit. Ajoutez des services payants uniquement lorsqu'ils créent de la valeur pour votre entreprise.",
+        de: 'Starten Sie mit einer kostenlosen Website. Bezahlte Dienste nur, wenn sie Ihrem Unternehmen Mehrwert bringen.',
+        it: 'Inizia con un sito gratuito. Aggiungi servizi a pagamento solo quando creano valore per la tua azienda.',
+      })}
+    />
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-      {services.map((service) => (
-        <div class="card card-hover group">
-          <i class={`ph ph-${service.icon} text-4xl text-primary-600 mb-4`}></i>
-          <h3 class="text-heading-sm mb-2 text-neutral-900 group-hover:text-primary-600 transition-colors">
-            {t(`services.${service.key}.title` as any)}
-          </h3>
-          <p class="text-neutral-600 text-sm">
-            {t(`services.${service.key}.desc` as any)}
-          </p>
-        </div>
-      ))}
+    <ul class="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-ink-900/10 border border-ink-900/10 rounded-md overflow-hidden">
+      {serviceCategories.map((category) => {
+        const Icon = category.icon;
+        return (
+          <li class="card-grid-hover relative bg-white p-7 transition-colors hover:bg-paper">
+            <Icon size={22} class="text-ink-900" stroke-width={1.5} />
+            <h3 class="mt-8 text-heading-sm text-ink-900">{category.title}</h3>
+            <ul class="mt-5 space-y-2.5">
+              {category.services.map((service) => (
+                <li class="flex items-baseline gap-3 text-steel-700">
+                  <span class="h-px w-3 flex-none translate-y-[-0.25em] bg-steel-400" aria-hidden="true"></span>
+                  {service}
+                </li>
+              ))}
+            </ul>
+          </li>
+        );
+      })}
+    </ul>
+
+    <div class="mt-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+      <p class="text-steel-600 max-w-2xl">
+        {pick(lang, {
+          en: 'Clear pricing before any paid work begins. No surprises, no subscriptions unless you want them.',
+          fr: "Prix clairs avant tout travail payant. Pas de surprises, pas d'abonnements sauf si vous le souhaitez.",
+          de: 'Klare Preise vor jeder bezahlten Arbeit. Keine Überraschungen, keine Abos, ausser Sie wünschen es.',
+          it: 'Prezzi chiari prima di qualsiasi lavoro a pagamento. Nessuna sorpresa, nessun abbonamento se non lo desideri.',
+        })}
+      </p>
+      <a href="/start?path=extend" class="link-arrow self-start sm:self-auto">
+        {pick(lang, { en: 'Add a feature', fr: 'Ajouter une fonctionnalité', de: 'Funktion hinzufügen', it: 'Aggiungi una funzionalità' })}
+        <ArrowRight size={16} stroke-width={1.75} />
+      </a>
     </div>
   </div>
 </section>

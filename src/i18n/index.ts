@@ -19,11 +19,11 @@ export const ui = {
     'nav.getStarted': 'Get started',
     
     // Hero
-    'hero.title': 'Your business website. Free.',
-    'hero.subtitle': 'We build or modernise a professional website for your Swiss business — using your own domain, with free hosting.',
+    'hero.title': 'Your business website. CHF 0.',
+    'hero.subtitle': 'We build or modernise a professional website for your Swiss business — using your own domain, with hosting included under the Free Website Programme.',
     'hero.cta.primary': 'Get my free website',
-    'hero.cta.secondary': 'Improve my existing website',
-    'hero.trust': 'Your domain · Free hosting · No long-term contract',
+    'hero.cta.secondary': 'Improve my website',
+    'hero.trust': 'Your domain always belongs to you · No long-term contract',
     
     // Customer paths
     'paths.title': 'How can we help?',
@@ -39,11 +39,11 @@ export const ui = {
     
     // Free offer
     'freeOffer.title': 'A professional starting point — CHF 0',
-    'freeOffer.domain': 'You only pay for your domain registration and renewal. The domain remains yours.',
-    'freeOffer.cta': 'Get started free',
+    'freeOffer.domain': 'You only pay for your domain registration and renewal. The domain remains yours. Website and hosting are included under the Free Website Programme.',
+    'freeOffer.cta': 'Get started',
     'freeOffer.features.website': 'One-page professional website',
     'freeOffer.features.domain': 'Your own domain',
-    'freeOffer.features.hosting': 'Free hosting',
+    'freeOffer.features.hosting': 'Hosting included (Free Website Programme)',
     'freeOffer.features.ssl': 'SSL / HTTPS',
     'freeOffer.features.mobile': 'Mobile responsive',
     'freeOffer.features.seo': 'Basic SEO',
@@ -57,15 +57,15 @@ export const ui = {
     'freeOffer.features.revision': 'One revision round',
     
     // Why free
-    'whyFree.title': 'Why is the website free?',
+    'whyFree.title': 'Why CHF 0?',
     'whyFree.text1': 'Small businesses should be able to establish a professional digital presence without a large upfront investment.',
-    'whyFree.text2': 'We provide the essential website free. If your business later needs additional features, automation or digital services, you can add them when they create value for you.',
+    'whyFree.text2': 'Under the Free Website Programme, we provide the essential website and hosting at no charge. If your business later needs additional features, automation or digital services, you can add them when they create value for you.',
     'whyFree.trust.noSetup': 'No hidden setup fee',
     'whyFree.trust.noHosting': 'No mandatory hosting subscription',
-    'whyFree.trust.noCard': 'No credit card required for the free website',
+    'whyFree.trust.noCard': 'No credit card required',
     'whyFree.trust.optional': 'Paid services are optional',
     'whyFree.trust.clear': 'Clear pricing before paid work begins',
-    'whyFree.trust.yourDomain': 'Your domain remains yours',
+    'whyFree.trust.yourDomain': 'Your domain always belongs to you',
 
     // How it works
     'howItWorks.title': 'Simple from start to launch',
@@ -155,14 +155,14 @@ export const ui = {
 
     // FAQ
     'faq.title': 'Frequently asked questions',
-    'faq.q1': 'Is the website really free?',
-    'faq.a1': 'Yes, the basic one-page professional website and hosting are completely free. You only pay for your domain registration and renewal.',
+    'faq.q1': 'What is the Free Website Programme?',
+    'faq.a1': 'The Free Website Programme provides a basic one-page professional website and hosting at no charge. You only pay for your domain registration and renewal. Your domain always belongs to you, and you can leave the programme at any time.',
     'faq.q2': 'What do I have to pay for?',
     'faq.a2': 'Only your domain registration and renewal (typically CHF 15-30 per year) unless you choose optional services like additional languages, booking systems, or automation.',
     'faq.q3': 'Who owns my domain?',
-    'faq.a3': 'You do. We guide you to purchase it directly, so you always retain full ownership and control.',
-    'faq.q4': 'Is hosting really free?',
-    'faq.a4': 'Yes, for the basic static website. Our infrastructure allows us to provide reliable, fast hosting at no cost.',
+    'faq.a3': 'You do. We guide you to purchase it directly, so you always retain full ownership and control. You can transfer your domain to any provider at any time.',
+    'faq.q4': 'Is hosting really included?',
+    'faq.a4': 'Yes, for the basic static website under the Free Website Programme. Our infrastructure allows us to provide reliable, fast hosting at no cost.',
     'faq.q5': 'Can you improve my existing website?',
     'faq.a5': "Yes, we can modernise old websites, simplify difficult-to-use sites, or add new features to existing websites.",
     'faq.q6': 'Can I add another language later?',
@@ -170,7 +170,23 @@ export const ui = {
     'faq.q7': 'Will I be forced into a subscription?',
     'faq.a7': 'No. All paid services are optional and clearly priced before any work begins.',
     'faq.q8': 'Can I move my domain later?',
-    'faq.a8': 'Yes, because you own it. You can transfer your domain to any provider at any time.',
+    'faq.a8': 'Yes, because you own it. You can transfer your domain to any provider at any time. See our Terms of Use for details on service exit and data portability.',
+    'faq.q9': "What happens if I want to leave Arklens?",
+    'faq.a9': "You can leave at any time, with no penalty. You can continue with paid Arklens services, rebuild on your own infrastructure, or move to another provider. Your domain, business content and customer-owned assets go with you, and we provide reasonable help with the move.",
+    'faq.q10': "Do I own my website?",
+    'faq.a10': "You always own your domain name, business information, customer data and any logos, photos or content that you provide to Arklens.\n\nArklens retains ownership of its website source code, templates, reusable components, design systems, automation scripts and development tools unless a separate written agreement transfers those rights.",
+    'faq.q11': "How long does the handover process take?",
+    'faq.a11': "Typically 1–3 weeks. We help with DNS configuration, hand over your business content and customer-owned assets, and offer 1–2 hours of support to keep the transition smooth.",
+    'faq.q12': "What if the Free Website Programme ends?",
+    'faq.a12': "You will receive at least 60 days’ notice and clear information about your options. Your domain always belongs to you. We will hand over your business content and customer-owned assets and provide reasonable migration assistance so your online presence can continue.",
+    'faq.q13': "Can I move my website to another provider?",
+    'faq.a13': "Yes. Your domain always remains under your control and you can move it to another provider at any time.\n\nWe can also provide reasonable assistance with migrating your business content and customer-owned assets.\n\nArklens source code, templates and reusable components are not automatically included in a migration.",
+    'faq.q14': "Can I take the source code with me?",
+    'faq.a14': "The standard Free Website Programme does not include ownership or transfer of Arklens source code.\n\nIf you require the source code for your website, Arklens may offer a separate Source Code Buyout or Migration Package depending on the website and its complexity.",
+    'faq.q15': "Can my existing web agency or IT provider use Arklens to build something for free?",
+    'faq.a15': "The Free Website Programme is intended to help eligible businesses improve their own digital presence.\n\nIt may not be used by agencies, freelancers, IT providers or other third parties to obtain free development work for resale, white-labelling or incorporation into their own paid services.\n\nArklens may decline or discontinue participation where the programme appears to be used primarily for this purpose.",
+    'faq.q16': "Can I give the Arklens website to another company?",
+    'faq.a16': "The Free Website Programme is provided for the participating business’s own use.\n\nThe website, templates or source code may not be resold, white-labelled or transferred to another business without Arklens’ written agreement.\n\nYour own domain, business content and customer-owned assets remain yours.",
 
     // Final CTA
     'finalCta.title': 'Start with your website. Improve your business from there.',
@@ -193,11 +209,11 @@ export const ui = {
     'nav.getStarted': 'Commencer',
     
     // Hero
-    'hero.title': 'Votre site web professionnel. Gratuit.',
-    'hero.subtitle': 'Nous créons ou modernisons un site web professionnel pour votre entreprise suisse — avec votre propre domaine et hébergement gratuit.',
+    'hero.title': 'Votre site web professionnel. CHF 0.',
+    'hero.subtitle': 'Nous créons ou modernisons un site web professionnel pour votre entreprise suisse — avec votre propre domaine et hébergement inclus dans le Programme Site Web Gratuit.',
     'hero.cta.primary': 'Obtenir mon site gratuit',
-    'hero.cta.secondary': 'Améliorer mon site existant',
-    'hero.trust': 'Votre domaine · Hébergement gratuit · Sans engagement',
+    'hero.cta.secondary': 'Améliorer mon site',
+    'hero.trust': 'Votre domaine vous appartient toujours · Sans engagement',
     
     // Customer paths
     'paths.title': 'Comment pouvons-nous vous aider ?',
@@ -213,11 +229,11 @@ export const ui = {
     
     // Free offer
     'freeOffer.title': 'Un point de départ professionnel — CHF 0',
-    'freeOffer.domain': 'Vous ne payez que pour l\'enregistrement et le renouvellement de votre domaine. Le domaine vous appartient.',
-    'freeOffer.cta': 'Commencer gratuitement',
+    'freeOffer.domain': 'Vous ne payez que pour l\'enregistrement et le renouvellement de votre domaine. Le domaine vous appartient. Site web et hébergement inclus dans le Programme Site Web Gratuit.',
+    'freeOffer.cta': 'Commencer',
     'freeOffer.features.website': 'Site web professionnel d\'une page',
     'freeOffer.features.domain': 'Votre propre domaine',
-    'freeOffer.features.hosting': 'Hébergement gratuit',
+    'freeOffer.features.hosting': 'Hébergement inclus (Programme Site Web Gratuit)',
     'freeOffer.features.ssl': 'SSL / HTTPS',
     'freeOffer.features.mobile': 'Design responsive',
     'freeOffer.features.seo': 'SEO de base',
@@ -231,15 +247,15 @@ export const ui = {
     'freeOffer.features.revision': 'Une révision',
     
     // Why free
-    'whyFree.title': 'Pourquoi le site est-il gratuit ?',
+    'whyFree.title': 'Pourquoi CHF 0 ?',
     'whyFree.text1': 'Les petites entreprises devraient pouvoir établir une présence numérique professionnelle sans investissement initial important.',
-    'whyFree.text2': 'Nous fournissons le site essentiel gratuitement. Si votre entreprise a besoin plus tard de fonctionnalités supplémentaires, d\'automatisation ou de services numériques, vous pouvez les ajouter quand ils créent de la valeur pour vous.',
+    'whyFree.text2': 'Dans le cadre du Programme Site Web Gratuit, nous fournissons le site essentiel et l\'hébergement sans frais. Si votre entreprise a besoin plus tard de fonctionnalités supplémentaires, d\'automatisation ou de services numériques, vous pouvez les ajouter quand ils créent de la valeur pour vous.',
     'whyFree.trust.noSetup': 'Aucun frais de configuration caché',
     'whyFree.trust.noHosting': 'Aucun abonnement d\'hébergement obligatoire',
-    'whyFree.trust.noCard': 'Aucune carte de crédit requise pour le site gratuit',
+    'whyFree.trust.noCard': 'Aucune carte de crédit requise',
     'whyFree.trust.optional': 'Les services payants sont optionnels',
     'whyFree.trust.clear': 'Prix clairs avant tout travail payant',
-    'whyFree.trust.yourDomain': 'Votre domaine reste le vôtre',
+    'whyFree.trust.yourDomain': 'Votre domaine vous appartient toujours',
 
     // How it works
     'howItWorks.title': 'Simple du début au lancement',
@@ -329,14 +345,14 @@ export const ui = {
 
     // FAQ
     'faq.title': 'Questions fréquemment posées',
-    'faq.q1': 'Le site web est-il vraiment gratuit ?',
-    'faq.a1': 'Oui, le site web professionnel de base d\'une page et l\'hébergement sont entièrement gratuits. Vous ne payez que pour l\'enregistrement et le renouvellement de votre domaine.',
+    'faq.q1': 'Qu\'est-ce que le Programme Site Web Gratuit ?',
+    'faq.a1': 'Le Programme Site Web Gratuit fournit un site web professionnel de base d\'une page et l\'hébergement sans frais. Vous ne payez que pour l\'enregistrement et le renouvellement de votre domaine. Votre domaine vous appartient toujours et vous pouvez quitter le programme à tout moment.',
     'faq.q2': 'Pour quoi dois-je payer ?',
     'faq.a2': 'Uniquement pour l\'enregistrement et le renouvellement de votre domaine (généralement CHF 15-30 par an) sauf si vous choisissez des services optionnels comme des langues supplémentaires, des systèmes de réservation ou l\'automatisation.',
     'faq.q3': 'Qui possède mon domaine ?',
-    'faq.a3': 'Vous. Nous vous guidons pour l\'acheter directement, afin que vous conserviez toujours la pleine propriété et le contrôle.',
-    'faq.q4': 'L\'hébergement est-il vraiment gratuit ?',
-    'faq.a4': 'Oui, pour le site web statique de base. Notre infrastructure nous permet de fournir un hébergement fiable et rapide sans frais.',
+    'faq.a3': 'Vous. Nous vous guidons pour l\'acheter directement, afin que vous conserviez toujours la pleine propriété et le contrôle. Vous pouvez transférer votre domaine vers n\'importe quel fournisseur à tout moment.',
+    'faq.q4': 'L\'hébergement est-il vraiment inclus ?',
+    'faq.a4': 'Oui, pour le site web statique de base dans le cadre du Programme Site Web Gratuit. Notre infrastructure nous permet de fournir un hébergement fiable et rapide sans frais.',
     'faq.q5': 'Pouvez-vous améliorer mon site web existant ?',
     'faq.a5': 'Oui, nous pouvons moderniser les anciens sites web, simplifier les sites difficiles à utiliser ou ajouter de nouvelles fonctionnalités aux sites existants.',
     'faq.q6': 'Puis-je ajouter une autre langue plus tard ?',
@@ -344,7 +360,23 @@ export const ui = {
     'faq.q7': 'Serai-je forcé de prendre un abonnement ?',
     'faq.a7': 'Non. Tous les services payants sont optionnels et clairement tarifés avant le début de tout travail.',
     'faq.q8': 'Puis-je transférer mon domaine plus tard ?',
-    'faq.a8': 'Oui, parce que vous en êtes propriétaire. Vous pouvez transférer votre domaine vers n\'importe quel fournisseur à tout moment.',
+    'faq.a8': 'Oui, parce que vous en êtes propriétaire. Vous pouvez transférer votre domaine vers n\'importe quel fournisseur à tout moment. Consultez nos Conditions d\'utilisation pour plus de détails sur la sortie du service et la portabilité des données.',
+    'faq.q9': "Que se passe-t-il si je veux quitter Arklens ?",
+    'faq.a9': "Vous pouvez partir à tout moment, sans pénalité. Vous pouvez continuer avec les services payants d’Arklens, reconstruire votre site sur votre propre infrastructure ou passer à un autre fournisseur. Votre domaine, vos contenus et les éléments qui vous appartiennent vous suivent, et nous vous apportons une aide raisonnable pour la transition.",
+    'faq.q10': "Mon site web m’appartient-il ?",
+    'faq.a10': "Vous restez toujours propriétaire de votre nom de domaine, de vos informations commerciales, de vos données clients ainsi que des logos, photos et contenus que vous fournissez à Arklens.\n\nArklens reste propriétaire de son code source, de ses modèles, de ses composants réutilisables, de ses systèmes de design, de ses scripts d’automatisation et de ses outils de développement, sauf si un accord écrit séparé transfère ces droits.",
+    'faq.q11': "Combien de temps prend le processus de transfert ?",
+    'faq.a11': "En général 1 à 3 semaines. Nous vous aidons pour la configuration DNS, vous remettons vos contenus et les éléments qui vous appartiennent, et offrons 1 à 2 heures de support pour une transition en douceur.",
+    'faq.q12': "Que se passe-t-il si le Programme Site Web Gratuit se termine ?",
+    'faq.a12': "Vous recevrez un préavis d’au moins 60 jours et des informations claires sur vos options. Votre domaine vous appartient toujours. Nous vous remettrons vos contenus et les éléments qui vous appartiennent et vous apporterons une aide raisonnable à la migration afin que votre présence en ligne puisse continuer.",
+    'faq.q13': "Puis-je transférer mon site web vers un autre fournisseur ?",
+    'faq.a13': "Oui. Votre domaine reste toujours sous votre contrôle et vous pouvez le transférer vers un autre fournisseur à tout moment.\n\nNous pouvons aussi vous apporter une aide raisonnable pour migrer vos contenus et les éléments qui vous appartiennent.\n\nLe code source, les modèles et les composants réutilisables d’Arklens ne sont pas inclus automatiquement dans une migration.",
+    'faq.q14': "Puis-je emporter le code source ?",
+    'faq.a14': "Le Programme Site Web Gratuit standard n’inclut ni la propriété ni le transfert du code source d’Arklens.\n\nSi vous avez besoin du code source de votre site, Arklens peut proposer un rachat du code source (Source Code Buyout) ou un forfait de migration séparé, selon le site et sa complexité.",
+    'faq.q15': "Mon agence web ou mon prestataire informatique peut-il utiliser Arklens pour obtenir un développement gratuit ?",
+    'faq.a15': "Le Programme Site Web Gratuit vise à aider les entreprises éligibles à améliorer leur propre présence numérique.\n\nIl ne peut pas être utilisé par des agences, des indépendants, des prestataires informatiques ou d’autres tiers pour obtenir gratuitement des travaux de développement destinés à la revente, à la marque blanche ou à l’intégration dans leurs propres services payants.\n\nArklens peut refuser ou mettre fin à une participation lorsque le programme semble être utilisé principalement à cette fin.",
+    'faq.q16': "Puis-je céder le site Arklens à une autre entreprise ?",
+    'faq.a16': "Le Programme Site Web Gratuit est fourni pour l’usage propre de l’entreprise participante.\n\nLe site, les modèles ou le code source ne peuvent pas être revendus, proposés en marque blanche ou transférés à une autre entreprise sans l’accord écrit d’Arklens.\n\nVotre domaine, vos contenus et les éléments qui vous appartiennent restent les vôtres.",
 
     // Final CTA
     'finalCta.title': 'Commencez avec votre site web. Améliorez votre entreprise à partir de là.',
@@ -367,11 +399,11 @@ export const ui = {
     'nav.getStarted': 'Loslegen',
     
     // Hero
-    'hero.title': 'Ihre Business-Website. Kostenlos.',
-    'hero.subtitle': 'Wir erstellen oder modernisieren eine professionelle Website für Ihr Schweizer Unternehmen — mit Ihrer eigenen Domain und kostenlosem Hosting.',
+    'hero.title': 'Ihre Business-Website. CHF 0.',
+    'hero.subtitle': 'Wir erstellen oder modernisieren eine professionelle Website für Ihr Schweizer Unternehmen — mit Ihrer eigenen Domain und Hosting im Rahmen des Kostenlosen Website-Programms.',
     'hero.cta.primary': 'Meine kostenlose Website',
     'hero.cta.secondary': 'Meine Website verbessern',
-    'hero.trust': 'Ihre Domain · Kostenloses Hosting · Keine Vertragsbindung',
+    'hero.trust': 'Ihre Domain gehört immer Ihnen · Keine Vertragsbindung',
     
     // Customer paths
     'paths.title': 'Wie können wir helfen?',
@@ -387,11 +419,11 @@ export const ui = {
     
     // Free offer
     'freeOffer.title': 'Ein professioneller Ausgangspunkt — CHF 0',
-    'freeOffer.domain': 'Sie zahlen nur für die Registrierung und Erneuerung Ihrer Domain. Die Domain gehört Ihnen.',
-    'freeOffer.cta': 'Kostenlos starten',
+    'freeOffer.domain': 'Sie zahlen nur für die Registrierung und Erneuerung Ihrer Domain. Die Domain gehört Ihnen. Website und Hosting sind im Kostenlosen Website-Programm inbegriffen.',
+    'freeOffer.cta': 'Starten',
     'freeOffer.features.website': 'Professionelle Ein-Seiten-Website',
     'freeOffer.features.domain': 'Ihre eigene Domain',
-    'freeOffer.features.hosting': 'Kostenloses Hosting',
+    'freeOffer.features.hosting': 'Hosting inbegriffen (Kostenloses Website-Programm)',
     'freeOffer.features.ssl': 'SSL / HTTPS',
     'freeOffer.features.mobile': 'Mobile responsive',
     'freeOffer.features.seo': 'Basis-SEO',
@@ -405,15 +437,15 @@ export const ui = {
     'freeOffer.features.revision': 'Eine Überarbeitung',
     
     // Why free
-    'whyFree.title': 'Warum ist die Website kostenlos?',
+    'whyFree.title': 'Warum CHF 0?',
     'whyFree.text1': 'Kleine Unternehmen sollten in der Lage sein, eine professionelle digitale Präsenz ohne große Anfangsinvestition aufzubauen.',
-    'whyFree.text2': 'Wir stellen die wesentliche Website kostenlos zur Verfügung. Wenn Ihr Unternehmen später zusätzliche Funktionen, Automatisierung oder digitale Dienste benötigt, können Sie diese hinzufügen, wenn sie Wert für Sie schaffen.',
+    'whyFree.text2': 'Im Rahmen des Kostenlosen Website-Programms stellen wir die wesentliche Website und das Hosting ohne Gebühr zur Verfügung. Wenn Ihr Unternehmen später zusätzliche Funktionen, Automatisierung oder digitale Dienste benötigt, können Sie diese hinzufügen, wenn sie Wert für Sie schaffen.',
     'whyFree.trust.noSetup': 'Keine versteckte Einrichtungsgebühr',
     'whyFree.trust.noHosting': 'Kein obligatorisches Hosting-Abonnement',
-    'whyFree.trust.noCard': 'Keine Kreditkarte für die kostenlose Website erforderlich',
+    'whyFree.trust.noCard': 'Keine Kreditkarte erforderlich',
     'whyFree.trust.optional': 'Bezahlte Dienste sind optional',
     'whyFree.trust.clear': 'Klare Preise vor bezahlter Arbeit',
-    'whyFree.trust.yourDomain': 'Ihre Domain bleibt Ihnen',
+    'whyFree.trust.yourDomain': 'Ihre Domain gehört immer Ihnen',
 
     // How it works
     'howItWorks.title': 'Einfach von Anfang bis Start',
@@ -503,14 +535,14 @@ export const ui = {
 
     // FAQ
     'faq.title': 'Häufig gestellte Fragen',
-    'faq.q1': 'Ist die Website wirklich kostenlos?',
-    'faq.a1': 'Ja, die professionelle Ein-Seiten-Website und das Hosting sind völlig kostenlos. Sie zahlen nur für die Registrierung und Erneuerung Ihrer Domain.',
+    'faq.q1': 'Was ist das Kostenlose Website-Programm?',
+    'faq.a1': 'Das Kostenlose Website-Programm bietet eine professionelle Ein-Seiten-Website und Hosting ohne Gebühr. Sie zahlen nur für die Registrierung und Erneuerung Ihrer Domain. Ihre Domain gehört immer Ihnen und Sie können das Programm jederzeit verlassen.',
     'faq.q2': 'Wofür muss ich bezahlen?',
     'faq.a2': 'Nur für die Registrierung und Erneuerung Ihrer Domain (typischerweise CHF 15-30 pro Jahr), es sei denn, Sie wählen optionale Dienste wie zusätzliche Sprachen, Buchungssysteme oder Automatisierung.',
     'faq.q3': 'Wem gehört meine Domain?',
-    'faq.a3': 'Ihnen. Wir leiten Sie an, sie direkt zu kaufen, sodass Sie immer vollständiges Eigentum und Kontrolle behalten.',
-    'faq.q4': 'Ist das Hosting wirklich kostenlos?',
-    'faq.a4': 'Ja, für die grundlegende statische Website. Unsere Infrastruktur ermöglicht es uns, zuverlässiges, schnelles Hosting ohne Kosten bereitzustellen.',
+    'faq.a3': 'Ihnen. Wir leiten Sie an, sie direkt zu kaufen, sodass Sie immer vollständiges Eigentum und Kontrolle behalten. Sie können Ihre Domain jederzeit zu jedem Anbieter übertragen.',
+    'faq.q4': 'Ist das Hosting wirklich inbegriffen?',
+    'faq.a4': 'Ja, für die grundlegende statische Website im Rahmen des Kostenlosen Website-Programms. Unsere Infrastruktur ermöglicht es uns, zuverlässiges, schnelles Hosting ohne Kosten bereitzustellen.',
     'faq.q5': 'Können Sie meine bestehende Website verbessern?',
     'faq.a5': 'Ja, wir können alte Websites modernisieren, schwer zu bedienende Websites vereinfachen oder neue Funktionen zu bestehenden Websites hinzufügen.',
     'faq.q6': 'Kann ich später eine weitere Sprache hinzufügen?',
@@ -518,7 +550,23 @@ export const ui = {
     'faq.q7': 'Werde ich zu einem Abonnement gezwungen?',
     'faq.a7': 'Nein. Alle bezahlten Dienste sind optional und klar bepreist, bevor irgendeine Arbeit beginnt.',
     'faq.q8': 'Kann ich meine Domain später verschieben?',
-    'faq.a8': 'Ja, weil Sie sie besitzen. Sie können Ihre Domain jederzeit zu jedem Anbieter übertragen.',
+    'faq.a8': 'Ja, weil Sie sie besitzen. Sie können Ihre Domain jederzeit zu jedem Anbieter übertragen. Siehe unsere Nutzungsbedingungen für Details zum Service-Austritt und zur Datenportabilität.',
+    'faq.q9': "Was passiert, wenn ich Arklens verlassen möchte?",
+    'faq.a9': "Sie können jederzeit und ohne Strafe gehen. Sie können mit bezahlten Arklens-Diensten weitermachen, Ihre Website auf eigener Infrastruktur neu aufbauen oder zu einem anderen Anbieter wechseln. Ihre Domain, Ihre Geschäftsinhalte und Ihre eigenen Materialien nehmen Sie mit, und wir unterstützen Sie in angemessenem Umfang beim Wechsel.",
+    'faq.q10': "Gehört mir meine Website?",
+    'faq.a10': "Ihr Domainname, Ihre Geschäftsinformationen, Ihre Kundendaten sowie alle Logos, Fotos und Inhalte, die Sie Arklens zur Verfügung stellen, gehören immer Ihnen.\n\nArklens bleibt Eigentümerin ihres Website-Quellcodes, ihrer Vorlagen, wiederverwendbaren Komponenten, Designsysteme, Automatisierungsskripte und Entwicklungswerkzeuge, sofern keine separate schriftliche Vereinbarung diese Rechte überträgt.",
+    'faq.q11': "Wie lange dauert der Übergabeprozess?",
+    'faq.a11': "In der Regel 1–3 Wochen. Wir helfen bei der DNS-Konfiguration, übergeben Ihre Geschäftsinhalte und Ihre eigenen Materialien und bieten 1–2 Stunden Unterstützung für einen reibungslosen Übergang.",
+    'faq.q12': "Was passiert, wenn das Kostenlose Website-Programm endet?",
+    'faq.a12': "Sie erhalten mindestens 60 Tage im Voraus klare Informationen über Ihre Optionen. Ihre Domain gehört immer Ihnen. Wir übergeben Ihre Geschäftsinhalte und Ihre eigenen Materialien und unterstützen Sie in angemessenem Umfang bei der Migration, damit Ihre Online-Präsenz weiterbestehen kann.",
+    'faq.q13': "Kann ich meine Website zu einem anderen Anbieter umziehen?",
+    'faq.a13': "Ja. Ihre Domain bleibt immer unter Ihrer Kontrolle, und Sie können sie jederzeit zu einem anderen Anbieter übertragen.\n\nWir unterstützen Sie auch in angemessenem Umfang bei der Migration Ihrer Geschäftsinhalte und Ihrer eigenen Materialien.\n\nQuellcode, Vorlagen und wiederverwendbare Komponenten von Arklens sind nicht automatisch Teil einer Migration.",
+    'faq.q14': "Kann ich den Quellcode mitnehmen?",
+    'faq.a14': "Das Standardangebot des Kostenlosen Website-Programms umfasst weder das Eigentum am Quellcode von Arklens noch dessen Übertragung.\n\nWenn Sie den Quellcode Ihrer Website benötigen, kann Arklens je nach Website und Komplexität einen separaten Quellcode-Kauf (Source Code Buyout) oder ein Migrationspaket anbieten.",
+    'faq.q15': "Kann meine Webagentur oder mein IT-Dienstleister Arklens nutzen, um kostenlos etwas entwickeln zu lassen?",
+    'faq.a15': "Das Kostenlose Website-Programm soll berechtigten Unternehmen helfen, ihre eigene digitale Präsenz zu verbessern.\n\nAgenturen, Freelancer, IT-Dienstleister oder andere Dritte dürfen es nicht nutzen, um kostenlose Entwicklungsarbeit für den Weiterverkauf, für White-Label-Angebote oder zur Integration in eigene kostenpflichtige Leistungen zu erhalten.\n\nArklens kann eine Teilnahme ablehnen oder beenden, wenn das Programm hauptsächlich zu diesem Zweck genutzt zu werden scheint.",
+    'faq.q16': "Kann ich die Arklens-Website an ein anderes Unternehmen weitergeben?",
+    'faq.a16': "Das Kostenlose Website-Programm wird für die eigene Nutzung des teilnehmenden Unternehmens bereitgestellt.\n\nDie Website, die Vorlagen oder der Quellcode dürfen ohne schriftliche Zustimmung von Arklens nicht weiterverkauft, als White-Label angeboten oder an ein anderes Unternehmen übertragen werden.\n\nIhre Domain, Ihre Geschäftsinhalte und Ihre eigenen Materialien gehören weiterhin Ihnen.",
 
     // Final CTA
     'finalCta.title': 'Beginnen Sie mit Ihrer Website. Verbessern Sie Ihr Geschäft von dort aus.',
@@ -541,11 +589,11 @@ export const ui = {
     'nav.getStarted': 'Inizia',
     
     // Hero
-    'hero.title': 'Il sito web della tua azienda. Gratuito.',
-    'hero.subtitle': 'Creiamo o modernizziamo un sito web professionale per la tua azienda svizzera — con il tuo dominio e hosting gratuito.',
+    'hero.title': 'Il sito web della tua azienda. CHF 0.',
+    'hero.subtitle': 'Creiamo o modernizziamo un sito web professionale per la tua azienda svizzera — con il tuo dominio e hosting incluso nel Programma Sito Web Gratuito.',
     'hero.cta.primary': 'Ottieni il mio sito gratuito',
-    'hero.cta.secondary': 'Migliora il mio sito esistente',
-    'hero.trust': 'Il tuo dominio · Hosting gratuito · Nessun contratto vincolante',
+    'hero.cta.secondary': 'Migliora il mio sito',
+    'hero.trust': 'Il tuo dominio ti appartiene sempre · Nessun contratto vincolante',
     
     // Customer paths
     'paths.title': 'Come possiamo aiutarti?',
@@ -561,11 +609,11 @@ export const ui = {
     
     // Free offer
     'freeOffer.title': 'Un punto di partenza professionale — CHF 0',
-    'freeOffer.domain': 'Paghi solo per la registrazione e il rinnovo del tuo dominio. Il dominio rimane tuo.',
-    'freeOffer.cta': 'Inizia gratis',
+    'freeOffer.domain': 'Paghi solo per la registrazione e il rinnovo del tuo dominio. Il dominio rimane tuo. Sito web e hosting inclusi nel Programma Sito Web Gratuito.',
+    'freeOffer.cta': 'Inizia',
     'freeOffer.features.website': 'Sito web professionale di una pagina',
     'freeOffer.features.domain': 'Il tuo dominio',
-    'freeOffer.features.hosting': 'Hosting gratuito',
+    'freeOffer.features.hosting': 'Hosting incluso (Programma Sito Web Gratuito)',
     'freeOffer.features.ssl': 'SSL / HTTPS',
     'freeOffer.features.mobile': 'Design responsive',
     'freeOffer.features.seo': 'SEO di base',
@@ -579,15 +627,15 @@ export const ui = {
     'freeOffer.features.revision': 'Una revisione',
     
     // Why free
-    'whyFree.title': 'Perché il sito è gratuito?',
+    'whyFree.title': 'Perché CHF 0?',
     'whyFree.text1': 'Le piccole imprese dovrebbero essere in grado di stabilire una presenza digitale professionale senza un grande investimento iniziale.',
-    'whyFree.text2': 'Forniamo il sito essenziale gratuitamente. Se la tua azienda ha bisogno in seguito di funzionalità aggiuntive, automazione o servizi digitali, puoi aggiungerli quando creano valore per te.',
+    'whyFree.text2': 'Nell\'ambito del Programma Sito Web Gratuito, forniamo il sito essenziale e l\'hosting senza costi. Se la tua azienda ha bisogno in seguito di funzionalità aggiuntive, automazione o servizi digitali, puoi aggiungerli quando creano valore per te.',
     'whyFree.trust.noSetup': 'Nessun costo di configurazione nascosto',
     'whyFree.trust.noHosting': 'Nessun abbonamento hosting obbligatorio',
-    'whyFree.trust.noCard': 'Nessuna carta di credito richiesta per il sito gratuito',
+    'whyFree.trust.noCard': 'Nessuna carta di credito richiesta',
     'whyFree.trust.optional': 'I servizi a pagamento sono opzionali',
     'whyFree.trust.clear': 'Prezzi chiari prima del lavoro a pagamento',
-    'whyFree.trust.yourDomain': 'Il tuo dominio rimane tuo',
+    'whyFree.trust.yourDomain': 'Il tuo dominio ti appartiene sempre',
 
     // How it works
     'howItWorks.title': 'Semplice dall\'inizio al lancio',
@@ -677,14 +725,14 @@ export const ui = {
 
     // FAQ
     'faq.title': 'Domande frequenti',
-    'faq.q1': 'Il sito web è davvero gratuito?',
-    'faq.a1': 'Sì, il sito web professionale di base di una pagina e l\'hosting sono completamente gratuiti. Paghi solo per la registrazione e il rinnovo del tuo dominio.',
+    'faq.q1': 'Cos\'è il Programma Sito Web Gratuito?',
+    'faq.a1': 'Il Programma Sito Web Gratuito fornisce un sito web professionale di base di una pagina e l\'hosting senza costi. Paghi solo per la registrazione e il rinnovo del tuo dominio. Il tuo dominio ti appartiene sempre e puoi lasciare il programma in qualsiasi momento.',
     'faq.q2': 'Per cosa devo pagare?',
     'faq.a2': 'Solo per la registrazione e il rinnovo del tuo dominio (tipicamente CHF 15-30 all\'anno) a meno che tu non scelga servizi opzionali come lingue aggiuntive, sistemi di prenotazione o automazione.',
     'faq.q3': 'Chi possiede il mio dominio?',
-    'faq.a3': 'Tu. Ti guidiamo ad acquistarlo direttamente, così mantieni sempre la piena proprietà e il controllo.',
-    'faq.q4': 'L\'hosting è davvero gratuito?',
-    'faq.a4': 'Sì, per il sito web statico di base. La nostra infrastruttura ci consente di fornire hosting affidabile e veloce senza costi.',
+    'faq.a3': 'Tu. Ti guidiamo ad acquistarlo direttamente, così mantieni sempre la piena proprietà e il controllo. Puoi trasferire il tuo dominio a qualsiasi provider in qualsiasi momento.',
+    'faq.q4': 'L\'hosting è davvero incluso?',
+    'faq.a4': 'Sì, per il sito web statico di base nell\'ambito del Programma Sito Web Gratuito. La nostra infrastruttura ci consente di fornire hosting affidabile e veloce senza costi.',
     'faq.q5': 'Potete migliorare il mio sito web esistente?',
     'faq.a5': 'Sì, possiamo modernizzare vecchi siti web, semplificare siti difficili da usare o aggiungere nuove funzionalità ai siti esistenti.',
     'faq.q6': 'Posso aggiungere un\'altra lingua in seguito?',
@@ -692,7 +740,23 @@ export const ui = {
     'faq.q7': 'Sarò costretto a un abbonamento?',
     'faq.a7': 'No. Tutti i servizi a pagamento sono opzionali e chiaramente prezzati prima dell\'inizio di qualsiasi lavoro.',
     'faq.q8': 'Posso trasferire il mio dominio in seguito?',
-    'faq.a8': 'Sì, perché ne sei proprietario. Puoi trasferire il tuo dominio a qualsiasi provider in qualsiasi momento.',
+    'faq.a8': 'Sì, perché ne sei proprietario. Puoi trasferire il tuo dominio a qualsiasi provider in qualsiasi momento. Consulta i nostri Termini di utilizzo per i dettagli sull\'uscita dal servizio e la portabilità dei dati.',
+    'faq.q9': "Cosa succede se voglio lasciare Arklens?",
+    'faq.a9': "Puoi andartene in qualsiasi momento, senza penalità. Puoi continuare con i servizi a pagamento di Arklens, ricostruire il sito sulla tua infrastruttura o passare a un altro provider. Il tuo dominio, i contenuti aziendali e i materiali di tua proprietà restano con te, e ti offriamo un supporto ragionevole per il passaggio.",
+    'faq.q10': "Il mio sito web è di mia proprietà?",
+    'faq.a10': "Sei sempre proprietario del tuo nome di dominio, delle informazioni aziendali, dei dati dei clienti e di loghi, foto o contenuti che fornisci ad Arklens.\n\nArklens mantiene la proprietà del proprio codice sorgente, dei modelli, dei componenti riutilizzabili, dei design system, degli script di automazione e degli strumenti di sviluppo, salvo un accordo scritto separato che trasferisca tali diritti.",
+    'faq.q11': "Quanto tempo richiede il processo di trasferimento?",
+    'faq.a11': "In genere 1–3 settimane. Ti aiutiamo con la configurazione DNS, ti consegniamo i contenuti aziendali e i materiali di tua proprietà e offriamo 1–2 ore di supporto per una transizione senza intoppi.",
+    'faq.q12': "Cosa succede se il Programma Sito Web Gratuito termina?",
+    'faq.a12': "Riceverai un preavviso di almeno 60 giorni e informazioni chiare sulle tue opzioni. Il tuo dominio ti appartiene sempre. Ti consegneremo i contenuti aziendali e i materiali di tua proprietà e ti offriremo un supporto ragionevole alla migrazione, perché la tua presenza online possa continuare.",
+    'faq.q13': "Posso trasferire il mio sito web a un altro provider?",
+    'faq.a13': "Sì. Il tuo dominio resta sempre sotto il tuo controllo e puoi trasferirlo a un altro provider in qualsiasi momento.\n\nPossiamo anche offrirti un supporto ragionevole per migrare i contenuti aziendali e i materiali di tua proprietà.\n\nIl codice sorgente, i modelli e i componenti riutilizzabili di Arklens non sono inclusi automaticamente in una migrazione.",
+    'faq.q14': "Posso portare con me il codice sorgente?",
+    'faq.a14': "Il Programma Sito Web Gratuito standard non include la proprietà né il trasferimento del codice sorgente di Arklens.\n\nSe hai bisogno del codice sorgente del tuo sito, Arklens può offrire un riscatto del codice sorgente (Source Code Buyout) o un pacchetto di migrazione separato, in base al sito e alla sua complessità.",
+    'faq.q15': "La mia agenzia web o il mio fornitore IT possono usare Arklens per far sviluppare qualcosa gratuitamente?",
+    'faq.a15': "Il Programma Sito Web Gratuito ha lo scopo di aiutare le aziende idonee a migliorare la propria presenza digitale.\n\nNon può essere utilizzato da agenzie, freelance, fornitori IT o altri terzi per ottenere gratuitamente lavori di sviluppo da rivendere, offrire in white label o integrare nei propri servizi a pagamento.\n\nArklens può rifiutare o interrompere la partecipazione quando il programma sembra essere utilizzato principalmente a questo scopo.",
+    'faq.q16': "Posso cedere il sito Arklens a un’altra azienda?",
+    'faq.a16': "Il Programma Sito Web Gratuito è fornito per l’uso proprio dell’azienda partecipante.\n\nIl sito, i modelli o il codice sorgente non possono essere rivenduti, offerti in white label o trasferiti a un’altra azienda senza l’accordo scritto di Arklens.\n\nIl tuo dominio, i contenuti aziendali e i materiali di tua proprietà restano tuoi.",
 
     // Final CTA
     'finalCta.title': 'Inizia con il tuo sito web. Migliora la tua azienda da lì.',

@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Business Hours",
+  "description": "Regular and special business hours",
+  "type": "object",
+  "required": ["regularHours", "timezone"],
+  "properties": {
+    "regularHours": {
+      "type": "object",
+      "required": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
+      "properties": {
+        "monday": { "$ref": "#/definitions/dayHours" },
+        "tuesday": { "$ref": "#/definitions/dayHours" },
+        "wednesday": { "$ref": "#/definitions/dayHours" },
+        "thursday": { "$ref": "#/definitions/dayHours" },
+        "friday": { "$ref": "#/definitions/dayHours" },
+        "saturday": { "$ref": "#/definitions/dayHours" },
+        "sunday": { "$ref": "#/definitions/dayHours" }
+      }
+    },
+    "specialHours": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["date", "closed"],
+        "properties": {
+          "date": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            "description": "Date in YYYY-MM-DD format"
+          },
+          "description": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "properties": {
+                  "en": { "type": "string" },
+                  "fr": { "type": "string" },
+                  "de": { "type": "string" },
+                  "it": { "type": "string" }
+                },
+                "additionalProperties": false
+              }
+            ],
+            "description": "Description of special hours (e.g., 'Christmas Day')"
+          },
+          "closed": {
+            "type": "boolean",
+            "description": "Whether business is closed on this date"
+          },
+          "open": {
+            "type": "string",
+            "pattern": "^([0-1][0-9]|2[0-3]):[0-5][0-9]$",
+            "description": "Opening time (HH:MM)"
+          },
+          "close": {
+            "type": "string",
+            "pattern": "^([0-1][0-9]|2[0-3]):[0-5][0-9]$",
+            "description": "Closing time (HH:MM)"
+          }
+        }
+      }
+    },
+    "timezone": {
+      "type": "string",
+      "enum": ["Europe/Zurich", "Europe/Paris", "Europe/Berlin", "Europe/Rome"],
+      "description": "Timezone (IANA format)"
+    },
+    "notes": {
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "properties": {
+            "en": { "type": "string" },
+            "fr": { "type": "string" },
+            "de": { "type": "string" },
+            "it": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      ],
+      "description": "Additional notes about hours"
+    }
+  },
+  "definitions": {
+    "dayHours": {
+      "type": "object",
+      "required": ["closed"],
+      "properties": {
+        "open": {
+          "type": "string",
+          "pattern": "^([0-1][0-9]|2[0-3]):[0-5][0-9]$",
+          "description": "Opening time (HH:MM)"
+        },
+        "close": {
+          "type": "string",
+          "pattern": "^([0-1][0-9]|2[0-3]):[0-5][0-9]$",
+          "description": "Closing time (HH:MM)"
+        },
+        "closed": {
+          "type": "boolean",
+          "description": "Whether business is closed this day"
+        }
+      }
+    }
+  }
+}

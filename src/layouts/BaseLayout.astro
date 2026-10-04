@@ -26,11 +26,7 @@ const fullTitle = `${title} | Arklens`;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="generator" content={Astro.generator} />
-    
-    <!-- Phosphor Icons -->
-    <script type="module" src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
     
     <!-- Primary Meta Tags -->
     <title>{fullTitle}</title>
@@ -53,6 +49,33 @@ const fullTitle = `${title} | Arklens`;
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(ogImage, Astro.site)} />
     
+    <meta name="theme-color" content="#FAFAF7" />
+
+    <!--
+      Swiss Future Grid motion bootstrap.
+      Adds `motion-ok` only when the user allows motion and IntersectionObserver
+      exists, so content is never hidden if JS fails or motion is reduced.
+    -->
+    <script is:inline>
+      (function () {
+        var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (rm || !('IntersectionObserver' in window)) return;
+        var root = document.documentElement;
+        root.classList.add('motion-ok');
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              io.unobserve(entry.target);
+            }
+          });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+        document.addEventListener('DOMContentLoaded', function () {
+          document.querySelectorAll('.reveal, [data-signal]').forEach(function (el) { io.observe(el); });
+        });
+      })();
+    </script>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -79,6 +102,9 @@ const fullTitle = `${title} | Arklens`;
     </script>
   </head>
   <body>
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:bg-ink-900 focus:text-white focus:px-4 focus:py-3 focus:rounded-[4px]">
+      {lang === 'fr' ? 'Aller au contenu' : lang === 'de' ? 'Zum Inhalt springen' : lang === 'it' ? 'Vai al contenuto' : 'Skip to content'}
+    </a>
     <slot />
   </body>
 </html>

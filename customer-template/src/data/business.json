@@ -1,0 +1,12 @@
+{
+  "name": "Business Name",
+  "tagline": "Your business tagline here",
+  "description": "A longer description of your business, what you do, and what makes you unique. This appears on your homepage and about section.",
+  "logo": "/images/logo.png",
+  "brandColor": "#0070e0",
+  "languages": ["en", "fr"],
+  "defaultLanguage": "en",
+  "founded": "2024",
+  "email": "info@business.ch",
+  "phone": "+41 XX XXX XX XX"
+}

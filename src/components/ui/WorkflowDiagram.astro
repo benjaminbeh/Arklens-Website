@@ -1,0 +1,193 @@
+---
+/**
+ * Workflow diagram — a vertical, readable flow of system steps.
+ * e.g. Customer enquiry → Classification → CRM → Follow-up
+ * Uses the Signal Line language: hairline connectors, square nodes, sequential lighting.
+ */
+interface Step {
+  label: string;
+  meta?: string;
+}
+
+interface Props {
+  title: string;
+  kicker?: string;
+  steps: Step[];
+  outcome?: string;
+  class?: string;
+  style?: string;
+}
+
+const { title, kicker, steps, outcome, class: className = '', style } = Astro.props;
+---
+
+<figure class:list={['flow', className]} style={style} data-signal>
+  <figcaption class="flow-head">
+    {kicker && <span class="eyebrow">{kicker}</span>}
+    <span class="flow-title">{title}</span>
+  </figcaption>
+
+  <ol class="flow-list">
+    {steps.map((step, i) => (
+      <li class="flow-step" style={`--i:${i}`} data-last={i === steps.length - 1 ? '' : undefined}>
+        <span class="flow-node" aria-hidden="true"></span>
+        <div class="flow-box">
+          <span class="flow-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <span class="flow-label">{step.label}</span>
+          {step.meta && <span class="flow-meta">{step.meta}</span>}
+        </div>
+      </li>
+    ))}
+  </ol>
+
+  {outcome && <p class="flow-outcome">{outcome}</p>}
+</figure>
+
+<style>
+  .flow {
+    --step-delay: 260ms;
+    margin: 0;
+    padding: 1.5rem;
+    border: 1px solid var(--sfg-line);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.02);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flow-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .flow-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .flow-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .flow-step {
+    position: relative;
+    padding-left: 1.5rem;
+    padding-bottom: 0.75rem;
+  }
+  .flow-step[data-last] {
+    padding-bottom: 0;
+  }
+
+  /* connector */
+  .flow-step:not([data-last])::before,
+  .flow-step:not([data-last])::after {
+    content: '';
+    position: absolute;
+    left: 3.5px;
+    top: 1.5rem;
+    bottom: -1.5rem;
+    width: 1px;
+  }
+  .flow-step::before {
+    background: var(--sfg-line-strong);
+  }
+  .flow-step::after {
+    background: theme('colors.signal.600');
+    transform-origin: top;
+  }
+
+  .flow-node {
+    position: absolute;
+    left: 0;
+    top: calc(1.5rem - 4px);
+    width: 8px;
+    height: 8px;
+    background: theme('colors.signal.600');
+    z-index: 1;
+  }
+
+  .flow-box {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 0.75rem;
+    align-items: baseline;
+    padding: 0.75rem 0.875rem;
+    border: 1px solid var(--sfg-line);
+    border-radius: 4px;
+    background: theme('colors.white');
+  }
+  .flow-index {
+    font-family: theme('fontFamily.mono');
+    font-size: 0.6875rem;
+    color: theme('colors.steel.500');
+    font-variant-numeric: tabular-nums;
+  }
+  .flow-label {
+    font-weight: 500;
+    font-size: 0.9375rem;
+    line-height: 1.35;
+  }
+  .flow-meta {
+    grid-column: 2;
+    margin-top: 0.125rem;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: theme('colors.steel.600');
+  }
+
+  .flow-outcome {
+    margin-top: auto;
+    padding-top: 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: theme('colors.steel.600');
+  }
+
+  /* dark */
+  :global(.theme-dark) .flow-box {
+    background: theme('colors.ink.900');
+  }
+  :global(.theme-dark) .flow-step::after,
+  :global(.theme-dark) .flow-node {
+    background: theme('colors.signal.400');
+  }
+  :global(.theme-dark) .flow-index {
+    color: theme('colors.steel.400');
+  }
+  :global(.theme-dark) .flow-meta,
+  :global(.theme-dark) .flow-outcome {
+    color: theme('colors.steel.300');
+  }
+  :global(.theme-dark) .flow-title,
+  :global(.theme-dark) .flow-label {
+    color: #fff;
+  }
+
+  /* motion */
+  :global(.motion-ok) .flow-step::after {
+    transform: scaleY(0);
+    transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.1, 1);
+    transition-delay: calc(var(--i) * var(--step-delay) + 140ms);
+  }
+  :global(.motion-ok) .flow-node {
+    opacity: 0.25;
+    transition: opacity 0.3s ease;
+    transition-delay: calc(var(--i) * var(--step-delay));
+  }
+  :global(.motion-ok) .flow-box {
+    transition: border-color 0.4s ease;
+    transition-delay: calc(var(--i) * var(--step-delay));
+  }
+  :global(.motion-ok) .flow:global(.is-visible) .flow-step::after {
+    transform: none;
+  }
+  :global(.motion-ok) .flow:global(.is-visible) .flow-node {
+    opacity: 1;
+  }
+</style>

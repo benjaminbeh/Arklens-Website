@@ -1,0 +1,35 @@
+{
+  "primary": {
+    "text": {
+      "en": "Book Now",
+      "fr": "Réserver Maintenant"
+    },
+    "url": "/contact",
+    "enabled": true,
+    "style": "solid"
+  },
+  "secondary": {
+    "text": {
+      "en": "Learn More",
+      "fr": "En Savoir Plus"
+    },
+    "url": "/services",
+    "enabled": true,
+    "style": "outline"
+  },
+  "banner": {
+    "enabled": false,
+    "text": {
+      "en": "Special offer: 20% off first booking!",
+      "fr": "Offre spéciale : 20% de réduction sur la première réservation !"
+    },
+    "linkText": {
+      "en": "Details",
+      "fr": "Détails"
+    },
+    "linkUrl": "/offers",
+    "dismissible": true,
+    "backgroundColor": "#0070e0",
+    "textColor": "#ffffff"
+  }
+}

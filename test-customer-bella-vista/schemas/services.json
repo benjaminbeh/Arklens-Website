@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Services",
+  "description": "Services or products offered by the business",
+  "type": "object",
+  "required": ["services"],
+  "properties": {
+    "services": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "description", "active", "order"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "description": "Unique service identifier (lowercase, hyphens)"
+          },
+          "name": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "properties": {
+                  "en": { "type": "string" },
+                  "fr": { "type": "string" },
+                  "de": { "type": "string" },
+                  "it": { "type": "string" }
+                },
+                "additionalProperties": false
+              }
+            ],
+            "description": "Service name (string or language object)"
+          },
+          "description": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "properties": {
+                  "en": { "type": "string" },
+                  "fr": { "type": "string" },
+                  "de": { "type": "string" },
+                  "it": { "type": "string" }
+                },
+                "additionalProperties": false
+              }
+            ],
+            "description": "Service description (string or language object)"
+          },
+          "price": {
+            "type": "string",
+            "description": "Price as string (e.g., 'CHF 50', 'From CHF 100')"
+          },
+          "priceNote": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "properties": {
+                  "en": { "type": "string" },
+                  "fr": { "type": "string" },
+                  "de": { "type": "string" },
+                  "it": { "type": "string" }
+                },
+                "additionalProperties": false
+              }
+            ],
+            "description": "Price note (e.g., 'per hour', 'per session')"
+          },
+          "image": {
+            "type": "string",
+            "pattern": "^/images/.*\\.(jpg|jpeg|png|webp)$",
+            "description": "Path to service image"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Whether service is currently offered"
+          },
+          "order": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Display order (1 = first)"
+          },
+          "category": {
+            "type": "string",
+            "description": "Service category identifier"
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                { "type": "string" },
+                {
+                  "type": "object",
+                  "properties": {
+                    "en": { "type": "string" },
+                    "fr": { "type": "string" },
+                    "de": { "type": "string" },
+                    "it": { "type": "string" }
+                  },
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "description": "Service features/benefits"
+          }
+        }
+      }
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "name": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "properties": {
+                  "en": { "type": "string" },
+                  "fr": { "type": "string" },
+                  "de": { "type": "string" },
+                  "it": { "type": "string" }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

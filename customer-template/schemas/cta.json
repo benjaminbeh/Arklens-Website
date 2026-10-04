@@ -1,0 +1,139 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Call-to-Action Configuration",
+  "description": "Call-to-action buttons and banners",
+  "type": "object",
+  "required": ["primary"],
+  "properties": {
+    "primary": {
+      "type": "object",
+      "required": ["text", "url", "enabled"],
+      "properties": {
+        "text": {
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "object",
+              "properties": {
+                "en": { "type": "string" },
+                "fr": { "type": "string" },
+                "de": { "type": "string" },
+                "it": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          ],
+          "description": "Button text"
+        },
+        "url": {
+          "type": "string",
+          "description": "Button URL (internal or external)"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether button is shown"
+        },
+        "style": {
+          "type": "string",
+          "enum": ["solid", "outline", "ghost"],
+          "description": "Button style"
+        }
+      }
+    },
+    "secondary": {
+      "type": "object",
+      "required": ["text", "url", "enabled"],
+      "properties": {
+        "text": {
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "object",
+              "properties": {
+                "en": { "type": "string" },
+                "fr": { "type": "string" },
+                "de": { "type": "string" },
+                "it": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          ],
+          "description": "Button text"
+        },
+        "url": {
+          "type": "string",
+          "description": "Button URL (internal or external)"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether button is shown"
+        },
+        "style": {
+          "type": "string",
+          "enum": ["solid", "outline", "ghost"],
+          "description": "Button style"
+        }
+      }
+    },
+    "banner": {
+      "type": "object",
+      "required": ["enabled"],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether banner is shown"
+        },
+        "text": {
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "object",
+              "properties": {
+                "en": { "type": "string" },
+                "fr": { "type": "string" },
+                "de": { "type": "string" },
+                "it": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          ],
+          "description": "Banner text"
+        },
+        "linkText": {
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "object",
+              "properties": {
+                "en": { "type": "string" },
+                "fr": { "type": "string" },
+                "de": { "type": "string" },
+                "it": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          ],
+          "description": "Link text"
+        },
+        "linkUrl": {
+          "type": "string",
+          "description": "Link URL"
+        },
+        "dismissible": {
+          "type": "boolean",
+          "description": "Whether banner can be dismissed"
+        },
+        "backgroundColor": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "description": "Background color (hex)"
+        },
+        "textColor": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "description": "Text color (hex)"
+        }
+      }
+    }
+  }
+}

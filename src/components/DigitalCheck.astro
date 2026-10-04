@@ -1,45 +1,187 @@
 ---
 import type { Language } from '@i18n/index';
-import { useTranslations } from '@i18n/index';
+import { pick } from '@lib/pick';
+import { ArrowRight } from '@lucide/astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
 
 interface Props {
   lang: Language;
 }
 
 const { lang } = Astro.props;
-const t = useTranslations(lang);
+
+type Status = 'good' | 'opportunity' | 'manual' | 'missing';
+
+const statusLabel: Record<Status, string> = {
+  good: pick(lang, { en: 'Good', fr: 'Bon', de: 'Gut', it: 'Buono' }),
+  opportunity: pick(lang, { en: 'Opportunity', fr: 'Potentiel', de: 'Potenzial', it: 'Opportunità' }),
+  manual: pick(lang, { en: 'Manual', fr: 'Manuel', de: 'Manuell', it: 'Manuale' }),
+  missing: pick(lang, { en: 'Missing', fr: 'Absent', de: 'Fehlt', it: 'Assente' }),
+};
+
+const rows: { area: string; note: string; status: Status; score: number }[] = [
+  {
+    area: pick(lang, { en: 'Website', fr: 'Site web', de: 'Website', it: 'Sito web' }),
+    note: pick(lang, { en: 'Online, contact details easy to find', fr: 'En ligne, coordonnées faciles à trouver', de: 'Online, Kontaktdaten leicht auffindbar', it: 'Online, contatti facili da trovare' }),
+    status: 'good', score: 4,
+  },
+  {
+    area: pick(lang, { en: 'Google visibility', fr: 'Visibilité Google', de: 'Google-Sichtbarkeit', it: 'Visibilità Google' }),
+    note: pick(lang, { en: 'Profile incomplete, few reviews', fr: 'Profil incomplet, peu d’avis', de: 'Profil unvollständig, wenige Bewertungen', it: 'Profilo incompleto, poche recensioni' }),
+    status: 'opportunity', score: 2,
+  },
+  {
+    area: pick(lang, { en: 'Customer enquiries', fr: 'Demandes clients', de: 'Kundenanfragen', it: 'Richieste clienti' }),
+    note: pick(lang, { en: 'Handled by phone and email', fr: 'Traitées par téléphone et e-mail', de: 'Per Telefon und E-Mail', it: 'Gestite via telefono ed e-mail' }),
+    status: 'manual', score: 2,
+  },
+  {
+    area: pick(lang, { en: 'Booking', fr: 'Réservation', de: 'Buchung', it: 'Prenotazioni' }),
+    note: pick(lang, { en: 'No online booking available', fr: 'Pas de réservation en ligne', de: 'Keine Online-Buchung', it: 'Nessuna prenotazione online' }),
+    status: 'missing', score: 0,
+  },
+  {
+    area: pick(lang, { en: 'Automation', fr: 'Automatisation', de: 'Automatisierung', it: 'Automazione' }),
+    note: pick(lang, { en: 'Repetitive admin could be reduced', fr: 'Tâches administratives réductibles', de: 'Admin-Aufwand reduzierbar', it: 'Attività amministrative riducibili' }),
+    status: 'opportunity', score: 1,
+  },
+];
+
+const checks = [
+  pick(lang, { en: 'Website and mobile experience', fr: 'Site web et expérience mobile', de: 'Website und mobile Nutzung', it: 'Sito web ed esperienza mobile' }),
+  pick(lang, { en: 'Google and local visibility', fr: 'Visibilité Google et locale', de: 'Google- und lokale Sichtbarkeit', it: 'Visibilità Google e locale' }),
+  pick(lang, { en: 'How enquiries and bookings arrive', fr: 'Arrivée des demandes et réservations', de: 'Wie Anfragen und Buchungen eingehen', it: 'Come arrivano richieste e prenotazioni' }),
+  pick(lang, { en: 'Where time is lost to manual work', fr: 'Où le temps se perd en tâches manuelles', de: 'Wo Zeit durch Handarbeit verloren geht', it: 'Dove si perde tempo in lavoro manuale' }),
+];
 ---
 
-<section class="section bg-gradient-to-br from-primary-600 to-primary-700 text-white">
+<section class="section bg-paper" aria-labelledby="check-title">
   <div class="container-custom">
-    <div class="max-w-4xl mx-auto text-center">
-      <h2 class="text-display-sm md:text-display-md mb-6">
-        {t('digitalCheck.title')}
-      </h2>
-      <p class="text-body-lg mb-8 text-primary-50">
-        {t('digitalCheck.text')}
-      </p>
-      <a href="#get-started" class="btn bg-white text-primary-600 hover:bg-primary-50 btn-lg inline-flex items-center shadow-medium">
-        {t('digitalCheck.cta')}
-        <i class="ph ph-arrow-right text-lg ml-2"></i>
-      </a>
+    <SectionHeader
+      id="check-title"
+      index="08"
+      eyebrow={pick(lang, { en: 'Diagnostics', fr: 'Diagnostic', de: 'Diagnose', it: 'Diagnostica' })}
+      title={pick(lang, { en: 'Free Digital Business Check', fr: 'Évaluation numérique gratuite', de: 'Kostenloser Digital-Check', it: 'Check digitale gratuito' })}
+      lead={pick(lang, {
+        en: 'Understand where your business stands digitally and discover practical improvements.',
+        fr: 'Comprenez où en est votre entreprise numériquement et découvrez des améliorations pratiques.',
+        de: 'Verstehen Sie, wo Ihr Unternehmen digital steht, und entdecken Sie praktische Verbesserungen.',
+        it: 'Capisci a che punto è la tua azienda nel digitale e scopri miglioramenti pratici.',
+      })}
+    />
 
-      {/* Example Score Display */}
-      <div class="mt-12 bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-        <div class="text-sm uppercase tracking-wide text-primary-200 mb-2">
-          {lang === 'en' && 'Example Assessment'}
-          {lang === 'fr' && 'Exemple d\'évaluation'}
-          {lang === 'de' && 'Beispiel-Bewertung'}
-          {lang === 'it' && 'Esempio di valutazione'}
-        </div>
-        <div class="text-6xl font-bold mb-2">61 / 100</div>
-        <div class="text-primary-100">
-          {lang === 'en' && 'Digital Business Score'}
-          {lang === 'fr' && 'Score d\'entreprise numérique'}
-          {lang === 'de' && 'Digitale Geschäftspunktzahl'}
-          {lang === 'it' && 'Punteggio aziendale digitale'}
-        </div>
+    <div class="grid grid-cols-12 gap-x-6 gap-y-12">
+      <div class="col-span-12 lg:col-span-4">
+        <p class="eyebrow mb-4">{pick(lang, { en: 'What we check', fr: 'Ce que nous analysons', de: 'Was wir prüfen', it: 'Cosa controlliamo' })}</p>
+        <ol class="border-t border-ink-900/10">
+          {checks.map((c, i) => (
+            <li class="flex gap-4 border-b border-ink-900/10 py-3.5 text-ink-900">
+              <span class="index-num w-6 flex-none">{String(i + 1).padStart(2, '0')}</span>{c}
+            </li>
+          ))}
+        </ol>
+        <a href="/start?path=check" class="btn btn-primary btn-lg mt-8">
+          {pick(lang, { en: 'Check my business', fr: 'Vérifier mon entreprise', de: 'Mein Unternehmen prüfen', it: 'Controlla la mia azienda' })}
+          <ArrowRight size={18} class="arrow" stroke-width={1.75} />
+        </a>
+      </div>
+
+      <!-- Example report -->
+      <div class="col-span-12 lg:col-span-8">
+        <figure class="report bg-white border border-ink-900/15 rounded-md overflow-hidden" data-signal>
+          <figcaption class="flex flex-wrap items-center justify-between gap-3 px-5 sm:px-7 py-4 border-b border-ink-900/10 bg-paper/60">
+            <span class="eyebrow text-ink-900">{pick(lang, { en: 'Example report', fr: 'Exemple de rapport', de: 'Beispielbericht', it: 'Report di esempio' })}</span>
+            <span class="font-mono text-xs text-steel-600">{pick(lang, { en: 'Local business', fr: 'Entreprise locale', de: 'Lokales Unternehmen', it: 'Azienda locale' })} · CH</span>
+          </figcaption>
+
+          <table class="w-full text-left">
+            <caption class="sr-only">{pick(lang, { en: 'Example diagnostic results by area', fr: 'Exemple de résultats par domaine', de: 'Beispielergebnisse nach Bereich', it: 'Risultati di esempio per area' })}</caption>
+            <thead class="sr-only">
+              <tr>
+                <th scope="col">{pick(lang, { en: 'Area', fr: 'Domaine', de: 'Bereich', it: 'Area' })}</th>
+                <th scope="col">{pick(lang, { en: 'Level', fr: 'Niveau', de: 'Stand', it: 'Livello' })}</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, i) => (
+                <tr class="report-row border-b border-ink-900/10 last:border-0" style={`--i:${i}`}>
+                  <th scope="row" class="py-4 pl-5 sm:pl-7 pr-3 align-top font-normal">
+                    <span class="block font-medium text-ink-900">{row.area}</span>
+                    <span class="block text-sm text-steel-600 mt-0.5">{row.note}</span>
+                  </th>
+                  <td class="hidden sm:table-cell py-4 px-3 align-middle w-36">
+                    <span class="meter" role="img" aria-label={`${row.score} / 5`}>
+                      {[0, 1, 2, 3, 4].map((n) => <i class:list={[n < row.score && 'on']}></i>)}
+                    </span>
+                  </td>
+                  <td class="py-4 pr-5 sm:pr-7 pl-3 align-top sm:align-middle text-right w-[1%] whitespace-nowrap">
+                    <span class:list={['status', `status-${row.status}`]}>
+                      <span class="status-mark" aria-hidden="true"></span>
+                      {statusLabel[row.status]}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <div class="px-5 sm:px-7 py-5 border-t border-ink-900/15 bg-paper/60 grid sm:grid-cols-[auto_1fr] gap-x-6 gap-y-1">
+            <span class="eyebrow">{pick(lang, { en: 'Recommendation', fr: 'Recommandation', de: 'Empfehlung', it: 'Raccomandazione' })}</span>
+            <p class="text-sm text-ink-900">
+              {pick(lang, {
+                en: 'Add online booking to reduce calls, then enable customer reviews.',
+                fr: 'Ajoutez la réservation en ligne pour réduire les appels, puis activez les avis clients.',
+                de: 'Online-Buchung ergänzen, um Anrufe zu reduzieren, dann Kundenbewertungen aktivieren.',
+                it: 'Aggiungi la prenotazione online per ridurre le chiamate, poi attiva le recensioni.',
+              })}
+            </p>
+          </div>
+        </figure>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .meter {
+    display: inline-grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3px;
+    width: 100%;
+    max-width: 7.5rem;
+  }
+  .meter i {
+    display: block;
+    height: 6px;
+    background: theme('colors.steel.100');
+  }
+  .meter i.on {
+    background: theme('colors.ink.900');
+  }
+
+  .status-mark {
+    width: 8px;
+    height: 8px;
+    flex: none;
+  }
+  .status-good { color: theme('colors.ink.900'); }
+  .status-good .status-mark { background: theme('colors.ink.900'); }
+  .status-opportunity { color: theme('colors.signal.700'); }
+  .status-opportunity .status-mark { border: 1.5px solid theme('colors.signal.600'); }
+  .status-manual { color: theme('colors.steel.600'); }
+  .status-manual .status-mark { background: linear-gradient(90deg, theme('colors.steel.500') 50%, transparent 50%); border: 1px solid theme('colors.steel.500'); }
+  .status-missing { color: theme('colors.steel.600'); }
+  .status-missing .status-mark { height: 1.5px; background: theme('colors.steel.500'); }
+
+  /* rows settle in sequence like a scan completing */
+  :global(.motion-ok) .meter i.on {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+    transition-delay: calc(var(--i) * 140ms + 200ms);
+  }
+  :global(.motion-ok) .report:global(.is-visible) .meter i.on {
+    transform: none;
+  }
+</style>

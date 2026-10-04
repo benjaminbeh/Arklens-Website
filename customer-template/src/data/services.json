@@ -1,0 +1,71 @@
+{
+  "services": [
+    {
+      "id": "service-1",
+      "name": {
+        "en": "Service Name",
+        "fr": "Nom du Service"
+      },
+      "description": {
+        "en": "Description of what this service includes and its benefits",
+        "fr": "Description de ce que ce service comprend et de ses avantages"
+      },
+      "price": "CHF 50",
+      "priceNote": {
+        "en": "per hour",
+        "fr": "par heure"
+      },
+      "image": "/images/services/service-1.jpg",
+      "active": true,
+      "order": 1,
+      "category": "general",
+      "features": [
+        {
+          "en": "Feature 1",
+          "fr": "Caractéristique 1"
+        },
+        {
+          "en": "Feature 2",
+          "fr": "Caractéristique 2"
+        }
+      ]
+    },
+    {
+      "id": "service-2",
+      "name": {
+        "en": "Another Service",
+        "fr": "Un Autre Service"
+      },
+      "description": {
+        "en": "Description of the second service",
+        "fr": "Description du deuxième service"
+      },
+      "price": "CHF 75",
+      "priceNote": {
+        "en": "per session",
+        "fr": "par séance"
+      },
+      "image": "/images/services/service-2.jpg",
+      "active": true,
+      "order": 2,
+      "category": "premium",
+      "features": []
+    }
+  ],
+  "categories": [
+    {
+      "id": "general",
+      "name": {
+        "en": "General Services",
+        "fr": "Services Généraux"
+      }
+    },
+    {
+      "id": "premium",
+      "name": {
+        "en": "Premium Services",
+        "fr": "Services Premium"
+      }
+    }
+  ]
+}
