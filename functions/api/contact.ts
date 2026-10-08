@@ -63,14 +63,8 @@ interface MailerInternals {
   allowAuth: boolean;
   initializeSmtpSession(): Promise<void>;
   start(): Promise<void>;
-  greet(): Promise<void>;
-  ehlo(): Promise<void>;
   tls(): Promise<void>;
   auth(): Promise<void>;
-  mail(): Promise<void>;
-  rcpt(): Promise<void>;
-  data(): Promise<void>;
-  body(): Promise<void>;
   read(): Promise<string>;
   send(options: EmailOptions): Promise<void>;
   close(error?: Error): Promise<void>;
@@ -87,42 +81,26 @@ const MailerBase = WorkerMailer as unknown as new (options: WorkerMailerOptions)
  */
 class StrictTlsMailer extends MailerBase {
   private tlsActive = false;
-  // TEMPORARY diagnostics: SMTP stage + 3-digit reply code only. Never server text,
-  // credentials, addresses or message content.
-  stage = 'connect';
-  readonly trace: { stage: string; code: string }[] = [];
 
-  /** Opens the session (connect, EHLO, STARTTLS, AUTH). Construct first so the trace survives failures. */
-  async open(): Promise<void> {
+  static async connect(options: WorkerMailerOptions): Promise<StrictTlsMailer> {
+    const mailer = new StrictTlsMailer(options);
     try {
-      await this.initializeSmtpSession();
+      await mailer.initializeSmtpSession();
     } catch (e) {
-      await this.socket.close().catch(() => {});
+      await mailer.socket.close().catch(() => {});
       throw e;
     }
     // Errors per message surface through send(); never log server text here.
-    this.start().catch(() => {});
+    mailer.start().catch(() => {});
+    return mailer;
   }
-
-  private async step(stage: string, fn: () => Promise<void>): Promise<void> {
-    this.stage = stage;
-    await fn();
-  }
-
-  override greet() { return this.step('greeting', () => super.greet()); }
-  override ehlo() { return this.step(this.tlsActive ? 'ehlo_tls' : 'ehlo', () => super.ehlo()); }
-  override mail() { return this.step('mail_from', () => super.mail()); }
-  override rcpt() { return this.step('rcpt_to', () => super.rcpt()); }
-  override data() { return this.step('data', () => super.data()); }
-  override body() { return this.step('end_of_data', () => super.body()); }
 
   override async tls(): Promise<void> {
-    await this.step('starttls', () => super.tls());
+    await super.tls();
     this.tlsActive = true;
   }
 
   override async auth(): Promise<void> {
-    this.stage = 'auth';
     if (!this.tlsActive) throw new Error('STARTTLS not established');
     if (!this.allowAuth) throw new Error('SMTP AUTH not offered');
     await super.auth();
@@ -138,10 +116,7 @@ class StrictTlsMailer extends MailerBase {
       response += decoder.decode(value, { stream: true });
       if (!response.endsWith('\n')) continue;
       const lines = response.split(/\r?\n/);
-      if (!/^\d+-/.test(lines[lines.length - 2])) {
-        this.trace.push({ stage: this.stage, code: /^\d{3}/.exec(lines[lines.length - 2] ?? '')?.[0] ?? '???' });
-        return response;
-      }
+      if (!/^\d+-/.test(lines[lines.length - 2])) return response;
     }
   }
 }
@@ -382,10 +357,8 @@ async function sendEmail(f: Fields, env: Env): Promise<boolean> {
   const { subject, text, html } = buildEmail(f, new Date());
 
   let mailer: StrictTlsMailer | undefined;
-  let result: 'sent' | 'failed' = 'failed';
-  let errorName = '';
   try {
-    mailer = new StrictTlsMailer({
+    mailer = await StrictTlsMailer.connect({
       host: SMTP_HOST,
       port: SMTP_PORT,
       secure: false,
@@ -397,23 +370,15 @@ async function sendEmail(f: Fields, env: Env): Promise<boolean> {
       socketTimeoutMs: 10_000,
       responseTimeoutMs: 10_000,
     });
-    await mailer.open();
     // Reply-To: bare address, already EMAIL_RE-validated and CR/LF-free.
     await mailer.send({ from: MAIL_FROM, to: MAIL_TO, reply: f.email, subject, text, html });
-    result = 'sent';
     return true;
   } catch (e) {
     // Error class only: SMTP error messages can echo server text.
-    errorName = e instanceof Error ? e.name : 'unknown';
-    console.error(JSON.stringify({ event: 'contact_send_failed', error: errorName }));
+    console.error(JSON.stringify({ event: 'contact_send_failed', error: e instanceof Error ? e.name : 'unknown' }));
     return false;
   } finally {
-    const failedStage = result === 'failed' ? mailer?.stage ?? 'construct' : undefined;
-    const trace = mailer ? [...mailer.trace] : [];
-    if (mailer) mailer.stage = 'quit';
     await mailer?.close().catch(() => {});
-    // TEMPORARY diagnostics: stages and reply codes only.
-    console.log(JSON.stringify({ event: 'smtp_trace', result, failedStage, error: errorName || undefined, trace }));
   }
 }
 
@@ -453,13 +418,7 @@ export const onRequestPost = async ({ request, env }: Ctx): Promise<Response> =>
 
     // Honeypot and fill-time trap: pretend success so bots learn nothing.
     const startedAt = Number(raw.started_at);
-    const trap =
-      cleanLine(raw.company_url, 200) !== '' ? 'honeypot_filled'
-      : !Number.isFinite(startedAt) ? 'no_started_at'
-      : Date.now() - startedAt < MIN_FILL_MS ? 'too_fast'
-      : '';
-    if (trap) {
-      console.log(JSON.stringify({ event: 'contact_trap', category: trap })); // TEMPORARY diagnostics
+    if (cleanLine(raw.company_url, 200) !== '' || !Number.isFinite(startedAt) || Date.now() - startedAt < MIN_FILL_MS) {
       return json(200, { ok: true });
     }
 
@@ -472,7 +431,6 @@ export const onRequestPost = async ({ request, env }: Ctx): Promise<Response> =>
     const turnstile = await verifyTurnstile(raw.turnstile_token, ip, env);
     if (turnstile === 'expired') return json(403, { ok: false, error: 'verification_expired' });
     if (turnstile !== 'ok') return json(403, { ok: false, error: 'verification_failed' });
-    console.log(JSON.stringify({ event: 'turnstile_ok' })); // TEMPORARY diagnostics
 
     if (!(await sendEmail(fields, env))) return fail(502);
 
