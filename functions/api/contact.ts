@@ -63,8 +63,14 @@ interface MailerInternals {
   allowAuth: boolean;
   initializeSmtpSession(): Promise<void>;
   start(): Promise<void>;
+  greet(): Promise<void>;
+  ehlo(): Promise<void>;
   tls(): Promise<void>;
   auth(): Promise<void>;
+  mail(): Promise<void>;
+  rcpt(): Promise<void>;
+  data(): Promise<void>;
+  body(): Promise<void>;
   read(): Promise<string>;
   send(options: EmailOptions): Promise<void>;
   close(error?: Error): Promise<void>;
@@ -81,26 +87,42 @@ const MailerBase = WorkerMailer as unknown as new (options: WorkerMailerOptions)
  */
 class StrictTlsMailer extends MailerBase {
   private tlsActive = false;
+  // TEMPORARY diagnostics: SMTP stage + 3-digit reply code only. Never server text,
+  // credentials, addresses or message content.
+  stage = 'connect';
+  readonly trace: { stage: string; code: string }[] = [];
 
-  static async connect(options: WorkerMailerOptions): Promise<StrictTlsMailer> {
-    const mailer = new StrictTlsMailer(options);
+  /** Opens the session (connect, EHLO, STARTTLS, AUTH). Construct first so the trace survives failures. */
+  async open(): Promise<void> {
     try {
-      await mailer.initializeSmtpSession();
+      await this.initializeSmtpSession();
     } catch (e) {
-      await mailer.socket.close().catch(() => {});
+      await this.socket.close().catch(() => {});
       throw e;
     }
     // Errors per message surface through send(); never log server text here.
-    mailer.start().catch(() => {});
-    return mailer;
+    this.start().catch(() => {});
   }
 
+  private async step(stage: string, fn: () => Promise<void>): Promise<void> {
+    this.stage = stage;
+    await fn();
+  }
+
+  override greet() { return this.step('greeting', () => super.greet()); }
+  override ehlo() { return this.step(this.tlsActive ? 'ehlo_tls' : 'ehlo', () => super.ehlo()); }
+  override mail() { return this.step('mail_from', () => super.mail()); }
+  override rcpt() { return this.step('rcpt_to', () => super.rcpt()); }
+  override data() { return this.step('data', () => super.data()); }
+  override body() { return this.step('end_of_data', () => super.body()); }
+
   override async tls(): Promise<void> {
-    await super.tls();
+    await this.step('starttls', () => super.tls());
     this.tlsActive = true;
   }
 
   override async auth(): Promise<void> {
+    this.stage = 'auth';
     if (!this.tlsActive) throw new Error('STARTTLS not established');
     if (!this.allowAuth) throw new Error('SMTP AUTH not offered');
     await super.auth();
@@ -116,7 +138,10 @@ class StrictTlsMailer extends MailerBase {
       response += decoder.decode(value, { stream: true });
       if (!response.endsWith('\n')) continue;
       const lines = response.split(/\r?\n/);
-      if (!/^\d+-/.test(lines[lines.length - 2])) return response;
+      if (!/^\d+-/.test(lines[lines.length - 2])) {
+        this.trace.push({ stage: this.stage, code: /^\d{3}/.exec(lines[lines.length - 2] ?? '')?.[0] ?? '???' });
+        return response;
+      }
     }
   }
 }
@@ -350,6 +375,66 @@ ${rows
   return { subject, text, html };
 }
 
+const CONFIRM_FROM = { name: 'Arklens', email: 'swiss_contact@arklens.ch' };
+const CONFIRM_REPLY_TO = 'swiss_contact@arklens.ch';
+
+/** Visitor acknowledgement copy. No form content beyond the first name; no tracking. */
+const CONFIRM_COPY: Record<Fields['lang'], {
+  subject: string; greeting: string; lines: string[]; closing: string; tagline: string;
+}> = {
+  en: {
+    subject: 'We received your message — Arklens',
+    greeting: 'Hi',
+    lines: ['Thank you for contacting Arklens.', 'We’ve received your message and will get back to you as soon as possible.'],
+    closing: 'Best regards,',
+    tagline: 'Smarter technology for Swiss SMEs.',
+  },
+  fr: {
+    subject: 'Nous avons bien reçu votre message — Arklens',
+    greeting: 'Bonjour',
+    lines: ['Merci d’avoir contacté Arklens.', 'Nous avons bien reçu votre message et nous vous répondrons dès que possible.'],
+    closing: 'Meilleures salutations,',
+    tagline: 'Des technologies plus intelligentes pour les PME suisses.',
+  },
+  de: {
+    subject: 'Wir haben Ihre Nachricht erhalten — Arklens',
+    greeting: 'Guten Tag',
+    lines: ['Vielen Dank für Ihre Nachricht an Arklens.', 'Wir haben Ihre Nachricht erhalten und melden uns so bald wie möglich bei Ihnen.'],
+    closing: 'Freundliche Grüsse',
+    tagline: 'Intelligente Technologien für Schweizer KMU.',
+  },
+  it: {
+    subject: 'Abbiamo ricevuto il suo messaggio — Arklens',
+    greeting: 'Buongiorno',
+    lines: ['Grazie per aver contattato Arklens.', 'Abbiamo ricevuto il suo messaggio e le risponderemo al più presto.'],
+    closing: 'Cordiali saluti,',
+    tagline: 'Tecnologie intelligenti per le PMI svizzere.',
+  },
+};
+
+function buildConfirmation(f: Fields) {
+  const c = CONFIRM_COPY[f.lang] ?? CONFIRM_COPY.en;
+  const firstName = Array.from(f.name.split(' ')[0] ?? '').slice(0, 60).join('');
+  const greetingLine = firstName ? `${c.greeting} ${firstName},` : `${c.greeting},`;
+
+  const text = [greetingLine, '', ...c.lines.flatMap((l) => [l, '']), c.closing, '', 'Arklens', c.tagline, 'arklens.ch'].join('\n');
+
+  const p = 'margin:0 0 16px;font-size:15px;line-height:1.6';
+  const html = `<!doctype html><html lang="${f.lang}"><body style="margin:0;padding:24px;background:#FAFAF7;font-family:Arial,Helvetica,sans-serif;color:#111418">
+<table role="presentation" width="100%" style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #E6EAF0;border-collapse:collapse">
+<tr><td style="padding:20px 28px;border-bottom:2px solid #D52B1E;font-size:13px;font-weight:bold;letter-spacing:.12em;text-transform:uppercase;color:#111418">Arklens</td></tr>
+<tr><td style="padding:28px 28px 8px">
+<p style="${p}">${escapeHtml(greetingLine)}</p>
+${c.lines.map((l) => `<p style="${p}">${escapeHtml(l)}</p>`).join('\n')}
+<p style="margin:24px 0 0;font-size:15px;line-height:1.6">${escapeHtml(c.closing)}</p>
+<p style="margin:0 0 24px;font-size:15px;line-height:1.6"><strong>Arklens</strong></p>
+</td></tr>
+<tr><td style="padding:16px 28px;border-top:1px solid #E6EAF0;font-size:12px;line-height:1.6;color:#66727F">${escapeHtml(c.tagline)}<br>arklens.ch</td></tr>
+</table></body></html>`;
+
+  return { subject: c.subject, text, html };
+}
+
 async function sendEmail(f: Fields, env: Env): Promise<boolean> {
   const username = env.INFOMANIAK_SMTP_USER;
   const password = env.INFOMANIAK_SMTP_PASSWORD;
@@ -357,8 +442,12 @@ async function sendEmail(f: Fields, env: Env): Promise<boolean> {
   const { subject, text, html } = buildEmail(f, new Date());
 
   let mailer: StrictTlsMailer | undefined;
+  let result: 'sent' | 'failed' = 'failed';
+  let errorName = '';
+  let confirmation: 'sent' | 'failed' | 'skipped' = 'skipped';
+  let internalTraceEnd = -1;
   try {
-    mailer = await StrictTlsMailer.connect({
+    mailer = new StrictTlsMailer({
       host: SMTP_HOST,
       port: SMTP_PORT,
       secure: false,
@@ -370,15 +459,41 @@ async function sendEmail(f: Fields, env: Env): Promise<boolean> {
       socketTimeoutMs: 10_000,
       responseTimeoutMs: 10_000,
     });
+    await mailer.open();
     // Reply-To: bare address, already EMAIL_RE-validated and CR/LF-free.
+    // 1. Internal notification (primary). If this fails, the form submission fails.
     await mailer.send({ from: MAIL_FROM, to: MAIL_TO, reply: f.email, subject, text, html });
+    result = 'sent';
+    internalTraceEnd = mailer.trace.length;
+
+    // 2. Visitor acknowledgement, only after the internal mail was accepted.
+    //    Its failure never fails the submission (avoids duplicate resubmissions).
+    try {
+      const confirm = buildConfirmation(f);
+      await mailer.send({ from: CONFIRM_FROM, to: f.email, reply: CONFIRM_REPLY_TO, ...confirm });
+      confirmation = 'sent';
+    } catch (e) {
+      confirmation = 'failed';
+      console.error(JSON.stringify({ event: 'confirmation_email_failed', error: e instanceof Error ? e.name : 'unknown' }));
+    }
     return true;
   } catch (e) {
     // Error class only: SMTP error messages can echo server text.
-    console.error(JSON.stringify({ event: 'contact_send_failed', error: e instanceof Error ? e.name : 'unknown' }));
+    errorName = e instanceof Error ? e.name : 'unknown';
+    console.error(JSON.stringify({ event: 'contact_send_failed', error: errorName }));
     return false;
   } finally {
+    const failedStage =
+      result === 'failed' || confirmation === 'failed' ? mailer?.stage ?? 'construct' : undefined;
+    const all = mailer ? [...mailer.trace] : [];
+    const trace = internalTraceEnd >= 0 ? all.slice(0, internalTraceEnd) : all;
+    const confirmationTrace = internalTraceEnd >= 0 ? all.slice(internalTraceEnd) : [];
+    if (mailer) mailer.stage = 'quit';
     await mailer?.close().catch(() => {});
+    // TEMPORARY diagnostics: stages and reply codes only.
+    console.log(JSON.stringify({
+      event: 'smtp_trace', result, confirmation, failedStage, error: errorName || undefined, trace, confirmationTrace,
+    }));
   }
 }
 
@@ -418,7 +533,13 @@ export const onRequestPost = async ({ request, env }: Ctx): Promise<Response> =>
 
     // Honeypot and fill-time trap: pretend success so bots learn nothing.
     const startedAt = Number(raw.started_at);
-    if (cleanLine(raw.company_url, 200) !== '' || !Number.isFinite(startedAt) || Date.now() - startedAt < MIN_FILL_MS) {
+    const trap =
+      cleanLine(raw.company_url, 200) !== '' ? 'honeypot_filled'
+      : !Number.isFinite(startedAt) ? 'no_started_at'
+      : Date.now() - startedAt < MIN_FILL_MS ? 'too_fast'
+      : '';
+    if (trap) {
+      console.log(JSON.stringify({ event: 'contact_trap', category: trap })); // TEMPORARY diagnostics
       return json(200, { ok: true });
     }
 
@@ -431,6 +552,7 @@ export const onRequestPost = async ({ request, env }: Ctx): Promise<Response> =>
     const turnstile = await verifyTurnstile(raw.turnstile_token, ip, env);
     if (turnstile === 'expired') return json(403, { ok: false, error: 'verification_expired' });
     if (turnstile !== 'ok') return json(403, { ok: false, error: 'verification_failed' });
+    console.log(JSON.stringify({ event: 'turnstile_ok' })); // TEMPORARY diagnostics
 
     if (!(await sendEmail(fields, env))) return fail(502);
 
