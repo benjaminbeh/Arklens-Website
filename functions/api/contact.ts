@@ -49,7 +49,8 @@ const MIN_FILL_MS = 3000;
 const SMTP_HOST = 'mail.infomaniak.com';
 const SMTP_PORT = 587;
 const MAIL_FROM = { name: 'Arklens Website', email: 'swiss_contact@arklens.ch' };
-const MAIL_TO = 'swiss_contact@arklens.ch';
+// Deliver to the real mailbox: alias-to-same-alias mail was accepted (250) but never reached the inbox.
+const MAIL_TO = 'ben.beh@arklens.ch';
 const SUBJECT_BUSINESS_MAX = 80; // keeps the RFC 2047-encoded Subject well under 998 chars; full name is in the body
 
 /**
