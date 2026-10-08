@@ -91,6 +91,9 @@ const jsonLd = JSON.stringify({
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Arklens" />
     <meta property="og:locale" content={ogLocales[lang]} />
     {locales.filter((code) => code !== lang).map((code) => <meta property="og:locale:alternate" content={ogLocales[code]} />)}
     

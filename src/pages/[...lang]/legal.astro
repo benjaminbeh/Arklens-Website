@@ -15,7 +15,7 @@ const websiteLabel = pick(lang, { en: 'Website:', fr: 'Site web\u00A0:', de: 'We
 <BaseLayout 
   title={pick(lang, { en: 'Legal Notice', fr: 'Mentions légales', de: 'Impressum', it: 'Note legali' })} 
   description={pick(lang, {
-    en: 'Legal information about Arklens.',
+    en: 'Legal notice for Arklens: company information, contact details, website hosting, intellectual property, liability and applicable Swiss law.',
     fr: 'Mentions légales d’Arklens\u00A0: informations sur l’entreprise, hébergement, propriété intellectuelle et droit applicable.',
     de: 'Impressum von Arklens: Angaben zum Unternehmen, Hosting, geistiges Eigentum und anwendbares Recht.',
     it: 'Note legali di Arklens: informazioni sull’azienda, hosting, proprietà intellettuale e diritto applicabile.',
@@ -131,6 +131,14 @@ const websiteLabel = pick(lang, { en: 'Website:', fr: 'Site web\u00A0:', de: 'We
               fr: 'Les présentes mentions légales sont régies par le droit suisse. Tout litige est soumis à la compétence exclusive des tribunaux suisses.',
               de: 'Dieses Impressum untersteht schweizerischem Recht. Für jede Streitigkeit sind ausschliesslich die schweizerischen Gerichte zuständig.',
               it: 'Le presenti note legali sono disciplinate dal diritto svizzero. Qualsiasi controversia è soggetta alla giurisdizione esclusiva dei tribunali svizzeri.',
+            })}
+          </p>
+          <p class="text-neutral-700 mt-4">
+            {pick(lang, {
+              en: 'This legal notice is available in English, French, German and Italian. In the event of any discrepancy between language versions, the English version prevails, to the extent permitted by applicable law.',
+              fr: 'Les présentes mentions légales sont disponibles en anglais, en français, en allemand et en italien. En cas de divergence entre les versions linguistiques, la version anglaise fait foi, dans la mesure permise par le droit applicable.',
+              de: 'Dieses Impressum ist auf Englisch, Französisch, Deutsch und Italienisch verfügbar. Bei Abweichungen zwischen den Sprachfassungen ist die englische Fassung massgebend, soweit dies nach geltendem Recht zulässig ist.',
+              it: 'Le presenti note legali sono disponibili in inglese, francese, tedesco e italiano. In caso di discrepanze tra le versioni linguistiche, prevale la versione inglese, nella misura consentita dalla legge applicabile.',
             })}
           </p>
         </section>
