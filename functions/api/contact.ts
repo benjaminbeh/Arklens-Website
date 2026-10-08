@@ -404,9 +404,9 @@ const CONFIRM_COPY: Record<Fields['lang'], {
     tagline: 'Intelligente Technologien für Schweizer KMU.',
   },
   it: {
-    subject: 'Abbiamo ricevuto il suo messaggio — Arklens',
+    subject: 'Abbiamo ricevuto il tuo messaggio — Arklens',
     greeting: 'Buongiorno',
-    lines: ['Grazie per aver contattato Arklens.', 'Abbiamo ricevuto il suo messaggio e le risponderemo al più presto.'],
+    lines: ['Grazie per aver contattato Arklens.', 'Abbiamo ricevuto il tuo messaggio e ti risponderemo al più presto.'],
     closing: 'Cordiali saluti,',
     tagline: 'Tecnologie intelligenti per le PMI svizzere.',
   },
@@ -414,8 +414,8 @@ const CONFIRM_COPY: Record<Fields['lang'], {
 
 function buildConfirmation(f: Fields) {
   const c = CONFIRM_COPY[f.lang] ?? CONFIRM_COPY.en;
-  const firstName = Array.from(f.name.split(' ')[0] ?? '').slice(0, 60).join('');
-  const greetingLine = firstName ? `${c.greeting} ${firstName},` : `${c.greeting},`;
+  // Full submitted name (already validated and single-line): no guessing at first names or titles.
+  const greetingLine = f.name ? `${c.greeting} ${f.name},` : `${c.greeting},`;
 
   const text = [greetingLine, '', ...c.lines.flatMap((l) => [l, '']), c.closing, '', 'Arklens', c.tagline, 'arklens.ch'].join('\n');
 
