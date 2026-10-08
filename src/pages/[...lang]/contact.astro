@@ -1,0 +1,614 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import { ArrowRight, Check } from '@lucide/astro';
+import {
+  CONTACT_REASONS,
+  CONTACT_LIMITS,
+  TURNSTILE_ACTION,
+  TURNSTILE_SITE_KEY_PROD,
+  TURNSTILE_SITE_KEY_TEST,
+  type ContactReason,
+} from '@lib/contact';
+import { pick, type Copy } from '@lib/pick';
+
+import { localeStaticPaths, getLocalizedPath, useTranslations, type Language } from '@i18n/index';
+export function getStaticPaths() { return localeStaticPaths(); }
+const { lang } = Astro.props as { lang: Language };
+const t = useTranslations(lang);
+const siteKey =
+  import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || (import.meta.env.DEV ? TURNSTILE_SITE_KEY_TEST : TURNSTILE_SITE_KEY_PROD);
+
+const errorText = {
+  name: pick(lang, {
+    en: 'Please enter your name.',
+    fr: 'Veuillez indiquer votre nom.',
+    de: 'Bitte geben Sie Ihren Namen ein.',
+    it: 'Inserisci il tuo nome.',
+  }),
+  business: pick(lang, {
+    en: 'Please enter your business or organisation name.',
+    fr: 'Veuillez indiquer le nom de votre entreprise ou organisation.',
+    de: 'Bitte geben Sie den Namen Ihres Unternehmens oder Ihrer Organisation ein.',
+    it: 'Inserisci il nome della tua azienda o organizzazione.',
+  }),
+  email: pick(lang, {
+    en: 'Please enter a valid email address, for example name@business.ch.',
+    fr: 'Veuillez saisir une adresse e-mail valide, par exemple nom@entreprise.ch.',
+    de: 'Bitte geben Sie eine gültige E-Mail-Adresse ein, zum Beispiel name@firma.ch.',
+    it: 'Inserisci un indirizzo e-mail valido, ad esempio nome@azienda.ch.',
+  }),
+  reason: pick(lang, {
+    en: 'Please choose a reason for contact.',
+    fr: 'Veuillez choisir le motif de votre demande.',
+    de: 'Bitte wählen Sie Ihr Anliegen.',
+    it: 'Scegli il motivo del contatto.',
+  }),
+  message: pick(lang, {
+    en: `Please write a message of at least ${CONTACT_LIMITS.messageMin} characters.`,
+    fr: `Veuillez écrire un message d’au moins ${CONTACT_LIMITS.messageMin} caractères.`,
+    de: `Bitte schreiben Sie eine Nachricht mit mindestens ${CONTACT_LIMITS.messageMin} Zeichen.`,
+    it: `Scrivi un messaggio di almeno ${CONTACT_LIMITS.messageMin} caratteri.`,
+  }),
+  phone: pick(lang, {
+    en: 'Please enter a valid phone number, or leave this field empty.',
+    fr: 'Veuillez saisir un numéro de téléphone valide ou laisser ce champ vide.',
+    de: 'Bitte geben Sie eine gültige Telefonnummer ein oder lassen Sie das Feld leer.',
+    it: 'Inserisci un numero di telefono valido o lascia vuoto il campo.',
+  }),
+  website: pick(lang, {
+    en: 'Please enter a valid web address, for example www.business.ch.',
+    fr: 'Veuillez saisir une adresse web valide, par exemple www.entreprise.ch.',
+    de: 'Bitte geben Sie eine gültige Webadresse ein, zum Beispiel www.firma.ch.',
+    it: 'Inserisci un indirizzo web valido, ad esempio www.azienda.ch.',
+  }),
+};
+
+// Option values stay the English CONTACT_REASONS (validated server-side); only labels are localised.
+const reasonLabel: Record<ContactReason, Copy> = {
+  'General enquiry': { en: 'General enquiry', fr: 'Demande générale', de: 'Allgemeine Anfrage', it: 'Richiesta generale' },
+  'Free website': { en: 'Free website', fr: 'Site web gratuit', de: 'Kostenlose Website', it: 'Sito web gratuito' },
+  'Improve existing website': { en: 'Improve existing website', fr: 'Améliorer mon site actuel', de: 'Bestehende Website verbessern', it: 'Migliorare il sito attuale' },
+  'Add features': { en: 'Add features', fr: 'Ajouter des fonctionnalités', de: 'Funktionen ergänzen', it: 'Aggiungere funzionalità' },
+  'Automation / AI': { en: 'Automation / AI', fr: 'Automatisation / IA', de: 'Automatisierung / KI', it: 'Automazione / IA' },
+  'Contributor / student': { en: 'Contributor / student', fr: 'Contribution / études', de: 'Mitwirken / Studium', it: 'Collaborazione / studenti' },
+  'Partnership': { en: 'Partnership', fr: 'Partenariat', de: 'Partnerschaft', it: 'Partnership' },
+  'Other': { en: 'Other', fr: 'Autre', de: 'Anderes', it: 'Altro' },
+};
+
+const C = {
+  title: pick(lang, { en: 'Contact', fr: 'Contact', de: 'Kontakt', it: 'Contatti' }),
+  description: pick(lang, {
+    en: 'Contact Arklens about your website, digital tools, automation or practical AI for your Swiss business.',
+    fr: 'Contactez Arklens pour votre site web, vos outils numériques, l’automatisation ou l’IA concrète au service de votre PME suisse.',
+    de: 'Kontaktieren Sie Arklens zu Ihrer Website, zu digitalen Tools, Automatisierung oder praxisnaher KI für Ihr Schweizer KMU.',
+    it: 'Contatta Arklens per il tuo sito web, gli strumenti digitali, l’automazione o l’IA concreta per la tua PMI svizzera.',
+  }),
+  eyebrow: pick(lang, { en: 'Contact', fr: 'Contact', de: 'Kontakt', it: 'Contatti' }),
+  h1: pick(lang, { en: 'Get in touch', fr: 'Prendre contact', de: 'Kontakt aufnehmen', it: 'Contattaci' }),
+  lead: pick(lang, {
+    en: 'Questions about your website, a feature you need, or how automation could help your business. Send us a message and we will get back to you.',
+    fr: 'Une question sur votre site web, besoin d’une nouvelle fonctionnalité ou envie de savoir ce que l’automatisation peut apporter à votre entreprise\u202F? Envoyez-nous un message, nous vous répondrons.',
+    de: 'Sie haben Fragen zu Ihrer Website, brauchen eine neue Funktion oder möchten wissen, wie Automatisierung Ihrem Unternehmen helfen kann? Schreiben Sie uns, wir melden uns bei Ihnen.',
+    it: 'Hai domande sul tuo sito web, ti serve una nuova funzione o vuoi capire come l’automazione può aiutare la tua azienda? Scrivici e ti risponderemo.',
+  }),
+  programme: pick(lang, {
+    en: 'Free Website Programme',
+    fr: 'Programme Site web gratuit',
+    de: 'Programm «Kostenlose Website»',
+    it: 'Programma Sito web gratuito',
+  }),
+  programmeText: pick(lang, {
+    en: 'Ready to start your free website? The guided form takes about two minutes.',
+    fr: 'Vous souhaitez lancer votre site web gratuit\u202F? Le formulaire guidé prend environ deux minutes.',
+    de: 'Möchten Sie mit Ihrer kostenlosen Website starten? Das geführte Formular dauert etwa zwei Minuten.',
+    it: 'Vuoi iniziare con il tuo sito web gratuito? Il modulo guidato richiede circa due minuti.',
+  }),
+  programmeLink: pick(lang, {
+    en: 'Start my free website',
+    fr: 'Demander mon site gratuit',
+    de: 'Website kostenlos anfragen',
+    it: 'Richiedi il sito gratuito',
+  }),
+  required: pick(lang, {
+    en: 'All fields are required unless marked optional.',
+    fr: 'Tous les champs sont obligatoires, sauf ceux marqués comme facultatifs.',
+    de: 'Alle Felder sind Pflichtfelder, ausser sie sind als optional markiert.',
+    it: 'Tutti i campi sono obbligatori, salvo quelli indicati come facoltativi.',
+  }),
+  name: pick(lang, { en: 'Name', fr: 'Nom', de: 'Name', it: 'Nome' }),
+  business: pick(lang, {
+    en: 'Business / Organisation',
+    fr: 'Entreprise / organisation',
+    de: 'Unternehmen / Organisation',
+    it: 'Azienda / organizzazione',
+  }),
+  email: pick(lang, { en: 'Email', fr: 'E-mail', de: 'E-Mail', it: 'E-mail' }),
+  phone: pick(lang, { en: 'Phone', fr: 'Téléphone', de: 'Telefon', it: 'Telefono' }),
+  website: pick(lang, { en: 'Existing website', fr: 'Site web actuel', de: 'Bestehende Website', it: 'Sito web attuale' }),
+  websitePlaceholder: pick(lang, {
+    en: 'www.your-business.ch',
+    fr: 'www.votre-entreprise.ch',
+    de: 'www.ihre-firma.ch',
+    it: 'www.tua-azienda.ch',
+  }),
+  reason: pick(lang, { en: 'Reason for contact', fr: 'Motif de votre demande', de: 'Ihr Anliegen', it: 'Motivo del contatto' }),
+  chooseReason: pick(lang, { en: 'Choose a reason', fr: 'Choisissez un motif', de: 'Anliegen wählen', it: 'Scegli un motivo' }),
+  message: pick(lang, { en: 'Message', fr: 'Message', de: 'Nachricht', it: 'Messaggio' }),
+  messageHint: pick(lang, {
+    en: 'A few sentences about what you need are enough.',
+    fr: 'Quelques phrases sur votre besoin suffisent.',
+    de: 'Ein paar Sätze zu Ihrem Anliegen genügen.',
+    it: 'Bastano poche frasi su ciò di cui hai bisogno.',
+  }),
+  honeypot: pick(lang, {
+    en: 'Leave this field empty',
+    fr: 'Laissez ce champ vide',
+    de: 'Dieses Feld leer lassen',
+    it: 'Lascia vuoto questo campo',
+  }),
+  turnstile: pick(lang, {
+    en: 'Please complete the security check.',
+    fr: 'Veuillez effectuer la vérification de sécurité.',
+    de: 'Bitte schliessen Sie die Sicherheitsprüfung ab.',
+    it: 'Completa il controllo di sicurezza.',
+  }),
+  noscript: pick(lang, {
+    en: 'Please enable JavaScript to send this form.',
+    fr: 'Veuillez activer JavaScript pour envoyer ce formulaire.',
+    de: 'Bitte aktivieren Sie JavaScript, um dieses Formular zu senden.',
+    it: 'Attiva JavaScript per inviare questo modulo.',
+  }),
+  formErrorTitle: pick(lang, {
+    en: 'We couldn’t send your message.',
+    fr: 'Votre message n’a pas pu être envoyé.',
+    de: 'Ihre Nachricht konnte nicht gesendet werden.',
+    it: 'Non è stato possibile inviare il messaggio.',
+  }),
+  formRetry: pick(lang, {
+    en: 'Please try again.',
+    fr: 'Veuillez réessayer.',
+    de: 'Bitte versuchen Sie es erneut.',
+    it: 'Riprova.',
+  }),
+  submit: pick(lang, { en: 'Send message', fr: 'Envoyer le message', de: 'Nachricht senden', it: 'Invia messaggio' }),
+  sending: pick(lang, { en: 'Sending…', fr: 'Envoi en cours…', de: 'Wird gesendet…', it: 'Invio in corso…' }),
+  invalid: pick(lang, {
+    en: 'Please check the highlighted fields.',
+    fr: 'Veuillez vérifier les champs signalés.',
+    de: 'Bitte prüfen Sie die markierten Felder.',
+    it: 'Controlla i campi evidenziati.',
+  }),
+  rateLimited: pick(lang, {
+    en: 'Too many attempts. Please wait a few minutes before trying again.',
+    fr: 'Trop de tentatives. Veuillez patienter quelques minutes avant de réessayer.',
+    de: 'Zu viele Versuche. Bitte warten Sie einige Minuten und versuchen Sie es dann erneut.',
+    it: 'Troppi tentativi. Attendi qualche minuto prima di riprovare.',
+  }),
+  verification: pick(lang, {
+    en: 'The security check expired. Please complete it again.',
+    fr: 'La vérification de sécurité a expiré. Veuillez la refaire.',
+    de: 'Die Sicherheitsprüfung ist abgelaufen. Bitte führen Sie sie erneut durch.',
+    it: 'Il controllo di sicurezza è scaduto. Completalo di nuovo.',
+  }),
+  network: pick(lang, {
+    en: 'Please check your connection.',
+    fr: 'Veuillez vérifier votre connexion internet.',
+    de: 'Bitte prüfen Sie Ihre Internetverbindung.',
+    it: 'Controlla la tua connessione a internet.',
+  }),
+  privacy: pick(lang, {
+    en: 'We use the information you provide only to respond to your enquiry and manage the requested Arklens service.',
+    fr: 'Nous utilisons les informations fournies uniquement pour répondre à votre demande et gérer le service Arklens demandé.',
+    de: 'Wir verwenden Ihre Angaben nur, um Ihre Anfrage zu beantworten und die gewünschte Leistung von Arklens abzuwickeln.',
+    it: 'Usiamo le informazioni fornite solo per rispondere alla tua richiesta e gestire il servizio Arklens desiderato.',
+  }),
+  privacyLink: pick(lang, {
+    en: 'Privacy Policy',
+    fr: 'Politique de confidentialité',
+    de: 'Datenschutzerklärung',
+    it: 'Informativa sulla privacy',
+  }),
+  successTitle: pick(lang, { en: 'Thank you.', fr: 'Merci.', de: 'Danke.', it: 'Grazie.' }),
+  successText: pick(lang, {
+    en: 'Your message has been sent to Arklens. We will review it and get back to you as soon as possible.',
+    fr: 'Votre message a bien été transmis à Arklens. Nous le lirons et vous répondrons dès que possible.',
+    de: 'Ihre Nachricht ist bei Arklens eingegangen. Wir prüfen sie und melden uns so bald wie möglich.',
+    it: 'Il tuo messaggio è stato inviato ad Arklens. Lo leggeremo e ti risponderemo il prima possibile.',
+  }),
+  back: pick(lang, { en: 'Back to Arklens', fr: 'Retour à Arklens', de: 'Zurück zu Arklens', it: 'Torna ad Arklens' }),
+};
+---
+
+<BaseLayout
+  title={C.title}
+  description={C.description}
+  lang={lang}
+>
+  <Header lang={lang} />
+
+  <main id="main" class="pt-[calc(var(--sfg-header-h)+2.5rem)] md:pt-[calc(var(--sfg-header-h)+4rem)] pb-20 md:pb-28">
+    <div class="container-custom">
+      <div class="grid grid-cols-12 gap-x-6 gap-y-10">
+        <!-- Intro column -->
+        <aside class="col-span-12 lg:col-span-4">
+          <div class="lg:sticky lg:top-[calc(var(--sfg-header-h)+2.5rem)]">
+            <p class="eyebrow flex items-center gap-3 mb-6">
+              <span class="h-px w-8 bg-signal-600" aria-hidden="true"></span>
+              {C.eyebrow}
+            </p>
+            <h1 class="text-display-md">{C.h1}</h1>
+            <p class="lead mt-5">{C.lead}</p>
+
+            <div class="mt-10 border-t border-ink-900/10 pt-6">
+              <p class="eyebrow mb-3">{C.programme}</p>
+              <p class="text-sm text-steel-700">{C.programmeText}</p>
+              <a href={getLocalizedPath('/start', lang)} class="link-arrow mt-3 py-1 text-sm">
+                {C.programmeLink}
+                <ArrowRight size={14} stroke-width={1.75} />
+              </a>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Form column -->
+        <div class="col-span-12 lg:col-span-8">
+          <div class="bg-white border border-ink-900/10 rounded-md" data-contact-root>
+            <form id="contact-form" class="p-6 sm:p-10" novalidate data-sitekey={siteKey} data-action={TURNSTILE_ACTION}
+              data-lang={lang} data-msg-sending={C.sending} data-msg-submit={C.submit} data-msg-invalid={C.invalid}
+              data-msg-rate-limited={C.rateLimited} data-msg-verification={C.verification} data-msg-network={C.network}
+              data-msg-retry={C.formRetry}>
+              <p class="text-sm text-steel-600 mb-8">{C.required}</p>
+
+              <div class="grid sm:grid-cols-2 gap-x-6 gap-y-8">
+                <div>
+                  <label for="name" class="field-label">{C.name}</label>
+                  <input id="name" name="name" type="text" class="field" required autocomplete="name"
+                    maxlength={CONTACT_LIMITS.name} aria-describedby="name-error" />
+                  <p id="name-error" class="error hidden" data-error-for="name">{errorText.name}</p>
+                </div>
+
+                <div>
+                  <label for="business" class="field-label">{C.business}</label>
+                  <input id="business" name="business" type="text" class="field" required autocomplete="organization"
+                    maxlength={CONTACT_LIMITS.business} aria-describedby="business-error" />
+                  <p id="business-error" class="error hidden" data-error-for="business">{errorText.business}</p>
+                </div>
+
+                <div>
+                  <label for="email" class="field-label">{C.email}</label>
+                  <input id="email" name="email" type="email" class="field" required autocomplete="email" inputmode="email"
+                    maxlength={CONTACT_LIMITS.email} aria-describedby="email-error" />
+                  <p id="email-error" class="error hidden" data-error-for="email">{errorText.email}</p>
+                </div>
+
+                <div>
+                  <label for="phone" class="field-label">
+                    {C.phone} <span class="optional">{t('form.optional')}</span>
+                  </label>
+                  <input id="phone" name="phone" type="tel" class="field" autocomplete="tel" inputmode="tel"
+                    maxlength={CONTACT_LIMITS.phone} aria-describedby="phone-error" />
+                  <p id="phone-error" class="error hidden" data-error-for="phone">{errorText.phone}</p>
+                </div>
+
+                <div class="sm:col-span-2">
+                  <label for="website" class="field-label">
+                    {C.website} <span class="optional">{t('form.optional')}</span>
+                  </label>
+                  <input id="website" name="website" type="text" class="field" autocomplete="url" inputmode="url"
+                    maxlength={CONTACT_LIMITS.website} placeholder={C.websitePlaceholder} aria-describedby="website-error" />
+                  <p id="website-error" class="error hidden" data-error-for="website">{errorText.website}</p>
+                </div>
+
+                <div class="sm:col-span-2">
+                  <label for="reason" class="field-label">{C.reason}</label>
+                  <div class="relative">
+                    <select id="reason" name="reason" class="field appearance-none pr-12" required aria-describedby="reason-error">
+                      <option value="">{C.chooseReason}</option>
+                      {CONTACT_REASONS.map((r) => <option value={r}>{pick(lang, reasonLabel[r])}</option>)}
+                    </select>
+                    <svg class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-steel-600" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                  </div>
+                  <p id="reason-error" class="error hidden" data-error-for="reason">{errorText.reason}</p>
+                </div>
+
+                <div class="sm:col-span-2">
+                  <label for="message" class="field-label">{C.message}</label>
+                  <textarea id="message" name="message" rows="6" class="field resize-y" required
+                    minlength={CONTACT_LIMITS.messageMin} maxlength={CONTACT_LIMITS.message}
+                    aria-describedby="message-hint message-error"></textarea>
+                  <div class="flex justify-between gap-4">
+                    <p id="message-hint" class="field-hint">{C.messageHint}</p>
+                    <p class="field-hint tabular-nums whitespace-nowrap" aria-hidden="true"><span data-count>0</span> / {CONTACT_LIMITS.message}</p>
+                  </div>
+                  <p id="message-error" class="error hidden" data-error-for="message">{errorText.message}</p>
+                </div>
+              </div>
+
+              <!-- Honeypot: hidden from people and assistive tech -->
+              <div class="hp" aria-hidden="true">
+                <label for="company_url">{C.honeypot}</label>
+                <input id="company_url" name="company_url" type="text" tabindex="-1" autocomplete="off" />
+              </div>
+
+              <div class="mt-8">
+                <div data-turnstile></div>
+                <p class="error hidden" data-error-for="turnstile">{C.turnstile}</p>
+              </div>
+
+              <noscript>
+                <p class="mt-6 text-sm text-ink-900">{C.noscript}</p>
+              </noscript>
+
+              <div class="mt-8 pt-6 border-t border-ink-900/10">
+                <div class="hidden mb-6 border-l-2 border-signal-600 bg-paper p-4" role="alert" data-form-error tabindex="-1">
+                  <h3 class="font-medium text-ink-900">{C.formErrorTitle}</h3>
+                  <p class="mt-1 text-sm text-steel-700" data-form-error-detail>{C.formRetry}</p>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg w-full sm:w-auto" data-submit>
+                  <span data-submit-label>{C.submit}</span>
+                  <ArrowRight size={18} class="arrow" stroke-width={1.75} />
+                </button>
+
+                <p class="mt-6 text-sm text-steel-600 max-w-xl">
+                  {C.privacy}
+                  <a href={getLocalizedPath('/privacy', lang)} class="text-ink-900 underline underline-offset-4 decoration-1 hover:text-signal-700">{C.privacyLink}</a>
+                </p>
+              </div>
+            </form>
+
+            <!-- Confirmation -->
+            <div class="hidden p-6 sm:p-10" data-success tabindex="-1" role="status" aria-live="polite">
+              <span class="flex h-12 w-12 items-center justify-center bg-ink-900 text-white rounded-[4px]" aria-hidden="true">
+                <Check size={22} stroke-width={2} />
+              </span>
+              <h2 class="mt-8 text-heading-xl">{C.successTitle}</h2>
+              <p class="lead mt-4">{C.successText}</p>
+              <a href={getLocalizedPath('/', lang)} class="btn btn-secondary mt-8">
+                {C.back}
+                <ArrowRight size={16} class="arrow" stroke-width={1.75} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>
+
+<style>
+  .optional {
+    margin-left: 0.5rem;
+    font-family: theme('fontFamily.mono');
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 400;
+    color: theme('colors.steel.500');
+  }
+  .error {
+    margin-top: 0.625rem;
+    font-size: 0.875rem;
+    color: theme('colors.signal.700');
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+  }
+  .error::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    flex: none;
+    background: currentColor;
+    transform: translateY(-1px);
+  }
+  .error.hidden {
+    display: none;
+  }
+  .hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  [data-turnstile]:empty {
+    min-height: 65px;
+  }
+</style>
+
+<script>
+  import { track } from '@lib/analytics';
+  import { CONTACT_LIMITS } from '@lib/contact';
+
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const success = document.querySelector<HTMLElement>('[data-success]');
+  const errorBox = document.querySelector<HTMLElement>('[data-form-error]');
+  const errorDetail = document.querySelector<HTMLElement>('[data-form-error-detail]');
+  const submitBtn = document.querySelector<HTMLButtonElement>('[data-submit]');
+  const submitLabel = document.querySelector<HTMLElement>('[data-submit-label]');
+  const counter = document.querySelector<HTMLElement>('[data-count]');
+  const tsContainer = document.querySelector<HTMLElement>('[data-turnstile]');
+
+  type Turnstile = {
+    render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+    reset: (id: string) => void;
+    getResponse: (id: string) => string | undefined;
+  };
+  const w = window as unknown as { turnstile?: Turnstile; onArklensTurnstile?: () => void };
+
+  const startedAt = Date.now();
+  let widgetId: string | null = null;
+  let submitting = false;
+
+  const EMAIL_RE = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*\.[A-Za-z]{2,}$/;
+  const PHONE_RE = /^[0-9+()./\s-]{5,40}$/;
+
+  function setError(name: string, show: boolean) {
+    document.querySelector(`[data-error-for="${name}"]`)?.classList.toggle('hidden', !show);
+    const el = form?.elements.namedItem(name) as HTMLElement | null;
+    if (el && 'setAttribute' in el) {
+      if (show) el.setAttribute('aria-invalid', 'true');
+      else el.removeAttribute('aria-invalid');
+    }
+  }
+
+  function value(name: string): string {
+    const el = form?.elements.namedItem(name) as HTMLInputElement | null;
+    return (el?.value ?? '').trim();
+  }
+
+  function validate(): string[] {
+    const invalid: string[] = [];
+    if (value('name').length < 2) invalid.push('name');
+    if (value('business').length < 2) invalid.push('business');
+    if (!EMAIL_RE.test(value('email'))) invalid.push('email');
+    if (!value('reason')) invalid.push('reason');
+    const msg = value('message');
+    if (msg.length < CONTACT_LIMITS.messageMin || msg.length > CONTACT_LIMITS.message) invalid.push('message');
+    const phone = value('phone');
+    if (phone && !PHONE_RE.test(phone)) invalid.push('phone');
+    const site = value('website');
+    if (site && !/^(https?:\/\/)?[^\s/]+\.[^\s]{2,}$/i.test(site)) invalid.push('website');
+    ['name', 'business', 'email', 'reason', 'message', 'phone', 'website'].forEach((f) => setError(f, invalid.includes(f)));
+    return invalid;
+  }
+
+  function showFormError(detail = form?.dataset.msgRetry ?? '') {
+    if (!errorBox) return;
+    if (errorDetail) errorDetail.textContent = detail;
+    errorBox.classList.remove('hidden');
+    errorBox.focus();
+  }
+
+  function setBusy(busy: boolean) {
+    submitting = busy;
+    if (submitBtn) {
+      submitBtn.disabled = busy;
+      submitBtn.setAttribute('aria-busy', String(busy));
+    }
+    if (submitLabel) submitLabel.textContent = (busy ? form?.dataset.msgSending : form?.dataset.msgSubmit) ?? '';
+  }
+
+  function resetTurnstile() {
+    if (widgetId && w.turnstile) w.turnstile.reset(widgetId);
+  }
+
+  // --- Turnstile (explicit render so the widget can be reset after each attempt) ---
+  function renderTurnstile() {
+    if (!form || !tsContainer || !w.turnstile || widgetId) return;
+    widgetId = w.turnstile.render(tsContainer, {
+      sitekey: form.dataset.sitekey,
+      action: form.dataset.action,
+      language: form.dataset.lang,
+      theme: 'light',
+      // 'flexible' has a 300 px minimum width; narrower containers (320 px phones) get 'compact'.
+      size: tsContainer.clientWidth < 300 ? 'compact' : 'flexible',
+      'response-field': false,
+      callback: () => setError('turnstile', false),
+      'error-callback': () => {
+        track('contact_form_error', { stage: 'turnstile' });
+        return true;
+      },
+    });
+  }
+  w.onArklensTurnstile = renderTurnstile;
+  const script = document.createElement('script');
+  script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onArklensTurnstile';
+  script.async = true;
+  script.defer = true;
+  document.head.appendChild(script);
+
+  if (form) {
+    track('contact_form_view');
+
+    // Live error clearing once a field has been flagged
+    form.addEventListener('input', (e) => {
+      const t = e.target as HTMLInputElement;
+      if (t.name === 'message' && counter) counter.textContent = String(t.value.length);
+      if (t.getAttribute('aria-invalid') === 'true') validate();
+    });
+
+    form.querySelector<HTMLSelectElement>('#reason')?.addEventListener('change', (e) => {
+      const reason = (e.target as HTMLSelectElement).value;
+      if (reason) track('contact_reason_selected', { reason });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (submitting) return;
+      errorBox?.classList.add('hidden');
+
+      const invalid = validate();
+      if (invalid.length) {
+        (form.elements.namedItem(invalid[0]) as HTMLElement | null)?.focus();
+        return;
+      }
+
+      const token = widgetId && w.turnstile ? w.turnstile.getResponse(widgetId) : '';
+      if (!token) {
+        setError('turnstile', true);
+        tsContainer?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        return;
+      }
+
+      track('contact_form_submit', { reason: value('reason') });
+      setBusy(true);
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: value('name'),
+            business: value('business'),
+            email: value('email'),
+            phone: value('phone'),
+            website: value('website'),
+            reason: value('reason'),
+            message: value('message'),
+            company_url: value('company_url'),
+            started_at: startedAt,
+            page: (document.referrer && new URL(document.referrer).origin === location.origin
+              ? new URL(document.referrer).pathname
+              : location.pathname).slice(0, 200),
+            turnstile_token: token,
+            lang: form.dataset.lang ?? 'en',
+          }),
+        });
+        const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; fields?: string[] };
+
+        if (res.ok && data.ok) {
+          track('contact_form_success', { reason: value('reason') });
+          form.classList.add('hidden');
+          success?.classList.remove('hidden');
+          success?.focus();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+
+        track('contact_form_error', { stage: 'server', status: res.status });
+        if (data.error === 'invalid' && Array.isArray(data.fields)) {
+          data.fields.forEach((f) => setError(f, true));
+          showFormError(form.dataset.msgInvalid ?? '');
+        } else if (data.error === 'rate_limited') {
+          showFormError(form.dataset.msgRateLimited ?? '');
+        } else if (data.error === 'verification_failed') {
+          showFormError(form.dataset.msgVerification ?? '');
+        } else {
+          showFormError();
+        }
+      } catch {
+        track('contact_form_error', { stage: 'network' });
+        showFormError(form.dataset.msgNetwork ?? '');
+      } finally {
+        setBusy(false);
+        resetTurnstile();
+      }
+    });
+  }
+</script>

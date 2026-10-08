@@ -1,6 +1,6 @@
 ---
 import type { Language } from '@i18n/index';
-import { useTranslations } from '@i18n/index';
+import { useTranslations, getLocalizedPath } from '@i18n/index';
 import { pick } from '@lib/pick';
 import { Plus, ArrowRight } from '@lucide/astro';
 
@@ -26,8 +26,8 @@ const faqs = order.map((n) => ({ q: `q${n}`, a: `a${n}` }));
             <p class="eyebrow">FAQ</p>
           </div>
           <h2 id="faq-title" class="text-display-md">{t('faq.title')}</h2>
-          <a href="/terms" class="link-arrow mt-6 py-2 text-sm">
-            {pick(lang, { en: 'Read the Terms of Use', fr: "Lire les conditions d'utilisation", de: 'Nutzungsbedingungen lesen', it: 'Leggi i termini di utilizzo' })}
+          <a href={getLocalizedPath('/terms', lang)} class="link-arrow mt-6 py-2 text-sm">
+            {pick(lang, { en: 'Read the Terms of Use', fr: 'Lire les Conditions d’utilisation', de: 'Nutzungsbedingungen lesen', it: 'Leggi le Condizioni d’uso' })}
             <ArrowRight size={14} stroke-width={1.75} />
           </a>
         </div>

@@ -5,10 +5,12 @@ import Footer from '@components/Footer.astro';
 import { pick } from '@lib/pick';
 import { ArrowRight, ArrowLeft, Check, SquarePlus, RefreshCw, Blocks, Activity } from '@lucide/astro';
 
-const lang = 'en'; // Will be updated with proper routing later
+import { localeStaticPaths, getLocalizedPath, type Language } from '@i18n/index';
+export function getStaticPaths() { return localeStaticPaths(); }
+const { lang } = Astro.props as { lang: Language };
 
 const steps = [
-  pick(lang, { en: 'Starting point', fr: 'Point de départ', de: 'Ausgangspunkt', it: 'Punto di partenza' }),
+  pick(lang, { en: 'Starting point', fr: 'Point de départ', de: 'Einstieg', it: 'Punto di partenza' }),
   pick(lang, { en: 'Your business', fr: 'Votre entreprise', de: 'Ihr Unternehmen', it: 'La tua azienda' }),
   pick(lang, { en: 'Contact', fr: 'Contact', de: 'Kontakt', it: 'Contatto' }),
 ];
@@ -17,50 +19,50 @@ const paths = [
   {
     value: 'new',
     icon: SquarePlus,
-    title: pick(lang, { en: 'I need a website', fr: "J'ai besoin d'un site web", de: 'Ich brauche eine Website', it: 'Ho bisogno di un sito web' }),
-    text: pick(lang, { en: 'Start fresh with a professional online presence', fr: 'Commencez avec une présence en ligne professionnelle', de: 'Neu starten mit einer professionellen Online-Präsenz', it: 'Parti da zero con una presenza online professionale' }),
+    title: pick(lang, { en: 'I need a website', fr: 'J’ai besoin d’un site web', de: 'Ich brauche eine Website', it: 'Mi serve un sito web' }),
+    text: pick(lang, { en: 'Start fresh with a professional online presence', fr: 'Partir de zéro avec une présence numérique professionnelle', de: 'Mit einer professionellen digitalen Präsenz neu starten', it: 'Parti da zero con una presenza digitale professionale' }),
   },
   {
     value: 'update',
     icon: RefreshCw,
-    title: pick(lang, { en: 'My website needs an update', fr: "Mon site a besoin d'une mise à jour", de: 'Meine Website braucht ein Update', it: 'Il mio sito ha bisogno di un aggiornamento' }),
-    text: pick(lang, { en: 'Modernise or improve your existing website', fr: 'Modernisez ou améliorez votre site existant', de: 'Bestehende Website modernisieren oder verbessern', it: 'Modernizza o migliora il tuo sito esistente' }),
+    title: pick(lang, { en: 'My website needs an update', fr: 'Mon site doit être mis à jour', de: 'Meine Website muss erneuert werden', it: 'Il mio sito va aggiornato' }),
+    text: pick(lang, { en: 'Modernise or improve your existing website', fr: 'Moderniser ou améliorer votre site actuel', de: 'Die bestehende Website modernisieren oder verbessern', it: 'Modernizza o migliora il sito attuale' }),
   },
   {
     value: 'extend',
     icon: Blocks,
-    title: pick(lang, { en: 'My website works, but I need more', fr: "Mon site fonctionne, mais j'ai besoin de plus", de: 'Meine Website funktioniert, aber ich brauche mehr', it: 'Il mio sito funziona, ma mi serve di più' }),
-    text: pick(lang, { en: 'Add features, integrations or automation', fr: 'Ajoutez fonctionnalités, intégrations ou automatisation', de: 'Funktionen, Integrationen oder Automatisierung ergänzen', it: 'Aggiungi funzionalità, integrazioni o automazione' }),
+    title: pick(lang, { en: 'My website works, but I need more', fr: 'Mon site fonctionne, mais il m’en faut plus', de: 'Meine Website funktioniert, aber ich brauche mehr', it: 'Il mio sito funziona, ma mi serve di più' }),
+    text: pick(lang, { en: 'Add bookings, forms, payments, integrations, automation and AI', fr: 'Ajouter réservations, formulaires, paiements, intégrations, automatisation et IA', de: 'Buchungen, Formulare, Zahlungen, Integrationen, Automatisierung und KI ergänzen', it: 'Aggiungi prenotazioni, moduli, pagamenti, integrazioni, automazione e IA' }),
   },
   {
     value: 'check',
     icon: Activity,
-    title: pick(lang, { en: 'Check my business first', fr: "D'abord évaluer mon entreprise", de: 'Zuerst mein Unternehmen prüfen', it: 'Prima controlla la mia azienda' }),
-    text: pick(lang, { en: 'Free Digital Business Check with practical recommendations', fr: 'Évaluation numérique gratuite avec recommandations', de: 'Kostenloser Digital-Check mit Empfehlungen', it: 'Check digitale gratuito con raccomandazioni' }),
+    title: pick(lang, { en: 'Check my business first', fr: 'Évaluer d’abord mon entreprise', de: 'Zuerst mein Unternehmen prüfen', it: 'Prima analizza la mia azienda' }),
+    text: pick(lang, { en: 'Free Digital Business Check with practical recommendations', fr: 'Évaluation numérique gratuite, avec des recommandations concrètes', de: 'Kostenloser Digital-Check mit konkreten Empfehlungen', it: 'Analisi digitale gratuita con consigli concreti' }),
   },
 ];
 
 const industries = [
-  { value: 'restaurant', label: 'Restaurant / Café' },
-  { value: 'beauty', label: pick(lang, { en: 'Hair & Beauty', fr: 'Coiffure & Beauté', de: 'Coiffeur & Beauty', it: 'Parrucchiere & Beauty' }) },
-  { value: 'trades', label: pick(lang, { en: 'Trades / Crafts', fr: 'Artisan / Métiers', de: 'Handwerk', it: 'Artigianato' }) },
+  { value: 'restaurant', label: pick(lang, { en: 'Restaurant / Café', fr: 'Restaurant / café', de: 'Restaurant / Café', it: 'Ristorante / bar' }) },
+  { value: 'beauty', label: pick(lang, { en: 'Hair & Beauty', fr: 'Coiffure & beauté', de: 'Coiffeur & Kosmetik', it: 'Parrucchiere & estetica' }) },
+  { value: 'trades', label: pick(lang, { en: 'Trades / Crafts', fr: 'Artisanat', de: 'Handwerk', it: 'Artigianato' }) },
   { value: 'consultant', label: pick(lang, { en: 'Consulting', fr: 'Conseil', de: 'Beratung', it: 'Consulenza' }) },
-  { value: 'health', label: pick(lang, { en: 'Healthcare', fr: 'Santé', de: 'Gesundheit', it: 'Sanità' }) },
-  { value: 'garage', label: pick(lang, { en: 'Garage / Automotive', fr: 'Garage / Automobile', de: 'Garage / Auto', it: 'Garage / Auto' }) },
-  { value: 'retail', label: pick(lang, { en: 'Retail / Shop', fr: 'Commerce / Magasin', de: 'Detailhandel', it: 'Negozio' }) },
+  { value: 'health', label: pick(lang, { en: 'Healthcare', fr: 'Santé', de: 'Gesundheit', it: 'Salute' }) },
+  { value: 'garage', label: pick(lang, { en: 'Garage / Automotive', fr: 'Garage / automobile', de: 'Garage / Auto', it: 'Garage / auto' }) },
+  { value: 'retail', label: pick(lang, { en: 'Retail / Shop', fr: 'Commerce / magasin', de: 'Detailhandel', it: 'Negozio / commercio' }) },
   { value: 'services', label: pick(lang, { en: 'Professional Services', fr: 'Services professionnels', de: 'Dienstleistungen', it: 'Servizi professionali' }) },
   { value: 'other', label: pick(lang, { en: 'Other', fr: 'Autre', de: 'Andere', it: 'Altro' }) },
 ];
 
 const next = [
-  pick(lang, { en: "We'll review your information (usually within 24 hours)", fr: 'Nous examinerons vos informations (généralement sous 24 heures)', de: 'Wir prüfen Ihre Angaben (meist innerhalb von 24 Stunden)', it: 'Esaminiamo le tue informazioni (di solito entro 24 ore)' }),
-  pick(lang, { en: "You'll receive a personalised proposal with next steps", fr: 'Vous recevrez une proposition personnalisée avec les prochaines étapes', de: 'Sie erhalten einen persönlichen Vorschlag mit nächsten Schritten', it: 'Riceverai una proposta personalizzata con i prossimi passi' }),
-  pick(lang, { en: "We'll schedule a brief call to confirm details and start your project", fr: 'Nous planifierons un bref appel pour confirmer les détails et démarrer votre projet', de: 'Ein kurzes Gespräch klärt Details und startet Ihr Projekt', it: 'Una breve chiamata per confermare i dettagli e avviare il progetto' }),
+  pick(lang, { en: 'We’ll review your information (usually within 24 hours)', fr: 'Nous examinons vos informations (en général sous 24 heures)', de: 'Wir prüfen Ihre Angaben (meist innerhalb von 24 Stunden)', it: 'Esaminiamo le tue informazioni (di solito entro 24 ore)' }),
+  pick(lang, { en: 'You’ll receive a personalised proposal with next steps', fr: 'Vous recevez une proposition personnalisée et les prochaines étapes', de: 'Sie erhalten einen persönlichen Vorschlag mit den nächsten Schritten', it: 'Ricevi una proposta personalizzata con i prossimi passi' }),
+  pick(lang, { en: 'We’ll schedule a brief call to confirm details and start your project', fr: 'Un court appel permet de confirmer les détails et de lancer votre projet', de: 'In einem kurzen Telefonat klären wir die Details und starten Ihr Projekt', it: 'Una breve telefonata per confermare i dettagli e avviare il progetto' }),
 ];
 
 const T = {
   required: pick(lang, { en: 'required', fr: 'obligatoire', de: 'Pflichtfeld', it: 'obbligatorio' }),
-  optional: pick(lang, { en: 'Optional', fr: 'Optionnel', de: 'Optional', it: 'Facoltativo' }),
+  optional: pick(lang, { en: 'Optional', fr: 'Facultatif', de: 'Optional', it: 'Facoltativo' }),
   continue: pick(lang, { en: 'Continue', fr: 'Continuer', de: 'Weiter', it: 'Continua' }),
   back: pick(lang, { en: 'Back', fr: 'Retour', de: 'Zurück', it: 'Indietro' }),
   submit: pick(lang, { en: 'Send my request', fr: 'Envoyer ma demande', de: 'Anfrage senden', it: 'Invia la richiesta' }),
@@ -70,7 +72,12 @@ const T = {
 
 <BaseLayout
   title={pick(lang, { en: 'Get Started', fr: 'Commencer', de: 'Loslegen', it: 'Inizia' })}
-  description={pick(lang, { en: 'Start your digital journey with Arklens', fr: 'Commencez votre parcours numérique avec Arklens', de: 'Starten Sie Ihre digitale Reise mit Arklens', it: 'Inizia il tuo percorso digitale con Arklens' })}
+  description={pick(lang, {
+    en: 'Start your digital journey with Arklens',
+    fr: 'Demandez votre site web gratuit en quelques minutes avec Arklens, en trois étapes simples.',
+    de: 'Fragen Sie Ihre kostenlose Website bei Arklens an: drei kurze Schritte, wenige Minuten.',
+    it: 'Richiedi il tuo sito web gratuito ad Arklens in pochi minuti, in tre semplici passi.',
+  })}
   lang={lang}
 >
   <Header lang={lang} />
@@ -83,15 +90,15 @@ const T = {
           <div class="lg:sticky lg:top-[calc(var(--sfg-header-h)+2.5rem)]">
             <p class="eyebrow flex items-center gap-3 mb-6">
               <span class="h-px w-8 bg-signal-600" aria-hidden="true"></span>
-              {pick(lang, { en: 'Free Website Programme', fr: 'Programme Site Web Gratuit', de: 'Kostenloses Website-Programm', it: 'Programma Sito Web Gratuito' })}
+              {pick(lang, { en: 'Free Website Programme', fr: 'Programme Site web gratuit', de: 'Programm «Kostenlose Website»', it: 'Programma Sito web gratuito' })}
             </p>
-            <h1 class="text-display-md">{pick(lang, { en: "Let's get started", fr: 'Commençons', de: 'Legen wir los', it: 'Iniziamo' })}</h1>
+            <h1 class="text-display-md">{pick(lang, { en: 'Let’s get started', fr: 'C’est parti', de: 'Legen wir los', it: 'Iniziamo' })}</h1>
             <p class="lead mt-5">
               {pick(lang, {
                 en: 'Tell us about your business so we can create the right starting point for you. It takes about two minutes.',
-                fr: 'Parlez-nous de votre entreprise afin que nous puissions créer le bon point de départ. Cela prend environ deux minutes.',
-                de: 'Erzählen Sie uns von Ihrem Unternehmen, damit wir den richtigen Ausgangspunkt schaffen. Dauert etwa zwei Minuten.',
-                it: 'Raccontaci della tua azienda per creare il giusto punto di partenza. Richiede circa due minuti.',
+                fr: 'Présentez-nous votre entreprise pour que nous puissions définir le bon point de départ. Cela prend environ deux minutes.',
+                de: 'Erzählen Sie uns von Ihrem Unternehmen, damit wir den passenden Einstieg für Sie finden. Das dauert etwa zwei Minuten.',
+                it: 'Raccontaci della tua azienda, così possiamo definire il punto di partenza giusto. Bastano circa due minuti.',
               })}
             </p>
 
@@ -107,7 +114,7 @@ const T = {
             </ol>
 
             <div class="hidden lg:block mt-12 border-t border-ink-900/10 pt-6">
-              <h2 class="eyebrow mb-4">{pick(lang, { en: 'What happens next?', fr: 'Que se passe-t-il ensuite ?', de: 'Wie geht es weiter?', it: 'Cosa succede dopo?' })}</h2>
+              <h2 class="eyebrow mb-4">{pick(lang, { en: 'What happens next?', fr: 'Et ensuite\u202F?', de: 'Wie geht es weiter?', it: 'E poi?' })}</h2>
               <ul class="space-y-3">
                 {next.map((n) => (
                   <li class="flex gap-3 text-sm text-steel-700">
@@ -129,7 +136,7 @@ const T = {
               <fieldset class="step" data-step="0">
                 <legend class="step-legend">
                   <span class="eyebrow block mb-3">{T.stepOf.replace('{n}', '1').replace('{t}', '3')}</span>
-                  <span class="block text-heading-lg text-ink-900">{pick(lang, { en: 'What brings you here today?', fr: "Qu'est-ce qui vous amène ici aujourd'hui ?", de: 'Was führt Sie heute zu uns?', it: 'Cosa ti porta qui oggi?' })}</span>
+                  <span class="block text-heading-lg text-ink-900">{pick(lang, { en: 'What brings you here today?', fr: 'Qu’est-ce qui vous amène\u202F?', de: 'Was führt Sie zu uns?', it: 'Cosa ti porta da noi?' })}</span>
                 </legend>
 
                 <div class="mt-8 grid gap-3">
@@ -156,7 +163,7 @@ const T = {
 
                 <div id="current-website-field" class="mt-8 hidden">
                   <label for="current-website" class="field-label">
-                    {pick(lang, { en: 'Current website URL', fr: 'URL du site actuel', de: 'Aktuelle Website-URL', it: 'URL del sito attuale' })}
+                    {pick(lang, { en: 'Current website URL', fr: 'Adresse de votre site actuel', de: 'Adresse Ihrer aktuellen Website', it: 'Indirizzo del sito attuale' })}
                   </label>
                   <input
                     type="url"
@@ -165,14 +172,14 @@ const T = {
                     inputmode="url"
                     autocomplete="url"
                     class="field"
-                    placeholder="https://www.your-website.ch"
+                    placeholder={pick(lang, { en: 'https://www.your-website.ch', fr: 'https://www.votre-entreprise.ch', de: 'https://www.ihre-firma.ch', it: 'https://www.tua-azienda.ch' })}
                     aria-describedby="current-website-hint current-website-error"
                   />
                   <p id="current-website-hint" class="field-hint">
-                    {pick(lang, { en: "We'll review your current site to understand what you already have.", fr: 'Nous examinerons votre site actuel pour comprendre ce que vous avez déjà.', de: 'Wir sehen uns Ihre aktuelle Website an.', it: 'Esamineremo il tuo sito attuale.' })}
+                    {pick(lang, { en: 'We’ll review your current site to understand what you already have.', fr: 'Nous analysons votre site actuel pour voir ce qui existe déjà.', de: 'Wir schauen uns Ihre aktuelle Website an, um zu sehen, was schon vorhanden ist.', it: 'Analizziamo il sito attuale per capire cosa c’è già.' })}
                   </p>
                   <p id="current-website-error" class="error hidden" data-error-for="current-website">
-                    {pick(lang, { en: 'Please enter a full address, starting with https://', fr: 'Veuillez saisir une adresse complète, commençant par https://', de: 'Bitte vollständige Adresse mit https:// eingeben.', it: 'Inserisci un indirizzo completo che inizi con https://' })}
+                    {pick(lang, { en: 'Please enter a full address, starting with https://', fr: 'Veuillez saisir l’adresse complète, en commençant par https://', de: 'Bitte geben Sie die vollständige Adresse ein, beginnend mit https://', it: 'Inserisci l’indirizzo completo, che inizia con https://' })}
                   </p>
                 </div>
               </fieldset>
@@ -181,12 +188,12 @@ const T = {
               <fieldset class="step" data-step="1">
                 <legend class="step-legend">
                   <span class="eyebrow block mb-3">{T.stepOf.replace('{n}', '2').replace('{t}', '3')}</span>
-                  <span class="block text-heading-lg text-ink-900">{pick(lang, { en: 'Tell us about your business', fr: 'Parlez-nous de votre entreprise', de: 'Erzählen Sie uns von Ihrem Unternehmen', it: 'Raccontaci della tua azienda' })}</span>
+                  <span class="block text-heading-lg text-ink-900">{pick(lang, { en: 'Tell us about your business', fr: 'Présentez-nous votre entreprise', de: 'Erzählen Sie uns von Ihrem Unternehmen', it: 'Parlaci della tua azienda' })}</span>
                 </legend>
 
                 <div class="mt-8">
                   <label for="business-name" class="field-label">
-                    {pick(lang, { en: 'Business name', fr: "Nom de l'entreprise", de: 'Firmenname', it: "Nome dell'azienda" })}
+                    {pick(lang, { en: 'Business name', fr: 'Nom de l’entreprise', de: 'Name des Unternehmens', it: 'Nome dell’azienda' })}
                   </label>
                   <input
                     type="text"
@@ -198,7 +205,7 @@ const T = {
                     aria-describedby="business-name-error"
                   />
                   <p id="business-name-error" class="error hidden" data-error-for="business-name">
-                    {pick(lang, { en: 'Please enter your business name.', fr: "Veuillez saisir le nom de l'entreprise.", de: 'Bitte Firmennamen eingeben.', it: "Inserisci il nome dell'azienda." })}
+                    {pick(lang, { en: 'Please enter your business name.', fr: 'Veuillez indiquer le nom de votre entreprise.', de: 'Bitte geben Sie den Namen Ihres Unternehmens ein.', it: 'Inserisci il nome della tua azienda.' })}
                   </p>
                 </div>
 
@@ -214,13 +221,13 @@ const T = {
                     ))}
                   </div>
                   <p id="industry-error" class="error hidden" data-error-for="industry">
-                    {pick(lang, { en: 'Please choose the closest industry.', fr: 'Veuillez choisir le secteur le plus proche.', de: 'Bitte die passendste Branche wählen.', it: 'Scegli il settore più vicino.' })}
+                    {pick(lang, { en: 'Please choose the closest industry.', fr: 'Veuillez choisir le secteur qui correspond le mieux.', de: 'Bitte wählen Sie die passendste Branche.', it: 'Scegli il settore più adatto.' })}
                   </p>
                 </fieldset>
 
                 <div class="mt-8">
                   <label for="goals" class="field-label">
-                    {pick(lang, { en: 'What do you want to achieve?', fr: 'Que souhaitez-vous accomplir ?', de: 'Was möchten Sie erreichen?', it: 'Cosa vuoi ottenere?' })}
+                    {pick(lang, { en: 'What do you want to achieve?', fr: 'Quels sont vos objectifs\u202F?', de: 'Was möchten Sie erreichen?', it: 'Cosa vuoi ottenere?' })}
                     <span class="ml-2 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-steel-500">{T.optional}</span>
                   </label>
                   <textarea
@@ -231,7 +238,7 @@ const T = {
                     aria-describedby="goals-hint"
                   ></textarea>
                   <p id="goals-hint" class="field-hint">
-                    {pick(lang, { en: 'Goals, target customers or specific features you need. A sentence or two is enough.', fr: 'Objectifs, clients cibles ou fonctionnalités souhaitées. Une ou deux phrases suffisent.', de: 'Ziele, Zielkunden oder gewünschte Funktionen. Ein, zwei Sätze genügen.', it: 'Obiettivi, clienti target o funzionalità richieste. Bastano una o due frasi.' })}
+                    {pick(lang, { en: 'Goals, target customers or specific features you need. A sentence or two is enough.', fr: 'Objectifs, clientèle visée ou fonctionnalités souhaitées. Une ou deux phrases suffisent.', de: 'Ziele, Zielgruppe oder gewünschte Funktionen. Ein, zwei Sätze genügen.', it: 'Obiettivi, clienti a cui ti rivolgi o funzioni che ti servono. Bastano una o due frasi.' })}
                   </p>
                 </div>
               </fieldset>
@@ -240,7 +247,7 @@ const T = {
               <fieldset class="step" data-step="2">
                 <legend class="step-legend">
                   <span class="eyebrow block mb-3">{T.stepOf.replace('{n}', '3').replace('{t}', '3')}</span>
-                  <span class="block text-heading-lg text-ink-900">{pick(lang, { en: 'How can we reach you?', fr: 'Comment pouvons-nous vous joindre ?', de: 'Wie erreichen wir Sie?', it: 'Come possiamo contattarti?' })}</span>
+                  <span class="block text-heading-lg text-ink-900">{pick(lang, { en: 'How can we reach you?', fr: 'Comment vous joindre\u202F?', de: 'Wie erreichen wir Sie?', it: 'Come possiamo contattarti?' })}</span>
                 </legend>
 
                 <div class="mt-8">
@@ -253,11 +260,11 @@ const T = {
                     autocomplete="email"
                     inputmode="email"
                     class="field"
-                    placeholder="name@business.ch"
+                    placeholder={pick(lang, { en: 'name@business.ch', fr: 'nom@entreprise.ch', de: 'name@firma.ch', it: 'nome@azienda.ch' })}
                     aria-describedby="email-error"
                   />
                   <p id="email-error" class="error hidden" data-error-for="email">
-                    {pick(lang, { en: 'Please enter a valid email address.', fr: 'Veuillez saisir une adresse e-mail valide.', de: 'Bitte gültige E-Mail-Adresse eingeben.', it: 'Inserisci un indirizzo e-mail valido.' })}
+                    {pick(lang, { en: 'Please enter a valid email address.', fr: 'Veuillez saisir une adresse e-mail valide.', de: 'Bitte geben Sie eine gültige E-Mail-Adresse ein.', it: 'Inserisci un indirizzo e-mail valido.' })}
                   </p>
                 </div>
 
@@ -270,8 +277,8 @@ const T = {
                 </div>
 
                 <p class="mt-8 text-sm text-steel-600">
-                  {pick(lang, { en: 'By sending, you agree to our ', fr: 'En envoyant, vous acceptez notre ', de: 'Mit dem Senden akzeptieren Sie unsere ', it: 'Inviando, accetti la nostra ' })}
-                  <a href="/privacy" class="text-ink-900 underline underline-offset-4 decoration-1 hover:text-signal-700">
+                  {pick(lang, { en: 'By sending, you agree to our ', fr: 'En envoyant ce formulaire, vous acceptez notre ', de: 'Mit dem Absenden akzeptieren Sie unsere ', it: 'Inviando il modulo accetti la nostra ' })}
+                  <a href={getLocalizedPath('/privacy', lang)} class="text-ink-900 underline underline-offset-4 decoration-1 hover:text-signal-700">
                     {pick(lang, { en: 'Privacy Policy', fr: 'Politique de confidentialité', de: 'Datenschutzerklärung', it: 'Informativa sulla privacy' })}
                   </a>.
                 </p>
@@ -298,7 +305,7 @@ const T = {
                 <Check size={22} stroke-width={2} />
               </span>
               <h2 class="mt-8 text-heading-xl">{pick(lang, { en: 'Thank you. We have your request.', fr: 'Merci. Nous avons bien reçu votre demande.', de: 'Danke. Ihre Anfrage ist eingegangen.', it: 'Grazie. Abbiamo ricevuto la tua richiesta.' })}</h2>
-              <p class="lead mt-4">{pick(lang, { en: "We'll be in touch within 24 hours.", fr: 'Nous vous contacterons sous 24 heures.', de: 'Wir melden uns innerhalb von 24 Stunden.', it: 'Ti contatteremo entro 24 ore.' })}</p>
+              <p class="lead mt-4">{pick(lang, { en: 'We’ll be in touch within 24 hours.', fr: 'Nous vous contacterons dans les 24 heures.', de: 'Wir melden uns innerhalb von 24 Stunden.', it: 'Ti contatteremo entro 24 ore.' })}</p>
               <ol class="mt-8 border-t border-ink-900/10">
                 {next.map((n, i) => (
                   <li class="flex gap-4 border-b border-ink-900/10 py-4 text-ink-900">
@@ -306,8 +313,8 @@ const T = {
                   </li>
                 ))}
               </ol>
-              <a href="/" class="link-arrow mt-8">
-                {pick(lang, { en: 'Back to the homepage', fr: "Retour à l'accueil", de: 'Zurück zur Startseite', it: 'Torna alla home' })}
+              <a href={getLocalizedPath('/', lang)} class="link-arrow mt-8">
+                {pick(lang, { en: 'Back to the homepage', fr: 'Retour à l’accueil', de: 'Zurück zur Startseite', it: 'Torna alla pagina iniziale' })}
                 <ArrowRight size={16} stroke-width={1.75} />
               </a>
             </div>
@@ -315,7 +322,7 @@ const T = {
 
           <!-- What happens next (mobile) -->
           <div class="lg:hidden mt-10 border-t border-ink-900/10 pt-6">
-            <h2 class="eyebrow mb-4">{pick(lang, { en: 'What happens next?', fr: 'Que se passe-t-il ensuite ?', de: 'Wie geht es weiter?', it: 'Cosa succede dopo?' })}</h2>
+            <h2 class="eyebrow mb-4">{pick(lang, { en: 'What happens next?', fr: 'Et ensuite\u202F?', de: 'Wie geht es weiter?', it: 'E poi?' })}</h2>
             <ul class="space-y-3">
               {next.map((n) => (
                 <li class="flex gap-3 text-sm text-steel-700">

@@ -1,6 +1,6 @@
 ---
 import type { Language } from '@i18n/index';
-import { useTranslations } from '@i18n/index';
+import { useTranslations, getLocalizedPath } from '@i18n/index';
 import { pick } from '@lib/pick';
 import { ArrowRight, Check } from '@lucide/astro';
 
@@ -12,9 +12,9 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const points = [
-  pick(lang, { en: 'Website CHF 0', fr: 'Site web CHF 0', de: 'Website CHF 0', it: 'Sito web CHF 0' }),
-  pick(lang, { en: 'Your domain stays yours', fr: 'Votre domaine reste le vôtre', de: 'Ihre Domain bleibt Ihre', it: 'Il dominio resta tuo' }),
-  pick(lang, { en: 'No commitment', fr: 'Sans engagement', de: 'Keine Verpflichtung', it: 'Nessun impegno' }),
+  pick(lang, { en: 'Website CHF\u00A00', fr: 'Site web CHF\u00A00', de: 'Website CHF\u00A00', it: 'Sito web CHF\u00A00' }),
+  pick(lang, { en: 'Your domain stays yours', fr: 'Votre domaine reste le vôtre', de: 'Die Domain gehört Ihnen', it: 'Il dominio resta tuo' }),
+  pick(lang, { en: 'No commitment', fr: 'Sans engagement', de: 'Unverbindlich', it: 'Senza impegno' }),
 ];
 ---
 
@@ -25,17 +25,17 @@ const points = [
     <div class="max-w-4xl">
       <p class="eyebrow flex items-center gap-3 mb-8">
         <span class="h-px w-8 bg-signal-600" aria-hidden="true"></span>
-        {pick(lang, { en: 'Start here', fr: 'Commencer ici', de: 'Hier starten', it: 'Inizia qui' })}
+        {pick(lang, { en: 'Start here', fr: 'Pour commencer', de: 'Jetzt starten', it: 'Inizia qui' })}
       </p>
       <h2 id="final-title" class="text-display-lg">{t('finalCta.title')}</h2>
       <p class="lead mt-6">{t('finalCta.text')}</p>
 
       <div class="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
-        <a href="/start" class="btn btn-primary btn-lg">
+        <a href={getLocalizedPath('/start', lang)} class="btn btn-primary btn-lg">
           {t('finalCta.primary')}
           <ArrowRight size={18} class="arrow" stroke-width={1.75} />
         </a>
-        <a href="/start?path=extend" class="link-arrow self-start sm:self-auto py-2">
+        <a href={getLocalizedPath('/start?path=extend', lang)} class="link-arrow self-start sm:self-auto py-2">
           {t('finalCta.secondary')}
           <ArrowRight size={16} stroke-width={1.75} />
         </a>

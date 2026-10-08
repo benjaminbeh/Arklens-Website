@@ -1,0 +1,30 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+// Static, language-neutral 404 (served by Cloudflare Pages for unmatched paths).
+// No Header/Footer: the language switcher would point to non-existent /fr/404 etc.
+const linkClass = 'text-ink-900 underline underline-offset-4 decoration-1 hover:text-signal-700';
+---
+
+<BaseLayout
+  title="Page not found"
+  description="This page does not exist. Go to the Arklens home page in English, French, German or Italian."
+  lang="en"
+  noindex
+>
+  <main id="main" class="py-24">
+    <div class="container-custom max-w-4xl">
+      <a href="/" class="inline-flex items-center gap-2.5 text-ink-900" aria-label="Arklens, home">
+        <img src="/arklens-logo.png" width="32" height="32" alt="" class="block h-8 w-8 shrink-0 object-contain" decoding="async" />
+        <span class="text-[1.25rem] font-semibold tracking-[-0.03em]">Arklens</span>
+      </a>
+      <h1 class="text-display-md mt-16 mb-8 text-ink-900">404</h1>
+      <div class="space-y-4 text-lg text-steel-700">
+        <p lang="en">Page not found. <a href="/" class={linkClass}>Go to the home page</a></p>
+        <p lang="fr">Page introuvable. <a href="/fr/" class={linkClass}>Aller à l’accueil</a></p>
+        <p lang="de">Seite nicht gefunden. <a href="/de/" class={linkClass}>Zur Startseite</a></p>
+        <p lang="it">Pagina non trovata. <a href="/it/" class={linkClass}>Vai alla pagina iniziale</a></p>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

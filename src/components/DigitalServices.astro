@@ -1,5 +1,6 @@
 ---
 import type { Language } from '@i18n/index';
+import { getLocalizedPath } from '@i18n/index';
 import { pick } from '@lib/pick';
 import { Users, MessageSquareText, ChartLine, Timer, ArrowRight } from '@lucide/astro';
 import SectionHeader from '@components/ui/SectionHeader.astro';
@@ -9,32 +10,49 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const en = lang === 'en';
 
 const serviceCategories = [
   {
     key: 'get_customers',
     icon: Users,
-    title: pick(lang, { en: 'Get more customers', fr: 'Obtenir plus de clients', de: 'Mehr Kunden gewinnen', it: 'Ottenere più clienti' }),
-    services: en ? ['Local SEO', 'Google Business Profile', 'Multilingual', 'Review management'] : ['SEO local', 'Profil Google Business', 'Multilingue', 'Gestion des avis'],
+    title: pick(lang, { en: 'Get more customers', fr: 'Gagner des clients', de: 'Mehr Kundschaft gewinnen', it: 'Trovare più clienti' }),
+    services: [
+      pick(lang, { en: 'Local SEO', fr: 'SEO local', de: 'Lokales SEO', it: 'SEO a livello locale' }),
+      pick(lang, { en: 'Google Business Profile', fr: 'Profil d’entreprise Google', de: 'Google-Unternehmensprofil', it: 'Profilo dell’attività su Google' }),
+      pick(lang, { en: 'Multilingual', fr: 'Site multilingue', de: 'Mehrsprachigkeit', it: 'Sito multilingue' }),
+      pick(lang, { en: 'Review management', fr: 'Gestion des avis', de: 'Bewertungen verwalten', it: 'Gestione delle recensioni' }),
+    ],
   },
   {
     key: 'serve_customers',
     icon: MessageSquareText,
-    title: pick(lang, { en: 'Serve customers better', fr: 'Mieux servir les clients', de: 'Kunden besser bedienen', it: 'Servire meglio i clienti' }),
-    services: en ? ['Online booking', 'Quote requests', 'Accept payments', 'Business email'] : ['Réservation en ligne', 'Demandes de devis', 'Accepter les paiements', 'E-mail professionnel'],
+    title: pick(lang, { en: 'Serve customers better', fr: 'Mieux servir vos clients', de: 'Kunden besser betreuen', it: 'Servire meglio i clienti' }),
+    services: [
+      pick(lang, { en: 'Online booking', fr: 'Réservation en ligne', de: 'Online-Buchung', it: 'Prenotazione online' }),
+      pick(lang, { en: 'Quote requests', fr: 'Demandes d’offre', de: 'Offertanfragen', it: 'Richieste di offerta' }),
+      pick(lang, { en: 'Accept payments', fr: 'Paiements en ligne', de: 'Online-Zahlungen', it: 'Pagamenti online' }),
+      pick(lang, { en: 'Business email', fr: 'E-mail professionnel', de: 'Geschäfts-E-Mail', it: 'E-mail aziendale' }),
+    ],
   },
   {
     key: 'run_business',
     icon: ChartLine,
-    title: pick(lang, { en: 'Run your business better', fr: 'Mieux gérer votre entreprise', de: 'Ihr Geschäft besser führen', it: 'Gestire meglio la tua azienda' }),
-    services: en ? ['Understand visitors', 'Track leads', 'More pages'] : ['Comprendre les visiteurs', 'Suivre les prospects', 'Plus de pages'],
+    title: pick(lang, { en: 'Run your business better', fr: 'Mieux gérer votre entreprise', de: 'Ihr Unternehmen besser führen', it: 'Gestire meglio l’azienda' }),
+    services: [
+      pick(lang, { en: 'Understand visitors', fr: 'Comprendre vos visiteurs', de: 'Website-Besuche auswerten', it: 'Capire i visitatori' }),
+      pick(lang, { en: 'Track leads', fr: 'Suivre les demandes', de: 'Anfragen nachverfolgen', it: 'Seguire i contatti' }),
+      pick(lang, { en: 'More pages', fr: 'Pages supplémentaires', de: 'Weitere Seiten', it: 'Pagine aggiuntive' }),
+    ],
   },
   {
     key: 'save_time',
     icon: Timer,
     title: pick(lang, { en: 'Save time', fr: 'Gagner du temps', de: 'Zeit sparen', it: 'Risparmiare tempo' }),
-    services: en ? ['Automate tasks', 'Connect tools', 'Business workflows'] : ['Automatiser les tâches', 'Connecter les outils', 'Flux de travail'],
+    services: [
+      pick(lang, { en: 'Automate tasks', fr: 'Automatiser les tâches', de: 'Aufgaben automatisieren', it: 'Automatizzare le attività' }),
+      pick(lang, { en: 'Connect tools', fr: 'Relier vos outils', de: 'Tools verbinden', it: 'Collegare gli strumenti' }),
+      pick(lang, { en: 'Business workflows', fr: 'Flux de travail', de: 'Arbeitsabläufe', it: 'Flussi di lavoro' }),
+    ],
   },
 ];
 ---
@@ -44,13 +62,13 @@ const serviceCategories = [
     <SectionHeader
       id="services-title"
       index="06"
-      eyebrow={pick(lang, { en: 'Add-ons', fr: 'Options', de: 'Erweiterungen', it: 'Componenti aggiuntivi' })}
-      title={pick(lang, { en: 'Add what your business needs', fr: 'Ajoutez ce dont votre entreprise a besoin', de: 'Ergänzen Sie, was Ihr Unternehmen braucht', it: 'Aggiungi ciò di cui la tua azienda ha bisogno' })}
+      eyebrow={pick(lang, { en: 'Add-ons', fr: 'Options', de: 'Erweiterungen', it: 'Opzioni' })}
+      title={pick(lang, { en: 'Add what your business needs', fr: 'Ajoutez ce dont votre entreprise a besoin', de: 'Ergänzen Sie, was Ihr Unternehmen braucht', it: 'Aggiungi ciò che serve alla tua azienda' })}
       lead={pick(lang, {
         en: 'Start with a free website. Add paid services only when they create value for your business.',
-        fr: "Commencez avec un site gratuit. Ajoutez des services payants uniquement lorsqu'ils créent de la valeur pour votre entreprise.",
-        de: 'Starten Sie mit einer kostenlosen Website. Bezahlte Dienste nur, wenn sie Ihrem Unternehmen Mehrwert bringen.',
-        it: 'Inizia con un sito gratuito. Aggiungi servizi a pagamento solo quando creano valore per la tua azienda.',
+        fr: 'Commencez avec un site gratuit. N’ajoutez des prestations payantes que lorsqu’elles apportent une réelle valeur à votre entreprise.',
+        de: 'Starten Sie mit einer kostenlosen Website. Kostenpflichtige Leistungen kommen nur dazu, wenn sie Ihrem Unternehmen etwas bringen.',
+        it: 'Inizia con un sito gratuito. Aggiungi servizi a pagamento solo quando portano valore alla tua azienda.',
       })}
     />
 
@@ -78,13 +96,13 @@ const serviceCategories = [
       <p class="text-steel-600 max-w-2xl">
         {pick(lang, {
           en: 'Clear pricing before any paid work begins. No surprises, no subscriptions unless you want them.',
-          fr: "Prix clairs avant tout travail payant. Pas de surprises, pas d'abonnements sauf si vous le souhaitez.",
-          de: 'Klare Preise vor jeder bezahlten Arbeit. Keine Überraschungen, keine Abos, ausser Sie wünschen es.',
-          it: 'Prezzi chiari prima di qualsiasi lavoro a pagamento. Nessuna sorpresa, nessun abbonamento se non lo desideri.',
+          fr: 'Des prix clairs avant tout travail payant. Pas de surprise, pas d’abonnement, sauf si vous le souhaitez.',
+          de: 'Klare Preise, bevor kostenpflichtige Arbeit beginnt. Keine Überraschungen und kein Abo, ausser Sie wünschen es.',
+          it: 'Prezzi chiari prima di ogni lavoro a pagamento. Nessuna sorpresa e nessun abbonamento, se non lo desideri.',
         })}
       </p>
-      <a href="/start?path=extend" class="link-arrow self-start sm:self-auto">
-        {pick(lang, { en: 'Add a feature', fr: 'Ajouter une fonctionnalité', de: 'Funktion hinzufügen', it: 'Aggiungi una funzionalità' })}
+      <a href={getLocalizedPath('/start?path=extend', lang)} class="link-arrow self-start sm:self-auto">
+        {pick(lang, { en: 'Add a feature', fr: 'Ajouter une fonctionnalité', de: 'Funktion ergänzen', it: 'Aggiungi una funzionalità' })}
         <ArrowRight size={16} stroke-width={1.75} />
       </a>
     </div>

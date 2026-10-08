@@ -41,6 +41,9 @@ jobs:
       - name: Build site
         run: npm run build
 
+      - name: Check localisation (FR/DE/IT)
+        run: npm run check:i18n
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:

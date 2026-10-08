@@ -30,4 +30,8 @@ lerna-debug.log*
 
 # Cloudflare
 .wrangler/
-wrangler.toml
+.dev.vars
+.dev.vars.*
+
+# AI-agent working files (plans, reviews, verification notes)
+.agents/
