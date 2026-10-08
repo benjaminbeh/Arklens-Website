@@ -11,13 +11,16 @@ import HowItWorks from '@components/HowItWorks.astro';
 import DigitalServices from '@components/DigitalServices.astro';
 import Progression from '@components/Progression.astro';
 import AutomationExamples from '@components/AutomationExamples.astro';
+import AIExamples from '@components/AIExamples.astro';
+import Direction from '@components/Direction.astro';
 import DigitalCheck from '@components/DigitalCheck.astro';
 import SwissTrust from '@components/SwissTrust.astro';
 import FAQ from '@components/FAQ.astro';
 import FinalCTA from '@components/FinalCTA.astro';
-import { useTranslations } from '@i18n/index';
+import { useTranslations, localeStaticPaths, type Language } from '@i18n/index';
 
-const lang = 'en'; // Default language
+export function getStaticPaths() { return localeStaticPaths(); }
+const { lang } = Astro.props as { lang: Language };
 const t = useTranslations(lang);
 
 const title = t('hero.title');
@@ -28,6 +31,7 @@ const description = t('hero.subtitle');
   <Header lang={lang} />
   <main id="main">
     <Hero lang={lang} />
+    <Direction lang={lang} />
     <CustomerPaths lang={lang} />
     <FreeOffer lang={lang} />
     <WhyFree lang={lang} />
@@ -35,6 +39,7 @@ const description = t('hero.subtitle');
     <HowItWorks lang={lang} />
     <DigitalServices lang={lang} />
     <Progression lang={lang} />
+    <AIExamples lang={lang} />
     <AutomationExamples lang={lang} />
     <DigitalCheck lang={lang} />
     <SwissTrust lang={lang} />

@@ -1,6 +1,6 @@
 ---
 import type { Language } from '@i18n/index';
-import { useTranslations } from '@i18n/index';
+import { useTranslations, getLocalizedPath } from '@i18n/index';
 import { pick } from '@lib/pick';
 import { ArrowRight } from '@lucide/astro';
 import SectionHeader from '@components/ui/SectionHeader.astro';
@@ -17,7 +17,7 @@ const L = {
   website: pick(lang, { en: 'Website', fr: 'Site web', de: 'Website', it: 'Sito web' }),
   booking: pick(lang, { en: 'Booking', fr: 'Réservation', de: 'Buchung', it: 'Prenotazioni' }),
   reservations: pick(lang, { en: 'Reservations', fr: 'Réservations', de: 'Reservationen', it: 'Prenotazioni' }),
-  quotes: pick(lang, { en: 'Quote form', fr: 'Devis', de: 'Offertanfrage', it: 'Preventivi' }),
+  quotes: pick(lang, { en: 'Quote form', fr: 'Demande d’offre', de: 'Offertanfrage', it: 'Richiesta d’offerta' }),
   multilingual: pick(lang, { en: 'Multilingual', fr: 'Multilingue', de: 'Mehrsprachig', it: 'Multilingue' }),
   reviews: pick(lang, { en: 'Reviews', fr: 'Avis', de: 'Bewertungen', it: 'Recensioni' }),
   payments: pick(lang, { en: 'Payments', fr: 'Paiements', de: 'Zahlungen', it: 'Pagamenti' }),
@@ -27,63 +27,100 @@ const L = {
   open: pick(lang, { en: 'Open', fr: 'Ouvert', de: 'Geöffnet', it: 'Aperto' }),
   address: pick(lang, { en: 'Address', fr: 'Adresse', de: 'Adresse', it: 'Indirizzo' }),
   phone: pick(lang, { en: 'Phone', fr: 'Tél.', de: 'Telefon', it: 'Tel.' }),
+  about: pick(lang, { en: 'About', fr: 'À propos', de: 'Über uns', it: 'Chi siamo' }),
+  services: pick(lang, { en: 'Services', fr: 'Services', de: 'Angebot', it: 'Servizi' }),
+  team: pick(lang, { en: 'Team', fr: 'Équipe', de: 'Team', it: 'Team' }),
+  focus: pick(lang, { en: 'Focus', fr: 'Spécialité', de: 'Schwerpunkt', it: 'Ambito' }),
+  monFri: pick(lang, { en: 'Mon–Fri', fr: 'lu–ve', de: 'Mo–Fr', it: 'lu–ve' }),
+  monSat: pick(lang, { en: 'Mon–Sat', fr: 'lu–sa', de: 'Mo–Sa', it: 'lu–sa' }),
+  tueSat: pick(lang, { en: 'Tue–Sat', fr: 'ma–sa', de: 'Di–Sa', it: 'ma–sa' }),
+};
+
+// City exonyms per locale (EN keeps the current values).
+const C = {
+  fribourg: pick(lang, { en: 'Fribourg', fr: 'Fribourg', de: 'Freiburg', it: 'Friburgo' }),
+  lausanne: pick(lang, { en: 'Lausanne', fr: 'Lausanne', de: 'Lausanne', it: 'Losanna' }),
+  bern: pick(lang, { en: 'Bern', fr: 'Berne', de: 'Bern', it: 'Berna' }),
+  zurich: pick(lang, { en: 'Zürich', fr: 'Zurich', de: 'Zürich', it: 'Zurigo' }),
+  luzern: pick(lang, { en: 'Luzern', fr: 'Lucerne', de: 'Luzern', it: 'Lucerna' }),
+  lugano: 'Lugano',
+  neuchatel: pick(lang, { en: 'Neuchâtel', fr: 'Neuchâtel', de: 'Neuenburg', it: 'Neuchâtel' }),
+  basel: pick(lang, { en: 'Basel', fr: 'Bâle', de: 'Basel', it: 'Basilea' }),
 };
 
 // Illustrative concepts — not client references.
 const projects = [
   {
-    key: 'restaurant', name: 'Maison Dupont', city: 'Fribourg', url: 'maison-dupont.ch',
-    headline: 'Seasonal cooking in the old town.', sub: 'Lunch and dinner, Tuesday to Saturday.', cta: 'Reserve',
-    nav: ['Menu', 'About', L.contact], info: [{ k: L.open, v: 'Tue–Sat' }, { k: L.address, v: 'Rue de Lausanne 12' }, { k: L.phone, v: '026 000 00 00' }],
+    key: 'restaurant', name: 'Maison Dupont', city: C.fribourg, url: 'maison-dupont.ch',
+    headline: pick(lang, { en: 'Seasonal cooking in the old town.', fr: 'Cuisine de saison en vieille ville.', de: 'Saisonale Küche in der Altstadt.', it: 'Cucina di stagione nel centro storico.' }),
+    sub: pick(lang, { en: 'Lunch and dinner, Tuesday to Saturday.', fr: 'Midi et soir, du mardi au samedi.', de: 'Mittag und Abend, Dienstag bis Samstag.', it: 'Pranzo e cena, da martedì a sabato.' }),
+    cta: pick(lang, { en: 'Reserve', fr: 'Réserver', de: 'Reservieren', it: 'Prenota' }),
+    nav: [pick(lang, { en: 'Menu', fr: 'Carte', de: 'Karte', it: 'Menu' }), L.about, L.contact], info: [{ k: L.open, v: L.tueSat }, { k: L.address, v: 'Rue de Lausanne 12' }, { k: L.phone, v: '026 000 00 00' }],
     palette: { bg: '#F7F3EC', ink: '#1F1A14', accent: '#8A3B1F', tone: '#E6DCCB', tone2: '#CDBB9E' }, motif: 'arch',
     tags: [L.website, L.reservations, L.google],
   },
   {
-    key: 'beauty', name: 'Atelier Lumière', city: 'Lausanne', url: 'atelier-lumiere.ch',
-    headline: 'Hair and colour, done with care.', sub: 'Book your next appointment in two clicks.', cta: 'Book',
-    nav: ['Services', 'Team', L.contact], info: [{ k: L.open, v: 'Mon–Sat' }, { k: L.address, v: 'Av. de Rumine 4' }, { k: L.phone, v: '021 000 00 00' }],
+    key: 'beauty', name: 'Atelier Lumière', city: C.lausanne, url: 'atelier-lumiere.ch',
+    headline: pick(lang, { en: 'Hair and colour, done with care.', fr: 'Coupe et couleur, avec soin.', de: 'Schnitt und Farbe, mit Sorgfalt.', it: 'Taglio e colore, con cura.' }),
+    sub: pick(lang, { en: 'Book your next appointment in two clicks.', fr: 'Réservez votre prochain rendez-vous en deux clics.', de: 'Ihren nächsten Termin in zwei Klicks buchen.', it: 'Prenota il prossimo appuntamento in due clic.' }),
+    cta: pick(lang, { en: 'Book', fr: 'Réserver', de: 'Termin buchen', it: 'Prenota' }),
+    nav: [L.services, L.team, L.contact], info: [{ k: L.open, v: L.monSat }, { k: L.address, v: 'Av. de Rumine 4' }, { k: L.phone, v: '021 000 00 00' }],
     palette: { bg: '#FBF7F5', ink: '#2A2224', accent: '#7A4E5A', tone: '#EBDCD8', tone2: '#D6BDB8' }, motif: 'circle',
     tags: [L.website, L.booking, L.reviews],
   },
   {
-    key: 'trades', name: 'Schreinerei Bühler', city: 'Bern', url: 'buehler-schreinerei.ch',
-    headline: 'Custom joinery, built to last.', sub: 'Kitchens, interiors and repairs across the canton.', cta: 'Request a quote',
-    nav: ['Projects', 'About', L.contact], info: [{ k: 'Region', v: 'Kanton Bern' }, { k: L.address, v: 'Industriestr. 8' }, { k: L.phone, v: '031 000 00 00' }],
+    key: 'trades', name: 'Schreinerei Bühler', city: C.bern, url: 'buehler-schreinerei.ch',
+    headline: pick(lang, { en: 'Custom joinery, built to last.', fr: 'Menuiserie sur mesure, faite pour durer.', de: 'Schreinerarbeiten nach Mass, die halten.', it: 'Falegnameria su misura, fatta per durare.' }),
+    sub: pick(lang, { en: 'Kitchens, interiors and repairs across the canton.', fr: 'Cuisines, aménagements intérieurs et réparations dans tout le canton.', de: 'Küchen, Innenausbau und Reparaturen im ganzen Kanton.', it: 'Cucine, arredi interni e riparazioni in tutto il cantone.' }),
+    cta: pick(lang, { en: 'Request a quote', fr: 'Demande d’offre', de: 'Offerte anfragen', it: 'Richiedi offerta' }),
+    nav: [pick(lang, { en: 'Projects', fr: 'Projets', de: 'Projekte', it: 'Progetti' }), L.about, L.contact],
+    info: [{ k: pick(lang, { en: 'Region', fr: 'Région', de: 'Gebiet', it: 'Regione' }), v: pick(lang, { en: 'Kanton Bern', fr: 'Canton de Berne', de: 'Kanton Bern', it: 'Cantone di Berna' }) }, { k: L.address, v: 'Industriestr. 8' }, { k: L.phone, v: '031 000 00 00' }],
     palette: { bg: '#F5F4F0', ink: '#1C1D1A', accent: '#3F5A3A', tone: '#DEDBD0', tone2: '#BFB9A6' }, motif: 'stack',
     tags: [L.website, L.quotes, L.google],
   },
   {
-    key: 'consultant', name: 'Keller Advisory', city: 'Zürich', url: 'keller-advisory.ch',
-    headline: 'Clear advice for growing companies.', sub: 'Strategy, finance and operations for SMEs.', cta: 'Book a call',
-    nav: ['Services', 'Insights', L.contact], info: [{ k: 'Focus', v: 'SME strategy' }, { k: L.address, v: 'Seefeldstr. 20' }, { k: L.phone, v: '044 000 00 00' }],
+    key: 'consultant', name: 'Keller Advisory', city: C.zurich, url: 'keller-advisory.ch',
+    headline: pick(lang, { en: 'Clear advice for growing companies.', fr: 'Des conseils clairs pour les entreprises en croissance.', de: 'Klare Beratung für wachsende Unternehmen.', it: 'Consulenza chiara per aziende in crescita.' }),
+    sub: pick(lang, { en: 'Strategy, finance and operations for SMEs.', fr: 'Stratégie, finances et organisation pour les PME.', de: 'Strategie, Finanzen und Betrieb für KMU.', it: 'Strategia, finanza e organizzazione per le PMI.' }),
+    cta: pick(lang, { en: 'Book a call', fr: 'Fixer un appel', de: 'Gespräch buchen', it: 'Parliamone' }),
+    nav: [L.services, pick(lang, { en: 'Insights', fr: 'Articles', de: 'Wissen', it: 'Articoli' }), L.contact],
+    info: [{ k: L.focus, v: pick(lang, { en: 'SME strategy', fr: 'Stratégie PME', de: 'KMU-Strategie', it: 'Strategia PMI' }) }, { k: L.address, v: 'Seefeldstr. 20' }, { k: L.phone, v: '044 000 00 00' }],
     palette: { bg: '#F4F6F8', ink: '#121820', accent: '#1F3B5B', tone: '#DCE3EA', tone2: '#B9C6D3' }, motif: 'grid',
     tags: [L.website, L.multilingual, L.crm],
   },
   {
-    key: 'health', name: 'Physio am See', city: 'Luzern', url: 'physio-am-see.ch',
-    headline: 'Physiotherapy close to home.', sub: 'Appointments for rehabilitation and sports injuries.', cta: 'Book',
-    nav: ['Therapy', 'Team', L.contact], info: [{ k: L.open, v: 'Mon–Fri' }, { k: L.address, v: 'Haldenstr. 3' }, { k: L.phone, v: '041 000 00 00' }],
+    key: 'health', name: 'Physio am See', city: C.luzern, url: 'physio-am-see.ch',
+    headline: pick(lang, { en: 'Physiotherapy close to home.', fr: 'La physiothérapie près de chez vous.', de: 'Physiotherapie in Ihrer Nähe.', it: 'Fisioterapia vicino a casa.' }),
+    sub: pick(lang, { en: 'Appointments for rehabilitation and sports injuries.', fr: 'Rendez-vous pour la rééducation et les blessures sportives.', de: 'Termine für Rehabilitation und Sportverletzungen.', it: 'Appuntamenti per riabilitazione e infortuni sportivi.' }),
+    cta: pick(lang, { en: 'Book', fr: 'Réserver', de: 'Termin buchen', it: 'Prenota' }),
+    nav: [pick(lang, { en: 'Therapy', fr: 'Thérapies', de: 'Therapien', it: 'Terapie' }), L.team, L.contact], info: [{ k: L.open, v: L.monFri }, { k: L.address, v: 'Haldenstr. 3' }, { k: L.phone, v: '041 000 00 00' }],
     palette: { bg: '#F3F7F6', ink: '#122220', accent: '#1E6B63', tone: '#D6E6E2', tone2: '#AFCFC8' }, motif: 'circle',
     tags: [L.website, L.booking, L.multilingual],
   },
   {
-    key: 'garage', name: 'Garage Rossi', city: 'Lugano', url: 'garage-rossi.ch',
-    headline: 'Service and repairs for every make.', sub: 'MFK preparation, tyres and diagnostics.', cta: 'Book a service',
-    nav: ['Service', 'Vehicles', L.contact], info: [{ k: L.open, v: 'Mon–Fri' }, { k: L.address, v: 'Via Cantonale 21' }, { k: L.phone, v: '091 000 00 00' }],
+    key: 'garage', name: 'Garage Rossi', city: C.lugano, url: 'garage-rossi.ch',
+    headline: pick(lang, { en: 'Service and repairs for every make.', fr: 'Entretien et réparations toutes marques.', de: 'Service und Reparaturen aller Marken.', it: 'Manutenzione e riparazioni di tutte le marche.' }),
+    sub: pick(lang, { en: 'MFK preparation, tyres and diagnostics.', fr: 'Préparation à l’expertise, pneus et diagnostic.', de: 'MFK-Vorbereitung, Reifen und Diagnose.', it: 'Preparazione al collaudo, pneumatici e diagnosi.' }),
+    cta: pick(lang, { en: 'Book a service', fr: 'Fixer un RDV', de: 'Service buchen', it: 'Prenota ora' }),
+    nav: [pick(lang, { en: 'Service', fr: 'Entretien', de: 'Service', it: 'Assistenza' }), pick(lang, { en: 'Vehicles', fr: 'Véhicules', de: 'Fahrzeuge', it: 'Veicoli' }), L.contact], info: [{ k: L.open, v: L.monFri }, { k: L.address, v: 'Via Cantonale 21' }, { k: L.phone, v: '091 000 00 00' }],
     palette: { bg: '#F4F4F4', ink: '#151515', accent: '#A0281E', tone: '#DDDDDB', tone2: '#BDBDB9' }, motif: 'stack',
     tags: [L.website, L.booking, L.google],
   },
   {
-    key: 'shop', name: 'Épicerie du Bourg', city: 'Neuchâtel', url: 'epicerie-du-bourg.ch',
-    headline: 'Regional products, every day.', sub: 'Cheese, bread and wine from local producers.', cta: 'Visit us',
-    nav: ['Products', 'About', L.contact], info: [{ k: L.open, v: 'Mon–Sat' }, { k: L.address, v: 'Rue du Bourg 6' }, { k: L.phone, v: '032 000 00 00' }],
+    key: 'shop', name: 'Épicerie du Bourg', city: C.neuchatel, url: 'epicerie-du-bourg.ch',
+    headline: pick(lang, { en: 'Regional products, every day.', fr: 'Produits régionaux, tous les jours.', de: 'Regionale Produkte, jeden Tag.', it: 'Prodotti regionali, ogni giorno.' }),
+    sub: pick(lang, { en: 'Cheese, bread and wine from local producers.', fr: 'Fromage, pain et vin de producteurs de la région.', de: 'Käse, Brot und Wein von Produzenten aus der Region.', it: 'Formaggio, pane e vino di produttori locali.' }),
+    cta: pick(lang, { en: 'Visit us', fr: 'Nous trouver', de: 'Besuchen Sie uns', it: 'Vieni a trovarci' }),
+    nav: [pick(lang, { en: 'Products', fr: 'Produits', de: 'Produkte', it: 'Prodotti' }), L.about, L.contact], info: [{ k: L.open, v: L.monSat }, { k: L.address, v: 'Rue du Bourg 6' }, { k: L.phone, v: '032 000 00 00' }],
     palette: { bg: '#F8F6EE', ink: '#1E1C12', accent: '#6B5A16', tone: '#E8E2C9', tone2: '#D2C79B' }, motif: 'arch',
     tags: [L.website, L.payments, L.google],
   },
   {
-    key: 'services', name: 'Weber & Partner', city: 'Basel', url: 'weber-partner.ch',
-    headline: 'Fiduciary and tax services.', sub: 'Accounting and payroll for Swiss companies.', cta: 'Get in touch',
-    nav: ['Services', 'Team', L.contact], info: [{ k: 'Focus', v: 'Treuhand' }, { k: L.address, v: 'Aeschenplatz 2' }, { k: L.phone, v: '061 000 00 00' }],
+    key: 'services', name: 'Weber & Partner', city: C.basel, url: 'weber-partner.ch',
+    headline: pick(lang, { en: 'Fiduciary and tax services.', fr: 'Fiduciaire et conseil fiscal.', de: 'Treuhand und Steuerberatung.', it: 'Servizi fiduciari e fiscali.' }),
+    sub: pick(lang, { en: 'Accounting and payroll for Swiss companies.', fr: 'Comptabilité et salaires pour les entreprises suisses.', de: 'Buchhaltung und Lohnwesen für Schweizer Unternehmen.', it: 'Contabilità e salari per aziende svizzere.' }),
+    cta: pick(lang, { en: 'Get in touch', fr: 'Nous contacter', de: 'Anfrage senden', it: 'Contattaci' }),
+    nav: [L.services, L.team, L.contact], info: [{ k: L.focus, v: pick(lang, { en: 'Treuhand', fr: 'Fiduciaire', de: 'Treuhand', it: 'Fiduciaria' }) }, { k: L.address, v: 'Aeschenplatz 2' }, { k: L.phone, v: '061 000 00 00' }],
     palette: { bg: '#F5F5F7', ink: '#16161C', accent: '#3A3A6A', tone: '#E0E0E8', tone2: '#C2C2D2' }, motif: 'grid',
     tags: [L.website, L.multilingual, L.crm],
   },
@@ -97,13 +134,13 @@ const total = String(projects.length).padStart(2, '0');
     <SectionHeader
       id="examples-title"
       index="04"
-      eyebrow={pick(lang, { en: 'Concept designs', fr: 'Concepts', de: 'Konzepte', it: 'Concept' })}
+      eyebrow={pick(lang, { en: 'Concept designs', fr: 'Concepts', de: 'Konzepte', it: 'Esempi di design' })}
       title={t('examples.title')}
       lead={pick(lang, {
         en: 'Illustrative concepts showing how a professional template adapts to each industry.',
-        fr: 'Concepts illustratifs montrant comment un modèle professionnel s’adapte à chaque secteur.',
-        de: 'Illustrative Konzepte, wie sich eine professionelle Vorlage an jede Branche anpasst.',
-        it: 'Concept illustrativi di come un modello professionale si adatta a ogni settore.',
+        fr: 'Des exemples fictifs qui montrent comment un modèle professionnel s’adapte à chaque secteur.',
+        de: 'Fiktive Beispiele: So passt sich eine professionelle Vorlage an jede Branche an.',
+        it: 'Esempi illustrativi di come un modello professionale si adatta a ogni settore.',
       })}
     />
   </div>
@@ -134,7 +171,7 @@ const total = String(projects.length).padStart(2, '0');
               info={[...p.info]}
               palette={p.palette}
               motif={p.motif}
-              label={`${t(`examples.${p.key}` as any)}: ${p.name}, ${p.city}`}
+              label={`${t(`examples.${p.key}` as any)}${t('examples.labelSeparator')} ${p.name}, ${p.city}`}
             />
 
             <div class="mt-5 flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
@@ -157,13 +194,13 @@ const total = String(projects.length).padStart(2, '0');
       <p class="text-steel-600 max-w-xl">
         {pick(lang, {
           en: 'Each template includes professional design adapted to your business type.',
-          fr: "Chaque modèle comprend un design professionnel adapté à votre type d'entreprise.",
-          de: 'Jede Vorlage enthält ein professionelles Design, angepasst an Ihre Branche.',
+          fr: 'Chaque modèle comprend un design professionnel adapté à votre secteur.',
+          de: 'Jede Vorlage hat ein professionelles Design, abgestimmt auf Ihre Branche.',
           it: 'Ogni modello include un design professionale adattato al tuo settore.',
         })}
       </p>
-      <a href="/start" class="btn btn-secondary self-start sm:self-auto">
-        {pick(lang, { en: 'Get my free website', fr: 'Obtenir mon site gratuit', de: 'Meine kostenlose Website', it: 'Ottieni il mio sito gratuito' })}
+      <a href={getLocalizedPath('/start', lang)} class="btn btn-secondary self-start sm:self-auto">
+        {pick(lang, { en: 'Get my free website', fr: 'Demander mon site gratuit', de: 'Website kostenlos anfragen', it: 'Richiedi il sito gratuito' })}
         <ArrowRight size={16} class="arrow" stroke-width={1.75} />
       </a>
     </div>

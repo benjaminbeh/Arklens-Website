@@ -1,0 +1,170 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import { pick } from '@lib/pick';
+
+import { localeStaticPaths, getLocalizedPath, type Language } from '@i18n/index';
+export function getStaticPaths() { return localeStaticPaths(); }
+const { lang } = Astro.props as { lang: Language };
+
+const toComplete = pick(lang, { en: '[To be completed]', fr: '[À compléter]', de: '[Noch zu ergänzen]', it: '[Da completare]' });
+const websiteLabel = pick(lang, { en: 'Website:', fr: 'Site web\u00A0:', de: 'Website:', it: 'Sito web:' });
+---
+
+<BaseLayout 
+  title={pick(lang, { en: 'Legal Notice', fr: 'Mentions légales', de: 'Impressum', it: 'Note legali' })} 
+  description={pick(lang, {
+    en: 'Legal information about Arklens.',
+    fr: 'Mentions légales d’Arklens\u00A0: informations sur l’entreprise, hébergement, propriété intellectuelle et droit applicable.',
+    de: 'Impressum von Arklens: Angaben zum Unternehmen, Hosting, geistiges Eigentum und anwendbares Recht.',
+    it: 'Note legali di Arklens: informazioni sull’azienda, hosting, proprietà intellettuale e diritto applicabile.',
+  })} 
+  lang={lang}
+>
+  <Header lang={lang} />
+  <main id="main" class="pt-32 pb-24">
+    <div class="container-custom max-w-4xl">
+      <h1 class="text-display-md mb-8 text-neutral-900">
+        {pick(lang, { en: 'Legal Notice', fr: 'Mentions légales', de: 'Impressum', it: 'Note legali' })}
+      </h1>
+      
+      <div class="prose prose-lg max-w-none">
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: 'Company Information', fr: 'Informations sur l’entreprise', de: 'Angaben zum Unternehmen', it: 'Informazioni sull’azienda' })}
+          </h2>
+          <div class="text-neutral-700 space-y-2">
+            <p><strong>{pick(lang, { en: 'Company name:', fr: 'Nom de l’entreprise\u00A0:', de: 'Name des Unternehmens:', it: 'Nome dell’azienda:' })}</strong> Arklens</p>
+            <p><strong>{pick(lang, { en: 'Legal form:', fr: 'Forme juridique\u00A0:', de: 'Rechtsform:', it: 'Forma giuridica:' })}</strong> {toComplete}</p>
+            <p><strong>{pick(lang, { en: 'Address:', fr: 'Adresse\u00A0:', de: 'Adresse:', it: 'Indirizzo:' })}</strong> {toComplete}</p>
+            <p><strong>{pick(lang, { en: 'Switzerland', fr: 'Suisse', de: 'Schweiz', it: 'Svizzera' })}</strong></p>
+            <p><strong>{pick(lang, { en: 'Email:', fr: 'E-mail\u00A0:', de: 'E-Mail:', it: 'E-mail:' })}</strong> contact@arklens.ch</p>
+            <p><strong>{websiteLabel}</strong> www.arklens.ch</p>
+          </div>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: 'Legal Representative', fr: 'Représentation légale', de: 'Vertretungs\u00ADberechtigte Person', it: 'Rappresentante legale' })}
+          </h2>
+          <p class="text-neutral-700">
+            {pick(lang, {
+              en: '[To be completed: Name of director or legal representative]',
+              fr: '[À compléter\u00A0: nom de la personne qui dirige l’entreprise ou qui la représente légalement]',
+              de: '[Noch zu ergänzen: Name der Geschäftsführung oder der vertretungsberechtigten Person]',
+              it: '[Da completare: nome di chi dirige l’azienda o la rappresenta legalmente]',
+            })}
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: 'Identification Number', fr: 'Numéro d’identification', de: 'Identifikations\u00ADnummer', it: 'Numero d’identificazione' })}
+          </h2>
+          <div class="text-neutral-700 space-y-2">
+            <p><strong>{pick(lang, { en: 'IDE/UID:', fr: 'IDE\u00A0:', de: 'UID:', it: 'IDI:' })}</strong> {toComplete}</p>
+            <p><strong>{pick(lang, { en: 'VAT:', fr: 'TVA\u00A0:', de: 'MWST:', it: 'IVA:' })}</strong> {pick(lang, { en: '[To be completed if applicable]', fr: '[À compléter le cas échéant]', de: '[Noch zu ergänzen, falls zutreffend]', it: '[Da completare, se applicabile]' })}</p>
+          </div>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: 'Hosting', fr: 'Hébergement', de: 'Hosting', it: 'Hosting' })}
+          </h2>
+          <div class="text-neutral-700">
+            <p><strong>{pick(lang, { en: 'Host:', fr: 'Hébergeur\u00A0:', de: 'Hosting-Anbieter:', it: 'Fornitore di hosting:' })}</strong> Cloudflare, Inc.</p>
+            <p>101 Townsend St, San Francisco, CA 94107, USA</p>
+            <p>{websiteLabel} <a href="https://www.cloudflare.com" target="_blank" rel="noopener noreferrer" class="text-primary-600 hover:text-primary-700">www.cloudflare.com</a></p>
+          </div>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: 'Intellectual Property', fr: 'Propriété intellectuelle', de: 'Geistiges Eigentum', it: 'Proprietà intellettuale' })}
+          </h2>
+          <p class="text-neutral-700">
+            {pick(lang, {
+              en: 'All content on this site (text, images, graphics, logo, icons, etc.) is the property of Arklens, unless otherwise stated. Any reproduction, distribution, modification or use without prior authorization is prohibited.',
+              fr: 'L’ensemble du contenu de ce site (textes, images, graphiques, logo, icônes, etc.) est la propriété d’Arklens, sauf mention contraire. Toute reproduction, distribution, modification ou utilisation sans autorisation préalable est interdite.',
+              de: 'Alle Inhalte dieser Website (Texte, Bilder, Grafiken, Logo, Symbole usw.) sind Eigentum von Arklens, sofern nicht anders angegeben. Jede Vervielfältigung, Verbreitung, Änderung oder Nutzung ohne vorgängige Zustimmung ist untersagt.',
+              it: 'Tutti i contenuti di questo sito (testi, immagini, grafiche, logo, icone ecc.) sono di proprietà di Arklens, salvo diversa indicazione. È vietata qualsiasi riproduzione, distribuzione, modifica o utilizzo senza previa autorizzazione.',
+            })}
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: 'Liability', fr: 'Responsabilité', de: 'Haftung', it: 'Responsabilità' })}
+          </h2>
+          <p class="text-neutral-700">
+            {pick(lang, {
+              en: 'Arklens strives to provide accurate and up-to-date information on this site. However, we cannot guarantee the accuracy, precision or completeness of the information provided. We disclaim all liability for any errors or omissions.',
+              fr: 'Arklens s’efforce de fournir des informations exactes et à jour sur ce site. Toutefois, nous ne pouvons garantir l’exactitude, la précision ou l’exhaustivité des informations fournies. Nous déclinons toute responsabilité en cas d’erreur ou d’omission.',
+              de: 'Arklens bemüht sich, auf dieser Website korrekte und aktuelle Informationen bereitzustellen. Wir können jedoch die Richtigkeit, Genauigkeit oder Vollständigkeit der bereitgestellten Informationen nicht garantieren. Wir lehnen jede Haftung für Fehler oder Auslassungen ab.',
+              it: 'Arklens si impegna a fornire su questo sito informazioni corrette e aggiornate. Non possiamo tuttavia garantire l’esattezza, la precisione o la completezza delle informazioni fornite. Decliniamo ogni responsabilità per eventuali errori od omissioni.',
+            })}
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: 'External Links', fr: 'Liens externes', de: 'Externe Links', it: 'Link esterni' })}
+          </h2>
+          <p class="text-neutral-700">
+            {pick(lang, {
+              en: 'This site may contain links to external websites. Arklens has no control over the content of these sites and disclaims all responsibility for their content or availability.',
+              fr: 'Ce site peut contenir des liens vers des sites web externes. Arklens n’a aucun contrôle sur le contenu de ces sites et décline toute responsabilité quant à leur contenu ou à leur disponibilité.',
+              de: 'Diese Website kann Links zu externen Websites enthalten. Arklens hat keine Kontrolle über den Inhalt dieser Websites und lehnt jede Verantwortung für deren Inhalt oder Verfügbarkeit ab.',
+              it: 'Questo sito può contenere link a siti web esterni. Arklens non ha alcun controllo sul contenuto di tali siti e declina ogni responsabilità per il loro contenuto o la loro disponibilità.',
+            })}
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: 'Applicable Law', fr: 'Droit applicable', de: 'Anwendbares Recht', it: 'Diritto applicabile' })}
+          </h2>
+          <p class="text-neutral-700">
+            {pick(lang, {
+              en: 'This legal notice is governed by Swiss law. Any dispute shall be subject to the exclusive jurisdiction of the Swiss courts.',
+              fr: 'Les présentes mentions légales sont régies par le droit suisse. Tout litige est soumis à la compétence exclusive des tribunaux suisses.',
+              de: 'Dieses Impressum untersteht schweizerischem Recht. Für jede Streitigkeit sind ausschliesslich die schweizerischen Gerichte zuständig.',
+              it: 'Le presenti note legali sono disciplinate dal diritto svizzero. Qualsiasi controversia è soggetta alla giurisdizione esclusiva dei tribunali svizzeri.',
+            })}
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: 'Data Protection', fr: 'Protection des données', de: 'Datenschutz', it: 'Protezione dei dati' })}
+          </h2>
+          <p class="text-neutral-700">
+            {pick(lang, {
+              en: 'For more information on how we process your personal data, please see our ',
+              fr: 'Pour en savoir plus sur la manière dont nous traitons vos données personnelles, consultez notre ',
+              de: 'Weitere Informationen dazu, wie wir Ihre Personendaten bearbeiten, finden Sie in unserer ',
+              it: 'Per maggiori informazioni su come trattiamo i dati personali degli utenti, consultare la nostra ',
+            })}
+            <a href={getLocalizedPath('/privacy', lang)} class="text-primary-600 hover:text-primary-700">
+              {pick(lang, { en: 'Privacy Policy', fr: 'Politique de confidentialité', de: 'Datenschutzerklärung', it: 'Informativa sulla privacy' })}
+            </a>.
+          </p>
+        </section>
+
+        <div class="bg-neutral-50 rounded-xl p-6 mt-12 border border-neutral-200">
+          <p class="text-sm text-neutral-600">
+            <strong>{pick(lang, { en: 'Note:', fr: 'Remarque\u00A0:', de: 'Hinweis:', it: 'Nota:' })}</strong> 
+            {pick(lang, {
+              en: 'This legal notice is provided as a template. It is recommended to have it reviewed by a legal advisor to ensure compliance with applicable Swiss law.',
+              fr: 'Les présentes mentions légales sont fournies à titre de modèle. Il est recommandé de les faire vérifier par un conseil juridique afin d’assurer leur conformité avec le droit suisse applicable.',
+              de: 'Dieses Impressum dient als Vorlage. Es wird empfohlen, es von einer juristischen Fachperson prüfen zu lassen, um die Einhaltung des geltenden Schweizer Rechts sicherzustellen.',
+              it: 'Le presenti note legali sono fornite come modello. Si raccomanda di farle verificare da un consulente legale per garantirne la conformità al diritto svizzero applicabile.',
+            })}
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>

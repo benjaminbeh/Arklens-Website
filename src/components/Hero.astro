@@ -1,6 +1,6 @@
 ---
 import type { Language } from '@i18n/index';
-import { useTranslations } from '@i18n/index';
+import { useTranslations, getLocalizedPath } from '@i18n/index';
 import { pick } from '@lib/pick';
 import { Check, ArrowRight } from '@lucide/astro';
 import SiteMockup from '@components/ui/SiteMockup.astro';
@@ -21,10 +21,13 @@ const titlePrice = splitAt > -1 ? title.slice(splitAt + 2) : '';
 const trust = t('hero.trust').split(' · ').filter(Boolean);
 
 const specs = [
-  { k: pick(lang, { en: 'Website', fr: 'Site web', de: 'Website', it: 'Sito web' }), v: 'CHF 0' },
-  { k: 'Hosting', v: pick(lang, { en: 'Included', fr: 'Inclus', de: 'Inbegriffen', it: 'Incluso' }) },
-  { k: pick(lang, { en: 'Domain', fr: 'Domaine', de: 'Domain', it: 'Dominio' }), v: pick(lang, { en: 'Yours', fr: 'À vous', de: 'Ihre', it: 'Tuo' }) },
+  { k: pick(lang, { en: 'Website', fr: 'Site web', de: 'Website', it: 'Sito web' }), v: 'CHF\u00A00' },
+  // FR soft hyphen: "HÉBERGEMENT" is wider than the middle column at 320 px.
+  { k: pick(lang, { en: 'Hosting', fr: 'Héber\u00ADgement', de: 'Hosting', it: 'Hosting' }), v: pick(lang, { en: 'Included', fr: 'Inclus', de: 'Inklusive', it: 'Incluso' }) },
+  { k: pick(lang, { en: 'Domain', fr: 'Domaine', de: 'Domain', it: 'Dominio' }), v: pick(lang, { en: 'Yours', fr: 'À vous', de: 'Ihre', it: 'Il tuo' }) },
 ];
+
+const city = pick(lang, { en: 'Fribourg', fr: 'Fribourg', de: 'Freiburg', it: 'Friburgo' });
 ---
 
 <section class="relative isolate overflow-hidden border-b border-ink-900/10 pt-[calc(var(--sfg-header-h)+3rem)] pb-16 md:pt-[calc(var(--sfg-header-h)+5rem)] md:pb-24" aria-labelledby="hero-title">
@@ -38,7 +41,7 @@ const specs = [
         <p class="eyebrow flex items-center gap-3 mb-8">
           <span class="h-px w-8 bg-signal-600" aria-hidden="true"></span>
           <span>
-            {pick(lang, { en: 'Free Website Programme', fr: 'Programme Site Web Gratuit', de: 'Kostenloses Website-Programm', it: 'Programma Sito Web Gratuito' })}<span class="max-sm:hidden"> · {pick(lang, { en: 'Switzerland', fr: 'Suisse', de: 'Schweiz', it: 'Svizzera' })}</span>
+            {pick(lang, { en: 'Free Website Programme', fr: 'Programme Site web gratuit', de: 'Programm «Kostenlose Website»', it: 'Programma Sito web gratuito' })}<span class="max-sm:hidden"> · {pick(lang, { en: 'Switzerland', fr: 'Suisse', de: 'Schweiz', it: 'Svizzera' })}</span>
           </span>
         </p>
 
@@ -62,11 +65,11 @@ const specs = [
         </dl>
 
         <div class="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
-          <a href="/start" class="btn btn-primary btn-lg">
+          <a href={getLocalizedPath('/start', lang)} class="btn btn-primary btn-lg">
             {t('hero.cta.primary')}
             <ArrowRight size={18} class="arrow" stroke-width={1.75} />
           </a>
-          <a href="/start?path=update" class="link-arrow self-start sm:self-auto py-2">
+          <a href={getLocalizedPath('/start?path=update', lang)} class="link-arrow self-start sm:self-auto py-2">
             {t('hero.cta.secondary')}
             <ArrowRight size={16} stroke-width={1.75} />
           </a>
@@ -87,27 +90,27 @@ const specs = [
         <div class="relative">
           <SiteMockup
             name="Maison Dupont"
-            city="Fribourg"
+            city={city}
             url="www.maison-dupont.ch"
             headline={pick(lang, { en: 'Seasonal cooking in the old town.', fr: 'Cuisine de saison en vieille ville.', de: 'Saisonale Küche in der Altstadt.', it: 'Cucina di stagione nel centro storico.' })}
-            sub={pick(lang, { en: 'Lunch and dinner, Tuesday to Saturday. Reserve a table online.', fr: 'Midi et soir, du mardi au samedi. Réservez en ligne.', de: 'Mittag und Abend, Dienstag bis Samstag. Online reservieren.', it: 'Pranzo e cena, da martedì a sabato. Prenota online.' })}
+            sub={pick(lang, { en: 'Lunch and dinner, Tuesday to Saturday. Reserve a table online.', fr: 'Midi et soir, du mardi au samedi. Réservez votre table en ligne.', de: 'Mittag und Abend, Dienstag bis Samstag. Tisch online reservieren.', it: 'Pranzo e cena, da martedì a sabato. Prenota il tavolo online.' })}
             cta={pick(lang, { en: 'Reserve', fr: 'Réserver', de: 'Reservieren', it: 'Prenota' })}
-            nav={[pick(lang, { en: 'Menu', fr: 'Carte', de: 'Karte', it: 'Menu' }), pick(lang, { en: 'About', fr: 'À propos', de: 'Über uns', it: 'Chi siamo' }), 'Contact']}
+            nav={[pick(lang, { en: 'Menu', fr: 'Carte', de: 'Karte', it: 'Menu' }), pick(lang, { en: 'About', fr: 'À propos', de: 'Über uns', it: 'Chi siamo' }), t('nav.contact')]}
             info={[
-              { k: pick(lang, { en: 'Open', fr: 'Ouvert', de: 'Geöffnet', it: 'Aperto' }), v: 'Tue–Sat · 11:30' },
+              { k: pick(lang, { en: 'Open', fr: 'Ouvert', de: 'Geöffnet', it: 'Aperto' }), v: pick(lang, { en: 'Tue–Sat · 11:30', fr: 'ma–sa · 11:30', de: 'Di–Sa · 11:30', it: 'ma–sa · 11:30' }) },
               { k: pick(lang, { en: 'Address', fr: 'Adresse', de: 'Adresse', it: 'Indirizzo' }), v: 'Rue de Lausanne 12' },
               { k: pick(lang, { en: 'Phone', fr: 'Téléphone', de: 'Telefon', it: 'Telefono' }), v: '026 000 00 00' },
             ]}
             palette={{ bg: '#F7F3EC', ink: '#1F1A14', accent: '#8A3B1F', tone: '#E6DCCB', tone2: '#CDBB9E' }}
             motif="arch"
-            label={pick(lang, { en: 'Example website for a restaurant in Fribourg', fr: 'Exemple de site web pour un restaurant à Fribourg', de: 'Beispiel-Website für ein Restaurant in Freiburg', it: 'Esempio di sito web per un ristorante a Friburgo' })}
+            label={pick(lang, { en: `Example website for a restaurant in ${city}`, fr: `Exemple de site web pour un restaurant à ${city}`, de: `Beispiel-Website für ein Restaurant in ${city}`, it: `Esempio di sito web per un ristorante a ${city}` })}
             class="shadow-lift"
           />
 
           <!-- Spec annotations -->
-          <ul class="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-px bg-ink-900/10 border border-ink-900/10 rounded-[4px] overflow-hidden" aria-label={pick(lang, { en: 'Included as standard', fr: 'Inclus en standard', de: 'Standardmässig inbegriffen', it: 'Incluso di serie' })}>
+          <ul class="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-px bg-ink-900/10 border border-ink-900/10 rounded-[4px] overflow-hidden" aria-label={pick(lang, { en: 'Included as standard', fr: 'Inclus d’office', de: 'Standardmässig inbegriffen', it: 'Incluso di serie' })}>
             {[
-              pick(lang, { en: 'Your domain', fr: 'Votre domaine', de: 'Ihre Domain', it: 'Tuo dominio' }),
+              pick(lang, { en: 'Your domain', fr: 'Votre domaine', de: 'Ihre Domain', it: 'Il tuo dominio' }),
               'SSL / HTTPS',
               pick(lang, { en: 'Mobile', fr: 'Mobile', de: 'Mobil', it: 'Mobile' }),
               pick(lang, { en: 'Basic SEO', fr: 'SEO de base', de: 'Basis-SEO', it: 'SEO di base' }),

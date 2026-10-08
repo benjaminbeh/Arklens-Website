@@ -16,30 +16,30 @@ const t = useTranslations(lang);
 const steps = [
   { title: t('progression.step1'), desc: pick(lang, { en: 'Professional online presence', fr: 'Présence en ligne professionnelle', de: 'Professionelle Online-Präsenz', it: 'Presenza online professionale' }) },
   { title: t('progression.step2'), desc: pick(lang, { en: 'Booking, forms, payments', fr: 'Réservation, formulaires, paiements', de: 'Buchung, Formulare, Zahlungen', it: 'Prenotazioni, moduli, pagamenti' }) },
-  { title: t('progression.step3'), desc: pick(lang, { en: 'Connect your systems', fr: 'Connectez vos systèmes', de: 'Ihre Systeme verbinden', it: 'Collega i tuoi sistemi' }) },
-  { title: t('progression.step4'), desc: pick(lang, { en: 'Reduce repetitive work', fr: 'Réduire le travail répétitif', de: 'Repetitive Arbeit reduzieren', it: 'Ridurre il lavoro ripetitivo' }) },
-  { title: t('progression.step5'), desc: pick(lang, { en: 'Practical AI assistance', fr: 'Assistance IA pratique', de: 'Praktische KI-Unterstützung', it: 'Assistenza IA pratica' }) },
+  { title: t('progression.step3'), desc: pick(lang, { en: 'Your tools working together', fr: 'Des outils qui fonctionnent ensemble', de: 'Ihre Tools arbeiten zusammen', it: 'Strumenti che lavorano insieme' }) },
+  { title: t('progression.step4'), desc: pick(lang, { en: 'Reduce repetitive work', fr: 'Moins de tâches répétitives', de: 'Weniger Routinearbeit', it: 'Meno lavoro ripetitivo' }) },
+  { title: t('progression.step5'), desc: pick(lang, { en: 'Practical AI assistance', fr: 'Une aide concrète par l’IA', de: 'Praxisnahe KI-Unterstützung', it: 'Un aiuto concreto dall’IA' }) },
 ];
 
 const automationFlow = {
-  kicker: pick(lang, { en: 'Automation example', fr: "Exemple d'automatisation", de: 'Automatisierungsbeispiel', it: 'Esempio di automazione' }),
+  kicker: pick(lang, { en: 'Automation example', fr: 'Exemple d’automatisation', de: 'Beispiel Automatisierung', it: 'Esempio di automazione' }),
   title: pick(lang, { en: 'Every enquiry handled the same way', fr: 'Chaque demande traitée de la même façon', de: 'Jede Anfrage gleich behandelt', it: 'Ogni richiesta gestita allo stesso modo' }),
   steps: [
     { label: pick(lang, { en: 'Customer enquiry', fr: 'Demande client', de: 'Kundenanfrage', it: 'Richiesta cliente' }), meta: pick(lang, { en: 'Website form or email', fr: 'Formulaire ou e-mail', de: 'Formular oder E-Mail', it: 'Modulo o e-mail' }) },
-    { label: pick(lang, { en: 'Classification', fr: 'Classification', de: 'Klassifizierung', it: 'Classificazione' }), meta: pick(lang, { en: 'Quote, booking or question', fr: 'Devis, réservation ou question', de: 'Offerte, Buchung oder Frage', it: 'Preventivo, prenotazione o domanda' }) },
+    { label: pick(lang, { en: 'Classification', fr: 'Tri', de: 'Zuordnung', it: 'Classificazione' }), meta: pick(lang, { en: 'Quote, booking or question', fr: 'Offre, réservation ou question', de: 'Offerte, Buchung oder Frage', it: 'Offerta, prenotazione o domanda' }) },
     { label: 'CRM', meta: pick(lang, { en: 'Contact and request saved', fr: 'Contact et demande enregistrés', de: 'Kontakt und Anfrage gespeichert', it: 'Contatto e richiesta salvati' }) },
-    { label: pick(lang, { en: 'Follow-up', fr: 'Suivi', de: 'Nachfassen', it: 'Follow-up' }), meta: pick(lang, { en: 'Confirmation sent, team notified', fr: 'Confirmation envoyée, équipe notifiée', de: 'Bestätigung gesendet, Team informiert', it: 'Conferma inviata, team avvisato' }) },
+    { label: pick(lang, { en: 'Follow-up', fr: 'Suivi', de: 'Nachfassen', it: 'Riscontro' }), meta: pick(lang, { en: 'Confirmation sent, team notified', fr: 'Confirmation envoyée, équipe avertie', de: 'Bestätigung gesendet, Team informiert', it: 'Conferma inviata, team avvisato' }) },
   ],
-  outcome: pick(lang, { en: 'Nothing gets lost in the inbox.', fr: "Rien ne se perd dans la boîte de réception.", de: 'Nichts geht im Posteingang verloren.', it: 'Niente si perde nella casella di posta.' }),
+  outcome: pick(lang, { en: 'Nothing gets lost in the inbox.', fr: 'Plus rien ne se perd dans la boîte de réception.', de: 'Im Posteingang geht nichts mehr verloren.', it: 'Nulla va perso nella casella di posta.' }),
 };
 
 const aiFlow = {
-  kicker: pick(lang, { en: 'Practical AI example', fr: "Exemple d'IA pratique", de: 'Praktisches KI-Beispiel', it: 'Esempio di IA pratica' }),
+  kicker: pick(lang, { en: 'Practical AI example', fr: 'Exemple d’IA concrète', de: 'Beispiel KI im Alltag', it: 'Esempio di IA concreta' }),
   title: pick(lang, { en: 'Answers from your own documents', fr: 'Des réponses tirées de vos documents', de: 'Antworten aus Ihren eigenen Dokumenten', it: 'Risposte dai tuoi documenti' }),
   steps: [
-    { label: pick(lang, { en: 'Company documents', fr: "Documents de l'entreprise", de: 'Firmendokumente', it: 'Documenti aziendali' }), meta: pick(lang, { en: 'Manuals, price lists, procedures', fr: 'Manuels, tarifs, procédures', de: 'Handbücher, Preislisten, Abläufe', it: 'Manuali, listini, procedure' }) },
+    { label: pick(lang, { en: 'Company documents', fr: 'Documents de l’entreprise', de: 'Firmendokumente', it: 'Documenti aziendali' }), meta: pick(lang, { en: 'Manuals, price lists, procedures', fr: 'Manuels, tarifs, procédures', de: 'Handbücher, Preislisten, Abläufe', it: 'Manuali, listini, procedure' }) },
     { label: pick(lang, { en: 'AI search', fr: 'Recherche IA', de: 'KI-Suche', it: 'Ricerca IA' }), meta: pick(lang, { en: 'Finds the relevant passages', fr: 'Trouve les passages pertinents', de: 'Findet die relevanten Stellen', it: 'Trova i passaggi rilevanti' }) },
-    { label: pick(lang, { en: 'Employee answer', fr: 'Réponse à l’employé', de: 'Antwort für Mitarbeitende', it: 'Risposta al collaboratore' }), meta: pick(lang, { en: 'With the source, ready to check', fr: 'Avec la source, prête à vérifier', de: 'Mit Quelle, prüfbereit', it: 'Con la fonte, pronta da verificare' }) },
+    { label: pick(lang, { en: 'Employee answer', fr: 'Réponse pour l’équipe', de: 'Antwort für Mitarbeitende', it: 'Risposta per il personale' }), meta: pick(lang, { en: 'With the source, ready to check', fr: 'Avec la source, prête à être vérifiée', de: 'Mit Quelle, bereit zur Prüfung', it: 'Con la fonte, pronta da verificare' }) },
   ],
   outcome: pick(lang, { en: 'Your team stays in control of every answer.', fr: 'Votre équipe garde le contrôle de chaque réponse.', de: 'Ihr Team behält jede Antwort unter Kontrolle.', it: 'Il tuo team mantiene il controllo di ogni risposta.' }),
 };
@@ -59,7 +59,7 @@ const aiFlow = {
 
     <SignalLine
       steps={steps}
-      label={pick(lang, { en: 'From website to AI', fr: "Du site web à l'IA", de: 'Von der Website zur KI', it: "Dal sito web all'IA" })}
+      label={pick(lang, { en: 'From website to AI', fr: 'Du site web à l’IA', de: 'Von der Website zur KI', it: 'Dal sito web all’IA' })}
     />
 
     <div class="mt-20 md:mt-24 grid md:grid-cols-2 gap-6">

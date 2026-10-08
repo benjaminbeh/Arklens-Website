@@ -1,0 +1,34 @@
+---
+/**
+ * Short positioning line between the hero and the customer paths.
+ * Makes the website → tools → automation → AI direction visible early,
+ * without moving AI into the hero.
+ */
+import type { Language } from '@i18n/index';
+import { pick } from '@lib/pick';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+---
+
+<section class="border-b border-ink-900/10 bg-white" aria-label={pick(lang, { en: 'Where we start', fr: 'Notre point de départ', de: 'Unser Ausgangspunkt', it: 'Il nostro punto di partenza' })}>
+  <div class="container-custom py-8 md:py-10">
+    <p class="flex flex-col md:flex-row md:items-baseline gap-x-6 gap-y-2 text-heading-sm md:text-heading-md font-medium text-ink-900 max-w-5xl">
+      <span class="flex items-center gap-3 flex-none">
+        <span class="block h-2 w-2 bg-signal-600" aria-hidden="true"></span>
+        <span class="eyebrow">{pick(lang, { en: 'Direction', fr: 'Orientation', de: 'Ausrichtung', it: 'Direzione' })}</span>
+      </span>
+      <span>
+        {pick(lang, {
+          en: 'Websites are where we start. Digital tools, automation and AI are where we can go next.',
+          fr: 'Tout commence par le site web. Outils numériques, automatisation et IA peuvent suivre.',
+          de: 'Am Anfang steht die Website. Digitale Tools, Automatisierung und KI können folgen.',
+          it: 'Tutto parte dal sito web. Strumenti digitali, automazione e IA possono venire dopo.',
+        })}
+      </span>
+    </p>
+  </div>
+</section>

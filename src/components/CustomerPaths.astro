@@ -1,5 +1,6 @@
 ---
 import type { Language } from '@i18n/index';
+import { getLocalizedPath } from '@i18n/index';
 import { pick } from '@lib/pick';
 import { SquarePlus, RefreshCw, Blocks, ArrowRight } from '@lucide/astro';
 import SectionHeader from '@components/ui/SectionHeader.astro';
@@ -14,25 +15,25 @@ const paths = [
   {
     id: 'new',
     icon: SquarePlus,
-    title: pick(lang, { en: 'I need a website', fr: "J'ai besoin d'un site web", de: 'Ich brauche eine Website', it: 'Ho bisogno di un sito web' }),
-    text: pick(lang, { en: 'Create a professional online presence for your business from scratch.', fr: 'Créez une présence en ligne professionnelle pour votre entreprise.', de: 'Eine professionelle Online-Präsenz für Ihr Unternehmen, von Grund auf.', it: 'Una presenza online professionale per la tua azienda, da zero.' }),
-    cta: pick(lang, { en: 'Get my free website', fr: 'Obtenir mon site gratuit', de: 'Meine kostenlose Website', it: 'Ottieni il mio sito gratuito' }),
+    title: pick(lang, { en: 'I need a website', fr: 'J’ai besoin d’un site web', de: 'Ich brauche eine Website', it: 'Mi serve un sito web' }),
+    text: pick(lang, { en: 'Create a professional online presence for your business from scratch.', fr: 'Une présence en ligne professionnelle pour votre entreprise, créée de A à Z.', de: 'Eine professionelle Online-Präsenz für Ihr Unternehmen, von Grund auf neu.', it: 'Una presenza online professionale per la tua azienda, partendo da zero.' }),
+    cta: pick(lang, { en: 'Get my free website', fr: 'Demander mon site gratuit', de: 'Website kostenlos anfragen', it: 'Richiedi il sito gratuito' }),
     href: '/start?path=new',
   },
   {
     id: 'update',
     icon: RefreshCw,
-    title: pick(lang, { en: 'My website needs an update', fr: "Mon site a besoin d'une mise à jour", de: 'Meine Website braucht ein Update', it: 'Il mio sito ha bisogno di un aggiornamento' }),
-    text: pick(lang, { en: 'Modernise an outdated website or make it easier to manage.', fr: 'Modernisez un site obsolète ou facilitez sa gestion.', de: 'Eine veraltete Website modernisieren oder einfacher verwaltbar machen.', it: 'Modernizza un sito obsoleto o rendilo più facile da gestire.' }),
+    title: pick(lang, { en: 'My website needs an update', fr: 'Mon site doit être mis à jour', de: 'Meine Website braucht ein Update', it: 'Il mio sito va aggiornato' }),
+    text: pick(lang, { en: 'Modernise an outdated website or make it easier to manage.', fr: 'Moderniser un site vieillissant ou le rendre plus simple à gérer.', de: 'Eine veraltete Website modernisieren oder einfacher pflegbar machen.', it: 'Modernizzare un sito datato o renderlo più facile da gestire.' }),
     cta: pick(lang, { en: 'Improve my website', fr: 'Améliorer mon site', de: 'Meine Website verbessern', it: 'Migliora il mio sito' }),
     href: '/start?path=update',
   },
   {
     id: 'extend',
     icon: Blocks,
-    title: pick(lang, { en: 'My website works, but I need more', fr: "Mon site fonctionne, mais j'ai besoin de plus", de: 'Meine Website funktioniert, aber ich brauche mehr', it: 'Il mio sito funziona, ma mi serve di più' }),
-    text: pick(lang, { en: 'Add features, integrations, automation or connect business tools.', fr: 'Ajoutez des fonctionnalités, intégrations, automatisation ou outils métier.', de: 'Funktionen, Integrationen, Automatisierung oder Business-Tools ergänzen.', it: 'Aggiungi funzionalità, integrazioni, automazione o strumenti aziendali.' }),
-    cta: pick(lang, { en: 'Add a feature', fr: 'Ajouter une fonctionnalité', de: 'Funktion hinzufügen', it: 'Aggiungi una funzionalità' }),
+    title: pick(lang, { en: 'My website works, but I need more', fr: 'Mon site fonctionne, mais il me faut plus', de: 'Meine Website funktioniert, aber ich brauche mehr', it: 'Il mio sito funziona, ma mi serve di più' }),
+    text: pick(lang, { en: 'Add bookings, forms, payments, integrations, automation and AI.', fr: 'Ajouter réservations, formulaires, paiements, intégrations, automatisation et IA.', de: 'Buchungen, Formulare, Zahlungen, Integrationen, Automatisierung und KI ergänzen.', it: 'Aggiungere prenotazioni, moduli, pagamenti, integrazioni, automazione e IA.' }),
+    cta: pick(lang, { en: 'Add a feature', fr: 'Ajouter une fonctionnalité', de: 'Funktion ergänzen', it: 'Aggiungi una funzionalità' }),
     href: '/start?path=extend',
   },
 ];
@@ -45,7 +46,7 @@ const paths = [
       index="01"
       eyebrow={pick(lang, { en: 'Starting point', fr: 'Point de départ', de: 'Ausgangspunkt', it: 'Punto di partenza' })}
       title={pick(lang, { en: 'Choose your starting point', fr: 'Choisissez votre point de départ', de: 'Wählen Sie Ihren Ausgangspunkt', it: 'Scegli il tuo punto di partenza' })}
-      lead={pick(lang, { en: "Tell us where you are today, and we'll guide you through the right steps.", fr: "Dites-nous où vous en êtes aujourd'hui, et nous vous guiderons vers les bonnes étapes.", de: 'Sagen Sie uns, wo Sie heute stehen. Wir führen Sie durch die richtigen Schritte.', it: 'Dicci a che punto sei oggi e ti guideremo nei passi giusti.' })}
+      lead={pick(lang, { en: 'Tell us where you are today, and we’ll guide you through the right steps.', fr: 'Dites-nous où vous en êtes aujourd’hui, nous vous guidons vers les bonnes étapes.', de: 'Sagen Sie uns, wo Sie heute stehen. Wir zeigen Ihnen die passenden nächsten Schritte.', it: 'Dicci a che punto sei oggi e ti guidiamo nei passi giusti.' })}
     />
 
     <ul class="grid md:grid-cols-3 border border-ink-900/10 rounded-md bg-white divide-y md:divide-y-0 md:divide-x divide-ink-900/10 overflow-hidden">
@@ -53,7 +54,7 @@ const paths = [
         const Icon = path.icon;
         return (
           <li class="reveal" style={`--reveal-delay:${i * 90}ms`}>
-            <a href={path.href} class="path-card card-grid-hover group relative flex h-full flex-col p-7 md:p-8 lg:p-10 focus-visible:outline-offset-[-4px]">
+            <a href={getLocalizedPath(path.href, lang)} class="path-card card-grid-hover group relative flex h-full flex-col p-7 md:p-8 lg:p-10 focus-visible:outline-offset-[-4px]">
               <span class="path-bar" aria-hidden="true"></span>
               <div class="flex items-start justify-between mb-10 md:mb-14">
                 <span class="flex h-12 w-12 items-center justify-center border border-ink-900/15 rounded-[4px] text-ink-900 transition-colors group-hover:border-ink-900">

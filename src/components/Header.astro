@@ -1,6 +1,6 @@
 ---
 import type { Language } from '@i18n/index';
-import { useTranslations, languages, getLocalizedPath } from '@i18n/index';
+import { useTranslations, languages, getLocalizedPath, switchLocalePath, hreflangs } from '@i18n/index';
 import { ChevronDown, Menu, X, ArrowRight } from '@lucide/astro';
 
 interface Props {
@@ -16,18 +16,23 @@ const navItems = [
   { href: '/#examples', label: t('nav.examples') },
   { href: '/#for-business', label: t('nav.forBusiness') },
   { href: '/#faq', label: t('nav.faq') },
+  { href: '/contact', label: t('nav.contact') },
 ];
 
-const langHref = (code: string) => (code === 'en' ? '/' : `/${code}/`);
+const langLinks = (Object.entries(languages) as [Language, string][]).map(([code, name]) => ({
+  code,
+  name,
+  href: switchLocalePath(Astro.url.pathname, code),
+}));
 const langShort = (code: string) => code.toUpperCase();
 ---
 
 <header class="site-header fixed top-0 inset-x-0 z-50 border-b border-ink-900/10 bg-paper/95 backdrop-blur-md">
-  <nav class="container-custom h-[var(--sfg-header-h)] flex items-center justify-between gap-6" aria-label="Main navigation">
-    <!-- Wordmark -->
-    <a href={getLocalizedPath('/', lang)} class="flex items-center gap-2.5 text-ink-900 shrink-0" aria-label="Arklens, home">
-      <span class="block h-3 w-3 bg-signal-600" aria-hidden="true"></span>
-      <span class="text-[1.25rem] font-semibold tracking-[-0.03em]">Arklens</span>
+  <nav class="container-custom h-[var(--sfg-header-h)] flex items-center justify-between gap-6" aria-label={t('a11y.mainNav')}>
+    <!-- Logo -->
+    <a href={getLocalizedPath('/', lang)} class="flex items-center gap-2.5 text-ink-900 shrink-0" aria-label={t('a11y.home')}>
+      <img src="/arklens-logo.png" width="32" height="32" alt="" class="block h-8 w-8 shrink-0 object-contain" decoding="async" />
+      <span class="text-[1.25rem] font-semibold tracking-[-0.03em] max-[374px]:sr-only">Arklens</span>
     </a>
 
     <!-- Desktop navigation -->
@@ -52,15 +57,17 @@ const langShort = (code: string) => code.toUpperCase();
           aria-controls="lang-menu"
           data-lang-button
         >
-          <span class="sr-only">Language: </span>{langShort(lang)}
+          <span class="sr-only">{`${t('a11y.languageLabel')} `}</span>{langShort(lang)}
           <ChevronDown size={14} stroke-width={1.75} />
         </button>
         <ul id="lang-menu" class="absolute right-0 mt-2 w-44 bg-white border border-ink-900/10 rounded-md shadow-lift py-1.5 hidden" data-lang-menu>
-          {Object.entries(languages).map(([code, name]) => (
+          {langLinks.map(({ code, name, href }) => (
             <li>
               <a
-                href={langHref(code)}
-                hreflang={code}
+                href={href}
+                data-lang-link
+                data-base-href={href}
+                hreflang={hreflangs[code]}
                 lang={code}
                 aria-current={code === lang ? 'true' : undefined}
                 class="flex items-center justify-between px-4 py-2.5 text-sm text-steel-700 hover:bg-paper hover:text-ink-900"
@@ -73,7 +80,7 @@ const langShort = (code: string) => code.toUpperCase();
         </ul>
       </div>
 
-      <a href="/start" class="btn btn-primary min-h-[2.75rem] px-5">
+      <a href={getLocalizedPath('/start', lang)} class="btn btn-primary min-h-[2.75rem] px-5">
         {t('nav.getStarted')}
         <ArrowRight size={16} class="arrow" stroke-width={1.75} />
       </a>
@@ -81,13 +88,15 @@ const langShort = (code: string) => code.toUpperCase();
 
     <!-- Mobile: CTA stays visible, menu behind a toggle -->
     <div class="flex lg:hidden items-center gap-2">
-      <a href="/start" class="btn btn-primary min-h-[2.75rem] px-3.5 min-[375px]:px-4 text-sm">
+      <a href={getLocalizedPath('/start', lang)} class="btn btn-primary min-h-[2.75rem] px-3.5 min-[375px]:px-4 text-sm">
         {t('nav.getStarted')}
       </a>
       <button
         type="button"
         class="flex h-11 w-11 items-center justify-center rounded-[4px] text-ink-900 hover:bg-ink-900/[0.05]"
-        aria-label="Open menu"
+        aria-label={t('a11y.openMenu')}
+        data-label-open={t('a11y.openMenu')}
+        data-label-close={t('a11y.closeMenu')}
         aria-expanded="false"
         aria-controls="mobile-menu"
         data-menu-button
@@ -111,11 +120,13 @@ const langShort = (code: string) => code.toUpperCase();
           </li>
         ))}
       </ul>
-      <div class="flex gap-2 py-5" role="group" aria-label="Language">
-        {Object.entries(languages).map(([code, name]) => (
+      <div class="flex gap-2 py-5" role="group" aria-label={t('a11y.language')}>
+        {langLinks.map(({ code, name, href }) => (
           <a
-            href={langHref(code)}
-            hreflang={code}
+            href={href}
+            data-lang-link
+            data-base-href={href}
+            hreflang={hreflangs[code]}
             lang={code}
             aria-label={name}
             aria-current={code === lang ? 'true' : undefined}
@@ -128,7 +139,7 @@ const langShort = (code: string) => code.toUpperCase();
           </a>
         ))}
       </div>
-      <a href="/start" class="btn btn-primary btn-lg btn-block">
+      <a href={getLocalizedPath('/start', lang)} class="btn btn-primary btn-lg btn-block">
         {t('nav.getStarted')}
         <ArrowRight size={18} class="arrow" stroke-width={1.75} />
       </a>
@@ -145,7 +156,7 @@ const langShort = (code: string) => code.toUpperCase();
   function setMenu(open: boolean) {
     if (!menuButton || !mobileMenu) return;
     menuButton.setAttribute('aria-expanded', String(open));
-    menuButton.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    menuButton.setAttribute('aria-label', (open ? menuButton.dataset.labelClose : menuButton.dataset.labelOpen) ?? '');
     mobileMenu.classList.toggle('hidden', !open);
     iconOpen?.classList.toggle('hidden', open);
     iconClose?.classList.toggle('hidden', !open);
@@ -157,6 +168,16 @@ const langShort = (code: string) => code.toUpperCase();
   document.querySelectorAll('[data-mobile-link]').forEach((link) => {
     link.addEventListener('click', () => setMenu(false));
   });
+
+  // Keep query and hash when switching language; always rebuild from the base href.
+  function syncLangLinks() {
+    const suffix = location.search + location.hash;
+    document.querySelectorAll<HTMLAnchorElement>('[data-lang-link]').forEach((a) => {
+      a.href = (a.dataset.baseHref ?? a.getAttribute('href') ?? '/') + suffix;
+    });
+  }
+  syncLangLinks();
+  window.addEventListener('hashchange', syncLangLinks);
 
   const langButton = document.querySelector<HTMLButtonElement>('[data-lang-button]');
   const langMenu = document.querySelector<HTMLElement>('[data-lang-menu]');

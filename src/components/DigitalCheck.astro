@@ -1,5 +1,6 @@
 ---
 import type { Language } from '@i18n/index';
+import { getLocalizedPath } from '@i18n/index';
 import { pick } from '@lib/pick';
 import { ArrowRight } from '@lucide/astro';
 import SectionHeader from '@components/ui/SectionHeader.astro';
@@ -41,17 +42,23 @@ const rows: { area: string; note: string; status: Status; score: number }[] = [
     status: 'missing', score: 0,
   },
   {
-    area: pick(lang, { en: 'Automation', fr: 'Automatisation', de: 'Automatisierung', it: 'Automazione' }),
-    note: pick(lang, { en: 'Repetitive admin could be reduced', fr: 'Tâches administratives réductibles', de: 'Admin-Aufwand reduzierbar', it: 'Attività amministrative riducibili' }),
+    area: pick(lang, { en: 'Automation opportunities', fr: 'Potentiel d’automatisation', de: 'Potenzial für Automatisierung', it: 'Opportunità di automazione' }),
+    note: pick(lang, { en: 'Enquiries copied by hand into a spreadsheet', fr: 'Demandes recopiées à la main dans un tableur', de: 'Anfragen werden von Hand in eine Tabelle übertragen', it: 'Richieste copiate a mano in un foglio di calcolo' }),
     status: 'opportunity', score: 1,
+  },
+  {
+    area: pick(lang, { en: 'AI readiness', fr: 'Préparation à l’IA', de: 'KI-Bereitschaft', it: 'Preparazione all’IA' }),
+    note: pick(lang, { en: 'FAQs and price lists ready for AI-assisted answers', fr: 'FAQ et tarifs prêts pour des réponses assistées par l’IA', de: 'FAQ und Preislisten bereit für KI-gestützte Antworten', it: 'FAQ e listini pronti per risposte assistite dall’IA' }),
+    status: 'opportunity', score: 2,
   },
 ];
 
 const checks = [
   pick(lang, { en: 'Website and mobile experience', fr: 'Site web et expérience mobile', de: 'Website und mobile Nutzung', it: 'Sito web ed esperienza mobile' }),
   pick(lang, { en: 'Google and local visibility', fr: 'Visibilité Google et locale', de: 'Google- und lokale Sichtbarkeit', it: 'Visibilità Google e locale' }),
-  pick(lang, { en: 'How enquiries and bookings arrive', fr: 'Arrivée des demandes et réservations', de: 'Wie Anfragen und Buchungen eingehen', it: 'Come arrivano richieste e prenotazioni' }),
-  pick(lang, { en: 'Where time is lost to manual work', fr: 'Où le temps se perd en tâches manuelles', de: 'Wo Zeit durch Handarbeit verloren geht', it: 'Dove si perde tempo in lavoro manuale' }),
+  pick(lang, { en: 'How enquiries and bookings arrive', fr: 'Comment arrivent les demandes et les réservations', de: 'Wie Anfragen und Buchungen eingehen', it: 'Come arrivano richieste e prenotazioni' }),
+  pick(lang, { en: 'Automation opportunities: where time is lost to manual work', fr: 'Potentiel d’automatisation\u00A0: où le temps se perd en tâches manuelles', de: 'Automatisierungspotenzial: wo Zeit durch Handarbeit verloren geht', it: 'Opportunità di automazione: dove si perde tempo in lavoro manuale' }),
+  pick(lang, { en: 'AI readiness: documents and information AI could use safely', fr: 'Préparation à l’IA\u00A0: documents et informations que l’IA peut utiliser en toute sécurité', de: 'KI-Bereitschaft: Dokumente und Informationen, die KI sicher nutzen kann', it: 'Preparazione all’IA: documenti e informazioni che l’IA può usare in sicurezza' }),
 ];
 ---
 
@@ -61,12 +68,12 @@ const checks = [
       id="check-title"
       index="08"
       eyebrow={pick(lang, { en: 'Diagnostics', fr: 'Diagnostic', de: 'Diagnose', it: 'Diagnostica' })}
-      title={pick(lang, { en: 'Free Digital Business Check', fr: 'Évaluation numérique gratuite', de: 'Kostenloser Digital-Check', it: 'Check digitale gratuito' })}
+      title={pick(lang, { en: 'Free Digital Business Check', fr: 'Évaluation numérique gratuite', de: 'Kostenloser Digital-Check', it: 'Analisi digitale gratuita' })}
       lead={pick(lang, {
         en: 'Understand where your business stands digitally and discover practical improvements.',
-        fr: 'Comprenez où en est votre entreprise numériquement et découvrez des améliorations pratiques.',
-        de: 'Verstehen Sie, wo Ihr Unternehmen digital steht, und entdecken Sie praktische Verbesserungen.',
-        it: 'Capisci a che punto è la tua azienda nel digitale e scopri miglioramenti pratici.',
+        fr: 'Faites le point sur la situation numérique de votre entreprise et découvrez des améliorations concrètes.',
+        de: 'Erfahren Sie, wo Ihr Unternehmen digital steht, und entdecken Sie konkrete Verbesserungen.',
+        it: 'Scopri a che punto è la tua azienda nel digitale e quali miglioramenti concreti sono possibili.',
       })}
     />
 
@@ -80,8 +87,8 @@ const checks = [
             </li>
           ))}
         </ol>
-        <a href="/start?path=check" class="btn btn-primary btn-lg mt-8">
-          {pick(lang, { en: 'Check my business', fr: 'Vérifier mon entreprise', de: 'Mein Unternehmen prüfen', it: 'Controlla la mia azienda' })}
+        <a href={getLocalizedPath('/start?path=check', lang)} class="btn btn-primary btn-lg mt-8">
+          {pick(lang, { en: 'Check my business', fr: 'Évaluer mon entreprise', de: 'Mein Unternehmen prüfen', it: 'Analizza la mia azienda' })}
           <ArrowRight size={18} class="arrow" stroke-width={1.75} />
         </a>
       </div>
@@ -100,7 +107,7 @@ const checks = [
               <tr>
                 <th scope="col">{pick(lang, { en: 'Area', fr: 'Domaine', de: 'Bereich', it: 'Area' })}</th>
                 <th scope="col">{pick(lang, { en: 'Level', fr: 'Niveau', de: 'Stand', it: 'Livello' })}</th>
-                <th scope="col">Status</th>
+                <th scope="col">{pick(lang, { en: 'Status', fr: 'Statut', de: 'Status', it: 'Stato' })}</th>
               </tr>
             </thead>
             <tbody>
@@ -111,7 +118,7 @@ const checks = [
                     <span class="block text-sm text-steel-600 mt-0.5">{row.note}</span>
                   </th>
                   <td class="hidden sm:table-cell py-4 px-3 align-middle w-36">
-                    <span class="meter" role="img" aria-label={`${row.score} / 5`}>
+                    <span class="meter" role="img" aria-label={pick(lang, { en: `${row.score} / 5`, fr: `${row.score} sur 5`, de: `${row.score} von 5`, it: `${row.score} su 5` })}>
                       {[0, 1, 2, 3, 4].map((n) => <i class:list={[n < row.score && 'on']}></i>)}
                     </span>
                   </td>
@@ -130,10 +137,10 @@ const checks = [
             <span class="eyebrow">{pick(lang, { en: 'Recommendation', fr: 'Recommandation', de: 'Empfehlung', it: 'Raccomandazione' })}</span>
             <p class="text-sm text-ink-900">
               {pick(lang, {
-                en: 'Add online booking to reduce calls, then enable customer reviews.',
-                fr: 'Ajoutez la réservation en ligne pour réduire les appels, puis activez les avis clients.',
-                de: 'Online-Buchung ergänzen, um Anrufe zu reduzieren, dann Kundenbewertungen aktivieren.',
-                it: 'Aggiungi la prenotazione online per ridurre le chiamate, poi attiva le recensioni.',
+                en: 'Add online booking to reduce calls. Then let AI draft answers to repeated questions from your FAQs.',
+                fr: 'Ajoutez la réservation en ligne pour réduire les appels. Laissez ensuite l’IA préparer des réponses aux questions récurrentes à partir de vos FAQ.',
+                de: 'Ergänzen Sie eine Online-Buchung, um Anrufe zu reduzieren. Danach kann KI aus Ihren FAQ Antworten auf wiederkehrende Fragen vorbereiten.',
+                it: 'Aggiungi la prenotazione online per ridurre le chiamate. Poi lascia che l’IA prepari risposte alle domande ricorrenti dalle tue FAQ.',
               })}
             </p>
           </div>

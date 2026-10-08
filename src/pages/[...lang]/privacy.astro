@@ -1,0 +1,204 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import { pick } from '@lib/pick';
+
+import { localeStaticPaths, dateLocales, type Language } from '@i18n/index';
+export function getStaticPaths() { return localeStaticPaths(); }
+const { lang } = Astro.props as { lang: Language };
+
+const policyName = pick(lang, { en: 'Privacy Policy', fr: 'Politique de confidentialité', de: 'Datenschutzerklärung', it: 'Informativa sulla privacy' });
+---
+
+<BaseLayout 
+  title={policyName} 
+  description={pick(lang, {
+    en: 'Arklens Privacy Policy - How we collect, use and protect your personal data.',
+    fr: 'Politique de confidentialité d’Arklens\u00A0: comment nous collectons, utilisons et protégeons vos données personnelles.',
+    de: 'Datenschutzerklärung von Arklens: wie wir Ihre Personendaten erheben, verwenden und schützen.',
+    it: 'Informativa sulla privacy di Arklens: come raccogliamo, utilizziamo e proteggiamo i dati personali.',
+  })} 
+  lang={lang}
+>
+  <Header lang={lang} />
+  <main id="main" class="pt-32 pb-24">
+    <div class="container-custom max-w-4xl">
+      <h1 class="text-display-md mb-8 text-neutral-900">
+        {pick(lang, { en: 'Privacy Policy', fr: 'Politique de confidentialité', de: 'Datenschutz\u00ADerklärung', it: 'Informativa sulla privacy' })}
+      </h1>
+      
+      <div class="prose prose-lg max-w-none">
+        <p class="text-body-lg text-neutral-600 mb-8">
+          {pick(lang, { en: 'Last updated: ', fr: 'Dernière mise à jour\u00A0: ', de: 'Zuletzt aktualisiert: ', it: 'Ultimo aggiornamento: ' })}{new Date().toLocaleDateString(dateLocales[lang])}
+        </p>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: '1. Introduction', fr: '1. Introduction', de: '1. Einleitung', it: '1. Introduzione' })}
+          </h2>
+          <p class="text-neutral-700">
+            {pick(lang, {
+              en: 'Arklens is committed to protecting your privacy and personal data. This privacy policy explains how we collect, use and protect your information.',
+              fr: 'Arklens s’engage à protéger votre vie privée et vos données personnelles. La présente politique de confidentialité explique comment nous collectons, utilisons et protégeons vos informations.',
+              de: 'Arklens verpflichtet sich, Ihre Privatsphäre und Ihre Personendaten zu schützen. Diese Datenschutzerklärung beschreibt, wie wir Ihre Informationen erheben, verwenden und schützen.',
+              it: 'Arklens si impegna a proteggere la privacy e i dati personali degli utenti. La presente informativa sulla privacy spiega come raccogliamo, utilizziamo e proteggiamo tali informazioni.',
+            })}
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: '2. Data Collected', fr: '2. Données collectées', de: '2. Erhobene Daten', it: '2. Dati raccolti' })}
+          </h2>
+          <p class="text-neutral-700 mb-4">
+            {pick(lang, {
+              en: 'We only collect data necessary to provide our services:',
+              fr: 'Nous collectons uniquement les données nécessaires à la fourniture de nos services\u00A0:',
+              de: 'Wir erheben nur die Daten, die für die Erbringung unserer Dienstleistungen erforderlich sind:',
+              it: 'Raccogliamo solo i dati necessari per fornire i nostri servizi:',
+            })}
+          </p>
+          <ul class="list-disc pl-6 text-neutral-700 space-y-2">
+            <li>{pick(lang, { en: 'Business name and contact person', fr: 'Nom de l’entreprise et personne de contact', de: 'Name des Unternehmens und Kontaktperson', it: 'Nome dell’azienda e persona di contatto' })}</li>
+            <li>{pick(lang, { en: 'Professional email address', fr: 'Adresse e-mail professionnelle', de: 'Geschäftliche E-Mail-Adresse', it: 'Indirizzo e-mail professionale' })}</li>
+            <li>{pick(lang, { en: 'Professional phone number', fr: 'Numéro de téléphone professionnel', de: 'Geschäftliche Telefonnummer', it: 'Numero di telefono professionale' })}</li>
+            <li>{pick(lang, { en: 'Business information (industry, services)', fr: 'Informations sur votre entreprise (secteur, services)', de: 'Angaben zum Unternehmen (Branche, Dienstleistungen)', it: 'Informazioni sull’azienda (settore, servizi)' })}</li>
+            <li>{pick(lang, { en: 'Logo and business photos (if provided)', fr: 'Logo et photos de l’entreprise (si fournis)', de: 'Logo und Fotos des Unternehmens (falls zur Verfügung gestellt)', it: 'Logo e foto dell’azienda (se forniti)' })}</li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: '3. Use of Data', fr: '3. Utilisation des données', de: '3. Verwendung der Daten', it: '3. Utilizzo dei dati' })}
+          </h2>
+          <p class="text-neutral-700">
+            {pick(lang, {
+              en: 'Your data is used exclusively to:',
+              fr: 'Vos données sont utilisées exclusivement pour\u00A0:',
+              de: 'Ihre Daten werden ausschliesslich zu folgenden Zwecken verwendet:',
+              it: 'I dati dell’utente vengono utilizzati esclusivamente per:',
+            })}
+          </p>
+          <ul class="list-disc pl-6 text-neutral-700 space-y-2">
+            <li>{pick(lang, { en: 'Create and host your website', fr: 'Créer et héberger votre site web', de: 'Erstellung und Hosting Ihrer Website', it: 'Creare e ospitare il sito web dell’utente' })}</li>
+            <li>{pick(lang, { en: 'Communicate with you regarding your project', fr: 'Communiquer avec vous au sujet de votre projet', de: 'Kommunikation mit Ihnen zu Ihrem Projekt', it: 'Comunicare con l’utente in merito al suo progetto' })}</li>
+            <li>{pick(lang, { en: 'Provide technical support', fr: 'Fournir un support technique', de: 'Technischer Support', it: 'Fornire assistenza tecnica' })}</li>
+            <li>{pick(lang, { en: 'Improve our services', fr: 'Améliorer nos services', de: 'Verbesserung unserer Dienstleistungen', it: 'Migliorare i nostri servizi' })}</li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: '4. Data Protection', fr: '4. Protection des données', de: '4. Datenschutz', it: '4. Protezione dei dati' })}
+          </h2>
+          <p class="text-neutral-700">
+            {pick(lang, {
+              en: 'We implement appropriate technical and organizational security measures to protect your data from unauthorized access, loss or destruction.',
+              fr: 'Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles appropriées pour protéger vos données contre tout accès non autorisé, toute perte ou toute destruction.',
+              de: 'Wir treffen angemessene technische und organisatorische Sicherheitsmassnahmen, um Ihre Daten vor unbefugtem Zugriff, Verlust oder Zerstörung zu schützen.',
+              it: 'Adottiamo misure di sicurezza tecniche e organizzative adeguate per proteggere i dati dell’utente da accessi non autorizzati, perdita o distruzione.',
+            })}
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: '5. Data Sharing', fr: '5. Partage des données', de: '5. Weitergabe von Daten', it: '5. Condivisione dei dati' })}
+          </h2>
+          <p class="text-neutral-700">
+            {pick(lang, {
+              en: 'We never sell your data. Your information may only be shared with:',
+              fr: 'Nous ne vendons jamais vos données. Vos informations peuvent uniquement être partagées avec\u00A0:',
+              de: 'Wir verkaufen Ihre Daten nie. Ihre Informationen können nur an folgende Stellen weitergegeben werden:',
+              it: 'Non vendiamo mai i dati dell’utente. Le informazioni possono essere condivise solo con:',
+            })}
+          </p>
+          <ul class="list-disc pl-6 text-neutral-700 space-y-2">
+            <li>{pick(lang, {
+              en: 'Cloudflare (hosting, CDN and Turnstile spam protection on our forms)',
+              fr: 'Cloudflare (hébergement, CDN et protection anti-spam Turnstile sur nos formulaires)',
+              de: 'Cloudflare (Hosting, CDN und Turnstile-Spamschutz für unsere Formulare)',
+              it: 'Cloudflare (hosting, CDN e protezione antispam Turnstile sui nostri moduli)',
+            })}</li>
+            <li>{pick(lang, {
+              en: 'Infomaniak Network SA, Geneva, Switzerland (email provider, delivery of contact form messages to our inbox)',
+              fr: 'Infomaniak Network SA, Genève, Suisse (fournisseur de messagerie électronique, acheminement des messages du formulaire de contact vers notre boîte de réception)',
+              de: 'Infomaniak Network SA, Genf, Schweiz (E-Mail-Anbieter, Zustellung der Nachrichten aus dem Kontaktformular an unser Postfach)',
+              it: 'Infomaniak Network SA, Ginevra, Svizzera (fornitore di posta elettronica, recapito dei messaggi del modulo di contatto nella nostra casella di posta)',
+            })}</li>
+            <li>{pick(lang, {
+              en: 'Essential service providers under confidentiality agreement',
+              fr: 'Prestataires de services essentiels liés par un accord de confidentialité',
+              de: 'Unverzichtbare Dienstleister, die an eine Vertraulichkeitsvereinbarung gebunden sind',
+              it: 'Fornitori di servizi essenziali vincolati da un accordo di riservatezza',
+            })}</li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: '6. Your Rights', fr: '6. Vos droits', de: '6. Ihre Rechte', it: '6. Diritti dell’utente' })}
+          </h2>
+          <p class="text-neutral-700 mb-4">
+            {pick(lang, {
+              en: 'In accordance with Swiss data protection law (LPD), you have the right to:',
+              fr: 'Conformément à la loi suisse sur la protection des données (LPD), vous avez le droit de\u00A0:',
+              de: 'Gemäss dem Schweizer Datenschutzgesetz (DSG) haben Sie folgende Rechte:',
+              it: 'Ai sensi della legge svizzera sulla protezione dei dati (LPD), l’utente ha il diritto di:',
+            })}
+          </p>
+          <ul class="list-disc pl-6 text-neutral-700 space-y-2">
+            <li>{pick(lang, { en: 'Access your personal data', fr: 'Accéder à vos données personnelles', de: 'Auskunft über Ihre Personendaten', it: 'Accedere ai propri dati personali' })}</li>
+            <li>{pick(lang, { en: 'Correct your inaccurate data', fr: 'Corriger vos données inexactes', de: 'Berichtigung Ihrer unrichtigen Daten', it: 'Rettificare i propri dati inesatti' })}</li>
+            <li>{pick(lang, { en: 'Delete your data', fr: 'Supprimer vos données', de: 'Löschung Ihrer Daten', it: 'Cancellare i propri dati' })}</li>
+            <li>{pick(lang, { en: 'Limit the processing of your data', fr: 'Limiter le traitement de vos données', de: 'Einschränkung der Bearbeitung Ihrer Daten', it: 'Limitare il trattamento dei propri dati' })}</li>
+            <li>{pick(lang, { en: 'Data portability', fr: 'Obtenir la portabilité de vos données', de: 'Datenübertragbarkeit', it: 'Ottenere la portabilità dei propri dati' })}</li>
+            <li>{pick(lang, { en: 'Object to processing', fr: 'Vous opposer au traitement', de: 'Widerspruch gegen die Bearbeitung', it: 'Opporsi al trattamento' })}</li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: '7. Cookies', fr: '7. Cookies', de: '7. Cookies', it: '7. Cookie' })}
+          </h2>
+          <p class="text-neutral-700">
+            {pick(lang, {
+              en: 'We use cookies strictly necessary for the operation of the site. No advertising tracking cookies are used.',
+              fr: 'Nous utilisons des cookies strictement nécessaires au fonctionnement du site. Aucun cookie de suivi publicitaire n’est utilisé.',
+              de: 'Wir verwenden Cookies, die für den Betrieb der Website unbedingt erforderlich sind. Es werden keine Tracking-Cookies zu Werbezwecken eingesetzt.',
+              it: 'Utilizziamo cookie strettamente necessari al funzionamento del sito. Non vengono utilizzati cookie di tracciamento pubblicitario.',
+            })}
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-heading-lg mb-4">
+            {pick(lang, { en: '8. Contact', fr: '8. Contact', de: '8. Kontakt', it: '8. Contatto' })}
+          </h2>
+          <p class="text-neutral-700">
+            {pick(lang, {
+              en: 'For any questions regarding this privacy policy or to exercise your rights, contact us at: privacy@arklens.ch',
+              fr: 'Pour toute question concernant la présente politique de confidentialité ou pour exercer vos droits, contactez-nous à l’adresse suivante\u00A0: privacy@arklens.ch',
+              de: 'Bei Fragen zu dieser Datenschutzerklärung oder zur Ausübung Ihrer Rechte erreichen Sie uns unter: privacy@arklens.ch',
+              it: 'Per qualsiasi domanda sulla presente informativa o per esercitare i propri diritti è possibile contattarci all’indirizzo: privacy@arklens.ch',
+            })}
+          </p>
+        </section>
+
+        <div class="bg-neutral-50 rounded-xl p-6 mt-12 border border-neutral-200">
+          <p class="text-sm text-neutral-600">
+            <strong>{pick(lang, { en: 'Legal note:', fr: 'Note juridique\u00A0:', de: 'Rechtlicher Hinweis:', it: 'Nota legale:' })}</strong> 
+            {pick(lang, {
+              en: 'This privacy policy is provided for informational purposes. For full compliance with Swiss and European legislation, we recommend a review by a legal advisor.',
+              fr: 'La présente politique de confidentialité est fournie à titre informatif. Pour une conformité complète avec la législation suisse et européenne, nous recommandons de la faire vérifier par un conseil juridique.',
+              de: 'Diese Datenschutzerklärung dient zu Informationszwecken. Für die vollständige Einhaltung der schweizerischen und europäischen Gesetzgebung empfehlen wir eine Prüfung durch eine juristische Fachperson.',
+              it: 'La presente informativa sulla privacy è fornita a scopo informativo. Per la piena conformità alla legislazione svizzera ed europea raccomandiamo una verifica da parte di un consulente legale.',
+            })}
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>

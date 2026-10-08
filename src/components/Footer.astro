@@ -16,11 +16,12 @@ const navLinks = [
   { href: '/#what-we-offer', label: t('nav.whatWeOffer') },
   { href: '/#examples', label: t('nav.examples') },
   { href: '/#faq', label: t('nav.faq') },
+  { href: '/contact', label: t('nav.contact') },
   { href: '/start', label: t('nav.getStarted') },
 ];
 
 const legalLinks = [
-  { href: '/terms', label: pick(lang, { en: 'Terms of Use', fr: "Conditions d'utilisation", de: 'Nutzungsbedingungen', it: 'Termini di utilizzo' }) },
+  { href: '/terms', label: t('footer.terms') },
   { href: '/privacy', label: t('footer.privacy') },
   { href: '/legal', label: t('footer.legal') },
 ];
@@ -30,15 +31,15 @@ const legalLinks = [
   <div class="container-custom pt-16 pb-10 md:pt-20">
     <div class="grid grid-cols-12 gap-x-6 gap-y-12">
       <div class="col-span-12 lg:col-span-6">
-        <a href={getLocalizedPath('/', lang)} class="inline-flex items-center gap-2.5 text-ink-900" aria-label="Arklens, home">
-          <span class="block h-3 w-3 bg-signal-600" aria-hidden="true"></span>
+        <a href={getLocalizedPath('/', lang)} class="inline-flex items-center gap-2.5 text-ink-900" aria-label={t('a11y.home')}>
+          <img src="/arklens-logo.png" width="40" height="40" alt="" class="block h-10 w-10 shrink-0 object-contain" loading="lazy" decoding="async" />
           <span class="text-2xl font-semibold tracking-[-0.03em]">Arklens</span>
         </a>
         <p class="mt-5 max-w-sm text-steel-600">{t('footer.tagline')}</p>
       </div>
 
       <nav class="col-span-6 lg:col-span-3" aria-labelledby="footer-nav">
-        <h2 id="footer-nav" class="eyebrow mb-5">Navigation</h2>
+        <h2 id="footer-nav" class="eyebrow mb-5">{t('footer.navHeading')}</h2>
         <ul class="space-y-3">
           {navLinks.map((l) => (
             <li><a href={getLocalizedPath(l.href, lang)} class="text-ink-900 hover:text-signal-700 transition-colors">{l.label}</a></li>
@@ -47,7 +48,7 @@ const legalLinks = [
       </nav>
 
       <nav class="col-span-6 lg:col-span-3" aria-labelledby="footer-legal">
-        <h2 id="footer-legal" class="eyebrow mb-5">Legal</h2>
+        <h2 id="footer-legal" class="eyebrow mb-5">{t('footer.legalHeading')}</h2>
         <ul class="space-y-3">
           {legalLinks.map((l) => (
             <li><a href={getLocalizedPath(l.href, lang)} class="text-ink-900 hover:text-signal-700 transition-colors">{l.label}</a></li>

@@ -1,6 +1,6 @@
 ---
 import type { Language } from '@i18n/index';
-import { useTranslations } from '@i18n/index';
+import { useTranslations, getLocalizedPath } from '@i18n/index';
 import { pick } from '@lib/pick';
 import { Inbox, FileText, FileSearch, Headphones, Cable, ChartColumn, ArrowRight } from '@lucide/astro';
 
@@ -13,9 +13,9 @@ const t = useTranslations(lang);
 
 // input → output pairs make each automation concrete rather than abstract
 const examples = [
-  { key: 'enquiries', icon: Inbox, io: pick(lang, { en: 'Inbox → Sorted & routed', fr: 'Boîte → Triée et routée', de: 'Posteingang → Sortiert', it: 'Posta → Smistata' }) },
-  { key: 'quotes', icon: FileText, io: pick(lang, { en: 'Request → Draft quote', fr: 'Demande → Devis brouillon', de: 'Anfrage → Offertentwurf', it: 'Richiesta → Bozza' }) },
-  { key: 'documents', icon: FileSearch, io: pick(lang, { en: 'Question → Sourced answer', fr: 'Question → Réponse sourcée', de: 'Frage → Antwort mit Quelle', it: 'Domanda → Risposta' }) },
+  { key: 'enquiries', icon: Inbox, io: pick(lang, { en: 'Inbox → Sorted & routed', fr: 'E-mails → Triés et transmis', de: 'Posteingang → Sortiert & verteilt', it: 'Posta → Smistata e inoltrata' }) },
+  { key: 'quotes', icon: FileText, io: pick(lang, { en: 'Request → Draft quote', fr: 'Demande → Projet d’offre', de: 'Anfrage → Offertentwurf', it: 'Richiesta → Bozza d’offerta' }) },
+  { key: 'documents', icon: FileSearch, io: pick(lang, { en: 'Question → Sourced answer', fr: 'Question → Réponse sourcée', de: 'Frage → Antwort mit Quelle', it: 'Domanda → Risposta con fonte' }) },
   { key: 'support', icon: Headphones, io: pick(lang, { en: 'FAQ → Instant reply', fr: 'FAQ → Réponse immédiate', de: 'FAQ → Sofortantwort', it: 'FAQ → Risposta immediata' }) },
   { key: 'admin', icon: Cable, io: pick(lang, { en: 'Form → CRM → Sheet', fr: 'Formulaire → CRM → Tableur', de: 'Formular → CRM → Tabelle', it: 'Modulo → CRM → Foglio' }) },
   { key: 'reporting', icon: ChartColumn, io: pick(lang, { en: 'Data → Weekly summary', fr: 'Données → Synthèse hebdo', de: 'Daten → Wochenbericht', it: 'Dati → Sintesi settimanale' }) },
@@ -26,7 +26,7 @@ const examples = [
   <div class="container-custom">
     <div class="rule pt-12 md:pt-16 grid grid-cols-12 gap-x-6 gap-y-6 mb-12">
       <div class="col-span-12 md:col-span-4 lg:col-span-3">
-        <p class="eyebrow">{pick(lang, { en: 'Use cases', fr: "Cas d'usage", de: 'Anwendungsfälle', it: "Casi d'uso" })}</p>
+        <p class="eyebrow">{pick(lang, { en: 'Use cases', fr: 'Cas d’usage', de: 'Anwendungsfälle', it: 'Casi d’uso' })}</p>
       </div>
       <div class="col-span-12 md:col-span-8 lg:col-span-9">
         <h2 id="automation-title" class="text-display-sm max-w-3xl">{t('automation.title')}</h2>
@@ -54,13 +54,13 @@ const examples = [
       <p class="text-steel-300 max-w-xl">
         {pick(lang, {
           en: 'Automation is optional. We agree the scope and price with you before any paid work begins.',
-          fr: 'L’automatisation est optionnelle. Nous convenons du périmètre et du prix avec vous avant tout travail payant.',
-          de: 'Automatisierung ist optional. Umfang und Preis vereinbaren wir mit Ihnen, bevor bezahlte Arbeit beginnt.',
-          it: 'L’automazione è facoltativa. Concordiamo ambito e prezzo con te prima di qualsiasi lavoro a pagamento.',
+          fr: 'L’automatisation est facultative. Nous définissons avec vous le périmètre et le prix avant tout travail payant.',
+          de: 'Automatisierung ist optional. Umfang und Preis vereinbaren wir mit Ihnen, bevor kostenpflichtige Arbeit beginnt.',
+          it: 'L’automazione è facoltativa. Concordiamo con te ambito e prezzo prima di ogni lavoro a pagamento.',
         })}
       </p>
-      <a href="/start?path=extend" class="btn btn-secondary self-start sm:self-auto">
-        {pick(lang, { en: 'See what we can automate', fr: 'Voir ce que nous pouvons automatiser', de: 'Sehen, was wir automatisieren können', it: 'Scopri cosa possiamo automatizzare' })}
+      <a href={getLocalizedPath('/start?path=extend', lang)} class="btn btn-secondary self-start sm:self-auto">
+        {pick(lang, { en: 'See what we can automate', fr: 'Explorer l’automatisation', de: 'Automatisierung entdecken', it: 'Scopri l’automazione' })}
         <ArrowRight size={16} class="arrow" stroke-width={1.75} />
       </a>
     </div>

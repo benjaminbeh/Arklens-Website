@@ -2,7 +2,7 @@
 import type { Language } from '@i18n/index';
 import { useTranslations } from '@i18n/index';
 import { pick } from '@lib/pick';
-import { KeyRound, Receipt, MapPin, Languages, ShieldCheck, ListChecks, LockOpen } from '@lucide/astro';
+import { KeyRound, Banknote, MapPin, Languages, ShieldCheck, ListChecks, LockOpen } from '@lucide/astro';
 import SectionHeader from '@components/ui/SectionHeader.astro';
 
 interface Props {
@@ -14,7 +14,7 @@ const t = useTranslations(lang);
 
 const trustPoints = [
   { key: 'domain', icon: KeyRound },
-  { key: 'pricing', icon: Receipt },
+  { key: 'pricing', icon: Banknote },
   { key: 'focus', icon: MapPin },
   { key: 'multilingual', icon: Languages },
   { key: 'privacy', icon: ShieldCheck },
@@ -48,8 +48,8 @@ const trustPoints = [
         <span class="text-sm text-steel-700">
           {pick(lang, {
             en: 'Designed with Swiss privacy and data-protection requirements in mind',
-            fr: 'Conçu en tenant compte des exigences suisses en matière de confidentialité et de protection des données',
-            de: 'Unter Berücksichtigung der Schweizer Datenschutzanforderungen entwickelt',
+            fr: 'Conçu en tenant compte des exigences suisses en matière de protection des données',
+            de: 'Entwickelt mit Blick auf die Schweizer Anforderungen an den Datenschutz',
             it: 'Progettato tenendo conto dei requisiti svizzeri in materia di privacy e protezione dei dati',
           })}
         </span>
