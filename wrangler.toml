@@ -9,8 +9,9 @@ compatibility_date = "2024-09-23"
 pages_build_output_dir = "dist"
 
 [vars]
-# Frontend hostnames accepted from Turnstile siteverify (production only, no localhost)
-TURNSTILE_HOSTNAMES = "www.arklens.ch,arklens.ch,arklens.pages.dev"
+# Frontend hostnames accepted from Turnstile siteverify (no localhost).
+# dev.arklens.pages.dev = the `dev` branch preview deployment.
+TURNSTILE_HOSTNAMES = "www.arklens.ch,arklens.ch,arklens.pages.dev,dev.arklens.pages.dev"
 
 # Basic per-IP rate limiting for /api/contact
 [[kv_namespaces]]
