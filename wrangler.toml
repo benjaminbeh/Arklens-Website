@@ -1,0 +1,19 @@
+# Cloudflare Pages configuration for Arklens (project: arklens)
+# Committed to git so local and CI deploys use the same bindings.
+# Secrets are NOT stored here. Set them with:
+#   wrangler pages secret put <NAME> --project-name=arklens
+# Required secrets: TURNSTILE_SECRET_KEY, INFOMANIAK_SMTP_USER, INFOMANIAK_SMTP_PASSWORD
+# SMTP: mail.infomaniak.com:587 STARTTLS, authenticated as the real mailbox (not the swiss_contact alias). Port 25 is never used.
+name = "arklens"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "dist"
+
+[vars]
+# Frontend hostnames accepted from Turnstile siteverify (no localhost).
+# dev.arklens.pages.dev = the `dev` branch preview deployment.
+TURNSTILE_HOSTNAMES = "www.arklens.ch,arklens.ch,arklens.pages.dev,dev.arklens.pages.dev"
+
+# Basic per-IP rate limiting for /api/contact
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "49410344632949099c36bb1b288d655d"

@@ -7,7 +7,8 @@
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check:i18n": "node scripts/i18n-check.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -16,7 +17,8 @@
     "@lucide/astro": "^1.48.0",
     "astro": "^4.16.18",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "worker-mailer": "1.2.1"
   },
   "devDependencies": {
     "@types/node": "^22.10.5"

@@ -1,6 +1,6 @@
 ---
 import type { Language } from '@i18n/index';
-import { useTranslations } from '@i18n/index';
+import { useTranslations, getLocalizedPath } from '@i18n/index';
 import { pick } from '@lib/pick';
 import { Check, ArrowRight, KeyRound } from '@lucide/astro';
 import SectionHeader from '@components/ui/SectionHeader.astro';
@@ -23,7 +23,7 @@ const features = [
     <SectionHeader
       id="offer-title"
       index="02"
-      eyebrow={pick(lang, { en: 'The offer', fr: "L'offre", de: 'Das Angebot', it: "L'offerta" })}
+      eyebrow={pick(lang, { en: 'The offer', fr: 'L’offre', de: 'Das Angebot', it: 'L’offerta' })}
       title={t('freeOffer.title')}
     />
 
@@ -33,18 +33,18 @@ const features = [
         <div class="lg:sticky lg:top-[calc(var(--sfg-header-h)+2rem)]">
           <div class="border border-ink-900/15 rounded-md p-7">
             <p class="eyebrow">{pick(lang, { en: 'Website', fr: 'Site web', de: 'Website', it: 'Sito web' })}</p>
-            <p class="mt-2 text-[3.5rem] leading-none font-semibold tracking-[-0.04em] text-ink-900">CHF 0</p>
+            <p class="mt-2 text-[3.5rem] leading-none font-semibold tracking-[-0.04em] text-ink-900">{'CHF\u00A00'}</p>
             <p class="mt-4 text-sm text-steel-600">
               {pick(lang, {
                 en: 'Hosting included under the Free Website Programme.',
-                fr: 'Hébergement inclus dans le Programme Site Web Gratuit.',
-                de: 'Hosting im Rahmen des Kostenlosen Website-Programms inbegriffen.',
-                it: 'Hosting incluso nel Programma Sito Web Gratuito.',
+                fr: 'Hébergement inclus dans le Programme Site web gratuit.',
+                de: 'Hosting im Programm «Kostenlose Website» inbegriffen.',
+                it: 'Hosting incluso nel Programma Sito web gratuito.',
               })}
             </p>
             <div class="mt-7">
-              <a href="/start" class="btn btn-primary btn-block">
-                {pick(lang, { en: 'Get my free website', fr: 'Obtenir mon site gratuit', de: 'Meine kostenlose Website', it: 'Ottieni il mio sito gratuito' })}
+              <a href={getLocalizedPath('/start', lang)} class="btn btn-primary btn-block">
+                {pick(lang, { en: 'Get my free website', fr: 'Demander mon site gratuit', de: 'Website kostenlos anfragen', it: 'Richiedi il sito gratuito' })}
                 <ArrowRight size={16} class="arrow" stroke-width={1.75} />
               </a>
             </div>
@@ -55,7 +55,7 @@ const features = [
             <KeyRound size={20} class="flex-none mt-0.5 text-ink-900" stroke-width={1.5} />
             <div>
               <p class="font-medium text-ink-900">
-                {pick(lang, { en: 'Your domain always belongs to you', fr: 'Votre domaine vous appartient toujours', de: 'Ihre Domain gehört immer Ihnen', it: 'Il tuo dominio ti appartiene sempre' })}
+                {pick(lang, { en: 'Your domain always belongs to you', fr: 'Votre nom de domaine vous appartient toujours', de: 'Ihre Domain gehört immer Ihnen', it: 'Il dominio è sempre tuo' })}
               </p>
               <p class="mt-1.5 text-sm text-steel-600">{t('freeOffer.domain')}</p>
             </div>

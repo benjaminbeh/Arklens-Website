@@ -1,50 +1,102 @@
 ---
 import '../styles/global.css';
 import type { Language } from '@i18n/index';
+import { useTranslations, getLocalizedPath, hreflangs, ogLocales, locales, pagePath, stripLocale } from '@i18n/index';
 
 interface Props {
   title: string;
   description: string;
   lang?: Language;
   ogImage?: string;
+  noindex?: boolean;
 }
 
 const { 
   title, 
   description, 
   lang = 'en',
-  ogImage = '/og-image.jpg'
+  ogImage = '/og-image.jpg',
+  noindex = false,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const t = useTranslations(lang);
+const path = pagePath(Astro.url.pathname);
+const base = stripLocale(path);
+const canonicalURL = new URL(path, Astro.site);
 const fullTitle = `${title} | Arklens`;
+
+const alternates = locales.map((code) => ({
+  hreflang: hreflangs[code],
+  href: new URL(getLocalizedPath(base, code), Astro.site).href,
+}));
+const xDefault = new URL(base, Astro.site).href;
+
+const organization = {
+  '@type': 'Organization',
+  name: 'Arklens',
+  url: 'https://www.arklens.ch',
+  logo: 'https://www.arklens.ch/android-chrome-512x512.png',
+  description: t('meta.orgDescription'),
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'CH',
+  },
+  areaServed: {
+    '@type': 'Country',
+    name: t('meta.country'),
+  },
+};
+const webPage = {
+  '@type': 'WebPage',
+  url: canonicalURL.href,
+  name: fullTitle,
+  description,
+  inLanguage: hreflangs[lang],
+  isPartOf: { '@type': 'WebSite', name: 'Arklens', url: 'https://www.arklens.ch/' },
+};
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': noindex ? [organization] : [organization, webPage],
+}).replace(/</g, '\\u003c');
 ---
 
 <!doctype html>
-<html lang={lang} dir="ltr">
+<html lang={hreflangs[lang]} dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="generator" content={Astro.generator} />
     
     <!-- Primary Meta Tags -->
     <title>{fullTitle}</title>
     <meta name="title" content={fullTitle} />
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalURL} />
+    {noindex ? (
+      <meta name="robots" content="noindex" />
+    ) : (
+      <>
+        <link rel="canonical" href={canonicalURL} />
+        {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+        <link rel="alternate" hreflang="x-default" href={xDefault} />
+      </>
+    )}
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
+    {!noindex && <meta property="og:url" content={canonicalURL} />}
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(ogImage, Astro.site)} />
-    <meta property="og:locale" content={lang === 'en' ? 'en_US' : lang === 'fr' ? 'fr_CH' : lang === 'de' ? 'de_CH' : 'it_CH'} />
+    <meta property="og:locale" content={ogLocales[lang]} />
+    {locales.filter((code) => code !== lang).map((code) => <meta property="og:locale:alternate" content={ogLocales[code]} />)}
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
+    {!noindex && <meta property="twitter:url" content={canonicalURL} />}
     <meta property="twitter:title" content={fullTitle} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(ogImage, Astro.site)} />
@@ -82,28 +134,11 @@ const fullTitle = `${title} | Arklens`;
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     
     <!-- Schema.org markup for Google -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Arklens",
-        "url": "https://www.arklens.ch",
-        "logo": "https://www.arklens.ch/logo.png",
-        "description": "Websites, digital tools, automation and practical AI for Swiss small businesses",
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "CH"
-        },
-        "areaServed": {
-          "@type": "Country",
-          "name": "Switzerland"
-        }
-      }
-    </script>
+    <script type="application/ld+json" set:html={jsonLd} />
   </head>
   <body>
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:bg-ink-900 focus:text-white focus:px-4 focus:py-3 focus:rounded-[4px]">
-      {lang === 'fr' ? 'Aller au contenu' : lang === 'de' ? 'Zum Inhalt springen' : lang === 'it' ? 'Vai al contenuto' : 'Skip to content'}
+      {t('a11y.skip')}
     </a>
     <slot />
   </body>

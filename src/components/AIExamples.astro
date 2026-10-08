@@ -1,0 +1,90 @@
+---
+/**
+ * Compact, practical AI section inside the dark "technical" zone.
+ * Typography and hairlines only: no illustrations, no hype.
+ */
+import type { Language } from '@i18n/index';
+import { getLocalizedPath } from '@i18n/index';
+import { pick } from '@lib/pick';
+import { MessageSquareText, FileSearch, Inbox, FileText, ArrowRight } from '@lucide/astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+
+const examples = [
+  {
+    icon: MessageSquareText,
+    title: pick(lang, { en: 'Answering repeated customer questions', fr: 'Répondre aux questions clients récurrentes', de: 'Wiederkehrende Kundenfragen beantworten', it: 'Rispondere alle domande ricorrenti dei clienti' }),
+    text: pick(lang, { en: 'Opening hours, prices, availability: answered from information you approve.', fr: 'Horaires, prix, disponibilités\u00A0: des réponses basées sur les informations que vous validez.', de: 'Öffnungszeiten, Preise, Verfügbarkeit: beantwortet aus Informationen, die Sie freigeben.', it: 'Orari, prezzi, disponibilità: risposte basate su informazioni che approvi tu.' }),
+  },
+  {
+    icon: FileSearch,
+    title: pick(lang, { en: 'Helping staff search company documents', fr: 'Aider l’équipe à chercher dans les documents', de: 'Mitarbeitenden bei der Dokumentsuche helfen', it: 'Aiutare il personale a cercare nei documenti' }),
+    text: pick(lang, { en: 'Find the right procedure, price list or manual by asking a plain question.', fr: 'Trouver la bonne procédure, le bon tarif ou le bon manuel avec une simple question.', de: 'Den richtigen Ablauf, die Preisliste oder das Handbuch mit einer einfachen Frage finden.', it: 'Trovare la procedura, il listino o il manuale giusto con una semplice domanda.' }),
+  },
+  {
+    icon: Inbox,
+    title: pick(lang, { en: 'Sorting enquiries and preparing replies', fr: 'Trier les demandes et préparer les réponses', de: 'Anfragen sortieren und Antworten vorbereiten', it: 'Smistare le richieste e preparare le risposte' }),
+    text: pick(lang, { en: 'Incoming messages are grouped and a draft reply is ready for your team to check.', fr: 'Les messages sont classés et un brouillon de réponse attend la validation de votre équipe.', de: 'Eingehende Nachrichten werden sortiert, ein Antwortentwurf liegt zur Prüfung bereit.', it: 'I messaggi vengono smistati e una bozza di risposta è pronta per la verifica del team.' }),
+  },
+  {
+    icon: FileText,
+    title: pick(lang, { en: 'Helping prepare quotations', fr: 'Aider à préparer les offres', de: 'Beim Erstellen von Offerten helfen', it: 'Aiutare a preparare le offerte' }),
+    text: pick(lang, { en: 'A first draft from the customer’s request, using your own prices and templates.', fr: 'Un premier projet à partir de la demande du client, avec vos propres prix et modèles.', de: 'Ein erster Entwurf aus der Kundenanfrage, mit Ihren eigenen Preisen und Vorlagen.', it: 'Una prima bozza dalla richiesta del cliente, con i tuoi prezzi e modelli.' }),
+  },
+];
+---
+
+<section class="theme-dark bg-ink-900 text-white pb-16 md:pb-20" aria-labelledby="ai-title">
+  <div class="container-custom">
+    <div class="rule pt-12 md:pt-16 grid grid-cols-12 gap-x-6 gap-y-10">
+      <div class="col-span-12 lg:col-span-4">
+        <p class="eyebrow mb-5">{pick(lang, { en: 'Practical AI', fr: 'IA concrète', de: 'KI in der Praxis', it: 'IA concreta' })}</p>
+        <h2 id="ai-title" class="text-display-sm max-w-md">
+          {pick(lang, { en: 'Where could AI help your business?', fr: 'Où l’IA pourrait-elle aider votre entreprise\u202F?', de: 'Wo könnte KI Ihrem Unternehmen helfen?', it: 'Dove potrebbe aiutarti l’IA in azienda?' })}
+        </h2>
+        <p class="mt-6 text-heading-sm font-medium text-white max-w-sm">
+          {pick(lang, {
+            en: 'You don’t need an AI strategy. Start with one useful problem.',
+            fr: 'Pas besoin d’une stratégie IA. Commencez par un problème concret.',
+            de: 'Sie brauchen keine KI-Strategie. Beginnen Sie mit einem konkreten Problem.',
+            it: 'Non serve una strategia IA. Parti da un problema concreto.',
+          })}
+        </p>
+        <a href={getLocalizedPath('/start?path=check', lang)} class="link-arrow mt-6 py-1 text-sm">
+          {pick(lang, { en: 'Check my business', fr: 'Évaluer mon entreprise', de: 'Mein Unternehmen prüfen', it: 'Analizza la mia azienda' })}
+          <ArrowRight size={14} stroke-width={1.75} />
+        </a>
+      </div>
+
+      <ul class="col-span-12 lg:col-span-8 border-t border-white/15">
+        {examples.map((ex, i) => {
+          const Icon = ex.icon;
+          return (
+            <li class="grid grid-cols-[auto_1fr] gap-x-5 border-b border-white/15 py-5 md:py-6">
+              <Icon size={20} class="mt-0.5 text-white" stroke-width={1.5} />
+              <div>
+                <h3 class="flex items-baseline gap-3 text-heading-sm text-white">
+                  <span class="font-mono text-xs text-steel-400" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                  {ex.title}
+                </h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-steel-300 max-w-xl">{ex.text}</p>
+              </div>
+            </li>
+          );
+        })}
+        <li class="pt-5 text-sm text-steel-300">
+          {pick(lang, {
+            en: 'Your team stays in control: AI prepares, people decide.',
+            fr: 'Votre équipe garde le contrôle\u00A0: l’IA prépare, les personnes décident.',
+            de: 'Ihr Team behält die Kontrolle: KI bereitet vor, der Mensch entscheidet.',
+            it: 'Il tuo team mantiene il controllo: l’IA prepara, le persone decidono.',
+          })}
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
