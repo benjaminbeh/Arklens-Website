@@ -438,12 +438,15 @@ const C = {
     render: (el: HTMLElement, opts: Record<string, unknown>) => string;
     reset: (id: string) => void;
     getResponse: (id: string) => string | undefined;
+    isExpired: (id: string) => boolean;
   };
   const w = window as unknown as { turnstile?: Turnstile; onArklensTurnstile?: () => void };
 
   const startedAt = Date.now();
   let widgetId: string | null = null;
   let submitting = false;
+  // Turnstile tokens are single-use: remember every token already sent so it is never reused.
+  const usedTokens = new Set<string>();
 
   const EMAIL_RE = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*\.[A-Za-z]{2,}$/;
   const PHONE_RE = /^[0-9+()./\s-]{5,40}$/;
@@ -498,6 +501,18 @@ const C = {
     if (widgetId && w.turnstile) w.turnstile.reset(widgetId);
   }
 
+  /** A current token: present, not expired, never submitted before. Otherwise ''. */
+  function freshToken(): string {
+    if (!widgetId || !w.turnstile) return '';
+    const token = w.turnstile.getResponse(widgetId) ?? '';
+    if (!token) return '';
+    if (usedTokens.has(token) || w.turnstile.isExpired(widgetId)) {
+      resetTurnstile(); // fetch a new one; the visitor submits again once it's ready
+      return '';
+    }
+    return token;
+  }
+
   // --- Turnstile (explicit render so the widget can be reset after each attempt) ---
   function renderTurnstile() {
     if (!form || !tsContainer || !w.turnstile || widgetId) return;
@@ -509,6 +524,9 @@ const C = {
       // 'flexible' has a 300 px minimum width; narrower containers (320 px phones) get 'compact'.
       size: tsContainer.clientWidth < 300 ? 'compact' : 'flexible',
       'response-field': false,
+      // Tokens expire after 5 minutes: let the widget fetch a new one by itself.
+      'refresh-expired': 'auto',
+      'refresh-timeout': 'auto',
       callback: () => setError('turnstile', false),
       'error-callback': () => {
         track('contact_form_error', { stage: 'turnstile' });
@@ -549,7 +567,7 @@ const C = {
         return;
       }
 
-      const token = widgetId && w.turnstile ? w.turnstile.getResponse(widgetId) : '';
+      const token = freshToken();
       if (!token) {
         setError('turnstile', true);
         tsContainer?.scrollIntoView({ block: 'center', behavior: 'smooth' });
@@ -557,6 +575,7 @@ const C = {
       }
 
       track('contact_form_submit', { reason: value('reason') });
+      usedTokens.add(token);
       setBusy(true);
 
       try {
@@ -597,9 +616,12 @@ const C = {
           showFormError(form.dataset.msgInvalid ?? '');
         } else if (data.error === 'rate_limited') {
           showFormError(form.dataset.msgRateLimited ?? '');
-        } else if (data.error === 'verification_failed') {
+        } else if (data.error === 'verification_expired') {
+          // Token timed out or was already used: a fresh one is fetched in `finally`.
+          // Fields stay filled; the visitor submits again themselves.
           showFormError(form.dataset.msgVerification ?? '');
         } else {
+          // verification_failed and server errors: generic "Please try again."
           showFormError();
         }
       } catch {

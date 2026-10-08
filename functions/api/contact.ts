@@ -216,12 +216,23 @@ function parseFields(raw: Record<string, unknown>): { fields?: Fields; invalid?:
   return { fields: { name, business, email, reason, message, phone, website: website ?? '', page, lang } };
 }
 
-async function verifyTurnstile(token: unknown, ip: string, env: Env): Promise<boolean> {
+/**
+ * 'ok'      token valid for this action and hostname
+ * 'expired' Siteverify reported timeout-or-duplicate (token older than 5 min or already used):
+ *           the visitor can fix this by getting a fresh token
+ * 'failed'  anything else (missing config, invalid token, wrong hostname/action, network): fail closed
+ */
+type TurnstileResult = 'ok' | 'expired' | 'failed';
+
+async function verifyTurnstile(token: unknown, ip: string, env: Env): Promise<TurnstileResult> {
   const hostnames = new Set(
     (env.TURNSTILE_HOSTNAMES ?? '').split(',').map((h) => h.trim()).filter(Boolean),
   );
-  if (!env.TURNSTILE_SECRET_KEY || hostnames.size === 0) return false;
-  if (typeof token !== 'string' || token.length === 0 || token.length > 2048) return false;
+  if (!env.TURNSTILE_SECRET_KEY || hostnames.size === 0) {
+    console.error(JSON.stringify({ event: 'turnstile_misconfigured' })); // names only, no values
+    return 'failed';
+  }
+  if (typeof token !== 'string' || token.length === 0 || token.length > 2048) return 'failed';
 
   try {
     const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
@@ -230,20 +241,31 @@ async function verifyTurnstile(token: unknown, ip: string, env: Env): Promise<bo
       signal: AbortSignal.timeout(10_000),
       body: new URLSearchParams({ secret: env.TURNSTILE_SECRET_KEY, response: token, remoteip: ip }),
     });
-    if (!res.ok) return false;
+    if (!res.ok) return 'failed';
     const result = (await res.json()) as {
       success?: boolean;
       action?: string;
       hostname?: string;
+      'error-codes'?: string[];
       metadata?: { result_with_testing_key?: boolean };
     };
-    // Cloudflare test keys return no action; accept them only when explicitly enabled for local dev.
-    if (env.TURNSTILE_ALLOW_TEST_KEYS === 'true' && result.metadata?.result_with_testing_key) {
-      return result.success === true && hostnames.has(result.hostname ?? '');
+    if (result.success !== true) {
+      const codes = Array.isArray(result['error-codes']) ? result['error-codes'] : [];
+      // Log Cloudflare's error codes only (no token, no IP) so failures are diagnosable.
+      console.error(JSON.stringify({ event: 'turnstile_rejected', codes: codes.slice(0, 5) }));
+      return codes.includes('timeout-or-duplicate') ? 'expired' : 'failed';
     }
-    return result.success === true && result.action === TURNSTILE_ACTION && hostnames.has(result.hostname ?? '');
+    // Cloudflare test keys return no action; accept them only when explicitly enabled for local dev.
+    const actionOk =
+      (env.TURNSTILE_ALLOW_TEST_KEYS === 'true' && result.metadata?.result_with_testing_key) ||
+      result.action === TURNSTILE_ACTION;
+    if (!actionOk || !hostnames.has(result.hostname ?? '')) {
+      console.error(JSON.stringify({ event: 'turnstile_mismatch', hostnameAllowed: hostnames.has(result.hostname ?? ''), actionOk: Boolean(actionOk) }));
+      return 'failed';
+    }
+    return 'ok';
   } catch {
-    return false; // fail closed
+    return 'failed'; // fail closed
   }
 }
 
@@ -405,9 +427,9 @@ export const onRequestPost = async ({ request, env }: Ctx): Promise<Response> =>
     const { fields, invalid } = parseFields(raw);
     if (!fields) return json(422, { ok: false, error: 'invalid', fields: invalid });
 
-    if (!(await verifyTurnstile(raw.turnstile_token, ip, env))) {
-      return json(403, { ok: false, error: 'verification_failed' });
-    }
+    const turnstile = await verifyTurnstile(raw.turnstile_token, ip, env);
+    if (turnstile === 'expired') return json(403, { ok: false, error: 'verification_expired' });
+    if (turnstile !== 'ok') return json(403, { ok: false, error: 'verification_failed' });
 
     if (!(await sendEmail(fields, env))) return fail(502);
 
