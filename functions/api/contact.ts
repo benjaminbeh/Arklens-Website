@@ -375,6 +375,66 @@ ${rows
   return { subject, text, html };
 }
 
+const CONFIRM_FROM = { name: 'Arklens', email: 'swiss_contact@arklens.ch' };
+const CONFIRM_REPLY_TO = 'swiss_contact@arklens.ch';
+
+/** Visitor acknowledgement copy. No form content beyond the first name; no tracking. */
+const CONFIRM_COPY: Record<Fields['lang'], {
+  subject: string; greeting: string; lines: string[]; closing: string; tagline: string;
+}> = {
+  en: {
+    subject: 'We received your message — Arklens',
+    greeting: 'Hi',
+    lines: ['Thank you for contacting Arklens.', 'We’ve received your message and will get back to you as soon as possible.'],
+    closing: 'Best regards,',
+    tagline: 'Smarter technology for Swiss SMEs.',
+  },
+  fr: {
+    subject: 'Nous avons bien reçu votre message — Arklens',
+    greeting: 'Bonjour',
+    lines: ['Merci d’avoir contacté Arklens.', 'Nous avons bien reçu votre message et nous vous répondrons dès que possible.'],
+    closing: 'Meilleures salutations,',
+    tagline: 'Des technologies plus intelligentes pour les PME suisses.',
+  },
+  de: {
+    subject: 'Wir haben Ihre Nachricht erhalten — Arklens',
+    greeting: 'Guten Tag',
+    lines: ['Vielen Dank für Ihre Nachricht an Arklens.', 'Wir haben Ihre Nachricht erhalten und melden uns so bald wie möglich bei Ihnen.'],
+    closing: 'Freundliche Grüsse',
+    tagline: 'Intelligente Technologien für Schweizer KMU.',
+  },
+  it: {
+    subject: 'Abbiamo ricevuto il suo messaggio — Arklens',
+    greeting: 'Buongiorno',
+    lines: ['Grazie per aver contattato Arklens.', 'Abbiamo ricevuto il suo messaggio e le risponderemo al più presto.'],
+    closing: 'Cordiali saluti,',
+    tagline: 'Tecnologie intelligenti per le PMI svizzere.',
+  },
+};
+
+function buildConfirmation(f: Fields) {
+  const c = CONFIRM_COPY[f.lang] ?? CONFIRM_COPY.en;
+  const firstName = Array.from(f.name.split(' ')[0] ?? '').slice(0, 60).join('');
+  const greetingLine = firstName ? `${c.greeting} ${firstName},` : `${c.greeting},`;
+
+  const text = [greetingLine, '', ...c.lines.flatMap((l) => [l, '']), c.closing, '', 'Arklens', c.tagline, 'arklens.ch'].join('\n');
+
+  const p = 'margin:0 0 16px;font-size:15px;line-height:1.6';
+  const html = `<!doctype html><html lang="${f.lang}"><body style="margin:0;padding:24px;background:#FAFAF7;font-family:Arial,Helvetica,sans-serif;color:#111418">
+<table role="presentation" width="100%" style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #E6EAF0;border-collapse:collapse">
+<tr><td style="padding:20px 28px;border-bottom:2px solid #D52B1E;font-size:13px;font-weight:bold;letter-spacing:.12em;text-transform:uppercase;color:#111418">Arklens</td></tr>
+<tr><td style="padding:28px 28px 8px">
+<p style="${p}">${escapeHtml(greetingLine)}</p>
+${c.lines.map((l) => `<p style="${p}">${escapeHtml(l)}</p>`).join('\n')}
+<p style="margin:24px 0 0;font-size:15px;line-height:1.6">${escapeHtml(c.closing)}</p>
+<p style="margin:0 0 24px;font-size:15px;line-height:1.6"><strong>Arklens</strong></p>
+</td></tr>
+<tr><td style="padding:16px 28px;border-top:1px solid #E6EAF0;font-size:12px;line-height:1.6;color:#66727F">${escapeHtml(c.tagline)}<br>arklens.ch</td></tr>
+</table></body></html>`;
+
+  return { subject: c.subject, text, html };
+}
+
 async function sendEmail(f: Fields, env: Env): Promise<boolean> {
   const username = env.INFOMANIAK_SMTP_USER;
   const password = env.INFOMANIAK_SMTP_PASSWORD;
@@ -384,6 +444,8 @@ async function sendEmail(f: Fields, env: Env): Promise<boolean> {
   let mailer: StrictTlsMailer | undefined;
   let result: 'sent' | 'failed' = 'failed';
   let errorName = '';
+  let confirmation: 'sent' | 'failed' | 'skipped' = 'skipped';
+  let internalTraceEnd = -1;
   try {
     mailer = new StrictTlsMailer({
       host: SMTP_HOST,
@@ -399,8 +461,21 @@ async function sendEmail(f: Fields, env: Env): Promise<boolean> {
     });
     await mailer.open();
     // Reply-To: bare address, already EMAIL_RE-validated and CR/LF-free.
+    // 1. Internal notification (primary). If this fails, the form submission fails.
     await mailer.send({ from: MAIL_FROM, to: MAIL_TO, reply: f.email, subject, text, html });
     result = 'sent';
+    internalTraceEnd = mailer.trace.length;
+
+    // 2. Visitor acknowledgement, only after the internal mail was accepted.
+    //    Its failure never fails the submission (avoids duplicate resubmissions).
+    try {
+      const confirm = buildConfirmation(f);
+      await mailer.send({ from: CONFIRM_FROM, to: f.email, reply: CONFIRM_REPLY_TO, ...confirm });
+      confirmation = 'sent';
+    } catch (e) {
+      confirmation = 'failed';
+      console.error(JSON.stringify({ event: 'confirmation_email_failed', error: e instanceof Error ? e.name : 'unknown' }));
+    }
     return true;
   } catch (e) {
     // Error class only: SMTP error messages can echo server text.
@@ -408,12 +483,17 @@ async function sendEmail(f: Fields, env: Env): Promise<boolean> {
     console.error(JSON.stringify({ event: 'contact_send_failed', error: errorName }));
     return false;
   } finally {
-    const failedStage = result === 'failed' ? mailer?.stage ?? 'construct' : undefined;
-    const trace = mailer ? [...mailer.trace] : [];
+    const failedStage =
+      result === 'failed' || confirmation === 'failed' ? mailer?.stage ?? 'construct' : undefined;
+    const all = mailer ? [...mailer.trace] : [];
+    const trace = internalTraceEnd >= 0 ? all.slice(0, internalTraceEnd) : all;
+    const confirmationTrace = internalTraceEnd >= 0 ? all.slice(internalTraceEnd) : [];
     if (mailer) mailer.stage = 'quit';
     await mailer?.close().catch(() => {});
     // TEMPORARY diagnostics: stages and reply codes only.
-    console.log(JSON.stringify({ event: 'smtp_trace', result, failedStage, error: errorName || undefined, trace }));
+    console.log(JSON.stringify({
+      event: 'smtp_trace', result, confirmation, failedStage, error: errorName || undefined, trace, confirmationTrace,
+    }));
   }
 }
 
