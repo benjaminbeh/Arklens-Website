@@ -1,0 +1,181 @@
+---
+/**
+ * Section 03: Swiss, European, global or hybrid AI (opens the dark technical zone).
+ * Model-agnostic by design: no provider or model names. Options are a typed array
+ * so the comparison stays easy to update.
+ */
+import type { Language } from '@i18n/index';
+import { pick } from '@lib/pick';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+
+interface Props {
+  lang: Language;
+}
+
+interface Option {
+  title: string;
+  role: string;
+  text?: string;
+  bestWhen: string[];
+  setup?: string[];
+  note?: string;
+}
+
+const { lang } = Astro.props;
+const list = (c: Record<Language, string[]>) => c[lang];
+
+const options: Option[] = [
+  {
+    title: pick(lang, { en: 'Swiss / sovereignty-focused', fr: 'Suisse / axée sur la souveraineté', de: 'Schweizer KI / Fokus auf Souveränität', it: 'Svizzera / orientata alla sovranità' }),
+    role: pick(lang, {
+      en: 'When control over where data is processed matters most.',
+      fr: 'Quand le contrôle du lieu de traitement des données compte le plus.',
+      de: 'Wenn die Kontrolle darüber, wo Daten verarbeitet werden, am wichtigsten ist.',
+      it: 'Quando conta soprattutto il controllo su dove vengono trattati i dati.',
+    }),
+    bestWhen: list({
+      en: ['Swiss data residency matters', 'Confidential information is involved', 'Management wants stronger control over where data is processed', 'Less dependency on overseas AI providers is desired'],
+      fr: ['La résidence des données en Suisse est importante', 'Des informations confidentielles sont en jeu', 'La direction veut mieux maîtriser le lieu de traitement des données', 'Vous souhaitez moins dépendre de fournisseurs d’IA extra-européens'],
+      de: ['Datenhaltung in der Schweiz ist wichtig', 'Vertrauliche Informationen sind betroffen', 'Die Geschäftsleitung will mehr Kontrolle darüber, wo Daten verarbeitet werden', 'Weniger Abhängigkeit von KI-Anbietern in Übersee ist gewünscht'],
+      it: ['La residenza dei dati in Svizzera è importante', 'Sono coinvolte informazioni riservate', 'La direzione vuole più controllo su dove vengono trattati i dati', 'Si desidera dipendere meno da fornitori di IA d’oltreoceano'],
+    }),
+    setup: list({
+      en: ['Swiss infrastructure', '+ a suitable AI model', '+ your private company data', '+ controlled access'],
+      fr: ['Infrastructure suisse', '+ un modèle d’IA adapté', '+ vos données d’entreprise privées', '+ des accès contrôlés'],
+      de: ['Schweizer Infrastruktur', '+ ein geeignetes KI-Modell', '+ Ihre privaten Firmendaten', '+ kontrollierter Zugriff'],
+      it: ['Infrastruttura svizzera', '+ un modello di IA adatto', '+ i tuoi dati aziendali privati', '+ accessi controllati'],
+    }),
+    note: pick(lang, {
+      en: 'A Swiss model alone does not make a system sovereign. It depends on the whole setup.',
+      fr: 'Un modèle suisse ne rend pas à lui seul un système souverain. Tout dépend de l’ensemble de l’architecture.',
+      de: 'Ein Schweizer Modell allein macht ein System nicht souverän. Entscheidend ist die gesamte Architektur.',
+      it: 'Un modello svizzero da solo non rende sovrano un sistema. Dipende dall’intera architettura.',
+    }),
+  },
+  {
+    title: pick(lang, { en: 'European AI', fr: 'IA européenne', de: 'Europäische KI', it: 'IA europea' }),
+    role: pick(lang, {
+      en: 'For organisations that prefer European infrastructure or jurisdiction.',
+      fr: 'Pour les organisations qui préfèrent une infrastructure ou un droit européens.',
+      de: 'Für Organisationen, die europäische Infrastruktur oder europäisches Recht bevorzugen.',
+      it: 'Per le organizzazioni che preferiscono infrastrutture o giurisdizione europee.',
+    }),
+    bestWhen: list({
+      en: ['European hosting is preferred', 'European jurisdiction matters to you or your clients', 'A balance of capability and control is needed'],
+      fr: ['Un hébergement en Europe est préféré', 'Le droit européen compte pour vous ou vos clients', 'Il faut un équilibre entre performance et contrôle'],
+      de: ['Hosting in Europa wird bevorzugt', 'Europäisches Recht ist Ihnen oder Ihren Kunden wichtig', 'Gefragt ist ein Gleichgewicht zwischen Leistung und Kontrolle'],
+      it: ['Si preferisce un hosting in Europa', 'La giurisdizione europea conta per te o per i tuoi clienti', 'Serve un equilibrio tra capacità e controllo'],
+    }),
+  },
+  {
+    title: pick(lang, { en: 'Global AI', fr: 'IA mondiale', de: 'Globale KI', it: 'IA globale' }),
+    role: pick(lang, {
+      en: 'When you need the most capable models available.',
+      fr: 'Quand vous avez besoin des modèles les plus performants.',
+      de: 'Wenn Sie die leistungsfähigsten Modelle brauchen.',
+      it: 'Quando ti servono i modelli più performanti.',
+    }),
+    bestWhen: list({
+      en: ['You need the strongest available models', 'Advanced reasoning', 'Multimodal input (text, images, documents)', 'Coding and agents', 'Rapid access to new capabilities'],
+      fr: ['Vous avez besoin des modèles les plus puissants disponibles', 'Raisonnement avancé', 'Entrées multimodales (texte, images, documents)', 'Programmation et agents', 'Accès rapide aux nouvelles fonctionnalités'],
+      de: ['Sie brauchen die stärksten verfügbaren Modelle', 'Komplexe Analysen und Schlussfolgerungen', 'Multimodale Eingaben (Text, Bilder, Dokumente)', 'Programmierung und Agenten', 'Schneller Zugang zu neuen Fähigkeiten'],
+      it: ['Ti servono i modelli più potenti disponibili', 'Ragionamento avanzato', 'Input multimodali (testo, immagini, documenti)', 'Programmazione e agenti', 'Accesso rapido alle nuove funzionalità'],
+    }),
+    note: pick(lang, {
+      en: 'Arklens may work with appropriate leading global AI providers, chosen per project.',
+      fr: 'Arklens peut travailler avec des fournisseurs d’IA mondiaux de premier plan, choisis selon chaque projet.',
+      de: 'Arklens kann mit führenden globalen KI-Anbietern zusammenarbeiten, die wir je nach Projekt auswählen.',
+      it: 'Arklens può collaborare con fornitori globali di IA affermati, scelti in base al progetto.',
+    }),
+  },
+  {
+    title: pick(lang, { en: 'Hybrid AI', fr: 'IA hybride', de: 'Hybride KI', it: 'IA ibrida' }),
+    role: pick(lang, { en: 'A practical mix.', fr: 'Un mélange pragmatique.', de: 'Eine praktische Kombination.', it: 'Un mix pratico.' }),
+    text: pick(lang, {
+      en: 'Sensitive work stays on Swiss or private infrastructure, while general tasks use leading global models.',
+      fr: 'Les tâches sensibles restent sur une infrastructure suisse ou privée, tandis que les tâches générales utilisent des modèles mondiaux de pointe.',
+      de: 'Sensible Daten und Aufgaben bleiben auf Schweizer oder privater Infrastruktur, für allgemeine Aufgaben kommen führende globale Modelle zum Einsatz.',
+      it: 'Il lavoro sensibile resta su infrastrutture svizzere o private, mentre le attività generali usano i principali modelli globali.',
+    }),
+    bestWhen: list({
+      en: ['Some information is confidential and some is not', 'You want strong capability without moving everything abroad'],
+      fr: ['Une partie des informations est confidentielle, une autre non', 'Vous voulez de bonnes performances sans tout déplacer à l’étranger'],
+      de: ['Manche Informationen sind vertraulich, andere nicht', 'Sie wollen hohe Leistung, ohne alles ins Ausland zu verlagern'],
+      it: ['Alcune informazioni sono riservate, altre no', 'Vuoi buone capacità senza spostare tutto all’estero'],
+    }),
+  },
+];
+
+const bestWhenLabel = pick(lang, { en: 'Best when', fr: 'Idéal quand', de: 'Sinnvoll, wenn', it: 'Ideale quando' });
+const setupLabel = pick(lang, { en: 'Possible setup', fr: 'Architecture possible', de: 'Mögliche Architektur', it: 'Architettura possibile' });
+---
+
+<section class="theme-dark relative isolate overflow-hidden bg-ink-900 text-white pt-20 md:pt-24 lg:pt-28 pb-16 md:pb-20" aria-labelledby="ai-options-title">
+  <div class="ai-tech-grid grid-bg absolute inset-0 -z-10" aria-hidden="true"></div>
+  <div class="container-custom">
+    <SectionHeader
+      id="ai-options-title"
+      index="03"
+      eyebrow={pick(lang, { en: 'Where your AI runs', fr: 'Où tourne votre IA', de: 'Wo Ihre KI läuft', it: 'Dove gira la tua IA' })}
+      title={pick(lang, { en: 'Swiss, European, global or hybrid AI', fr: 'IA suisse, européenne, mondiale ou hybride', de: 'Schweizer, europäische, globale oder hybride KI', it: 'IA svizzera, europea, globale o ibrida' })}
+      lead={pick(lang, {
+        en: 'We choose the model around the problem — not the problem around the model. Each option has different strengths, and many businesses combine them.',
+        fr: 'Nous choisissons le modèle en fonction du problème — et non le problème en fonction du modèle. Chaque option a ses forces, et beaucoup d’entreprises les combinent.',
+        de: 'Wir wählen das Modell passend zum Problem – nicht das Problem passend zum Modell. Jede Option hat eigene Stärken, und viele Unternehmen kombinieren sie.',
+        it: 'Scegliamo il modello in base al problema, non il problema in base al modello. Ogni opzione ha punti di forza diversi e molte aziende le combinano.',
+      })}
+    />
+
+    <ul class="grid md:grid-cols-2 xl:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-md overflow-hidden">
+      {options.map((opt, i) => (
+        <li class="flex flex-col bg-ink-900 p-6 md:p-7 reveal" style={`--reveal-delay:${(i % 4) * 80}ms`}>
+          <span class="font-mono text-xs text-signal-400" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="mt-6 text-heading-sm text-white">{opt.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-steel-300">{opt.role}</p>
+          {opt.text && <p class="mt-3 text-sm leading-relaxed text-steel-300">{opt.text}</p>}
+
+          <p class="eyebrow mt-6 text-[0.6875rem]">{bestWhenLabel}</p>
+          <ul class="mt-3 space-y-2 text-sm text-white/90">
+            {opt.bestWhen.map((b) => (
+              <li class="flex gap-2.5">
+                <span class="mt-[0.55em] h-1 w-1 flex-none bg-signal-400" aria-hidden="true"></span>
+                <span>{b}</span>
+              </li>
+            ))}
+          </ul>
+
+          {opt.setup && (
+            <div class="mt-6 rounded-[4px] border border-white/15 p-4">
+              <p class="eyebrow text-[0.6875rem]">{setupLabel}</p>
+              <ul class="mt-3 space-y-1 font-mono text-xs leading-relaxed text-steel-200">
+                {opt.setup.map((s) => <li>{s}</li>)}
+              </ul>
+            </div>
+          )}
+
+          {opt.note && (
+            <div class="mt-auto pt-6">
+              <p class="border-t border-white/10 pt-4 text-sm leading-relaxed text-steel-300">{opt.note}</p>
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+
+    <p class="mt-10 max-w-3xl text-sm leading-relaxed text-steel-300">
+      {pick(lang, {
+        en: 'Arklens is model-agnostic. We do not default to one provider; we compare current options for each project, because models and offerings change quickly.',
+        fr: 'Arklens ne dépend d’aucun modèle. Nous ne privilégions aucun fournisseur par défaut\u202F; nous comparons les options actuelles pour chaque projet, car les modèles et les offres évoluent vite.',
+        de: 'Arklens ist modellunabhängig. Wir setzen nicht standardmässig auf einen Anbieter, sondern vergleichen für jedes Projekt die aktuellen Optionen – Modelle und Angebote ändern sich schnell.',
+        it: 'Arklens è indipendente dai modelli. Non partiamo da un fornitore predefinito: confrontiamo le opzioni attuali per ogni progetto, perché modelli e offerte cambiano rapidamente.',
+      })}
+    </p>
+  </div>
+</section>
+
+<style>
+  .ai-tech-grid {
+    mask-image: linear-gradient(to bottom, #000, transparent 70%);
+    -webkit-mask-image: linear-gradient(to bottom, #000, transparent 70%);
+  }
+</style>

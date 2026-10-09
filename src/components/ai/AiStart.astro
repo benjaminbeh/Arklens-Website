@@ -1,0 +1,89 @@
+---
+import type { Language } from '@i18n/index';
+import { pick } from '@lib/pick';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+
+const steps = [
+  {
+    title: pick(lang, { en: 'Identify one useful business problem', fr: 'Identifier un problème utile à résoudre', de: 'Ein konkretes Geschäftsproblem finden', it: 'Individuare un problema aziendale utile' }),
+    text: pick(lang, { en: 'A task that costs time every week.', fr: 'Une tâche qui coûte du temps chaque semaine.', de: 'Eine Aufgabe, die jede Woche Zeit kostet.', it: 'Un’attività che costa tempo ogni settimana.' }),
+  },
+  {
+    title: pick(lang, { en: 'Understand the data and workflow', fr: 'Comprendre les données et le processus', de: 'Daten und Ablauf verstehen', it: 'Capire dati e processo' }),
+    text: pick(lang, { en: 'What information is involved, and who uses it.', fr: 'Quelles informations sont en jeu, et qui les utilise.', de: 'Welche Informationen beteiligt sind und wer sie nutzt.', it: 'Quali informazioni sono coinvolte e chi le usa.' }),
+  },
+  {
+    title: pick(lang, { en: 'Choose the right AI approach', fr: 'Choisir la bonne approche d’IA', de: 'Den passenden KI-Ansatz wählen', it: 'Scegliere l’approccio di IA giusto' }),
+    text: pick(lang, { en: 'Model, hosting and tools that fit the problem.', fr: 'Modèle, hébergement et outils adaptés au problème.', de: 'Modell, Hosting und Tools, die zum Problem passen.', it: 'Modello, hosting e strumenti adatti al problema.' }),
+  },
+  {
+    title: pick(lang, { en: 'Build a small practical pilot', fr: 'Lancer un petit projet pilote', de: 'Ein kleines Pilotprojekt umsetzen', it: 'Realizzare un piccolo progetto pilota' }),
+    text: pick(lang, { en: 'Real data, limited scope, quick to test.', fr: 'Données réelles, périmètre limité, rapide à tester.', de: 'Echte Daten, begrenzter Umfang, schnell testbar.', it: 'Dati reali, ambito limitato, veloce da testare.' }),
+  },
+  {
+    title: pick(lang, { en: 'Measure whether it is useful', fr: 'Mesurer l’utilité', de: 'Messen, ob es nützt', it: 'Misurare se è utile' }),
+    text: pick(lang, { en: 'Time saved, quality, team feedback.', fr: 'Temps gagné, qualité, retours de l’équipe.', de: 'Gesparte Zeit, Qualität, Feedback des Teams.', it: 'Tempo risparmiato, qualità, riscontri del team.' }),
+  },
+];
+---
+
+<section class="section" aria-labelledby="ai-start-title">
+  <div class="container-custom">
+    <SectionHeader
+      id="ai-start-title"
+      index="07"
+      eyebrow={pick(lang, { en: 'Process', fr: 'Déroulement', de: 'Ablauf', it: 'Procedura' })}
+      title={pick(lang, { en: 'How Arklens starts', fr: 'Notre façon de démarrer', de: 'So startet Arklens', it: 'Come inizia Arklens' })}
+    />
+
+    <ol class="grid sm:grid-cols-2 lg:grid-cols-5 gap-x-8 gap-y-12">
+      {steps.map((step, i) => (
+        <li class="reveal relative pt-8" style={`--reveal-delay:${i * 100}ms`}>
+          <span class="process-rule" aria-hidden="true"></span>
+          <span class="big-num block" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="mt-8 text-heading-sm text-ink-900">
+            <span class="sr-only">{pick(lang, { en: `Step ${i + 1}: `, fr: `Étape ${i + 1}\u00A0: `, de: `Schritt ${i + 1}: `, it: `Fase ${i + 1}: ` })}</span>
+            {step.title}
+          </h3>
+          <p class="mt-3 text-sm leading-relaxed text-steel-600 max-w-sm">{step.text}</p>
+        </li>
+      ))}
+    </ol>
+
+    <p class="mt-14 text-heading-md text-ink-900 max-w-2xl">
+      {pick(lang, {
+        en: 'Start small. Prove the value. Expand only when it makes sense.',
+        fr: 'Commencer modestement. Prouver la valeur. Élargir seulement quand c’est pertinent.',
+        de: 'Klein anfangen. Den Nutzen belegen. Nur ausbauen, wenn es sinnvoll ist.',
+        it: 'Partire in piccolo. Dimostrare il valore. Ampliare solo quando ha senso.',
+      })}
+    </p>
+  </div>
+</section>
+
+<style>
+  /* Copied from HowItWorks.astro (scoped there): each step owns a segment of the top line */
+  .process-rule {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    background: rgba(17, 20, 24, 0.15);
+  }
+  .process-rule::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -0.5px;
+    height: 2px;
+    width: 3rem;
+    background: theme('colors.signal.600');
+  }
+</style>

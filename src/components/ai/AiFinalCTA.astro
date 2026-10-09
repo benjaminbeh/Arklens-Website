@@ -1,0 +1,67 @@
+---
+import type { Language } from '@i18n/index';
+import { getLocalizedPath } from '@i18n/index';
+import { pick } from '@lib/pick';
+import { ArrowRight, Check } from '@lucide/astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+
+const points = [
+  pick(lang, { en: 'No commitment', fr: 'Sans engagement', de: 'Unverbindlich', it: 'Senza impegno' }),
+  pick(lang, { en: 'Scope and price agreed before paid work', fr: 'Périmètre et prix définis avant tout travail payant', de: 'Umfang und Preis werden vor jeder kostenpflichtigen Arbeit vereinbart', it: 'Ambito e prezzo concordati prima di ogni lavoro a pagamento' }),
+];
+---
+
+<section class="relative isolate overflow-hidden border-t border-ink-900/10 bg-paper py-24 md:py-32" aria-labelledby="ai-cta-title">
+  <div class="ai-final-grid grid-bg absolute inset-0 -z-10" aria-hidden="true"></div>
+
+  <div class="container-custom">
+    <div class="max-w-4xl">
+      <p class="eyebrow flex items-center gap-3 mb-8">
+        <span class="h-px w-8 bg-signal-600" aria-hidden="true"></span>
+        {pick(lang, { en: 'Start here', fr: 'Pour commencer', de: 'Jetzt starten', it: 'Inizia qui' })}
+      </p>
+      <h2 id="ai-cta-title" class="text-display-lg">
+        {pick(lang, { en: 'Where could AI help your business?', fr: 'Où l’IA pourrait-elle aider votre entreprise\u202F?', de: 'Wo könnte KI Ihrem Unternehmen helfen?', it: 'Dove potrebbe aiutarti l’IA in azienda?' })}
+      </h2>
+      <p class="lead mt-6">
+        {pick(lang, {
+          en: 'You don’t need an AI strategy. Start with one useful problem.',
+          fr: 'Pas besoin d’une stratégie IA. Commencez par un problème concret.',
+          de: 'Sie brauchen keine KI-Strategie. Beginnen Sie mit einem konkreten Problem.',
+          it: 'Non serve una strategia IA. Parti da un problema concreto.',
+        })}
+      </p>
+
+      <div class="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+        <a href={getLocalizedPath('/contact/?reason=automation-ai', lang)} class="btn btn-primary btn-lg">
+          {pick(lang, { en: 'Find an AI opportunity', fr: 'Trouver une piste pour l’IA', de: 'KI-Potenzial finden', it: 'Trova un’opportunità per l’IA' })}
+          <ArrowRight size={18} class="arrow" stroke-width={1.75} />
+        </a>
+        <a href={getLocalizedPath('/start/', lang)} class="link-arrow self-start sm:self-auto py-2">
+          {pick(lang, { en: 'Start with your website', fr: 'Commencer par votre site web', de: 'Mit Ihrer Website beginnen', it: 'Inizia dal tuo sito web' })}
+          <ArrowRight size={16} stroke-width={1.75} />
+        </a>
+      </div>
+
+      <ul class="mt-12 flex flex-col sm:flex-row gap-x-8 gap-y-3 text-sm text-steel-700">
+        {points.map((p) => (
+          <li class="flex items-center gap-2.5">
+            <Check size={16} class="text-signal-600 flex-none" stroke-width={2} />{p}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ai-final-grid {
+    mask-image: radial-gradient(ellipse 70% 80% at 90% 50%, #000 10%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 80% at 90% 50%, #000 10%, transparent 70%);
+  }
+</style>

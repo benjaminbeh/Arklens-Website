@@ -1,0 +1,48 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import AiHero from '@components/ai/AiHero.astro';
+import AiUseCases from '@components/ai/AiUseCases.astro';
+import AiCompanyKnowledge from '@components/ai/AiCompanyKnowledge.astro';
+import AiOptions from '@components/ai/AiOptions.astro';
+import AiSovereignty from '@components/ai/AiSovereignty.astro';
+import AiMultilingual from '@components/ai/AiMultilingual.astro';
+import AiConnected from '@components/ai/AiConnected.astro';
+import AiStart from '@components/ai/AiStart.astro';
+import AiFinalCTA from '@components/ai/AiFinalCTA.astro';
+import { localeStaticPaths, type Language } from '@i18n/index';
+import { pick } from '@lib/pick';
+
+export function getStaticPaths() { return localeStaticPaths(); }
+const { lang } = Astro.props as { lang: Language };
+
+const title = pick(lang, {
+  en: 'Practical AI for Swiss SMEs',
+  fr: 'IA concrète pour les PME suisses',
+  de: 'KI in der Praxis für Schweizer KMU',
+  it: 'IA concreta per le PMI svizzere',
+});
+const description = pick(lang, {
+  en: 'Practical AI for Swiss SMEs: assistants, company knowledge, document and email automation, with Swiss-hosted, European, global or hybrid options.',
+  fr: 'IA concrète pour les PME suisses\u00A0: assistants, connaissances internes, documents et e-mails, avec des options d’hébergement en Suisse, en Europe, mondiales ou hybrides.',
+  de: 'KI in der Praxis für Schweizer KMU: Assistenten, Firmenwissen, Dokumente und E-Mails – wahlweise mit Hosting in der Schweiz, in Europa, global oder hybrid.',
+  it: 'IA concreta per le PMI svizzere: assistenti, conoscenza aziendale, documenti ed e-mail, con opzioni di hosting in Svizzera, in Europa, globali o ibride.',
+});
+---
+
+<BaseLayout title={title} description={description} lang={lang}>
+  <Header lang={lang} />
+  <main id="main">
+    <AiHero lang={lang} />
+    <AiUseCases lang={lang} />
+    <AiCompanyKnowledge lang={lang} />
+    <AiOptions lang={lang} />
+    <AiSovereignty lang={lang} />
+    <AiMultilingual lang={lang} />
+    <AiConnected lang={lang} />
+    <AiStart lang={lang} />
+    <AiFinalCTA lang={lang} />
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>

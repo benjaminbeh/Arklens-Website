@@ -1,0 +1,102 @@
+---
+/**
+ * Section 04: what data sovereignty really means (continues the dark zone).
+ * The 8-layer chain has its own layout: 1 column below sm, 2 from sm, 4 from lg.
+ * No legal or hosting guarantees: sovereignty depends on the whole architecture.
+ */
+import type { Language } from '@i18n/index';
+import { pick } from '@lib/pick';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+
+const layers = [
+  {
+    name: pick(lang, { en: 'Model', fr: 'Modèle', de: 'Modell', it: 'Modello' }),
+    ask: pick(lang, { en: 'Which model, and who operates it?', fr: 'Quel modèle, et qui l’exploite\u202F?', de: 'Welches Modell, und wer betreibt es?', it: 'Quale modello, e chi lo gestisce?' }),
+  },
+  {
+    name: pick(lang, { en: 'Hosting', fr: 'Hébergement', de: 'Hosting', it: 'Hosting' }),
+    ask: pick(lang, { en: 'Where does it run?', fr: 'Où fonctionne-t-il\u202F?', de: 'Wo läuft es?', it: 'Dove gira?' }),
+  },
+  {
+    name: pick(lang, { en: 'Business data', fr: 'Données de l’entreprise', de: 'Geschäfts\u00ADdaten', it: 'Dati aziendali' }),
+    ask: pick(lang, { en: 'Where are your documents stored?', fr: 'Où vos documents sont-ils stockés\u202F?', de: 'Wo sind Ihre Dokumente gespeichert?', it: 'Dove sono archiviati i tuoi documenti?' }),
+  },
+  {
+    name: pick(lang, { en: 'Embeddings / search indexes', fr: 'Embeddings / index de recherche', de: 'Embeddings / Suchindizes', it: 'Embedding / indici di ricerca' }),
+    ask: pick(lang, { en: 'Where is the searchable copy kept?', fr: 'Où est conservée la copie consultable\u202F?', de: 'Wo liegt die durchsuchbare Kopie?', it: 'Dove si trova la copia consultabile?' }),
+  },
+  {
+    name: pick(lang, { en: 'Logs', fr: 'Journaux', de: 'Protokolle', it: 'Log' }),
+    ask: pick(lang, { en: 'What is recorded, and where?', fr: 'Qu’est-ce qui est enregistré, et où\u202F?', de: 'Was wird aufgezeichnet, und wo?', it: 'Che cosa viene registrato, e dove?' }),
+  },
+  {
+    name: pick(lang, { en: 'Backups', fr: 'Sauvegardes', de: 'Daten\u00ADsicherungen', it: 'Backup' }),
+    ask: pick(lang, { en: 'Where are copies held?', fr: 'Où sont gardées les copies\u202F?', de: 'Wo werden Kopien aufbewahrt?', it: 'Dove sono conservate le copie?' }),
+  },
+  {
+    name: pick(lang, { en: 'APIs', fr: 'API', de: 'Schnittstellen (APIs)', it: 'API' }),
+    ask: pick(lang, { en: 'Which services are called along the way?', fr: 'Quels services externes sont sollicités au passage\u202F?', de: 'Welche externen Dienste werden dabei aufgerufen?', it: 'Quali servizi vengono richiamati lungo il percorso?' }),
+  },
+  {
+    name: pick(lang, { en: 'Jurisdiction', fr: 'Droit applicable', de: 'Rechtsraum', it: 'Giurisdizione' }),
+    ask: pick(lang, { en: 'Which laws apply to each provider?', fr: 'Quelles lois s’appliquent à chaque prestataire\u202F?', de: 'Welches Recht gilt für die einzelnen Anbieter?', it: 'Quali leggi si applicano a ciascun fornitore?' }),
+  },
+];
+---
+
+<section class="theme-dark bg-ink-900 text-white pb-20 md:pb-28 lg:pb-32" aria-labelledby="ai-sovereignty-title">
+  <div class="container-custom">
+    <div class="rule pt-12 md:pt-16 grid grid-cols-12 gap-x-6 gap-y-10">
+      <div class="col-span-12 lg:col-span-4">
+        <div class="mb-5 flex items-baseline gap-3">
+          <span class="index-num index-accent">04</span>
+          <p class="eyebrow">{pick(lang, { en: 'Data sovereignty', fr: 'Souveraineté des données', de: 'Datensouveränität', it: 'Sovranità dei dati' })}</p>
+        </div>
+        <h2 id="ai-sovereignty-title" class="text-display-sm max-w-md">
+          {pick(lang, { en: 'What data sovereignty really means', fr: 'Ce que signifie vraiment la souveraineté des données', de: 'Was Daten\u00ADsouveränität wirklich bedeutet', it: 'Che cosa significa davvero sovranità dei dati' })}
+        </h2>
+        <p class="mt-6 text-steel-300 max-w-md leading-relaxed">
+          {pick(lang, {
+            en: 'Sovereignty is not only about where an AI model was created. It depends on the whole architecture: every layer your information passes through.',
+            fr: 'La souveraineté ne dépend pas seulement de l’origine d’un modèle d’IA. Elle dépend de toute l’architecture\u00A0: chaque couche par laquelle passent vos informations.',
+            de: 'Souveränität hängt nicht nur davon ab, wo ein KI-Modell entwickelt wurde. Sie hängt von der gesamten Architektur ab: von jeder Ebene, die Ihre Informationen durchlaufen.',
+            it: 'La sovranità non dipende solo da dove è stato creato un modello di IA. Dipende dall’intera architettura: da ogni livello attraverso cui passano le tue informazioni.',
+          })}
+        </p>
+        <blockquote class="mt-8 border-l-2 border-signal-400 pl-5 text-heading-sm font-medium text-white max-w-md">
+          {pick(lang, {
+            en: 'A Swiss model running through foreign infrastructure may not provide the level of sovereignty you expect.',
+            fr: 'Un modèle suisse qui passe par une infrastructure étrangère n’offre pas forcément le niveau de souveraineté que vous attendez.',
+            de: 'Ein Schweizer Modell, das über ausländische Infrastruktur läuft, bietet möglicherweise nicht die Souveränität, die Sie erwarten.',
+            it: 'Un modello svizzero che passa da infrastrutture estere potrebbe non offrire il livello di sovranità che ti aspetti.',
+          })}
+        </blockquote>
+      </div>
+
+      <div class="col-span-12 lg:col-span-8">
+        <ol class="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-md overflow-hidden" aria-label={pick(lang, { en: 'Layers that affect data sovereignty', fr: 'Couches qui influencent la souveraineté des données', de: 'Ebenen, die die Datensouveränität beeinflussen', it: 'Livelli che influiscono sulla sovranità dei dati' })}>
+          {layers.map((l, i) => (
+            <li class="bg-ink-900 p-5 reveal" style={`--reveal-delay:${(i % 4) * 70}ms`}>
+              <span class="font-mono text-xs text-signal-400" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="mt-4 text-base font-semibold leading-snug text-white">{l.name}</h3>
+              <p class="mt-1.5 text-sm leading-relaxed text-steel-300">{l.ask}</p>
+            </li>
+          ))}
+        </ol>
+        <p class="mt-8 max-w-3xl text-sm leading-relaxed text-steel-300">
+          {pick(lang, {
+            en: 'Arklens helps you choose an architecture appropriate to your requirements. This is not legal advice; where needed, involve your legal or data protection adviser.',
+            fr: 'Arklens vous aide à choisir une architecture adaptée à vos exigences. Il ne s’agit pas d’un conseil juridique\u202F; si nécessaire, faites appel à votre conseiller juridique ou à votre spécialiste de la protection des données.',
+            de: 'Arklens hilft Ihnen, eine Architektur zu wählen, die zu Ihren Anforderungen passt. Dies ist keine Rechtsberatung; ziehen Sie bei Bedarf Ihre Rechts- oder Datenschutzberatung bei.',
+            it: 'Arklens ti aiuta a scegliere un’architettura adatta alle tue esigenze. Non si tratta di consulenza legale: se necessario, coinvolgi il tuo consulente legale o il tuo consulente per la protezione dei dati.',
+          })}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

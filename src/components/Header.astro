@@ -1,6 +1,6 @@
 ---
 import type { Language } from '@i18n/index';
-import { useTranslations, languages, getLocalizedPath, switchLocalePath, hreflangs } from '@i18n/index';
+import { useTranslations, languages, getLocalizedPath, switchLocalePath, hreflangs, stripLocale, pagePath } from '@i18n/index';
 import { ChevronDown, Menu, X, ArrowRight } from '@lucide/astro';
 
 interface Props {
@@ -15,9 +15,12 @@ const navItems = [
   { href: '/#what-we-offer', label: t('nav.whatWeOffer') },
   { href: '/#examples', label: t('nav.examples') },
   { href: '/#for-business', label: t('nav.forBusiness') },
+  { href: '/ai/', label: t('nav.ai') },
   { href: '/#faq', label: t('nav.faq') },
   { href: '/contact', label: t('nav.contact') },
 ];
+// Only '/ai/' can match: the other items are anchors or slashless paths.
+const current = stripLocale(pagePath(Astro.url.pathname));
 
 const langLinks = (Object.entries(languages) as [Language, string][]).map(([code, name]) => ({
   code,
@@ -36,10 +39,10 @@ const langShort = (code: string) => code.toUpperCase();
     </a>
 
     <!-- Desktop navigation -->
-    <ul class="hidden lg:flex items-center gap-8">
+    <ul class="hidden lg:flex items-center gap-6 xl:gap-8">
       {navItems.map((item) => (
         <li>
-          <a href={getLocalizedPath(item.href, lang)} class="nav-link text-[0.9375rem] text-steel-700 hover:text-ink-900 transition-colors">
+          <a href={getLocalizedPath(item.href, lang)} aria-current={current === item.href ? 'page' : undefined} class="nav-link text-[0.9375rem] text-steel-700 hover:text-ink-900 transition-colors">
             {item.label}
           </a>
         </li>
@@ -113,7 +116,7 @@ const langShort = (code: string) => code.toUpperCase();
       <ul class="flex flex-col">
         {navItems.map((item, i) => (
           <li class="border-b border-ink-900/10">
-            <a href={getLocalizedPath(item.href, lang)} class="flex items-center justify-between py-4 text-lg font-medium text-ink-900" data-mobile-link>
+            <a href={getLocalizedPath(item.href, lang)} aria-current={current === item.href ? 'page' : undefined} class="flex items-center justify-between py-4 text-lg font-medium text-ink-900" data-mobile-link>
               {item.label}
               <span class="font-mono text-xs text-steel-500">{String(i + 1).padStart(2, '0')}</span>
             </a>
