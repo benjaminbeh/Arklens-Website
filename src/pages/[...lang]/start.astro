@@ -3,11 +3,15 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import { pick } from '@lib/pick';
+import { TURNSTILE_SITE_KEY_PROD, TURNSTILE_SITE_KEY_TEST } from '@lib/contact';
+import { START_LIMITS, TURNSTILE_ACTION_START, type StartIndustry, type StartPath } from '@lib/start';
 import { ArrowRight, ArrowLeft, Check, SquarePlus, RefreshCw, Blocks, Activity } from '@lucide/astro';
 
 import { localeStaticPaths, getLocalizedPath, type Language } from '@i18n/index';
 export function getStaticPaths() { return localeStaticPaths(); }
 const { lang } = Astro.props as { lang: Language };
+const siteKey =
+  import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || (import.meta.env.DEV ? TURNSTILE_SITE_KEY_TEST : TURNSTILE_SITE_KEY_PROD);
 
 const steps = [
   pick(lang, { en: 'Starting point', fr: 'Point de départ', de: 'Einstieg', it: 'Punto di partenza' }),
@@ -40,7 +44,7 @@ const paths = [
     title: pick(lang, { en: 'Check my business first', fr: 'Évaluer d’abord mon entreprise', de: 'Zuerst mein Unternehmen prüfen', it: 'Prima analizza la mia azienda' }),
     text: pick(lang, { en: 'Free Digital Business Check with practical recommendations', fr: 'Évaluation numérique gratuite, avec des recommandations concrètes', de: 'Kostenloser Digital-Check mit konkreten Empfehlungen', it: 'Analisi digitale gratuita con consigli concreti' }),
   },
-];
+] satisfies ({ value: StartPath } & Record<string, unknown>)[];
 
 const industries = [
   { value: 'restaurant', label: pick(lang, { en: 'Restaurant / Café', fr: 'Restaurant / café', de: 'Restaurant / Café', it: 'Ristorante / bar' }) },
@@ -52,12 +56,11 @@ const industries = [
   { value: 'retail', label: pick(lang, { en: 'Retail / Shop', fr: 'Commerce / magasin', de: 'Detailhandel', it: 'Negozio / commercio' }) },
   { value: 'services', label: pick(lang, { en: 'Professional Services', fr: 'Services professionnels', de: 'Dienstleistungen', it: 'Servizi professionali' }) },
   { value: 'other', label: pick(lang, { en: 'Other', fr: 'Autre', de: 'Andere', it: 'Altro' }) },
-];
+] satisfies ({ value: StartIndustry } & Record<string, unknown>)[];
 
 const next = [
   pick(lang, { en: 'We’ll review your information (usually within 24 hours)', fr: 'Nous examinons vos informations (en général sous 24 heures)', de: 'Wir prüfen Ihre Angaben (meist innerhalb von 24 Stunden)', it: 'Esaminiamo le tue informazioni (di solito entro 24 ore)' }),
-  pick(lang, { en: 'You’ll receive a personalised proposal with next steps', fr: 'Vous recevez une proposition personnalisée et les prochaines étapes', de: 'Sie erhalten einen persönlichen Vorschlag mit den nächsten Schritten', it: 'Ricevi una proposta personalizzata con i prossimi passi' }),
-  pick(lang, { en: 'We’ll schedule a brief call to confirm details and start your project', fr: 'Un court appel permet de confirmer les détails et de lancer votre projet', de: 'In einem kurzen Telefonat klären wir die Details und starten Ihr Projekt', it: 'Una breve telefonata per confermare i dettagli e avviare il progetto' }),
+  pick(lang, { en: 'We’ll contact you about the next steps', fr: 'Nous vous contactons ensuite au sujet des prochaines étapes', de: 'Danach melden wir uns bei Ihnen zu den nächsten Schritten', it: 'Poi ti contattiamo per i prossimi passi' }),
 ];
 
 const T = {
@@ -67,6 +70,97 @@ const T = {
   back: pick(lang, { en: 'Back', fr: 'Retour', de: 'Zurück', it: 'Indietro' }),
   submit: pick(lang, { en: 'Send my request', fr: 'Envoyer ma demande', de: 'Anfrage senden', it: 'Invia la richiesta' }),
   stepOf: pick(lang, { en: 'Step {n} of {t}', fr: 'Étape {n} sur {t}', de: 'Schritt {n} von {t}', it: 'Passo {n} di {t}' }),
+  name: pick(lang, { en: 'Your name', fr: 'Votre nom', de: 'Ihr Name', it: 'Il tuo nome' }),
+  // Same wording as the contact form's name error.
+  nameError: pick(lang, { en: 'Please enter your name.', fr: 'Veuillez indiquer votre nom.', de: 'Bitte geben Sie Ihren Namen ein.', it: 'Inserisci il tuo nome.' }),
+  // Terms acceptance sentence, split around the two links.
+  termsBefore: pick(lang, { en: 'I agree to the ', fr: 'J’accepte les ', de: 'Ich stimme den ', it: 'Accetto le ' }),
+  termsLink: pick(lang, { en: 'Terms of Use', fr: 'Conditions d’utilisation', de: 'Nutzungsbedingungen', it: 'Condizioni d’uso' }),
+  termsMiddle: pick(lang, { en: ' and acknowledge the ', fr: ' et reconnais avoir pris connaissance de la ', de: ' zu und bestätige, die ', it: ' e confermo di aver preso visione dell’' }),
+  privacyLink: pick(lang, { en: 'Privacy Policy', fr: 'Politique de confidentialité', de: 'Datenschutzerklärung', it: 'Informativa sulla privacy' }),
+  termsAfter: pick(lang, { en: '.', fr: '.', de: ' zur Kenntnis genommen zu haben.', it: '.' }),
+  termsError: pick(lang, {
+    en: 'Please agree to the Terms of Use before submitting your application.',
+    fr: 'Veuillez accepter les Conditions d’utilisation avant d’envoyer votre demande.',
+    de: 'Bitte stimmen Sie den Nutzungsbedingungen zu, bevor Sie Ihre Anfrage absenden.',
+    it: 'Accetta le Condizioni d’uso prima di inviare la richiesta.',
+  }),
+  newTab: pick(lang, { en: 'Opens in a new tab', fr: 'S’ouvre dans un nouvel onglet', de: 'Öffnet in einem neuen Tab', it: 'Si apre in una nuova scheda' }),
+  phoneError: pick(lang, {
+    en: 'Please enter a valid phone number, or leave this field empty.',
+    fr: 'Veuillez saisir un numéro de téléphone valide ou laisser ce champ vide.',
+    de: 'Bitte geben Sie eine gültige Telefonnummer ein oder lassen Sie das Feld leer.',
+    it: 'Inserisci un numero di telefono valido o lascia vuoto il campo.',
+  }),
+  honeypot: pick(lang, { en: 'Leave this field empty', fr: 'Laissez ce champ vide', de: 'Dieses Feld leer lassen', it: 'Lascia vuoto questo campo' }),
+  turnstile: pick(lang, {
+    en: 'Please complete the security check.',
+    fr: 'Veuillez effectuer la vérification de sécurité.',
+    de: 'Bitte schliessen Sie die Sicherheitsprüfung ab.',
+    it: 'Completa il controllo di sicurezza.',
+  }),
+  noscript: pick(lang, {
+    en: 'Please enable JavaScript to send this form.',
+    fr: 'Veuillez activer JavaScript pour envoyer ce formulaire.',
+    de: 'Bitte aktivieren Sie JavaScript, um dieses Formular zu senden.',
+    it: 'Attiva JavaScript per inviare questo modulo.',
+  }),
+  formErrorTitle: pick(lang, {
+    en: 'We couldn’t send your request.',
+    fr: 'Votre demande n’a pas pu être envoyée.',
+    de: 'Ihre Anfrage konnte nicht gesendet werden.',
+    it: 'Non è stato possibile inviare la richiesta.',
+  }),
+  retry: pick(lang, { en: 'Please try again.', fr: 'Veuillez réessayer.', de: 'Bitte versuchen Sie es erneut.', it: 'Riprova.' }),
+  sending: pick(lang, { en: 'Sending…', fr: 'Envoi en cours…', de: 'Wird gesendet…', it: 'Invio in corso…' }),
+  invalid: pick(lang, {
+    en: 'Please check the highlighted fields.',
+    fr: 'Veuillez vérifier les champs signalés.',
+    de: 'Bitte prüfen Sie die markierten Felder.',
+    it: 'Controlla i campi evidenziati.',
+  }),
+  rateLimited: pick(lang, {
+    en: 'Too many attempts. Please wait a few minutes before trying again.',
+    fr: 'Trop de tentatives. Veuillez patienter quelques minutes avant de réessayer.',
+    de: 'Zu viele Versuche. Bitte warten Sie einige Minuten und versuchen Sie es dann erneut.',
+    it: 'Troppi tentativi. Attendi qualche minuto prima di riprovare.',
+  }),
+  verification: pick(lang, {
+    en: 'The security check expired. Please complete it again.',
+    fr: 'La vérification de sécurité a expiré. Veuillez la refaire.',
+    de: 'Die Sicherheitsprüfung ist abgelaufen. Bitte führen Sie sie erneut durch.',
+    it: 'Il controllo di sicurezza è scaduto. Completalo di nuovo.',
+  }),
+  network: pick(lang, {
+    en: 'Please check your connection.',
+    fr: 'Veuillez vérifier votre connexion internet.',
+    de: 'Bitte prüfen Sie Ihre Internetverbindung.',
+    it: 'Controlla la tua connessione a internet.',
+  }),
+  successTitle: pick(lang, {
+    en: 'Thank you. Your request has been submitted to Arklens for review.',
+    fr: 'Merci. Votre demande a été transmise à Arklens pour examen.',
+    de: 'Danke. Ihre Anfrage wurde Arklens zur Prüfung übermittelt.',
+    it: 'Grazie. La tua richiesta è stata inviata ad Arklens per la valutazione.',
+  }),
+  successReference: pick(lang, {
+    en: 'Your application reference is:',
+    fr: 'Votre référence de demande\u00A0:',
+    de: 'Ihre Referenz lautet:',
+    it: 'Il riferimento della tua richiesta è:',
+  }),
+  successConfirmation: pick(lang, {
+    en: 'We have also sent a confirmation to your email address.',
+    fr: 'Nous vous avons également envoyé une confirmation par e-mail.',
+    de: 'Wir haben Ihnen zudem eine Bestätigung per E-Mail gesendet.',
+    it: 'Ti abbiamo anche inviato una conferma via e-mail.',
+  }),
+  successReview: pick(lang, {
+    en: 'This does not mean the project has been accepted. Arklens will contact you after reviewing your request.',
+    fr: 'Cela ne signifie pas que le projet a été accepté. Arklens vous contactera après avoir examiné votre demande.',
+    de: 'Das bedeutet nicht, dass das Projekt angenommen wurde. Arklens meldet sich bei Ihnen, nachdem Ihre Anfrage geprüft wurde.',
+    it: 'Questo non significa che il progetto sia stato accettato. Arklens ti contatterà dopo aver esaminato la tua richiesta.',
+  }),
 };
 ---
 
@@ -131,7 +225,15 @@ const T = {
           <div class="bg-white border border-ink-900/10 rounded-md">
             <p class="sr-only" aria-live="polite" data-step-announcer></p>
 
-            <form id="onboarding-form" class="p-6 sm:p-10" novalidate>
+            <form id="onboarding-form" class="p-6 sm:p-10" novalidate data-sitekey={siteKey} data-action={TURNSTILE_ACTION_START}
+              data-lang={lang} data-msg-sending={T.sending} data-msg-submit={T.submit} data-msg-invalid={T.invalid}
+              data-msg-rate-limited={T.rateLimited} data-msg-verification={T.verification} data-msg-network={T.network}
+              data-msg-retry={T.retry}>
+              <div class="hidden mb-8 border-l-2 border-signal-600 bg-paper p-4" role="alert" data-form-error tabindex="-1">
+                <h3 class="font-medium text-ink-900">{T.formErrorTitle}</h3>
+                <p class="mt-1 text-sm text-steel-700" data-form-error-detail>{T.retry}</p>
+              </div>
+
               <!-- Step 1 -->
               <fieldset class="step" data-step="0">
                 <legend class="step-legend">
@@ -172,6 +274,7 @@ const T = {
                     inputmode="url"
                     autocomplete="url"
                     class="field"
+                    maxlength={START_LIMITS.website}
                     placeholder={pick(lang, { en: 'https://www.your-website.ch', fr: 'https://www.votre-entreprise.ch', de: 'https://www.ihre-firma.ch', it: 'https://www.tua-azienda.ch' })}
                     aria-describedby="current-website-hint current-website-error"
                   />
@@ -202,6 +305,7 @@ const T = {
                     required
                     autocomplete="organization"
                     class="field"
+                    maxlength={START_LIMITS.business}
                     aria-describedby="business-name-error"
                   />
                   <p id="business-name-error" class="error hidden" data-error-for="business-name">
@@ -235,6 +339,7 @@ const T = {
                     name="goals"
                     rows="4"
                     class="field resize-y"
+                    maxlength={START_LIMITS.goals}
                     aria-describedby="goals-hint"
                   ></textarea>
                   <p id="goals-hint" class="field-hint">
@@ -251,6 +356,21 @@ const T = {
                 </legend>
 
                 <div class="mt-8">
+                  <label for="name" class="field-label">{T.name}</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    autocomplete="name"
+                    class="field"
+                    maxlength={START_LIMITS.name}
+                    aria-describedby="name-error"
+                  />
+                  <p id="name-error" class="error hidden" data-error-for="name">{T.nameError}</p>
+                </div>
+
+                <div class="mt-8">
                   <label for="email" class="field-label">{pick(lang, { en: 'Email address', fr: 'Adresse e-mail', de: 'E-Mail-Adresse', it: 'Indirizzo e-mail' })}</label>
                   <input
                     type="email"
@@ -260,6 +380,7 @@ const T = {
                     autocomplete="email"
                     inputmode="email"
                     class="field"
+                    maxlength={START_LIMITS.email}
                     placeholder={pick(lang, { en: 'name@business.ch', fr: 'nom@entreprise.ch', de: 'name@firma.ch', it: 'nome@azienda.ch' })}
                     aria-describedby="email-error"
                   />
@@ -273,15 +394,36 @@ const T = {
                     {pick(lang, { en: 'Phone number', fr: 'Numéro de téléphone', de: 'Telefonnummer', it: 'Numero di telefono' })}
                     <span class="ml-2 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-steel-500">{T.optional}</span>
                   </label>
-                  <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" class="field" placeholder="+41 XX XXX XX XX" />
+                  <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" class="field" placeholder="+41 XX XXX XX XX"
+                    maxlength={START_LIMITS.phone} aria-describedby="phone-error" />
+                  <p id="phone-error" class="error hidden" data-error-for="phone">{T.phoneError}</p>
                 </div>
 
-                <p class="mt-8 text-sm text-steel-600">
-                  {pick(lang, { en: 'By sending, you agree to our ', fr: 'En envoyant ce formulaire, vous acceptez notre ', de: 'Mit dem Absenden akzeptieren Sie unsere ', it: 'Inviando il modulo accetti la nostra ' })}
-                  <a href={getLocalizedPath('/privacy', lang)} class="text-ink-900 underline underline-offset-4 decoration-1 hover:text-signal-700">
-                    {pick(lang, { en: 'Privacy Policy', fr: 'Politique de confidentialité', de: 'Datenschutzerklärung', it: 'Informativa sulla privacy' })}
-                  </a>.
-                </p>
+                <!-- Honeypot: hidden from people and assistive tech -->
+                <div class="hp" aria-hidden="true">
+                  <label for="company_url">{T.honeypot}</label>
+                  <input id="company_url" name="company_url" type="text" tabindex="-1" autocomplete="off" />
+                </div>
+
+                <div class="mt-8">
+                  <div data-turnstile></div>
+                  <p class="error hidden" data-error-for="turnstile">{T.turnstile}</p>
+                </div>
+
+                <noscript>
+                  <p class="mt-6 text-sm text-ink-900">{T.noscript}</p>
+                </noscript>
+
+                <!-- Terms acceptance: last item before the Submit row. Never pre-checked; validated server-side too. -->
+                <div class="mt-8">
+                  <div class="flex items-start gap-3">
+                    <input type="checkbox" id="terms-accepted" name="terms-accepted" required
+                      class="mt-0.5 h-5 w-5 flex-none accent-ink-900" aria-describedby="terms-accepted-error" />
+                    <label for="terms-accepted" class="text-[0.9375rem] text-ink-900">{T.termsBefore}<a href={getLocalizedPath('/terms/', lang)} target="_blank" rel="noopener" aria-describedby="new-tab-hint" class="underline underline-offset-4 decoration-1 hover:text-signal-700">{T.termsLink}</a>{T.termsMiddle}<a href={getLocalizedPath('/privacy/', lang)} target="_blank" rel="noopener" aria-describedby="new-tab-hint" class="underline underline-offset-4 decoration-1 hover:text-signal-700">{T.privacyLink}</a>{T.termsAfter}</label>
+                  </div>
+                  <span id="new-tab-hint" hidden>{T.newTab}</span>
+                  <p id="terms-accepted-error" class="error hidden" data-error-for="terms-accepted" role="alert">{T.termsError}</p>
+                </div>
               </fieldset>
 
               <!-- Navigation -->
@@ -294,18 +436,23 @@ const T = {
                   {T.continue}<ArrowRight size={18} class="arrow" stroke-width={1.75} />
                 </button>
                 <button type="submit" class="btn btn-primary btn-lg" data-submit>
-                  {T.submit}<ArrowRight size={18} class="arrow" stroke-width={1.75} />
+                  <span data-submit-label>{T.submit}</span><ArrowRight size={18} class="arrow" stroke-width={1.75} />
                 </button>
               </div>
             </form>
 
             <!-- Confirmation -->
-            <div class="hidden p-6 sm:p-10" data-success tabindex="-1">
+            <div class="hidden p-6 sm:p-10" data-success tabindex="-1" role="status">
               <span class="flex h-12 w-12 items-center justify-center bg-ink-900 text-white rounded-[4px]" aria-hidden="true">
                 <Check size={22} stroke-width={2} />
               </span>
-              <h2 class="mt-8 text-heading-xl">{pick(lang, { en: 'Thank you. We have your request.', fr: 'Merci. Nous avons bien reçu votre demande.', de: 'Danke. Ihre Anfrage ist eingegangen.', it: 'Grazie. Abbiamo ricevuto la tua richiesta.' })}</h2>
-              <p class="lead mt-4">{pick(lang, { en: 'We’ll be in touch within 24 hours.', fr: 'Nous vous contacterons dans les 24 heures.', de: 'Wir melden uns innerhalb von 24 Stunden.', it: 'Ti contatteremo entro 24 ore.' })}</p>
+              <h2 class="mt-8 text-heading-xl">{T.successTitle}</h2>
+              <div class="mt-4" data-reference>
+                <p class="lead">{T.successReference}</p>
+                <p class="mt-1 font-mono text-ink-900" data-application-id></p>
+              </div>
+              <p class="lead mt-4 hidden" data-confirmation-sent>{T.successConfirmation}</p>
+              <p class="lead mt-4">{T.successReview}</p>
               <ol class="mt-8 border-t border-ink-900/10">
                 {next.map((n, i) => (
                   <li class="flex gap-4 border-b border-ink-900/10 py-4 text-ink-900">
@@ -383,6 +530,16 @@ const T = {
   .error.hidden {
     display: none;
   }
+  .hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  [data-turnstile]:empty {
+    min-height: 65px;
+  }
 
   /* Progress — a compact signal line */
   .progress {
@@ -451,6 +608,8 @@ const T = {
 </style>
 
 <script>
+  import { APPLICATION_ID_RE } from '@lib/start';
+
   const form = document.getElementById('onboarding-form') as HTMLFormElement | null;
   const stepsEls = Array.from(document.querySelectorAll<HTMLElement>('.step'));
   const indicators = Array.from(document.querySelectorAll<HTMLElement>('[data-step-indicator]'));
@@ -462,8 +621,54 @@ const T = {
   const success = document.querySelector<HTMLElement>('[data-success]');
   const urlWrap = document.getElementById('current-website-field');
   const urlInput = document.getElementById('current-website') as HTMLInputElement | null;
+  const errorBox = document.querySelector<HTMLElement>('[data-form-error]');
+  const errorDetail = document.querySelector<HTMLElement>('[data-form-error-detail]');
+  const submitLabel = document.querySelector<HTMLElement>('[data-submit-label]');
+  const tsContainer = document.querySelector<HTMLElement>('[data-turnstile]');
+  const termsBox = document.getElementById('terms-accepted') as HTMLInputElement | null;
+
+  type Turnstile = {
+    render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+    reset: (id: string) => void;
+    getResponse: (id: string) => string | undefined;
+    isExpired: (id: string) => boolean;
+  };
+  const w = window as unknown as { turnstile?: Turnstile; onArklensStartTurnstile?: () => void };
+
+  const startedAt = Date.now();
+  let widgetId: string | null = null;
+  let submitting = false;
+  // Turnstile tokens are single-use: remember every token already sent so it is never reused.
+  const usedTokens = new Set<string>();
+
+  const EMAIL_RE = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*\.[A-Za-z]{2,}$/;
+  const PHONE_RE = /^[0-9+()./\s-]{5,40}$/;
+
+  // Server payload keys → form field names and their step (for 422 responses).
+  const SERVER_FIELDS: Record<string, [string, number]> = {
+    path: ['path', 0],
+    currentWebsite: ['current-website', 0],
+    businessName: ['business-name', 1],
+    industry: ['industry', 1],
+    goals: ['goals', 1],
+    name: ['name', 2],
+    email: ['email', 2],
+    phone: ['phone', 2],
+    termsAccepted: ['terms-accepted', 2],
+  };
 
   let current = 0;
+
+  /** Native validity plus the same email/phone rules the server applies. */
+  function fieldOk(el: HTMLInputElement | HTMLTextAreaElement): boolean {
+    if (!el.checkValidity()) return false;
+    const v = el.value.trim();
+    if (el.name === 'email') return EMAIL_RE.test(v);
+    if (el.name === 'phone') return !v || PHONE_RE.test(v);
+    if (el.name === 'business-name') return v.length > 0;
+    if (el.name === 'name') return v.length >= 2;
+    return true;
+  }
 
   function setError(name: string, show: boolean) {
     const msg = document.querySelector<HTMLElement>(`[data-error-for="${name}"]`);
@@ -492,7 +697,7 @@ const T = {
         if (!ok && !firstInvalid) firstInvalid = el;
         return;
       }
-      const ok = el.checkValidity();
+      const ok = fieldOk(el);
       setError(name, !ok);
       if (!ok && !firstInvalid) firstInvalid = el;
     });
@@ -513,6 +718,8 @@ const T = {
     spacer?.classList.toggle('sm:block', current === 0);
     nextBtn?.classList.toggle('hidden', last);
     submitBtn?.classList.toggle('hidden', !last);
+    // Render Turnstile only once its step is visible, so the size check sees the real width.
+    if (last) renderTurnstile();
 
     const legendParts = Array.from(stepsEls[current]?.querySelectorAll('legend > span') ?? []).map((s) => s.textContent?.trim());
     if (announcer) announcer.textContent = legendParts.filter(Boolean).join('. ');
@@ -522,6 +729,68 @@ const T = {
       target?.focus({ preventScroll: true });
       form?.closest('.bg-white')?.scrollIntoView({ block: 'start', behavior: 'smooth' });
     }
+  }
+
+  function showFormError(detail = form?.dataset.msgRetry ?? '') {
+    if (!errorBox) return;
+    if (errorDetail) errorDetail.textContent = detail;
+    errorBox.classList.remove('hidden');
+    errorBox.focus();
+  }
+
+  function setBusy(busy: boolean) {
+    submitting = busy;
+    if (submitBtn) {
+      submitBtn.disabled = busy;
+      submitBtn.setAttribute('aria-busy', String(busy));
+    }
+    if (submitLabel) submitLabel.textContent = (busy ? form?.dataset.msgSending : form?.dataset.msgSubmit) ?? '';
+  }
+
+  function resetTurnstile() {
+    if (widgetId && w.turnstile) w.turnstile.reset(widgetId);
+  }
+
+  /** A current token: present, not expired, never submitted before. Otherwise ''. */
+  function freshToken(): string {
+    if (!widgetId || !w.turnstile) return '';
+    const token = w.turnstile.getResponse(widgetId) ?? '';
+    if (!token) return '';
+    if (usedTokens.has(token) || w.turnstile.isExpired(widgetId)) {
+      resetTurnstile(); // fetch a new one; the applicant submits again once it's ready
+      return '';
+    }
+    return token;
+  }
+
+  // --- Turnstile (explicit render so the widget can be reset after each attempt) ---
+  function renderTurnstile() {
+    if (!form || !tsContainer || !w.turnstile || widgetId) return;
+    if (!stepsEls[stepsEls.length - 1]?.hasAttribute('data-active')) return;
+    widgetId = w.turnstile.render(tsContainer, {
+      sitekey: form.dataset.sitekey,
+      action: form.dataset.action,
+      language: form.dataset.lang,
+      theme: 'light',
+      // 'flexible' has a 300 px minimum width; narrower containers (320 px phones) get 'compact'.
+      size: tsContainer.clientWidth < 300 ? 'compact' : 'flexible',
+      'response-field': false,
+      // Tokens expire after 5 minutes: let the widget fetch a new one by itself.
+      'refresh-expired': 'auto',
+      'refresh-timeout': 'auto',
+      callback: () => setError('turnstile', false),
+    });
+  }
+  w.onArklensStartTurnstile = renderTurnstile;
+  const tsScript = document.createElement('script');
+  tsScript.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onArklensStartTurnstile';
+  tsScript.async = true;
+  tsScript.defer = true;
+  document.head.appendChild(tsScript);
+
+  function value(name: string): string {
+    const el = form?.elements.namedItem(name) as HTMLInputElement | null;
+    return (el?.value ?? '').trim();
   }
 
   function handlePathChange(path: string) {
@@ -548,7 +817,7 @@ const T = {
     });
     form.querySelectorAll<HTMLInputElement>('input:not([type="radio"])').forEach((input) => {
       input.addEventListener('input', () => {
-        if (input.getAttribute('aria-invalid') === 'true' && input.checkValidity()) setError(input.name, false);
+        if (input.getAttribute('aria-invalid') === 'true' && fieldOk(input)) setError(input.name, false);
       });
     });
 
@@ -582,8 +851,10 @@ const T = {
       }
     });
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (submitting) return;
+      errorBox?.classList.add('hidden');
       for (let i = 0; i < stepsEls.length; i++) {
         if (!validateStep(i)) {
           current = i;
@@ -593,14 +864,80 @@ const T = {
         }
       }
 
-      const data = Object.fromEntries(new FormData(form).entries());
-      // In production this would be sent to an API endpoint.
-      console.log('Form submitted:', data);
+      const token = freshToken();
+      if (!token) {
+        setError('turnstile', true);
+        tsContainer?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        return;
+      }
+      usedTokens.add(token);
+      setBusy(true);
 
-      form.classList.add('hidden');
-      indicators.forEach((ind) => (ind.dataset.state = 'done'));
-      success?.classList.remove('hidden');
-      success?.focus();
+      const path = form.querySelector<HTMLInputElement>('input[name="path"]:checked')?.value ?? '';
+      const industry = form.querySelector<HTMLInputElement>('input[name="industry"]:checked')?.value ?? '';
+
+      try {
+        // Only the acceptance flag is sent; the server sets the timestamp, versions and application ID.
+        const res = await fetch('/api/start', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            path,
+            currentWebsite: value('current-website'),
+            businessName: value('business-name'),
+            industry,
+            goals: (form.elements.namedItem('goals') as HTMLTextAreaElement | null)?.value ?? '',
+            name: value('name'),
+            email: value('email'),
+            phone: value('phone'),
+            termsAccepted: termsBox?.checked === true,
+            company_url: value('company_url'),
+            started_at: startedAt,
+            page: location.pathname.slice(0, 200),
+            turnstile_token: token,
+            lang: form.dataset.lang ?? 'en',
+          }),
+        });
+        const data = (await res.json().catch(() => ({}))) as {
+          ok?: boolean; error?: string; fields?: string[]; applicationId?: string; confirmationSent?: boolean;
+        };
+
+        const applicationId = typeof data.applicationId === 'string' ? data.applicationId : '';
+        // A genuine success always carries a server-generated ID; anything else (incl. the bot-trap decoy) is a failure.
+        if (res.ok && data.ok === true && APPLICATION_ID_RE.test(applicationId)) {
+          const idEl = document.querySelector<HTMLElement>('[data-application-id]');
+          if (idEl) idEl.textContent = applicationId;
+          document.querySelector('[data-confirmation-sent]')?.classList.toggle('hidden', data.confirmationSent !== true);
+          form.classList.add('hidden');
+          indicators.forEach((ind) => (ind.dataset.state = 'done'));
+          success?.classList.remove('hidden');
+          success?.focus();
+          return;
+        }
+
+        if (data.error === 'invalid' && Array.isArray(data.fields)) {
+          const mapped = data.fields.map((f) => SERVER_FIELDS[f]).filter((m): m is [string, number] => !!m);
+          if (mapped.length) {
+            current = Math.min(...mapped.map(([, s]) => s));
+            render(false);
+            mapped.forEach(([name]) => setError(name, true));
+          }
+          showFormError(form.dataset.msgInvalid ?? '');
+        } else if (data.error === 'rate_limited') {
+          showFormError(form.dataset.msgRateLimited ?? '');
+        } else if (data.error === 'verification_expired') {
+          // Token timed out or was already used: a fresh one is fetched in `finally`.
+          showFormError(form.dataset.msgVerification ?? '');
+        } else {
+          // verification_failed and server errors: generic "Please try again."
+          showFormError();
+        }
+      } catch {
+        showFormError(form.dataset.msgNetwork ?? '');
+      } finally {
+        setBusy(false);
+        resetTurnstile();
+      }
     });
 
     render(false);

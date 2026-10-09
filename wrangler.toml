@@ -13,7 +13,7 @@ pages_build_output_dir = "dist"
 # dev.arklens.pages.dev = the `dev` branch preview deployment.
 TURNSTILE_HOSTNAMES = "www.arklens.ch,arklens.ch,arklens.pages.dev,dev.arklens.pages.dev"
 
-# Basic per-IP rate limiting for /api/contact
+# Basic per-IP rate limiting for /api/contact and /api/start
 [[kv_namespaces]]
 binding = "RATE_LIMIT"
 id = "49410344632949099c36bb1b288d655d"
