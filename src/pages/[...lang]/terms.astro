@@ -3,6 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import { pick } from '@lib/pick';
+import { TERMS_VERSION, formatLegalVersion } from '@lib/legal';
 
 import { localeStaticPaths, getLocalizedPath, dateLocales, type Language } from '@i18n/index';
 export function getStaticPaths() { return localeStaticPaths(); }
@@ -32,7 +33,7 @@ const contactUrl = `www.arklens.ch${contactPath}`;
       
       <div class="prose prose-lg max-w-none">
         <p class="text-body-lg text-neutral-600 mb-8">
-          {pick(lang, { en: 'Last updated: ', fr: 'Dernière mise à jour\u00A0: ', de: 'Zuletzt aktualisiert: ', it: 'Ultimo aggiornamento: ' })}{new Date().toLocaleDateString(dateLocales[lang])}
+          {pick(lang, { en: 'Last updated: ', fr: 'Dernière mise à jour\u00A0: ', de: 'Zuletzt aktualisiert: ', it: 'Ultimo aggiornamento: ' })}{formatLegalVersion(TERMS_VERSION, dateLocales[lang])}
         </p>
 
         <div class="bg-amber-50 border-2 border-amber-200 rounded-xl p-6 mb-12">
