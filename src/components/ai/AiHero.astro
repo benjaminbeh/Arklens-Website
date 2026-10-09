@@ -1,0 +1,85 @@
+---
+import type { Language } from '@i18n/index';
+import { getLocalizedPath } from '@i18n/index';
+import { pick } from '@lib/pick';
+import { ArrowRight } from '@lucide/astro';
+import AssistantMockup from '@components/ui/AssistantMockup.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+
+// Deployment options for a client's AI setup (not a statement about Arklens' own hosting).
+const tags = [
+  pick(lang, { en: 'Swiss-hosted option', fr: 'Option d’hébergement en Suisse', de: 'Hosting in der Schweiz möglich', it: 'Opzione hosting in Svizzera' }),
+  pick(lang, { en: 'European', fr: 'Européenne', de: 'Europäisch', it: 'Europea' }),
+  pick(lang, { en: 'Global', fr: 'Mondiale', de: 'Weltweit', it: 'Globale' }),
+  pick(lang, { en: 'Hybrid', fr: 'Hybride', de: 'Hybrid', it: 'Ibrida' }),
+];
+---
+
+<section class="relative isolate overflow-hidden border-b border-ink-900/10 pt-[calc(var(--sfg-header-h)+3rem)] pb-16 md:pt-[calc(var(--sfg-header-h)+5rem)] md:pb-24" aria-labelledby="ai-hero-title">
+  <div class="ai-hero-grid grid-bg absolute inset-0 -z-10" aria-hidden="true"></div>
+
+  <div class="container-custom">
+    <div class="grid grid-cols-12 gap-x-6 gap-y-14 items-start">
+      <div class="col-span-12 lg:col-span-7">
+        <p class="eyebrow flex items-center gap-3 mb-8">
+          <span class="h-px w-8 bg-signal-600" aria-hidden="true"></span>
+          <span>{pick(lang, { en: 'AI for Swiss SMEs', fr: 'IA pour les PME suisses', de: 'KI für Schweizer KMU', it: 'IA per le PMI svizzere' })}</span>
+        </p>
+
+        <h1 id="ai-hero-title" class="text-display-xl text-ink-900 max-w-[16ch]">
+          {pick(lang, { en: 'Practical AI for your business.', fr: 'Une IA concrète pour votre entreprise.', de: 'Praxisnahe KI für Ihr Unternehmen.', it: 'IA concreta per la tua azienda.' })}
+        </h1>
+
+        <p class="lead mt-7 md:text-[1.25rem] md:leading-[1.6]">
+          {pick(lang, {
+            en: 'From customer assistants and document processing to private company knowledge systems and workflow automation, Arklens helps you introduce AI where it creates real value.',
+            fr: 'Des assistants pour vos clients au traitement des documents, jusqu’aux systèmes de connaissances internes et à l’automatisation des processus, Arklens vous aide à introduire l’IA là où elle apporte une vraie valeur.',
+            de: 'Von Kundenassistenten und Dokumentenverarbeitung bis zu internen Wissenssystemen und automatisierten Abläufen: Arklens hilft Ihnen, KI dort einzusetzen, wo sie echten Nutzen bringt.',
+            it: 'Dagli assistenti per i clienti all’elaborazione dei documenti, fino ai sistemi di conoscenza aziendale interni e all’automazione dei processi: Arklens ti aiuta a introdurre l’IA dove crea valore reale.',
+          })}
+        </p>
+
+        <p class="mt-5 max-w-2xl text-steel-700 font-medium">
+          {pick(lang, {
+            en: 'Choose Swiss-hosted, European, global or hybrid AI depending on your needs.',
+            fr: 'Choisissez une IA hébergée en Suisse, européenne, mondiale ou hybride selon vos besoins.',
+            de: 'Je nach Bedarf wählen Sie KI mit Hosting in der Schweiz, in Europa, global oder hybrid.',
+            it: 'Scegli un’IA ospitata in Svizzera, europea, globale o ibrida, in base alle tue esigenze.',
+          })}
+        </p>
+
+        <div class="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+          <a href={getLocalizedPath('/contact/?reason=automation-ai', lang)} class="btn btn-primary btn-lg">
+            {pick(lang, { en: 'Find an AI opportunity', fr: 'Trouver une piste pour l’IA', de: 'KI-Potenzial finden', it: 'Trova un’opportunità per l’IA' })}
+            <ArrowRight size={18} class="arrow" stroke-width={1.75} />
+          </a>
+          <a href={getLocalizedPath('/contact/', lang)} class="btn btn-secondary btn-lg">
+            {pick(lang, { en: 'Talk to Arklens', fr: 'Échanger avec Arklens', de: 'Mit Arklens sprechen', it: 'Parla con Arklens' })}
+          </a>
+        </div>
+
+        <ul class="mt-10 flex flex-wrap gap-2" aria-label={pick(lang, { en: 'Options for your AI setup', fr: 'Options pour votre solution d’IA', de: 'Optionen für Ihre KI-Lösung', it: 'Opzioni per la tua soluzione di IA' })}>
+          {tags.map((tag) => (
+            <li class="tag">{tag}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="col-span-12 lg:col-span-5 lg:pt-6">
+        <AssistantMockup lang={lang} class="shadow-lift" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ai-hero-grid {
+    mask-image: radial-gradient(ellipse 80% 70% at 70% 30%, #000 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 70% 30%, #000 20%, transparent 75%);
+  }
+</style>

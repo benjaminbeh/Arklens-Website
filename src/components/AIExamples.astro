@@ -54,10 +54,16 @@ const examples = [
             it: 'Non serve una strategia IA. Parti da un problema concreto.',
           })}
         </p>
-        <a href={getLocalizedPath('/start?path=check', lang)} class="link-arrow mt-6 py-1 text-sm">
-          {pick(lang, { en: 'Check my business', fr: 'Évaluer mon entreprise', de: 'Mein Unternehmen prüfen', it: 'Analizza la mia azienda' })}
-          <ArrowRight size={14} stroke-width={1.75} />
-        </a>
+        <div class="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+          <a href={getLocalizedPath('/start?path=check', lang)} class="link-arrow py-1 text-sm">
+            {pick(lang, { en: 'Check my business', fr: 'Évaluer mon entreprise', de: 'Mein Unternehmen prüfen', it: 'Analizza la mia azienda' })}
+            <ArrowRight size={14} stroke-width={1.75} />
+          </a>
+          <a href={getLocalizedPath('/ai/', lang)} class="link-arrow py-1 text-sm">
+            {pick(lang, { en: 'Explore practical AI', fr: 'Découvrir l’IA concrète', de: 'KI in der Praxis entdecken', it: 'Scopri l’IA concreta' })}
+            <ArrowRight size={14} stroke-width={1.75} />
+          </a>
+        </div>
       </div>
 
       <ul class="col-span-12 lg:col-span-8 border-t border-white/15">

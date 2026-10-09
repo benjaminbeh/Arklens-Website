@@ -14,6 +14,7 @@ const en = {
     'nav.whatWeOffer': 'What we offer',
     'nav.examples': 'Examples',
     'nav.forBusiness': 'For businesses',
+    'nav.ai': 'AI',
     'nav.faq': 'FAQ',
     'nav.getStarted': 'Get started',
     
@@ -92,7 +93,7 @@ const en = {
     'automation.documents.title': 'Documents',
     'automation.documents.desc': 'Search company documents, manuals and internal information using natural language.',
     'automation.support.title': 'Customer support',
-    'automation.support.desc': 'Answer common customer questions automatically.',
+    'automation.support.desc': 'Answer common customer questions using information you approve.',
     'automation.admin.title': 'Administration',
     'automation.admin.desc': 'Move information between forms, spreadsheets, CRM and other business tools.',
     'automation.reporting.title': 'Reporting',
@@ -180,6 +181,7 @@ const fr = {
     'nav.whatWeOffer': 'Notre offre',
     'nav.examples': 'Exemples',
     'nav.forBusiness': 'Pour les PME',
+    'nav.ai': 'IA',
     'nav.faq': 'FAQ',
     'nav.getStarted': 'Commencer',
 
@@ -258,7 +260,7 @@ const fr = {
     'automation.documents.title': 'Documents',
     'automation.documents.desc': 'Chercher dans les documents, manuels et informations internes en posant simplement une question.',
     'automation.support.title': 'Service client',
-    'automation.support.desc': 'Répondre automatiquement aux questions fréquentes des clients.',
+    'automation.support.desc': 'Répondre aux questions fréquentes des clients à partir des informations que vous validez.',
     'automation.admin.title': 'Tâches administratives',
     'automation.admin.desc': 'Transférer les informations entre formulaires, tableurs, CRM et autres outils de l’entreprise.',
     'automation.reporting.title': 'Rapports',
@@ -344,6 +346,7 @@ const de = {
     'nav.whatWeOffer': 'Angebot',
     'nav.examples': 'Beispiele',
     'nav.forBusiness': 'Für KMU',
+    'nav.ai': 'KI',
     'nav.faq': 'FAQ',
     'nav.getStarted': 'Loslegen',
 
@@ -422,7 +425,7 @@ const de = {
     'automation.documents.title': 'Dokumente',
     'automation.documents.desc': 'Firmendokumente, Handbücher und interne Informationen mit einfachen Fragen durchsuchen.',
     'automation.support.title': 'Kundendienst',
-    'automation.support.desc': 'Häufige Kundenfragen automatisch beantworten.',
+    'automation.support.desc': 'Häufige Kundenfragen mit Informationen beantworten, die Sie freigeben.',
     'automation.admin.title': 'Verwaltung',
     'automation.admin.desc': 'Informationen zwischen Formularen, Tabellen, CRM und weiteren Tools übertragen.',
     'automation.reporting.title': 'Berichte',
@@ -509,6 +512,7 @@ const it = {
     'nav.whatWeOffer': 'Offerta',
     'nav.examples': 'Esempi',
     'nav.forBusiness': 'Per le PMI',
+    'nav.ai': 'IA',
     'nav.faq': 'FAQ',
     'nav.getStarted': 'Inizia',
 
@@ -587,7 +591,7 @@ const it = {
     'automation.documents.title': 'Documenti',
     'automation.documents.desc': 'Cercare in documenti aziendali, manuali e informazioni interne con semplici domande.',
     'automation.support.title': 'Assistenza clienti',
-    'automation.support.desc': 'Rispondere in automatico alle domande frequenti dei clienti.',
+    'automation.support.desc': 'Rispondere alle domande frequenti dei clienti con informazioni che approvi tu.',
     'automation.admin.title': 'Amministrazione',
     'automation.admin.desc': 'Trasferire dati tra moduli, fogli di calcolo, CRM e altri strumenti aziendali.',
     'automation.reporting.title': 'Reportistica',
@@ -682,7 +686,7 @@ export const ogLocales: Record<Language, string> = { en: 'en_CH', fr: 'fr_CH', d
 export const dateLocales: Record<Language, string> = { en: 'en-GB', fr: 'fr-CH', de: 'de-CH', it: 'it-CH' };
 
 /** Unprefixed (EN) paths of every page generated under src/pages/[...lang]/. */
-export const sitePages = ['/', '/start/', '/contact/', '/legal/', '/privacy/', '/terms/'] as const;
+export const sitePages = ['/', '/start/', '/contact/', '/legal/', '/privacy/', '/terms/', '/ai/'] as const;
 
 export function getLangFromUrl(url: URL): Language {
   const [, lang] = url.pathname.split('/');

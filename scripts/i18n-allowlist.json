@@ -57,6 +57,7 @@
     { "v": "Domain", "locales": ["de"], "//": "standard DE term (die Domain), design §3 core terms" },
     { "v": "Optional", "locales": ["de"], "//": "correct DE adjective for optional form fields, identical spelling" },
     { "v": "Area", "locales": ["it"], "//": "standard IT noun (l’area), DigitalCheck table header" },
+    { "v": "Hybrid", "locales": ["de"], "//": "correct DE adjective, identical spelling (cognate policy §11); AI page hero tag" },
     { "v": "+41 XX XXX XX XX", "//": "Swiss phone-number placeholder format" },
     { "v": "www.arklens.ch", "//": "URL" },
     { "v": "www.cloudflare.com", "//": "URL" },
