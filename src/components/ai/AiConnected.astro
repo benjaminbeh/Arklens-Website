@@ -1,0 +1,70 @@
+---
+import type { Language } from '@i18n/index';
+import { useTranslations } from '@i18n/index';
+import { pick } from '@lib/pick';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import SignalLine from '@components/ui/SignalLine.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Same stage names as the homepage progression (progression.step1–5), new descriptions.
+const steps = [
+  { title: t('progression.step1'), desc: pick(lang, { en: 'Your digital foundation', fr: 'Votre base numérique', de: 'Ihre digitale Grundlage', it: 'La tua base digitale' }) },
+  { title: t('progression.step2'), desc: pick(lang, { en: 'Forms, bookings, payments', fr: 'Formulaires, réservations, paiements', de: 'Formulare, Buchungen, Zahlungen', it: 'Moduli, prenotazioni, pagamenti' }) },
+  { title: t('progression.step3'), desc: pick(lang, { en: 'Tools sharing information', fr: 'Des outils qui partagent les informations', de: 'Tools, die Informationen teilen', it: 'Strumenti che condividono le informazioni' }) },
+  { title: t('progression.step4'), desc: pick(lang, { en: 'Repetitive steps handled', fr: 'Les étapes répétitives prises en charge', de: 'Wiederkehrende Schritte erledigt', it: 'Passaggi ripetitivi gestiti' }) },
+  { title: t('progression.step5'), desc: pick(lang, { en: 'Understanding, drafting, summarising', fr: 'Comprendre, rédiger, résumer', de: 'Verstehen, entwerfen, zusammen\u00ADfassen', it: 'Capire, redigere, riassumere' }) },
+];
+
+const connects = [
+  pick(lang, { en: 'Email', fr: 'E-mail', de: 'E-Mail', it: 'E-mail' }),
+  'CRM',
+  pick(lang, { en: 'Forms', fr: 'Formulaires', de: 'Formulare', it: 'Moduli' }),
+  pick(lang, { en: 'Calendars', fr: 'Agendas', de: 'Kalender', it: 'Calendari' }),
+  pick(lang, { en: 'Document storage', fr: 'Stockage de documents', de: 'Dokumentablage', it: 'Archivio documenti' }),
+  pick(lang, { en: 'Business systems', fr: 'Systèmes métier', de: 'Geschäftssysteme', it: 'Sistemi aziendali' }),
+  pick(lang, { en: 'Internal databases', fr: 'Bases de données internes', de: 'Interne Datenbanken', it: 'Database interni' }),
+];
+const connectsLabel = pick(lang, { en: 'Connects with', fr: 'Se connecte à', de: 'Verbindet sich mit', it: 'Si collega a' });
+---
+
+<section class="section bg-white border-y border-ink-900/10" aria-labelledby="ai-connected-title">
+  <div class="container-custom">
+    <SectionHeader
+      id="ai-connected-title"
+      index="06"
+      eyebrow={pick(lang, { en: 'Connected systems', fr: 'Systèmes connectés', de: 'Vernetzte Systeme', it: 'Sistemi collegati' })}
+      title={pick(lang, { en: 'AI works best when it’s connected', fr: 'L’IA donne le meilleur d’elle-même quand elle est connectée', de: 'KI wirkt am besten, wenn sie vernetzt ist', it: 'L’IA rende al meglio quando è collegata' })}
+      lead={pick(lang, {
+        en: 'AI becomes more useful when it can interact, under your control, with the tools your business already uses. That is why we don’t just sell chatbots.',
+        fr: 'L’IA devient plus utile quand elle peut interagir, sous votre contrôle, avec les outils que votre entreprise utilise déjà. C’est pourquoi nous ne vendons pas simplement des chatbots.',
+        de: 'KI wird nützlicher, wenn sie kontrolliert mit den Tools zusammenarbeiten kann, die Ihr Unternehmen bereits nutzt. Darum verkaufen wir nicht einfach Chatbots.',
+        it: 'L’IA diventa più utile quando può interagire, sotto il tuo controllo, con gli strumenti che la tua azienda usa già. Per questo non vendiamo semplici chatbot.',
+      })}
+    />
+
+    <SignalLine steps={steps} label={pick(lang, { en: 'From website to AI', fr: 'Du site web à l’IA', de: 'Von der Website zur KI', it: 'Dal sito web all’IA' })} />
+
+    <div class="mt-14 pt-6 border-t border-ink-900/10 grid grid-cols-12 gap-x-6 gap-y-4">
+      <p class="col-span-12 md:col-span-4 lg:col-span-3 eyebrow" id="ai-connects-label">{connectsLabel}</p>
+      <div class="col-span-12 md:col-span-8 lg:col-span-9">
+        <ul class="flex flex-wrap gap-2" aria-labelledby="ai-connects-label">
+          {connects.map((c) => <li class="tag">{c}</li>)}
+        </ul>
+        <p class="mt-6 text-steel-600 max-w-2xl">
+          {pick(lang, {
+            en: 'We connect AI only where it is useful and with the access it needs, no more.',
+            fr: 'Nous connectons l’IA uniquement là où elle est utile, avec les accès dont elle a besoin, pas davantage.',
+            de: 'Wir binden KI nur dort an, wo sie nützt – und nur mit den Zugriffen, die sie wirklich braucht.',
+            it: 'Colleghiamo l’IA solo dove serve e solo con gli accessi necessari, niente di più.',
+          })}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

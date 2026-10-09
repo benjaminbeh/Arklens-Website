@@ -1,0 +1,223 @@
+---
+import type { Language } from '@i18n/index';
+import { pick } from '@lib/pick';
+import { MessagesSquare, BookOpen, FileScan, Mail, Handshake, Workflow, ArrowDown } from '@lucide/astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import WorkflowDiagram from '@components/ui/WorkflowDiagram.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+// Every locale is required for lists too, so a missing translation fails astro check.
+const list = (c: Record<Language, string[]>) => c[lang];
+
+const cards = [
+  {
+    icon: MessagesSquare,
+    title: pick(lang, { en: 'AI assistants', fr: 'Assistants IA', de: 'KI-Assistenten', it: 'Assistenti IA' }),
+    text: pick(lang, {
+      en: 'Assistants that answer from your own information, not from guesswork.',
+      fr: 'Des assistants qui répondent à partir de vos propres informations, pas au hasard.',
+      de: 'Assistenten, die aus Ihren eigenen Informationen antworten – nicht aus Vermutungen.',
+      it: 'Assistenti che rispondono in base alle tue informazioni, senza tirare a indovinare.',
+    }),
+    examples: list({
+      en: ['Customer FAQ assistant', 'Internal employee assistant', 'HR assistant', 'Technical support assistant', 'Product specialist', 'Sales assistant'],
+      fr: ['Assistant FAQ pour les clients', 'Assistant interne pour le personnel', 'Assistant RH', 'Assistant de support technique', 'Spécialiste produit', 'Assistant commercial'],
+      de: ['FAQ-Assistent für Kunden', 'Interner Assistent für Mitarbeitende', 'HR-Assistent', 'Assistent für technischen Support', 'Produktspezialist', 'Verkaufsassistent'],
+      it: ['Assistente FAQ per i clienti', 'Assistente interno per il personale', 'Assistente HR', 'Assistente per il supporto tecnico', 'Specialista di prodotto', 'Assistente vendite'],
+    }),
+  },
+  {
+    icon: BookOpen,
+    title: pick(lang, { en: 'Company knowledge', fr: 'Connaissances de l’entreprise', de: 'Firmenwissen', it: 'Conoscenza aziendale' }),
+    text: pick(lang, {
+      en: 'Ask your company information instead of searching through folders.',
+      fr: 'Interrogez les informations de votre entreprise au lieu de fouiller dans les dossiers.',
+      de: 'Fragen Sie Ihr Firmenwissen, statt sich durch Ordner zu suchen.',
+      it: 'Interroga le informazioni aziendali invece di cercare tra le cartelle.',
+    }),
+    examples: list({
+      en: ['Policies', 'Manuals', 'Product documentation', 'Standard procedures (SOPs)', 'Supplier information', 'Contracts', 'Internal procedures', 'Technical documentation'],
+      fr: ['Directives', 'Manuels', 'Documentation produit', 'Procédures standard', 'Informations fournisseurs', 'Contrats', 'Procédures internes', 'Documentation technique'],
+      de: ['Richtlinien', 'Handbücher', 'Produktdokumentation', 'Standardabläufe', 'Lieferanteninformationen', 'Verträge', 'Interne Abläufe', 'Technische Dokumentation'],
+      it: ['Direttive', 'Manuali', 'Documentazione di prodotto', 'Procedure standard', 'Informazioni sui fornitori', 'Contratti', 'Processi interni', 'Documentazione tecnica'],
+    }),
+  },
+  {
+    icon: FileScan,
+    title: pick(lang, { en: 'Document AI', fr: 'IA documentaire', de: 'Dokumenten-KI', it: 'IA per i documenti' }),
+    text: pick(lang, {
+      en: 'Turn incoming documents into structured, usable information.',
+      fr: 'Transformer les documents reçus en informations structurées et utilisables.',
+      de: 'Eingehende Dokumente in strukturierte, nutzbare Informationen verwandeln.',
+      it: 'Trasformare i documenti in arrivo in informazioni strutturate e utilizzabili.',
+    }),
+    examples: list({
+      en: ['Extract invoice details', 'Compare quotations', 'Summarise contracts', 'Classify documents', 'Analyse incoming PDFs', 'Extract order information', 'Process forms', 'Turn unstructured documents into structured data'],
+      fr: ['Extraire les données des factures', 'Comparer des offres', 'Résumer des contrats', 'Classer des documents', 'Analyser les PDF reçus', 'Extraire les informations de commande', 'Traiter des formulaires', 'Structurer des documents non structurés'],
+      de: ['Rechnungsdaten auslesen', 'Offerten vergleichen', 'Verträge zusammenfassen', 'Dokumente klassifizieren', 'Eingehende PDFs analysieren', 'Bestelldaten auslesen', 'Formulare verarbeiten', 'Unstrukturierte Dokumente in strukturierte Daten umwandeln'],
+      it: ['Estrarre i dati delle fatture', 'Confrontare offerte', 'Riassumere contratti', 'Classificare documenti', 'Analizzare i PDF in arrivo', 'Estrarre i dati degli ordini', 'Elaborare moduli', 'Trasformare documenti non strutturati in dati strutturati'],
+    }),
+  },
+  {
+    icon: Mail,
+    title: pick(lang, { en: 'Email & communication', fr: 'E-mails et communication', de: 'E-Mail und Kommunikation', it: 'E-mail e comunicazione' }),
+    text: pick(lang, {
+      en: 'Less time sorting, more time replying well.',
+      fr: 'Moins de temps à trier, plus de temps pour bien répondre.',
+      de: 'Weniger Zeit fürs Sortieren, mehr Zeit für gute Antworten.',
+      it: 'Meno tempo a smistare, più tempo per rispondere bene.',
+    }),
+    examples: list({
+      en: ['Classify incoming emails', 'Draft replies', 'Summarise long threads', 'Route enquiries', 'Prepare follow-up actions', 'Multilingual communication', 'Draft proposals', 'Meeting summaries'],
+      fr: ['Classer les e-mails entrants', 'Rédiger des projets de réponse', 'Résumer de longs échanges', 'Transmettre les demandes', 'Préparer les suites à donner', 'Communication multilingue', 'Rédiger des propositions', 'Résumés de séances'],
+      de: ['Eingehende E-Mails klassifizieren', 'Antwortentwürfe erstellen', 'Lange Verläufe zusammenfassen', 'Anfragen weiterleiten', 'Nächste Schritte vorbereiten', 'Mehrsprachige Kommunikation', 'Angebotsentwürfe erstellen', 'Sitzungszusammenfassungen'],
+      it: ['Classificare le e-mail in arrivo', 'Preparare bozze di risposta', 'Riassumere lunghi scambi', 'Inoltrare le richieste', 'Preparare le azioni successive', 'Comunicazione multilingue', 'Preparare proposte', 'Riassunti delle riunioni'],
+    }),
+  },
+  {
+    icon: Handshake,
+    title: pick(lang, { en: 'Sales & customer service', fr: 'Vente et service client', de: 'Verkauf und Kundendienst', it: 'Vendite e assistenza clienti' }),
+    text: pick(lang, {
+      en: 'Faster, better-prepared responses to customers.',
+      fr: 'Des réponses aux clients plus rapides et mieux préparées.',
+      de: 'Schnellere, besser vorbereitete Antworten an Ihre Kundschaft.',
+      it: 'Risposte ai clienti più rapide e meglio preparate.',
+    }),
+    examples: list({
+      en: ['Qualify enquiries', 'Prepare account summaries', 'Draft quotations', 'CRM summaries', 'Follow-up suggestions', 'Customer support assistants', 'Multilingual website assistants', 'Ticket classification'],
+      fr: ['Qualifier les demandes', 'Préparer des synthèses clients', 'Préparer des projets d’offre', 'Résumés CRM', 'Suggestions de relance', 'Assistants de support client', 'Assistants multilingues pour le site web', 'Classement des tickets'],
+      de: ['Anfragen qualifizieren', 'Kundenübersichten vorbereiten', 'Offertentwürfe erstellen', 'CRM-Zusammenfassungen', 'Vorschläge zum Nachfassen', 'Assistenten für den Kundendienst', 'Mehrsprachige Website-Assistenten', 'Tickets klassifizieren'],
+      it: ['Qualificare le richieste', 'Preparare sintesi dei clienti', 'Preparare bozze di offerta', 'Sintesi dal CRM', 'Suggerimenti di follow-up', 'Assistenti per il supporto clienti', 'Assistenti multilingue per il sito web', 'Classificazione dei ticket'],
+    }),
+  },
+];
+
+const kicker = pick(lang, { en: 'Workflow example', fr: 'Exemple de processus', de: 'Beispiel-Ablauf', it: 'Esempio di processo' });
+
+const flowA = {
+  title: pick(lang, { en: 'From enquiry to reviewed reply', fr: 'De la demande à la réponse vérifiée', de: 'Von der Anfrage zur geprüften Antwort', it: 'Dalla richiesta alla risposta verificata' }),
+  steps: [
+    {
+      label: pick(lang, { en: 'Customer enquiry', fr: 'Demande client', de: 'Kundenanfrage', it: 'Richiesta del cliente' }),
+      meta: pick(lang, { en: 'Website form or email', fr: 'Formulaire du site ou e-mail', de: 'Website-Formular oder E-Mail', it: 'Modulo del sito o e-mail' }),
+    },
+    {
+      label: pick(lang, { en: 'AI understands the request', fr: 'L’IA comprend la demande', de: 'KI erfasst die Anfrage', it: 'L’IA comprende la richiesta' }),
+      meta: pick(lang, { en: 'Topic, urgency, language', fr: 'Sujet, urgence, langue', de: 'Thema, Dringlichkeit, Sprache', it: 'Argomento, urgenza, lingua' }),
+    },
+    {
+      label: pick(lang, { en: 'Information extracted', fr: 'Informations extraites', de: 'Informationen ausgelesen', it: 'Informazioni estratte' }),
+      meta: pick(lang, { en: 'Contact, product, dates', fr: 'Coordonnées, produit, dates', de: 'Kontakt, Produkt, Termine', it: 'Contatto, prodotto, date' }),
+    },
+    {
+      label: pick(lang, { en: 'CRM updated', fr: 'CRM mis à jour', de: 'CRM aktualisiert', it: 'CRM aggiornato' }),
+      meta: pick(lang, { en: 'Record created or updated', fr: 'Fiche créée ou mise à jour', de: 'Eintrag erstellt oder aktualisiert', it: 'Scheda creata o aggiornata' }),
+    },
+    {
+      label: pick(lang, { en: 'Reply drafted', fr: 'Réponse préparée', de: 'Antwort entworfen', it: 'Risposta preparata' }),
+      meta: pick(lang, { en: 'Using your templates and prices', fr: 'Avec vos modèles et vos prix', de: 'Mit Ihren Vorlagen und Preisen', it: 'Con i tuoi modelli e prezzi' }),
+    },
+    {
+      label: pick(lang, { en: 'Employee reviews', fr: 'Un collaborateur vérifie', de: 'Mitarbeitende prüfen', it: 'Un collaboratore verifica' }),
+      meta: pick(lang, { en: 'Edits, approves, sends', fr: 'Modifie, valide, envoie', de: 'Bearbeiten, freigeben, senden', it: 'Modifica, approva, invia' }),
+    },
+  ],
+  outcome: pick(lang, { en: 'AI prepares. Your team decides.', fr: 'L’IA prépare. Votre équipe décide.', de: 'KI bereitet vor. Ihr Team entscheidet.', it: 'L’IA prepara. Il tuo team decide.' }),
+};
+
+const flowB = {
+  title: pick(lang, { en: 'Comparing supplier quotations', fr: 'Comparer les offres des fournisseurs', de: 'Lieferantenofferten vergleichen', it: 'Confrontare le offerte dei fornitori' }),
+  steps: [
+    {
+      label: pick(lang, { en: 'Supplier quotation', fr: 'Offre d’un fournisseur', de: 'Lieferantenofferte', it: 'Offerta del fornitore' }),
+      meta: pick(lang, { en: 'PDF or email', fr: 'PDF ou e-mail', de: 'PDF oder E-Mail', it: 'PDF o e-mail' }),
+    },
+    {
+      label: pick(lang, { en: 'AI extracts pricing', fr: 'L’IA extrait les prix', de: 'KI liest die Preise aus', it: 'L’IA estrae i prezzi' }),
+      meta: pick(lang, { en: 'Items, quantities, terms', fr: 'Articles, quantités, conditions', de: 'Positionen, Mengen, Konditionen', it: 'Articoli, quantità, condizioni' }),
+    },
+    {
+      label: pick(lang, { en: 'Quotations compared', fr: 'Offres comparées', de: 'Offerten verglichen', it: 'Offerte confrontate' }),
+      meta: pick(lang, { en: 'Side by side', fr: 'Côte à côte', de: 'Nebeneinander', it: 'Una accanto all’altra' }),
+    },
+    {
+      label: pick(lang, { en: 'Differences flagged', fr: 'Écarts signalés', de: 'Unterschiede markiert', it: 'Differenze segnalate' }),
+      meta: pick(lang, { en: 'Price, delivery, conditions', fr: 'Prix, délais, conditions', de: 'Preis, Lieferung, Konditionen', it: 'Prezzo, consegna, condizioni' }),
+    },
+    {
+      label: pick(lang, { en: 'Summary prepared', fr: 'Synthèse préparée', de: 'Zusammenfassung erstellt', it: 'Sintesi pronta' }),
+      meta: pick(lang, { en: 'Ready for your decision', fr: 'Prête pour votre décision', de: 'Bereit für Ihren Entscheid', it: 'Pronta per la tua decisione' }),
+    },
+  ],
+  outcome: pick(lang, { en: 'Hours of checking become a short review.', fr: 'Des heures de vérification deviennent une courte relecture.', de: 'Aus stundenlangem Prüfen wird eine kurze Durchsicht.', it: 'Ore di controlli si riducono a una breve verifica.' }),
+};
+---
+
+<section class="section bg-white border-y border-ink-900/10" aria-labelledby="ai-usecases-title">
+  <div class="container-custom">
+    <SectionHeader
+      id="ai-usecases-title"
+      index="01"
+      eyebrow={pick(lang, { en: 'Use cases', fr: 'Cas d’usage', de: 'Anwendungsfälle', it: 'Casi d’uso' })}
+      title={pick(lang, { en: 'Where AI can help', fr: 'Où l’IA peut aider', de: 'Wo KI helfen kann', it: 'Dove l’IA può aiutare' })}
+      lead={pick(lang, {
+        en: 'Practical uses that save time every week. AI that fits your business — and your data requirements.',
+        fr: 'Des usages concrets qui font gagner du temps chaque semaine. Une IA adaptée à votre entreprise — et à vos exigences en matière de données.',
+        de: 'Praktische Einsätze, die jede Woche Zeit sparen. KI, die zu Ihrem Unternehmen passt – und zu Ihren Anforderungen an Daten.',
+        it: 'Usi concreti che fanno risparmiare tempo ogni settimana. Un’IA adatta alla tua azienda e alle tue esigenze sui dati.',
+      })}
+    />
+
+    <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-ink-900/10 border border-ink-900/10 rounded-md overflow-hidden">
+      {cards.map((card, i) => {
+        const Icon = card.icon;
+        return (
+          <li class="relative bg-white p-6 md:p-7 reveal" style={`--reveal-delay:${(i % 3) * 80}ms`}>
+            <div class="flex items-center justify-between">
+              <Icon size={22} class="text-ink-900" stroke-width={1.5} />
+              <span class="font-mono text-xs text-steel-500" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <h3 class="mt-8 text-heading-sm text-ink-900">{card.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-steel-600">{card.text}</p>
+            <ul class="mt-5 pt-4 border-t border-ink-900/10 space-y-1.5 text-sm text-steel-700">
+              {card.examples.map((ex) => (
+                <li class="flex gap-2.5">
+                  <span class="mt-[0.55em] h-1 w-1 flex-none bg-signal-600" aria-hidden="true"></span>
+                  <span>{ex}</span>
+                </li>
+              ))}
+            </ul>
+          </li>
+        );
+      })}
+      <li class="relative bg-paper p-6 md:p-7 reveal" style="--reveal-delay:160ms">
+        <div class="flex items-center justify-between">
+          <Workflow size={22} class="text-ink-900" stroke-width={1.5} />
+          <span class="font-mono text-xs text-steel-500" aria-hidden="true">06</span>
+        </div>
+        <h3 class="mt-8 text-heading-sm text-ink-900">{pick(lang, { en: 'Workflow AI', fr: 'IA dans les processus', de: 'Workflow-KI', it: 'IA nei processi' })}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-steel-600">
+          {pick(lang, {
+            en: 'The real value often comes when AI is connected to your workflow, so information moves on without copying and pasting. Your team still reviews the result.',
+            fr: 'La vraie valeur apparaît souvent quand l’IA est reliée à vos processus\u00A0: les informations circulent sans copier-coller. Votre équipe vérifie toujours le résultat.',
+            de: 'Der eigentliche Nutzen entsteht oft, wenn KI in Ihre Abläufe eingebunden ist: Informationen fliessen weiter, ohne Kopieren und Einfügen. Ihr Team prüft das Ergebnis weiterhin.',
+            it: 'Il vero valore arriva spesso quando l’IA è collegata ai tuoi processi: le informazioni passano avanti senza copia e incolla. Il tuo team verifica sempre il risultato.',
+          })}
+        </p>
+        <a href="#ai-workflows" class="link-arrow mt-5 py-1 text-sm">
+          {pick(lang, { en: 'See two examples', fr: 'Voir deux exemples', de: 'Zwei Beispiele ansehen', it: 'Vedi due esempi' })}
+          <ArrowDown size={14} stroke-width={1.75} />
+        </a>
+      </li>
+    </ul>
+
+    <div id="ai-workflows" class="mt-10 md:mt-12 grid md:grid-cols-2 gap-6">
+      <WorkflowDiagram class="reveal" kicker={kicker} title={flowA.title} steps={flowA.steps} outcome={flowA.outcome} />
+      <WorkflowDiagram class="reveal" style="--reveal-delay:120ms" kicker={kicker} title={flowB.title} steps={flowB.steps} outcome={flowB.outcome} />
+    </div>
+  </div>
+</section>

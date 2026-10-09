@@ -551,6 +551,15 @@ const C = {
       if (t.getAttribute('aria-invalid') === 'true') validate();
     });
 
+    // Preselect reason from ?reason= (AI page CTAs). Only known slugs, only if the field is still empty.
+    const REASON_SLUGS: Record<string, string> = { 'automation-ai': 'Automation / AI' };
+    const slug = new URLSearchParams(location.search).get('reason');
+    const select = form.querySelector<HTMLSelectElement>('#reason');
+    const wanted = slug ? REASON_SLUGS[slug] : undefined;
+    if (select && wanted && !select.value && [...select.options].some((o) => o.value === wanted)) {
+      select.value = wanted;
+    }
+
     form.querySelector<HTMLSelectElement>('#reason')?.addEventListener('change', (e) => {
       const reason = (e.target as HTMLSelectElement).value;
       if (reason) track('contact_reason_selected', { reason });

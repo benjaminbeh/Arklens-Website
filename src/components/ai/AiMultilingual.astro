@@ -1,0 +1,108 @@
+---
+import type { Language } from '@i18n/index';
+import { languages } from '@i18n/index';
+import { pick } from '@lib/pick';
+import { Languages } from '@lucide/astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+
+// Native language names, as in the language switcher.
+const langCells = (Object.entries(languages) as [Language, string][]).map(([code, name]) => ({ code: code.toUpperCase(), name, lang: code }));
+
+const uses = [
+  {
+    title: pick(lang, { en: 'Multilingual customer support', fr: 'Support client multilingue', de: 'Mehrsprachiger Kundendienst', it: 'Assistenza clienti multilingue' }),
+    text: pick(lang, {
+      en: 'Answer customers in their language from the same information.',
+      fr: 'Répondre aux clients dans leur langue, à partir des mêmes informations.',
+      de: 'Kundinnen und Kunden in ihrer Sprache antworten, auf Basis derselben Informationen.',
+      it: 'Rispondere ai clienti nella loro lingua, partendo dalle stesse informazioni.',
+    }),
+  },
+  {
+    title: pick(lang, { en: 'Ask across languages', fr: 'Questionner d’une langue à l’autre', de: 'Sprachübergreifend fragen', it: 'Domande tra lingue diverse' }),
+    text: pick(lang, {
+      en: 'Ask in one language about a document written in another.',
+      fr: 'Poser une question dans une langue sur un document rédigé dans une autre.',
+      de: 'In einer Sprache nach einem Dokument fragen, das in einer anderen verfasst ist.',
+      it: 'Chiedere in una lingua su un documento scritto in un’altra.',
+    }),
+  },
+  {
+    title: pick(lang, { en: 'Translate and draft', fr: 'Traduire et rédiger', de: 'Übersetzen und entwerfen', it: 'Tradurre e redigere' }),
+    text: pick(lang, {
+      en: 'Prepare business communication in the language your recipient prefers.',
+      fr: 'Préparer vos communications dans la langue que préfère votre destinataire.',
+      de: 'Geschäftliche Kommunikation in der Sprache vorbereiten, die Ihr Gegenüber bevorzugt.',
+      it: 'Preparare comunicazioni aziendali nella lingua preferita dal destinatario.',
+    }),
+  },
+  {
+    title: pick(lang, { en: 'Multilingual knowledge assistants', fr: 'Assistants de connaissances multilingues', de: 'Mehrsprachige Wissensassistenten', it: 'Assistenti di conoscenza multilingue' }),
+    text: pick(lang, {
+      en: 'One assistant for teams in different language regions.',
+      fr: 'Un seul assistant pour des équipes de différentes régions linguistiques.',
+      de: 'Ein Assistent für Teams in verschiedenen Sprachregionen.',
+      it: 'Un solo assistente per team di diverse regioni linguistiche.',
+    }),
+  },
+];
+---
+
+<section class="section" aria-labelledby="ai-languages-title">
+  <div class="container-custom">
+    <SectionHeader
+      id="ai-languages-title"
+      index="05"
+      eyebrow={pick(lang, { en: 'Languages', fr: 'Langues', de: 'Sprachen', it: 'Lingue' })}
+      title={pick(lang, { en: 'Multilingual AI for Switzerland', fr: 'Une IA multilingue pour la Suisse', de: 'Mehrsprachige KI für die Schweiz', it: 'IA multilingue per la Svizzera' })}
+      lead={pick(lang, {
+        en: 'Your customers and teams work in different languages. AI can help bridge them in daily work.',
+        fr: 'Vos clients et vos équipes travaillent dans des langues différentes. L’IA peut faire le lien au quotidien.',
+        de: 'Ihre Kundschaft und Ihre Teams arbeiten in verschiedenen Sprachen. KI kann im Alltag Brücken schlagen.',
+        it: 'Clienti e team lavorano in lingue diverse. L’IA può aiutare a collegarle nel lavoro quotidiano.',
+      })}
+    />
+
+    <div class="grid grid-cols-12 gap-x-6 gap-y-12">
+      <div class="col-span-12 lg:col-span-5">
+        <ul class="grid grid-cols-2 gap-px bg-ink-900/10 border border-ink-900/10 rounded-md overflow-hidden max-w-md">
+          {langCells.map((c) => (
+            <li class="bg-white p-5">
+              <span class="font-mono text-xs tracking-[0.08em] text-signal-600" aria-hidden="true">{c.code}</span>
+              <span class="mt-3 block text-heading-sm text-ink-900" lang={c.lang}>{c.name}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-6 flex gap-3 text-sm leading-relaxed text-steel-600 max-w-md">
+          <Languages size={18} class="mt-0.5 flex-none text-steel-500" stroke-width={1.5} />
+          <span>
+            {pick(lang, {
+              en: 'AI translation is helpful but not perfect. Important texts should still be reviewed by someone who knows the language.',
+              fr: 'La traduction par l’IA est utile, mais pas parfaite. Les textes importants devraient toujours être relus par une personne qui maîtrise la langue.',
+              de: 'KI-Übersetzungen sind hilfreich, aber nicht perfekt. Wichtige Texte sollten weiterhin von jemandem geprüft werden, der die Sprache beherrscht.',
+              it: 'La traduzione con l’IA è utile ma non perfetta. I testi importanti vanno comunque riletti da chi conosce la lingua.',
+            })}
+          </span>
+        </p>
+      </div>
+
+      <ol class="col-span-12 lg:col-span-7 border-t border-ink-900/10">
+        {uses.map((u, i) => (
+          <li class="grid grid-cols-[auto_1fr] gap-x-5 border-b border-ink-900/10 py-5 md:py-6">
+            <span class="font-mono text-xs text-steel-500 pt-1" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3 class="text-heading-sm text-ink-900">{u.title}</h3>
+              <p class="mt-1.5 text-sm leading-relaxed text-steel-600 max-w-xl">{u.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>

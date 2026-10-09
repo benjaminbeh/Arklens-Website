@@ -1,0 +1,231 @@
+---
+/**
+ * Static company-assistant mockup rendered in HTML/CSS (no images, no JS).
+ * Clearly fictional content: no company name, logo or person. A visible
+ * "Illustrative example" caption sits outside the role="img" element so it
+ * reads as a caption, not as part of the interface.
+ * Uses container-query units (like SiteMockup) so text scales with the frame.
+ */
+import type { Language } from '@i18n/index';
+import { pick } from '@lib/pick';
+
+interface Props {
+  lang: Language;
+  class?: string;
+}
+
+const { lang, class: className = '' } = Astro.props;
+
+const c = {
+  label: pick(lang, {
+    en: 'Example of an internal company assistant answering a question from a company document',
+    fr: 'Exemple d’assistant interne qui répond à une question à partir d’un document de l’entreprise',
+    de: 'Beispiel eines internen Firmenassistenten, der eine Frage anhand eines Firmendokuments beantwortet',
+    it: 'Esempio di assistente aziendale interno che risponde a una domanda partendo da un documento aziendale',
+  }),
+  window: pick(lang, { en: 'Company assistant', fr: 'Assistant interne', de: 'Firmenassistent', it: 'Assistente aziendale' }),
+  qLabel: pick(lang, { en: 'Question', fr: 'Votre question', de: 'Frage', it: 'Domanda' }),
+  q: pick(lang, {
+    en: 'What is the warranty period for our standard installations?',
+    fr: 'Quelle est la durée de garantie de nos installations standard\u202F?',
+    de: 'Wie lange gilt die Garantie für unsere Standardinstallationen?',
+    it: 'Qual è il periodo di garanzia delle nostre installazioni standard?',
+  }),
+  aLabel: pick(lang, { en: 'Answer', fr: 'Réponse', de: 'Antwort', it: 'Risposta' }),
+  a: pick(lang, {
+    en: 'Standard installations carry a 24-month warranty from handover. Extended cover is available on request.',
+    fr: 'Les installations standard sont garanties 24\u00A0mois dès la remise. Une extension de garantie est possible sur demande.',
+    de: 'Standardinstallationen haben ab Übergabe 24 Monate Garantie. Eine Verlängerung ist auf Anfrage möglich.',
+    it: 'Le installazioni standard hanno una garanzia di 24 mesi dalla consegna. Su richiesta è possibile estenderla.',
+  }),
+  source: pick(lang, {
+    en: 'Source: Service conditions, section 4',
+    fr: 'Source\u00A0: Conditions de service, chapitre\u00A04',
+    de: 'Quelle: Servicebedingungen, Abschnitt 4',
+    it: 'Fonte: Condizioni di servizio, sezione 4',
+  }),
+  status: pick(lang, {
+    en: 'Draft · review before sending',
+    fr: 'Brouillon · à vérifier avant envoi',
+    de: 'Entwurf · vor dem Senden prüfen',
+    it: 'Bozza · da verificare prima dell’invio',
+  }),
+  input: pick(lang, { en: 'Ask a question…', fr: 'Posez une question…', de: 'Frage stellen …', it: 'Fai una domanda…' }),
+  caption: pick(lang, { en: 'Illustrative example', fr: 'Exemple illustratif', de: 'Illustratives Beispiel', it: 'Esempio illustrativo' }),
+};
+---
+
+<figure class="m-0">
+  <div class:list={['amock', className]} role="img" aria-label={c.label}>
+    <div class="amock-bar" aria-hidden="true">
+      <span class="amock-dots"><i></i><i></i><i></i></span>
+      <span class="amock-title">{c.window}</span>
+    </div>
+    <div class="amock-body" aria-hidden="true">
+      <div class="amock-q">
+        <span class="amock-label">{c.qLabel}</span>
+        <span>{c.q}</span>
+      </div>
+      <div class="amock-a">
+        <span class="amock-label">{c.aLabel}</span>
+        <span class="amock-text">{c.a}</span>
+        <span class="amock-source"><i></i>{c.source}</span>
+        <span class="amock-status"><i></i>{c.status}</span>
+      </div>
+    </div>
+    <div class="amock-input" aria-hidden="true">
+      <span>{c.input}</span>
+      <i></i>
+    </div>
+  </div>
+  <figcaption class="mt-3 flex items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-steel-500">
+    <span class="h-px w-4 bg-steel-400" aria-hidden="true"></span>{c.caption}
+  </figcaption>
+</figure>
+
+<style>
+  .amock {
+    container-type: inline-size;
+    position: relative;
+    background: #fff;
+    border: 1px solid rgba(17, 20, 24, 0.12);
+    border-radius: 6px;
+    overflow: hidden;
+    user-select: none;
+    font-family: theme('fontFamily.sans');
+    color: theme('colors.ink.900');
+  }
+
+  .amock-bar {
+    display: flex;
+    align-items: center;
+    gap: 3cqw;
+    padding: max(8px, 2.2cqw) max(10px, 3.2cqw);
+    border-bottom: 1px solid rgba(17, 20, 24, 0.08);
+    background: #f6f6f3;
+  }
+  .amock-dots {
+    display: flex;
+    gap: max(4px, 1.1cqw);
+  }
+  .amock-dots i {
+    width: max(6px, 1.6cqw);
+    height: max(6px, 1.6cqw);
+    border-radius: 50%;
+    background: rgba(17, 20, 24, 0.16);
+  }
+  .amock-title {
+    font-family: theme('fontFamily.mono');
+    font-size: max(10px, 2.4cqw);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: theme('colors.steel.600');
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .amock-body {
+    display: flex;
+    flex-direction: column;
+    gap: max(10px, 3.2cqw);
+    padding: max(14px, 4.4cqw) max(12px, 4cqw);
+    background: theme('colors.paper.DEFAULT');
+  }
+
+  .amock-label {
+    display: block;
+    margin-bottom: max(4px, 1cqw);
+    font-family: theme('fontFamily.mono');
+    font-size: max(9px, 2cqw);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .amock-q {
+    align-self: flex-end;
+    max-width: 86%;
+    padding: max(9px, 2.6cqw) max(11px, 3.2cqw);
+    border-radius: 4px;
+    background: theme('colors.ink.900');
+    color: #fff;
+    font-size: max(12.5px, 3.3cqw);
+    line-height: 1.4;
+  }
+
+  .amock-a {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 94%;
+    padding: max(10px, 3cqw) max(11px, 3.4cqw);
+    border: 1px solid rgba(17, 20, 24, 0.12);
+    border-radius: 4px;
+    background: #fff;
+  }
+  .amock-a .amock-label {
+    color: theme('colors.steel.600');
+    opacity: 1;
+  }
+  .amock-text {
+    font-size: max(12.5px, 3.3cqw);
+    line-height: 1.5;
+  }
+  .amock-source {
+    display: inline-flex;
+    align-items: center;
+    gap: max(5px, 1.4cqw);
+    margin-top: max(8px, 2.4cqw);
+    padding: max(4px, 1cqw) max(7px, 1.8cqw);
+    border: 1px solid rgba(17, 20, 24, 0.14);
+    border-radius: 2px;
+    font-family: theme('fontFamily.mono');
+    font-size: max(10px, 2.2cqw);
+    line-height: 1.35;
+    color: theme('colors.steel.700');
+  }
+  .amock-source i {
+    flex: none;
+    width: max(5px, 1.2cqw);
+    height: max(5px, 1.2cqw);
+    background: theme('colors.signal.600');
+  }
+  .amock-status {
+    display: inline-flex;
+    align-items: center;
+    gap: max(5px, 1.4cqw);
+    margin-top: max(8px, 2.4cqw);
+    padding-top: max(8px, 2.4cqw);
+    border-top: 1px solid rgba(17, 20, 24, 0.08);
+    align-self: stretch;
+    font-size: max(11px, 2.6cqw);
+    line-height: 1.35;
+    color: theme('colors.steel.600');
+  }
+  .amock-status i {
+    flex: none;
+    width: max(6px, 1.4cqw);
+    height: max(6px, 1.4cqw);
+    border-radius: 50%;
+    border: 1px solid theme('colors.signal.600');
+  }
+
+  .amock-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3cqw;
+    padding: max(9px, 2.6cqw) max(12px, 4cqw);
+    border-top: 1px solid rgba(17, 20, 24, 0.08);
+    font-size: max(11.5px, 2.8cqw);
+    color: theme('colors.steel.400');
+  }
+  .amock-input i {
+    flex: none;
+    width: max(18px, 5cqw);
+    height: max(18px, 5cqw);
+    border-radius: 3px;
+    background: theme('colors.ink.900');
+  }
+</style>
