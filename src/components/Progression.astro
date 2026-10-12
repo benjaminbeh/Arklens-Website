@@ -3,7 +3,6 @@ import type { Language } from '@i18n/index';
 import { useTranslations } from '@i18n/index';
 import { pick } from '@lib/pick';
 import SectionHeader from '@components/ui/SectionHeader.astro';
-import SignalLine from '@components/ui/SignalLine.astro';
 import WorkflowDiagram from '@components/ui/WorkflowDiagram.astro';
 
 interface Props {
@@ -12,14 +11,6 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-
-const steps = [
-  { title: t('progression.step1'), desc: pick(lang, { en: 'Professional online presence', fr: 'Présence en ligne professionnelle', de: 'Professionelle Online-Präsenz', it: 'Presenza online professionale' }) },
-  { title: t('progression.step2'), desc: pick(lang, { en: 'Booking, forms, payments', fr: 'Réservation, formulaires, paiements', de: 'Buchung, Formulare, Zahlungen', it: 'Prenotazioni, moduli, pagamenti' }) },
-  { title: t('progression.step3'), desc: pick(lang, { en: 'Your tools working together', fr: 'Des outils qui fonctionnent ensemble', de: 'Ihre Tools arbeiten zusammen', it: 'Strumenti che lavorano insieme' }) },
-  { title: t('progression.step4'), desc: pick(lang, { en: 'Reduce repetitive work', fr: 'Moins de tâches répétitives', de: 'Weniger Routinearbeit', it: 'Meno lavoro ripetitivo' }) },
-  { title: t('progression.step5'), desc: pick(lang, { en: 'Practical AI assistance', fr: 'Une aide concrète par l’IA', de: 'Praxisnahe KI-Unterstützung', it: 'Un aiuto concreto dall’IA' }) },
-];
 
 const automationFlow = {
   kicker: pick(lang, { en: 'Automation example', fr: 'Exemple d’automatisation', de: 'Beispiel Automatisierung', it: 'Esempio di automazione' }),
@@ -57,12 +48,7 @@ const aiFlow = {
       lead={t('progression.text')}
     />
 
-    <SignalLine
-      steps={steps}
-      label={pick(lang, { en: 'From website to AI', fr: 'Du site web à l’IA', de: 'Von der Website zur KI', it: 'Dal sito web all’IA' })}
-    />
-
-    <div class="mt-20 md:mt-24 grid md:grid-cols-2 gap-6">
+    <div class="grid md:grid-cols-2 gap-6">
       <WorkflowDiagram {...automationFlow} class="reveal" />
       <WorkflowDiagram {...aiFlow} class="reveal" style="--reveal-delay:120ms" />
     </div>

@@ -12,7 +12,7 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-// Same stage names as the homepage progression (progression.step1–5), new descriptions.
+// Stage names from progression.step1–5 (the homepage no longer shows this chain), AI-page descriptions.
 const steps = [
   { title: t('progression.step1'), desc: pick(lang, { en: 'Your digital foundation', fr: 'Votre base numérique', de: 'Ihre digitale Grundlage', it: 'La tua base digitale' }) },
   { title: t('progression.step2'), desc: pick(lang, { en: 'Forms, bookings, payments', fr: 'Formulaires, réservations, paiements', de: 'Formulare, Buchungen, Zahlungen', it: 'Moduli, prenotazioni, pagamenti' }) },
