@@ -31,9 +31,9 @@ const en = {
     'freeOffer.features.website': 'One-page professional website',
     'freeOffer.features.domain': 'Your own domain',
     'freeOffer.features.hosting': 'Hosting included (Free Website Programme)',
-    'freeOffer.features.ssl': 'SSL / HTTPS',
-    'freeOffer.features.mobile': 'Mobile responsive',
-    'freeOffer.features.seo': 'Basic SEO',
+    'freeOffer.features.ssl': 'Secure connection (HTTPS)',
+    'freeOffer.features.mobile': 'Works well on mobile phones',
+    'freeOffer.features.seo': 'Help customers find you on Google and through AI',
     'freeOffer.features.intro': 'Business introduction',
     'freeOffer.features.services': 'Services section',
     'freeOffer.features.contact': 'Contact details',
@@ -65,7 +65,7 @@ const en = {
     'howItWorks.cta': 'Start my website',
     // Progression
     'progression.title': 'Your website is only the beginning',
-    'progression.text': 'Once your digital foundation is in place, we can help connect your tools, reduce repetitive work and introduce practical automation and AI into your business processes.',
+    'progression.text': 'Once your website is live, we can help your tools work together, take repetitive work off your hands and use automation and AI where they genuinely help.',
     'progression.step1': 'Website',
     'progression.step2': 'Digital tools',
     'progression.step3': 'Connected systems',
@@ -75,15 +75,15 @@ const en = {
     // Automation Examples
     'automation.title': 'Save time on repetitive work',
     'automation.enquiries.title': 'Customer enquiries',
-    'automation.enquiries.desc': 'Automatically categorise, route and prepare responses to incoming enquiries.',
+    'automation.enquiries.desc': 'Automatically sort incoming enquiries, pass them to the right person and prepare replies.',
     'automation.quotes.title': 'Quotations',
     'automation.quotes.desc': 'Create first drafts of quotations from customer requirements.',
     'automation.documents.title': 'Documents',
-    'automation.documents.desc': 'Search company documents, manuals and internal information using natural language.',
+    'automation.documents.desc': 'Search company documents, manuals and internal information by asking a plain question.',
     'automation.support.title': 'Customer support',
     'automation.support.desc': 'Answer common customer questions using information you approve.',
     'automation.admin.title': 'Administration',
-    'automation.admin.desc': 'Move information between forms, spreadsheets, CRM and other business tools.',
+    'automation.admin.desc': 'Move information between forms, spreadsheets, your customer records and other business tools.',
     'automation.reporting.title': 'Reporting',
     'automation.reporting.desc': 'Summarise business information and recurring reports automatically.',
 
@@ -92,8 +92,8 @@ const en = {
     'trust.domain': 'Customer-owned domain',
     'trust.pricing': 'Transparent CHF pricing',
     'trust.focus': 'Swiss-market focus',
-    'trust.multilingual': 'Multilingual-ready',
-    'trust.privacy': 'Privacy-conscious implementation',
+    'trust.multilingual': 'Ready for more languages',
+    'trust.privacy': 'Privacy considered from the start',
     'trust.clear': 'Clear scope before paid work',
     'trust.subscription': 'No forced subscription',
 
@@ -134,7 +134,7 @@ const en = {
 
     // Final CTA
     'finalCta.title': 'Start with your website. Improve your business from there.',
-    'finalCta.text': 'Whether you need a new website, want to modernise an old one or are ready to add new digital capabilities, start with a simple conversation.',
+    'finalCta.text': 'Whether you need a new website, want to modernise an old one or are ready to add new features, start with a simple conversation.',
     'finalCta.primary': 'Get my free website',
     'finalCta.secondary': 'Improve my business',
 
@@ -185,9 +185,9 @@ const fr = {
     'freeOffer.features.website': 'Site web professionnel d’une page',
     'freeOffer.features.domain': 'Votre propre nom de domaine',
     'freeOffer.features.hosting': 'Hébergement inclus (Programme Site web gratuit)',
-    'freeOffer.features.ssl': 'SSL / HTTPS',
+    'freeOffer.features.ssl': 'Connexion sécurisée (HTTPS)',
     'freeOffer.features.mobile': 'Adapté aux mobiles',
-    'freeOffer.features.seo': 'SEO de base',
+    'freeOffer.features.seo': 'Aider vos clients à vous trouver sur Google et via l’IA',
     'freeOffer.features.intro': 'Présentation de l’entreprise',
     'freeOffer.features.services': 'Rubrique prestations',
     'freeOffer.features.contact': 'Coordonnées',
@@ -219,7 +219,7 @@ const fr = {
     'howItWorks.cta': 'Démarrer mon site',
     // Progression
     'progression.title': 'Votre site web n’est qu’un début',
-    'progression.text': 'Une fois votre base numérique en place, nous vous aidons à relier vos outils, à réduire les tâches répétitives et à intégrer l’automatisation et l’IA de manière concrète dans votre façon de travailler.',
+    'progression.text': 'Une fois votre site en ligne, nous vous aidons à faire fonctionner vos outils ensemble, à réduire les tâches répétitives et à utiliser l’automatisation et l’IA là où elles sont vraiment utiles.',
     'progression.step1': 'Site web',
     'progression.step2': 'Outils numériques',
     'progression.step3': 'Systèmes connectés',
@@ -229,7 +229,7 @@ const fr = {
     // Automation Examples
     'automation.title': 'Gagnez du temps sur les tâches répétitives',
     'automation.enquiries.title': 'Demandes clients',
-    'automation.enquiries.desc': 'Classer et transmettre les demandes entrantes, et préparer automatiquement les réponses.',
+    'automation.enquiries.desc': 'Trier automatiquement les demandes entrantes, les transmettre à la bonne personne et préparer les réponses.',
     'automation.quotes.title': 'Offres',
     'automation.quotes.desc': 'Établir un premier projet d’offre à partir des besoins du client.',
     'automation.documents.title': 'Documents',
@@ -237,7 +237,7 @@ const fr = {
     'automation.support.title': 'Service client',
     'automation.support.desc': 'Répondre aux questions fréquentes des clients à partir des informations que vous validez.',
     'automation.admin.title': 'Tâches administratives',
-    'automation.admin.desc': 'Transférer les informations entre formulaires, tableurs, CRM et autres outils de l’entreprise.',
+    'automation.admin.desc': 'Transférer les informations entre formulaires, tableurs, fichier clients et autres outils de l’entreprise.',
     'automation.reporting.title': 'Rapports',
     'automation.reporting.desc': 'Résumer automatiquement les chiffres clés et les rapports récurrents.',
 
@@ -247,7 +247,7 @@ const fr = {
     'trust.pricing': 'Prix transparents en CHF',
     'trust.focus': 'Axé sur le marché suisse',
     'trust.multilingual': 'Extensible à plusieurs langues',
-    'trust.privacy': 'Mise en œuvre respectueuse de la protection des données',
+    'trust.privacy': 'Protection des données prise en compte dès le départ',
     'trust.clear': 'Périmètre clair avant tout travail payant',
     'trust.subscription': 'Aucun abonnement imposé',
 
@@ -288,7 +288,7 @@ const fr = {
 
     // Final CTA
     'finalCta.title': 'Commencez par votre site web. Développez votre entreprise ensuite.',
-    'finalCta.text': 'Nouveau site, modernisation d’un site existant ou nouvelles fonctionnalités numériques\u00A0: tout commence par un simple échange.',
+    'finalCta.text': 'Nouveau site, modernisation d’un site existant ou nouvelles fonctionnalités\u00A0: tout commence par un simple échange.',
     'finalCta.primary': 'Demander mon site gratuit',
     'finalCta.secondary': 'Développer mon entreprise',
 
@@ -337,9 +337,9 @@ const de = {
     'freeOffer.features.website': 'Professionelle Website mit einer Seite',
     'freeOffer.features.domain': 'Ihre eigene Domain',
     'freeOffer.features.hosting': 'Hosting inbegriffen (Programm «Kostenlose Website»)',
-    'freeOffer.features.ssl': 'SSL / HTTPS',
+    'freeOffer.features.ssl': 'Sichere Verbindung (HTTPS)',
     'freeOffer.features.mobile': 'Für Smartphones optimiert',
-    'freeOffer.features.seo': 'Basis-SEO',
+    'freeOffer.features.seo': 'Hilft Ihrer Kundschaft, Sie auf Google und über KI zu finden',
     'freeOffer.features.intro': 'Vorstellung Ihres Unternehmens',
     'freeOffer.features.services': 'Bereich Dienstleistungen',
     'freeOffer.features.contact': 'Kontaktangaben',
@@ -371,7 +371,7 @@ const de = {
     'howItWorks.cta': 'Meine Website starten',
     // Progression
     'progression.title': 'Ihre Website ist erst der Anfang',
-    'progression.text': 'Steht Ihre digitale Grundlage, helfen wir Ihnen, Ihre Tools zu verbinden, Routinearbeit zu reduzieren und Automatisierung und KI praxisnah in Ihre Abläufe zu integrieren.',
+    'progression.text': 'Sobald Ihre Website online ist, helfen wir Ihnen, Ihre Programme miteinander zu verbinden, Routinearbeit zu reduzieren und Automatisierung und KI dort einzusetzen, wo sie wirklich nützen.',
     'progression.step1': 'Website',
     'progression.step2': 'Digitale Tools',
     'progression.step3': 'Vernetzte Systeme',
@@ -381,7 +381,7 @@ const de = {
     // Automation Examples
     'automation.title': 'Weniger Zeit für Routinearbeit',
     'automation.enquiries.title': 'Kundenanfragen',
-    'automation.enquiries.desc': 'Eingehende Anfragen automatisch einordnen, weiterleiten und Antworten vorbereiten.',
+    'automation.enquiries.desc': 'Eingehende Anfragen automatisch sortieren, an die richtige Person weiterleiten und Antworten vorbereiten.',
     'automation.quotes.title': 'Offerten',
     'automation.quotes.desc': 'Erste Offertentwürfe direkt aus den Anforderungen der Kundschaft erstellen.',
     'automation.documents.title': 'Dokumente',
@@ -389,7 +389,7 @@ const de = {
     'automation.support.title': 'Kundendienst',
     'automation.support.desc': 'Häufige Kundenfragen mit Informationen beantworten, die Sie freigeben.',
     'automation.admin.title': 'Verwaltung',
-    'automation.admin.desc': 'Informationen zwischen Formularen, Tabellen, CRM und weiteren Tools übertragen.',
+    'automation.admin.desc': 'Informationen zwischen Formularen, Tabellen, Kundendaten und weiteren Programmen übertragen.',
     'automation.reporting.title': 'Berichte',
     'automation.reporting.desc': 'Geschäftszahlen und wiederkehrende Berichte automatisch zusammenfassen.',
 
@@ -399,7 +399,7 @@ const de = {
     'trust.pricing': 'Transparente Preise in CHF',
     'trust.focus': 'Fokus auf den Schweizer Markt',
     'trust.multilingual': 'Mehrsprachig erweiterbar',
-    'trust.privacy': 'Datenschutzbewusste Umsetzung',
+    'trust.privacy': 'Datenschutz von Anfang an mitgedacht',
     'trust.clear': 'Klarer Umfang vor kostenpflichtiger Arbeit',
     'trust.subscription': 'Kein Abo-Zwang',
 
@@ -440,7 +440,7 @@ const de = {
 
     // Final CTA
     'finalCta.title': 'Starten Sie mit Ihrer Website. Und entwickeln Sie Ihr Unternehmen von dort aus weiter.',
-    'finalCta.text': 'Ob neue Website, Modernisierung oder neue digitale Funktionen: Alles beginnt mit einem einfachen Gespräch.',
+    'finalCta.text': 'Ob neue Website, Modernisierung oder neue Funktionen: Alles beginnt mit einem einfachen Gespräch.',
     'finalCta.primary': 'Website kostenlos anfragen',
     'finalCta.secondary': 'Mein Unternehmen stärken',
 
@@ -490,9 +490,9 @@ const it = {
     'freeOffer.features.website': 'Sito web professionale di una pagina',
     'freeOffer.features.domain': 'Il tuo dominio',
     'freeOffer.features.hosting': 'Hosting incluso (Programma Sito web gratuito)',
-    'freeOffer.features.ssl': 'SSL / HTTPS',
+    'freeOffer.features.ssl': 'Connessione sicura (HTTPS)',
     'freeOffer.features.mobile': 'Ottimizzato per smartphone',
-    'freeOffer.features.seo': 'SEO di base',
+    'freeOffer.features.seo': 'Aiutare i clienti a trovarti su Google e tramite l’IA',
     'freeOffer.features.intro': 'Presentazione dell’azienda',
     'freeOffer.features.services': 'Sezione servizi',
     'freeOffer.features.contact': 'Dati di contatto',
@@ -524,7 +524,7 @@ const it = {
     'howItWorks.cta': 'Avvia il mio sito',
     // Progression
     'progression.title': 'Il sito web è solo l’inizio',
-    'progression.text': 'Una volta posate le basi digitali, possiamo aiutarti a collegare i tuoi strumenti, ridurre il lavoro ripetitivo e introdurre automazione e IA concrete nei processi della tua azienda.',
+    'progression.text': 'Quando il tuo sito è online, possiamo aiutarti a far funzionare insieme i tuoi strumenti, ridurre il lavoro ripetitivo e usare automazione e IA dove servono davvero.',
     'progression.step1': 'Sito web',
     'progression.step2': 'Strumenti digitali',
     'progression.step3': 'Sistemi collegati',
@@ -534,7 +534,7 @@ const it = {
     // Automation Examples
     'automation.title': 'Risparmia tempo sul lavoro ripetitivo',
     'automation.enquiries.title': 'Richieste dei clienti',
-    'automation.enquiries.desc': 'Classificare e inoltrare le richieste in arrivo, e preparare in automatico le risposte.',
+    'automation.enquiries.desc': 'Smistare in automatico le richieste in arrivo, inoltrarle alla persona giusta e preparare le risposte.',
     'automation.quotes.title': 'Offerte',
     'automation.quotes.desc': 'Preparare una prima bozza di offerta in base alle esigenze del cliente.',
     'automation.documents.title': 'Documenti',
@@ -542,7 +542,7 @@ const it = {
     'automation.support.title': 'Assistenza clienti',
     'automation.support.desc': 'Rispondere alle domande frequenti dei clienti con informazioni che approvi tu.',
     'automation.admin.title': 'Amministrazione',
-    'automation.admin.desc': 'Trasferire dati tra moduli, fogli di calcolo, CRM e altri strumenti aziendali.',
+    'automation.admin.desc': 'Trasferire dati tra moduli, fogli di calcolo, anagrafica clienti e altri strumenti aziendali.',
     'automation.reporting.title': 'Reportistica',
     'automation.reporting.desc': 'Riassumere in automatico dati aziendali e report ricorrenti.',
 
@@ -552,7 +552,7 @@ const it = {
     'trust.pricing': 'Prezzi trasparenti in CHF',
     'trust.focus': 'Orientato al mercato svizzero',
     'trust.multilingual': 'Predisposto per più lingue',
-    'trust.privacy': 'Realizzazione attenta alla protezione dei dati',
+    'trust.privacy': 'Privacy considerata fin dall’inizio',
     'trust.clear': 'Ambito chiaro prima di ogni lavoro a pagamento',
     'trust.subscription': 'Nessun abbonamento imposto',
 
@@ -593,7 +593,7 @@ const it = {
 
     // Final CTA
     'finalCta.title': 'Inizia dal sito web. Poi fai crescere la tua azienda.',
-    'finalCta.text': 'Che ti serva un nuovo sito, voglia modernizzare quello attuale o aggiungere nuove funzioni digitali, tutto inizia con una semplice conversazione.',
+    'finalCta.text': 'Che ti serva un nuovo sito, voglia modernizzare quello attuale o aggiungere nuove funzioni, tutto inizia con una semplice conversazione.',
     'finalCta.primary': 'Richiedi il sito gratuito',
     'finalCta.secondary': 'Migliora la mia azienda',
 

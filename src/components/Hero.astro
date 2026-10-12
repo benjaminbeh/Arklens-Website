@@ -111,9 +111,9 @@ const city = pick(lang, { en: 'Fribourg', fr: 'Fribourg', de: 'Freiburg', it: 'F
           <ul class="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-px bg-ink-900/10 border border-ink-900/10 rounded-[4px] overflow-hidden" aria-label={pick(lang, { en: 'Included as standard', fr: 'Inclus d’office', de: 'Standardmässig inbegriffen', it: 'Incluso di serie' })}>
             {[
               pick(lang, { en: 'Your domain', fr: 'Votre domaine', de: 'Ihre Domain', it: 'Il tuo dominio' }),
-              'SSL / HTTPS',
+              pick(lang, { en: 'Secure connec\u00ADtion', fr: 'Connexion sécurisée', de: 'Sichere Verbin\u00ADdung', it: 'Connes\u00ADsione sicura' }),
               pick(lang, { en: 'Mobile', fr: 'Mobile', de: 'Mobil', it: 'Mobile' }),
-              pick(lang, { en: 'Basic SEO', fr: 'SEO de base', de: 'Basis-SEO', it: 'SEO di base' }),
+              pick(lang, { en: 'Google & AI', fr: 'Google et IA', de: 'Google & KI', it: 'Google e IA' }),
             ].map((s) => (
               <li class="bg-paper px-3 py-2.5 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-steel-700 flex items-center gap-2">
                 <span class="h-1.5 w-1.5 bg-signal-600 flex-none" aria-hidden="true"></span>{s}

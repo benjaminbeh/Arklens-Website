@@ -15,9 +15,9 @@ const t = useTranslations(lang);
 const examples = [
   { key: 'enquiries', icon: Inbox, io: pick(lang, { en: 'Inbox → Sorted & routed', fr: 'E-mails → Triés et transmis', de: 'Posteingang → Sortiert & verteilt', it: 'Posta → Smistata e inoltrata' }) },
   { key: 'quotes', icon: FileText, io: pick(lang, { en: 'Request → Draft quote', fr: 'Demande → Projet d’offre', de: 'Anfrage → Offertentwurf', it: 'Richiesta → Bozza d’offerta' }) },
-  { key: 'documents', icon: FileSearch, io: pick(lang, { en: 'Question → Sourced answer', fr: 'Question → Réponse sourcée', de: 'Frage → Antwort mit Quelle', it: 'Domanda → Risposta con fonte' }) },
+  { key: 'documents', icon: FileSearch, io: pick(lang, { en: 'Question → Answer with source', fr: 'Question → Réponse avec source', de: 'Frage → Antwort mit Quelle', it: 'Domanda → Risposta con fonte' }) },
   { key: 'support', icon: Headphones, io: pick(lang, { en: 'FAQ → Approved answer', fr: 'FAQ → Réponse validée', de: 'FAQ → Freigegebene Antwort', it: 'FAQ → Risposta approvata' }) },
-  { key: 'admin', icon: Cable, io: pick(lang, { en: 'Form → CRM → Sheet', fr: 'Formulaire → CRM → Tableur', de: 'Formular → CRM → Tabelle', it: 'Modulo → CRM → Foglio' }) },
+  { key: 'admin', icon: Cable, io: pick(lang, { en: 'Form → Customer records → Spreadsheet', fr: 'Formulaire → Fichier clients → Tableur', de: 'Formular → Kundendaten → Tabelle', it: 'Modulo → Anagrafica clienti → Foglio di calcolo' }) },
   { key: 'reporting', icon: ChartColumn, io: pick(lang, { en: 'Data → Weekly summary', fr: 'Données → Synthèse hebdo', de: 'Daten → Wochenbericht', it: 'Dati → Sintesi settimanale' }) },
 ];
 ---
@@ -26,7 +26,7 @@ const examples = [
   <div class="container-custom">
     <div class="rule pt-12 md:pt-16 grid grid-cols-12 gap-x-6 gap-y-6 mb-12">
       <div class="col-span-12 md:col-span-4 lg:col-span-3">
-        <p class="eyebrow">{pick(lang, { en: 'Use cases', fr: 'Cas d’usage', de: 'Anwendungsfälle', it: 'Casi d’uso' })}</p>
+        <p class="eyebrow">{pick(lang, { en: 'Examples', fr: 'Exemples', de: 'Beispiele', it: 'Esempi' })}</p>
       </div>
       <div class="col-span-12 md:col-span-8 lg:col-span-9">
         <h2 id="automation-title" class="text-display-sm max-w-3xl">{t('automation.title')}</h2>
