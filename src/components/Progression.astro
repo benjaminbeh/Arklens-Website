@@ -17,8 +17,8 @@ const automationFlow = {
   title: pick(lang, { en: 'Every enquiry handled the same way', fr: 'Chaque demande traitée de la même façon', de: 'Jede Anfrage gleich behandelt', it: 'Ogni richiesta gestita allo stesso modo' }),
   steps: [
     { label: pick(lang, { en: 'Customer enquiry', fr: 'Demande client', de: 'Kundenanfrage', it: 'Richiesta cliente' }), meta: pick(lang, { en: 'Website form or email', fr: 'Formulaire ou e-mail', de: 'Formular oder E-Mail', it: 'Modulo o e-mail' }) },
-    { label: pick(lang, { en: 'Classification', fr: 'Tri', de: 'Zuordnung', it: 'Classificazione' }), meta: pick(lang, { en: 'Quote, booking or question', fr: 'Offre, réservation ou question', de: 'Offerte, Buchung oder Frage', it: 'Offerta, prenotazione o domanda' }) },
-    { label: 'CRM', meta: pick(lang, { en: 'Contact and request saved', fr: 'Contact et demande enregistrés', de: 'Kontakt und Anfrage gespeichert', it: 'Contatto e richiesta salvati' }) },
+    { label: pick(lang, { en: 'Sorting', fr: 'Tri', de: 'Zuordnung', it: 'Smistamento' }), meta: pick(lang, { en: 'Quote, booking or question', fr: 'Offre, réservation ou question', de: 'Offerte, Buchung oder Frage', it: 'Offerta, prenotazione o domanda' }) },
+    { label: pick(lang, { en: 'Customer records', fr: 'Fichier clients', de: 'Kundendaten', it: 'Anagrafica clienti' }), meta: pick(lang, { en: 'Contact and request saved', fr: 'Contact et demande enregistrés', de: 'Kontakt und Anfrage gespeichert', it: 'Contatto e richiesta salvati' }) },
     { label: pick(lang, { en: 'Follow-up', fr: 'Suivi', de: 'Nachfassen', it: 'Riscontro' }), meta: pick(lang, { en: 'Confirmation sent, team notified', fr: 'Confirmation envoyée, équipe avertie', de: 'Bestätigung gesendet, Team informiert', it: 'Conferma inviata, team avvisato' }) },
   ],
   outcome: pick(lang, { en: 'Nothing gets lost in the inbox.', fr: 'Plus rien ne se perd dans la boîte de réception.', de: 'Im Posteingang geht nichts mehr verloren.', it: 'Nulla va perso nella casella di posta.' }),
@@ -29,7 +29,7 @@ const aiFlow = {
   title: pick(lang, { en: 'Answers from your own documents', fr: 'Des réponses tirées de vos documents', de: 'Antworten aus Ihren eigenen Dokumenten', it: 'Risposte dai tuoi documenti' }),
   steps: [
     { label: pick(lang, { en: 'Company documents', fr: 'Documents de l’entreprise', de: 'Firmendokumente', it: 'Documenti aziendali' }), meta: pick(lang, { en: 'Manuals, price lists, procedures', fr: 'Manuels, tarifs, procédures', de: 'Handbücher, Preislisten, Abläufe', it: 'Manuali, listini, procedure' }) },
-    { label: pick(lang, { en: 'AI search', fr: 'Recherche IA', de: 'KI-Suche', it: 'Ricerca IA' }), meta: pick(lang, { en: 'Finds the relevant passages', fr: 'Trouve les passages pertinents', de: 'Findet die relevanten Stellen', it: 'Trova i passaggi rilevanti' }) },
+    { label: pick(lang, { en: 'AI assistant', fr: 'Assistant IA', de: 'KI-Assistent', it: 'Assistente IA' }), meta: pick(lang, { en: 'Finds the relevant passages', fr: 'Trouve les passages pertinents', de: 'Findet die relevanten Stellen', it: 'Trova i passaggi rilevanti' }) },
     { label: pick(lang, { en: 'Employee answer', fr: 'Réponse pour l’équipe', de: 'Antwort für Mitarbeitende', it: 'Risposta per il personale' }), meta: pick(lang, { en: 'With the source, ready to check', fr: 'Avec la source, prête à être vérifiée', de: 'Mit Quelle, bereit zur Prüfung', it: 'Con la fonte, pronta da verificare' }) },
   ],
   outcome: pick(lang, { en: 'Your team stays in control of every answer.', fr: 'Votre équipe garde le contrôle de chaque réponse.', de: 'Ihr Team behält jede Antwort unter Kontrolle.', it: 'Il tuo team mantiene il controllo di ogni risposta.' }),
@@ -43,7 +43,7 @@ const aiFlow = {
     <SectionHeader
       id="progression-title"
       index="07"
-      eyebrow={pick(lang, { en: 'Digital systems', fr: 'Systèmes numériques', de: 'Digitale Systeme', it: 'Sistemi digitali' })}
+      eyebrow={pick(lang, { en: 'Tools that work together', fr: 'Des outils qui fonctionnent ensemble', de: 'Programme, die zusammenarbeiten', it: 'Strumenti che funzionano insieme' })}
       title={t('progression.title')}
       lead={t('progression.text')}
     />
