@@ -12,7 +12,7 @@ export const defaultLang: Language = 'en';
 const en = {
     'nav.howItWorks': 'How it works',
     'nav.whatWeOffer': 'What we offer',
-    'nav.examples': 'Examples',
+    'nav.examples': 'Benefits',
     'nav.forBusiness': 'For businesses',
     'nav.ai': 'AI',
     'nav.faq': 'FAQ',
@@ -63,18 +63,6 @@ const en = {
     'howItWorks.step3.title': 'Review and go live',
     'howItWorks.step3.text': 'You receive one revision round, then we connect your domain and launch.',
     'howItWorks.cta': 'Start my website',
-    
-    // Examples
-    'examples.title': 'See what your business could look like',
-    'examples.restaurant': 'Restaurant / Café',
-    'examples.beauty': 'Hairdresser / Beauty',
-    'examples.trades': 'Tradesperson',
-    'examples.consultant': 'Consultant',
-    'examples.health': 'Healthcare',
-    'examples.garage': 'Garage / Automotive',
-    'examples.shop': 'Local Shop',
-    'examples.services': 'Professional Services',
-
     // Progression
     'progression.title': 'Your website is only the beginning',
     'progression.text': 'Once your digital foundation is in place, we can help connect your tools, reduce repetitive work and introduce practical automation and AI into your business processes.',
@@ -166,7 +154,6 @@ const en = {
     'a11y.home': 'Arklens, home',
     'a11y.language': 'Language',
     'a11y.languageLabel': 'Language:',
-    'examples.labelSeparator': ':',
     'a11y.openMenu': 'Open menu',
     'a11y.closeMenu': 'Close menu',
     'form.optional': 'Optional',
@@ -179,7 +166,7 @@ export type UIKey = keyof typeof en;
 const fr = {
     'nav.howItWorks': 'Comment ça marche',
     'nav.whatWeOffer': 'Notre offre',
-    'nav.examples': 'Exemples',
+    'nav.examples': 'Avantages',
     'nav.forBusiness': 'Pour les PME',
     'nav.ai': 'IA',
     'nav.faq': 'FAQ',
@@ -230,18 +217,6 @@ const fr = {
     'howItWorks.step3.title': 'Relecture et mise en ligne',
     'howItWorks.step3.text': 'Vous avez droit à une série de modifications, puis nous connectons votre nom de domaine et mettons le site en ligne.',
     'howItWorks.cta': 'Démarrer mon site',
-
-    // Examples
-    'examples.title': 'Voici à quoi pourrait ressembler votre site',
-    'examples.restaurant': 'Restaurant / Café',
-    'examples.beauty': 'Coiffure / Beauté',
-    'examples.trades': 'Artisanat',
-    'examples.consultant': 'Conseil',
-    'examples.health': 'Santé',
-    'examples.garage': 'Garage / Automobile',
-    'examples.shop': 'Commerce de proximité',
-    'examples.services': 'Services professionnels',
-
     // Progression
     'progression.title': 'Votre site web n’est qu’un début',
     'progression.text': 'Une fois votre base numérique en place, nous vous aidons à relier vos outils, à réduire les tâches répétitives et à intégrer l’automatisation et l’IA de manière concrète dans votre façon de travailler.',
@@ -333,7 +308,6 @@ const fr = {
     'a11y.home': 'Arklens, accueil',
     'a11y.language': 'Langue',
     'a11y.languageLabel': 'Langue\u00A0:',
-    'examples.labelSeparator': '\u00A0:',
     'a11y.openMenu': 'Ouvrir le menu',
     'a11y.closeMenu': 'Fermer le menu',
     'form.optional': 'Facultatif',
@@ -344,7 +318,7 @@ const fr = {
 const de = {
     'nav.howItWorks': 'So funktioniert’s',
     'nav.whatWeOffer': 'Angebot',
-    'nav.examples': 'Beispiele',
+    'nav.examples': 'Vorteile',
     'nav.forBusiness': 'Für KMU',
     'nav.ai': 'KI',
     'nav.faq': 'FAQ',
@@ -395,18 +369,6 @@ const de = {
     'howItWorks.step3.title': 'Prüfen und aufschalten',
     'howItWorks.step3.text': 'Sie erhalten eine Korrekturrunde. Danach verbinden wir Ihre Domain und schalten die Website auf.',
     'howItWorks.cta': 'Meine Website starten',
-
-    // Examples
-    'examples.title': 'So könnte Ihre Website aussehen',
-    'examples.restaurant': 'Restaurant / Café',
-    'examples.beauty': 'Coiffeur / Kosmetik',
-    'examples.trades': 'Handwerk',
-    'examples.consultant': 'Beratung',
-    'examples.health': 'Gesundheit',
-    'examples.garage': 'Garage / Auto',
-    'examples.shop': 'Lokales Geschäft',
-    'examples.services': 'Treuhand / Dienstleistungen',
-
     // Progression
     'progression.title': 'Ihre Website ist erst der Anfang',
     'progression.text': 'Steht Ihre digitale Grundlage, helfen wir Ihnen, Ihre Tools zu verbinden, Routinearbeit zu reduzieren und Automatisierung und KI praxisnah in Ihre Abläufe zu integrieren.',
@@ -499,7 +461,6 @@ const de = {
     'a11y.home': 'Arklens, Startseite',
     'a11y.language': 'Sprache',
     'a11y.languageLabel': 'Sprache:',
-    'examples.labelSeparator': ':',
     'a11y.openMenu': 'Menü öffnen',
     'a11y.closeMenu': 'Menü schliessen',
     'form.optional': 'Optional',
@@ -510,7 +471,7 @@ const de = {
 const it = {
     'nav.howItWorks': 'Come funziona',
     'nav.whatWeOffer': 'Offerta',
-    'nav.examples': 'Esempi',
+    'nav.examples': 'Vantaggi',
     'nav.forBusiness': 'Per le PMI',
     'nav.ai': 'IA',
     'nav.faq': 'FAQ',
@@ -561,18 +522,6 @@ const it = {
     'howItWorks.step3.title': 'Verifica e pubblicazione',
     'howItWorks.step3.text': 'Hai a disposizione un giro di modifiche, poi colleghiamo il dominio e mettiamo online il sito.',
     'howItWorks.cta': 'Avvia il mio sito',
-
-    // Examples
-    'examples.title': 'Ecco come potrebbe essere il tuo sito',
-    'examples.restaurant': 'Ristorante / bar',
-    'examples.beauty': 'Parrucchiere / Estetica',
-    'examples.trades': 'Artigianato',
-    'examples.consultant': 'Consulenza',
-    'examples.health': 'Salute',
-    'examples.garage': 'Garage / Automobili',
-    'examples.shop': 'Negozio di quartiere',
-    'examples.services': 'Servizi professionali',
-
     // Progression
     'progression.title': 'Il sito web è solo l’inizio',
     'progression.text': 'Una volta posate le basi digitali, possiamo aiutarti a collegare i tuoi strumenti, ridurre il lavoro ripetitivo e introdurre automazione e IA concrete nei processi della tua azienda.',
@@ -664,7 +613,6 @@ const it = {
     'a11y.home': 'Arklens, pagina iniziale',
     'a11y.language': 'Lingua',
     'a11y.languageLabel': 'Lingua:',
-    'examples.labelSeparator': ':',
     'a11y.openMenu': 'Apri il menu',
     'a11y.closeMenu': 'Chiudi il menu',
     'form.optional': 'Facoltativo',

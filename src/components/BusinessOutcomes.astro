@@ -1,0 +1,202 @@
+---
+import type { Language } from '@i18n/index';
+import { useTranslations, getLocalizedPath } from '@i18n/index';
+import { pick } from '@lib/pick';
+import { ArrowRight } from '@lucide/astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+interface Props {
+  lang: Language;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const outcomes = [
+  {
+    label: pick(lang, { en: 'Get found', fr: 'Être trouvé', de: 'Gefunden werden', it: 'Farsi trovare' }),
+    title: pick(lang, { en: 'Help people find you', fr: 'Aider les clients à vous trouver', de: 'Damit man Sie leichter findet', it: 'Aiutare i clienti a trovarti' }),
+    text: pick(lang, {
+      en: 'On Google, through AI and wherever customers look.',
+      fr: 'Sur Google, via l’IA et partout où vos clients cherchent.',
+      de: 'Auf Google, über KI und überall dort, wo Ihre Kundschaft sucht.',
+      it: 'Su Google, tramite l’IA e ovunque cerchino i clienti.',
+    }),
+    examples: [
+      'Google',
+      pick(lang, { en: 'AI search', fr: 'Recherche IA', de: 'KI-Suche', it: 'Ricerca IA' }),
+      pick(lang, { en: 'Business information', fr: 'Informations sur l’entreprise', de: 'Firmenangaben', it: 'Informazioni sull’azienda' }),
+      pick(lang, { en: 'Reviews', fr: 'Avis', de: 'Bewertungen', it: 'Recensioni' }),
+      pick(lang, { en: 'Local visibility', fr: 'Visibilité locale', de: 'Lokale Sichtbarkeit', it: 'Visibilità locale' }),
+      pick(lang, { en: 'Clear website content', fr: 'Contenu clair sur le site', de: 'Klare Inhalte auf der Website', it: 'Contenuti chiari sul sito' }),
+    ],
+    message: pick(lang, {
+      en: 'Be easier to find, on Google and through AI.',
+      fr: 'Être plus facile à trouver, sur Google comme via l’IA.',
+      de: 'Leichter gefunden werden, auf Google und über KI.',
+      it: 'Essere più facile da trovare, su Google e tramite l’IA.',
+    }),
+    note: pick(lang, {
+      en: '“AI” means the AI search tools and assistants people use to look for a business. No one can guarantee a ranking or placement, and we don’t.',
+      fr: 'L’IA désigne ici les outils de recherche et les assistants IA que les gens utilisent pour trouver une entreprise. Personne ne peut garantir un classement ou une position, et nous ne le faisons pas.',
+      de: 'Mit KI sind hier die KI-Suchdienste und Assistenten gemeint, mit denen Menschen nach einem Unternehmen suchen. Eine bestimmte Platzierung kann niemand garantieren, auch wir nicht.',
+      it: 'Qui per IA intendiamo gli strumenti di ricerca e gli assistenti basati sull’IA che le persone usano per cercare un’azienda. Nessuno può garantire un posizionamento, nemmeno noi.',
+    }),
+  },
+  {
+    label: pick(lang, { en: 'Get customers', fr: 'Attirer des clients', de: 'Kundschaft gewinnen', it: 'Acquisire clienti' }),
+    title: pick(lang, { en: 'Bring you more business', fr: 'Vous apporter plus de clients', de: 'Ihnen mehr Aufträge bringen', it: 'Portarti più lavoro' }),
+    text: pick(lang, {
+      en: 'Turn visitors into enquiries, bookings and customers.',
+      fr: 'Transformer les visites en demandes, en réservations et en clients.',
+      de: 'Aus Besuchen werden Anfragen, Buchungen und neue Kundschaft.',
+      it: 'Trasformare le visite in richieste, prenotazioni e clienti.',
+    }),
+    examples: [
+      pick(lang, { en: 'Enquiries', fr: 'Prises de contact', de: 'Anfragen', it: 'Contatti' }),
+      pick(lang, { en: 'Quote requests', fr: 'Demandes d’offre', de: 'Offertanfragen', it: 'Richieste di offerta' }),
+      pick(lang, { en: 'Appointments', fr: 'Rendez-vous', de: 'Termine', it: 'Appuntamenti' }),
+      pick(lang, { en: 'Reservations', fr: 'Réservations', de: 'Reservationen', it: 'Prenotazioni' }),
+      pick(lang, { en: 'Calls', fr: 'Appels', de: 'Anrufe', it: 'Telefonate' }),
+      pick(lang, { en: 'Payments', fr: 'Paiements', de: 'Zahlungen', it: 'Pagamenti' }),
+    ],
+    message: pick(lang, {
+      en: 'Make it easier for customers to take the next step.',
+      fr: 'Faciliter le passage à l’étape suivante pour vos clients.',
+      de: 'Der nächste Schritt wird für Ihre Kundschaft einfacher.',
+      it: 'Rendere più semplice il passo successivo per i tuoi clienti.',
+    }),
+  },
+  {
+    label: pick(lang, { en: 'Save time', fr: 'Gagner du temps', de: 'Zeit sparen', it: 'Risparmiare tempo' }),
+    title: pick(lang, { en: 'Save you time', fr: 'Vous faire gagner du temps', de: 'Ihnen Zeit sparen', it: 'Farti risparmiare tempo' }),
+    text: pick(lang, {
+      en: 'Reduce repetitive admin and manual work.',
+      fr: 'Moins d’administratif répétitif et de travail manuel.',
+      de: 'Weniger Routine im Büro und weniger Arbeit von Hand.',
+      it: 'Meno lavoro amministrativo ripetitivo e meno lavoro manuale.',
+    }),
+    examples: [
+      pick(lang, { en: 'Automatic confirmations', fr: 'Confirmations automatiques', de: 'Automatische Bestätigungen', it: 'Conferme automatiche' }),
+      pick(lang, { en: 'Reminders', fr: 'Rappels', de: 'Erinnerungen', it: 'Promemoria' }),
+      pick(lang, { en: 'Forms', fr: 'Formulaires', de: 'Formulare', it: 'Moduli' }),
+      pick(lang, { en: 'Follow-ups', fr: 'Relances', de: 'Nachfassen', it: 'Ricontattare i clienti' }),
+      pick(lang, { en: 'Moving information between tools', fr: 'Transférer des informations entre vos outils', de: 'Daten zwischen Programmen übertragen', it: 'Trasferire dati tra programmi' }),
+      pick(lang, { en: 'Updating customer details', fr: 'Mettre à jour les données clients', de: 'Kundendaten aktualisieren', it: 'Aggiornare i dati dei clienti' }),
+    ],
+    message: pick(lang, {
+      en: 'Stop doing the same work twice.',
+      fr: 'Ne plus faire deux fois le même travail.',
+      de: 'Nie mehr doppelte Arbeit.',
+      it: 'Smettere di fare due volte lo stesso lavoro.',
+    }),
+  },
+  {
+    label: pick(lang, { en: 'Work smarter', fr: 'Travailler mieux', de: 'Effizienter arbeiten', it: 'Lavorare meglio' }),
+    title: pick(lang, { en: 'Help you work smarter', fr: 'Vous aider à travailler plus efficacement', de: 'Ihnen die Arbeit erleichtern', it: 'Aiutarti a lavorare meglio' }),
+    text: pick(lang, {
+      en: 'Use automation and AI where they are actually useful.',
+      fr: 'L’automatisation et l’IA, là où elles sont vraiment utiles.',
+      de: 'Automatisierung und KI dort, wo sie wirklich nützen.',
+      it: 'Automazione e IA dove servono davvero.',
+    }),
+    examples: [
+      pick(lang, { en: 'Answer common questions', fr: 'Répondre aux questions fréquentes', de: 'Häufige Fragen beantworten', it: 'Rispondere alle domande frequenti' }),
+      pick(lang, { en: 'Prepare replies', fr: 'Préparer des réponses', de: 'Antworten vorbereiten', it: 'Preparare risposte' }),
+      pick(lang, { en: 'Search company documents', fr: 'Chercher dans vos documents', de: 'Firmendokumente durchsuchen', it: 'Cercare nei documenti aziendali' }),
+      pick(lang, { en: 'Summarise information', fr: 'Résumer des informations', de: 'Informationen zusammenfassen', it: 'Riassumere informazioni' }),
+      pick(lang, { en: 'Organise enquiries', fr: 'Trier les demandes', de: 'Anfragen ordnen', it: 'Ordinare le richieste' }),
+      pick(lang, { en: 'Prepare quotations', fr: 'Préparer des offres', de: 'Offerten vorbereiten', it: 'Preparare offerte' }),
+    ],
+    message: pick(lang, {
+      en: 'Use AI for the work that takes up your time.',
+      fr: 'Confier à l’IA les tâches qui vous prennent du temps.',
+      de: 'KI für die Arbeit, die Sie Zeit kostet.',
+      it: 'Lasciare all’IA il lavoro che ti porta via tempo.',
+    }),
+  },
+];
+const path = [
+  pick(lang, { en: 'Get online', fr: 'Être en ligne', de: 'Online sein', it: 'Essere online' }),
+  ...outcomes.map((o) => o.label),
+];
+---
+<section class="section bg-white border-y border-ink-900/10" id="examples" aria-labelledby="outcomes-title">
+  <div class="container-custom">
+    <SectionHeader
+      id="outcomes-title"
+      index="04"
+      eyebrow={pick(lang, { en: 'Make your website work harder', fr: 'Un site web qui travaille pour vous', de: 'Mehr aus Ihrer Website herausholen', it: 'Un sito che lavora per te' })}
+      title={pick(lang, {
+        en: 'What should your website do for your business?',
+        fr: 'Que devrait faire votre site web pour votre entreprise\u202F?',
+        de: 'Was soll Ihre Website für Ihr Unternehmen leisten?',
+        it: 'Cosa dovrebbe fare il sito web per la tua azienda?',
+      })}
+      lead={pick(lang, {
+        en: 'A website shouldn’t just sit there. It should help people find you, bring you business and save you time.',
+        fr: 'Un site web ne doit pas se contenter d’être là. Il doit aider vos clients à vous trouver, vous apporter du travail et vous faire gagner du temps.',
+        de: 'Eine Website soll nicht einfach nur da sein. Sie soll Ihnen helfen, gefunden zu werden, Aufträge zu gewinnen und Zeit zu sparen.',
+        it: 'Un sito web non deve limitarsi a esserci. Deve aiutare i clienti a trovarti, portarti lavoro e farti risparmiare tempo.',
+      })}
+    />
+    <ul class="grid md:grid-cols-2 xl:grid-cols-4 gap-px bg-ink-900/10 border border-ink-900/10 rounded-md overflow-hidden">
+      {outcomes.map((o, i) => (
+        <li class="grid row-span-5 grid-rows-subgrid gap-y-0 content-start bg-white p-7">
+          <div class="flex items-baseline gap-3">
+            <span class="index-num index-accent">{String(i + 1).padStart(2, '0')}</span>
+            <p class="eyebrow">{o.label}</p>
+          </div>
+          <h3 class="text-heading-sm text-ink-900 mt-6">{o.title}</h3>
+          <p class="text-steel-600 mt-3">{o.text}</p>
+          <ul class="mt-5 flex flex-wrap content-start gap-x-2 gap-y-1 text-sm text-steel-600">
+            {o.examples.map((ex, j) => (
+              <li>{ex}{j < o.examples.length - 1 && <span class="ml-2 text-steel-400" aria-hidden="true">·</span>}</li>
+            ))}
+          </ul>
+          <div class="pt-6">
+            <p class="border-t border-ink-900/10 pt-4 text-ink-900 font-medium">{o.message}</p>
+            {o.note && <p class="mt-3 text-xs text-steel-500">{o.note}</p>}
+          </div>
+        </li>
+      ))}
+    </ul>
+    <ol
+      class="mt-12 md:mt-14 flex flex-col gap-x-4 gap-y-2 sm:grid sm:grid-cols-6 sm:gap-y-4 lg:flex lg:flex-row lg:flex-wrap lg:items-center lg:gap-y-2 font-mono text-sm uppercase tracking-[0.08em] text-steel-700"
+      aria-label={pick(lang, {
+        en: 'From getting online to working smarter',
+        fr: 'De la mise en ligne à un travail plus efficace',
+        de: 'Vom Online-Auftritt zum effizienteren Arbeiten',
+        it: 'Dall’essere online al lavorare meglio',
+      })}
+    >
+      {path.map((step, i) => {
+        const last = i === path.length - 1;
+        return (
+          <li class:list={[
+            'flex flex-col gap-x-4 gap-y-2 sm:col-span-2 sm:flex-row sm:items-center sm:justify-center lg:justify-start',
+            i === 3 && 'sm:col-start-2',
+            last && 'text-signal-600',
+          ]}>
+            {i > 0 && <ArrowRight size={14} class:list={['rotate-90 sm:rotate-0 text-steel-400 shrink-0', i === 3 && 'sm:hidden lg:block']} stroke-width={1.75} aria-hidden="true" />}
+            <span class="inline-flex items-center gap-2 md:whitespace-nowrap">
+              {last && <span class="block h-2 w-2 bg-signal-600" aria-hidden="true"></span>}
+              {step}
+            </span>
+          </li>
+        );
+      })}
+    </ol>
+    <div class="mt-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-t border-ink-900/10 pt-8">
+      <p class="text-steel-600 max-w-xl">
+        {pick(lang, {
+          en: 'Start with your website. Improve your business from there.',
+          fr: 'Commencez par votre site web, puis faites progresser votre entreprise.',
+          de: 'Starten Sie mit Ihrer Website und entwickeln Sie Ihr Unternehmen Schritt für Schritt weiter.',
+          it: 'Inizia dal tuo sito web. Da lì, fai crescere la tua azienda.',
+        })}
+      </p>
+      <a href={getLocalizedPath('/start', lang)} class="btn btn-secondary self-start sm:self-auto">
+        {t('hero.cta.primary')}
+        <ArrowRight size={16} class="arrow" stroke-width={1.75} />
+      </a>
+    </div>
+  </div>
+</section>
