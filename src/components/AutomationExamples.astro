@@ -59,7 +59,7 @@ const examples = [
           it: 'L’automazione è facoltativa. Concordiamo con te ambito e prezzo prima di ogni lavoro a pagamento.',
         })}
       </p>
-      <a href={getLocalizedPath('/start?path=extend', lang)} class="btn btn-secondary self-start sm:self-auto">
+      <a href={getLocalizedPath('/start/?path=extend', lang)} class="btn btn-secondary self-start sm:self-auto">
         {pick(lang, { en: 'See what we can automate', fr: 'Explorer l’automatisation', de: 'Automatisierung entdecken', it: 'Scopri l’automazione' })}
         <ArrowRight size={16} class="arrow" stroke-width={1.75} />
       </a>

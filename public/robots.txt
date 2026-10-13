@@ -1,5 +1,6 @@
-# https://www.robotstxt.org/robotstxt.html
+# Arklens: https://www.arklens.ch
 User-agent: *
 Allow: /
+Disallow: /api/
 
 Sitemap: https://www.arklens.ch/sitemap.xml

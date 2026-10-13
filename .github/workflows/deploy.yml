@@ -7,6 +7,12 @@ name: Deploy to Cloudflare Pages
 # Required repository secrets (Settings → Secrets and variables → Actions):
 #   CLOUDFLARE_API_TOKEN   API token with "Account → Cloudflare Pages → Edit" permission
 #   CLOUDFLARE_ACCOUNT_ID  Cloudflare account ID
+# Optional repository secret:
+#   INDEXNOW_KEY           IndexNow key (8–128 chars [A-Za-z0-9-]): enables IndexNow for production (main) only.
+#                          The key file is written into dist only for main, and new/materially changed
+#                          www.arklens.ch URLs are submitted after a successful production deploy.
+#                          IndexNow steps never fail the deployment. Manual "Run workflow" on main with
+#                          indexnow_all ticked submits all sitemap URLs once.
 
 on:
   push:
@@ -14,6 +20,11 @@ on:
       - main
       - dev
   workflow_dispatch:
+    inputs:
+      indexnow_all:
+        description: 'Production (main) only: submit ALL sitemap URLs to IndexNow after the deploy (one-time initial submit)'
+        type: boolean
+        default: false
 
 concurrency:
   group: pages-${{ github.ref }}
@@ -44,6 +55,22 @@ jobs:
       - name: Check localisation (FR/DE/IT)
         run: npm run check:i18n
 
+      - name: IndexNow key file (production only)
+        if: github.ref == 'refs/heads/main'
+        continue-on-error: true
+        timeout-minutes: 2
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+        run: node scripts/indexnow.mjs write-key --dist dist
+
+      - name: IndexNow snapshot of live production (production only)
+        if: github.ref == 'refs/heads/main'
+        continue-on-error: true
+        timeout-minutes: 5
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+        run: node scripts/indexnow.mjs snapshot --dist dist --out "$RUNNER_TEMP/indexnow-before.json"
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
@@ -52,3 +79,11 @@ jobs:
           wranglerVersion: '4.141.0'
           command: pages deploy dist --project-name=arklens --branch=${{ github.ref_name }} --commit-dirty=true
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: IndexNow notify new/changed URLs (production only)
+        if: success() && github.ref == 'refs/heads/main'
+        continue-on-error: true
+        timeout-minutes: 5
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          INDEXNOW_ALL: ${{ github.event_name == 'workflow_dispatch' && inputs.indexnow_all && 'true' || 'false' }}
+        run: node scripts/indexnow.mjs notify --dist dist --before "$RUNNER_TEMP/indexnow-before.json"
