@@ -55,7 +55,7 @@ const examples = [
           })}
         </p>
         <div class="mt-6 flex flex-wrap gap-x-6 gap-y-2">
-          <a href={getLocalizedPath('/start?path=check', lang)} class="link-arrow py-1 text-sm">
+          <a href={getLocalizedPath('/start/?path=check', lang)} class="link-arrow py-1 text-sm">
             {pick(lang, { en: 'Check my business', fr: 'Évaluer mon entreprise', de: 'Mein Unternehmen prüfen', it: 'Analizza la mia azienda' })}
             <ArrowRight size={14} stroke-width={1.75} />
           </a>

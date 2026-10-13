@@ -17,9 +17,9 @@ const navItems = [
   { href: '/#for-business', label: t('nav.forBusiness') },
   { href: '/ai/', label: t('nav.ai') },
   { href: '/#faq', label: t('nav.faq') },
-  { href: '/contact', label: t('nav.contact') },
+  { href: '/contact/', label: t('nav.contact') },
 ];
-// Only '/ai/' can match: the other items are anchors or slashless paths.
+// Only '/ai/' and '/contact/' can match: the other items are anchors.
 const current = stripLocale(pagePath(Astro.url.pathname));
 
 const langLinks = (Object.entries(languages) as [Language, string][]).map(([code, name]) => ({
@@ -83,7 +83,7 @@ const langShort = (code: string) => code.toUpperCase();
         </ul>
       </div>
 
-      <a href={getLocalizedPath('/start', lang)} class="btn btn-primary min-h-[2.75rem] px-5">
+      <a href={getLocalizedPath('/start/', lang)} class="btn btn-primary min-h-[2.75rem] px-5">
         {t('nav.getStarted')}
         <ArrowRight size={16} class="arrow" stroke-width={1.75} />
       </a>
@@ -91,7 +91,7 @@ const langShort = (code: string) => code.toUpperCase();
 
     <!-- Mobile: CTA stays visible, menu behind a toggle -->
     <div class="flex lg:hidden items-center gap-2">
-      <a href={getLocalizedPath('/start', lang)} class="btn btn-primary min-h-[2.75rem] px-3.5 min-[375px]:px-4 text-sm">
+      <a href={getLocalizedPath('/start/', lang)} class="btn btn-primary min-h-[2.75rem] px-3.5 min-[375px]:px-4 text-sm">
         {t('nav.getStarted')}
       </a>
       <button
@@ -142,7 +142,7 @@ const langShort = (code: string) => code.toUpperCase();
           </a>
         ))}
       </div>
-      <a href={getLocalizedPath('/start', lang)} class="btn btn-primary btn-lg btn-block">
+      <a href={getLocalizedPath('/start/', lang)} class="btn btn-primary btn-lg btn-block">
         {t('nav.getStarted')}
         <ArrowRight size={18} class="arrow" stroke-width={1.75} />
       </a>

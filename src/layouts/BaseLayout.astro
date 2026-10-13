@@ -31,32 +31,52 @@ const alternates = locales.map((code) => ({
 }));
 const xDefault = new URL(base, Astro.site).href;
 
+const SITE_URL = 'https://www.arklens.ch/';
+const ORG_ID = `${SITE_URL}#organization`;
+const SITE_ID = `${SITE_URL}#website`;
+const plain = (s: string) => s.replace(/\u00AD/g, ''); // soft hyphens (FR/DE) must not reach JSON-LD
+
 const organization = {
   '@type': 'Organization',
+  '@id': ORG_ID,
   name: 'Arklens',
-  url: 'https://www.arklens.ch',
-  logo: 'https://www.arklens.ch/android-chrome-512x512.png',
-  description: t('meta.orgDescription'),
+  url: SITE_URL,
+  logo: { '@type': 'ImageObject', url: `${SITE_URL}android-chrome-512x512.png`, width: 512, height: 512 },
+  description: plain(t('meta.orgDescription')),
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'CH',
   },
   areaServed: {
     '@type': 'Country',
-    name: t('meta.country'),
+    name: plain(t('meta.country')),
+    identifier: 'CH',
   },
+  knowsLanguage: ['en', 'fr', 'de', 'it'],
+  // Factual Arklens service categories, from the existing localized progression labels.
+  knowsAbout: (['progression.step1', 'progression.step2', 'progression.step4', 'progression.step5'] as const).map((k) => plain(t(k))),
+};
+const webSite = {
+  '@type': 'WebSite',
+  '@id': SITE_ID,
+  url: SITE_URL,
+  name: 'Arklens',
+  inLanguage: locales.map((code) => hreflangs[code]),
+  publisher: { '@id': ORG_ID },
 };
 const webPage = {
   '@type': 'WebPage',
+  '@id': `${canonicalURL.href}#webpage`,
   url: canonicalURL.href,
   name: fullTitle,
   description,
   inLanguage: hreflangs[lang],
-  isPartOf: { '@type': 'WebSite', name: 'Arklens', url: 'https://www.arklens.ch/' },
+  isPartOf: { '@id': SITE_ID },
+  publisher: { '@id': ORG_ID },
 };
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
-  '@graph': noindex ? [organization] : [organization, webPage],
+  '@graph': noindex ? [organization] : [organization, webSite, webPage],
 }).replace(/</g, '\\u003c');
 ---
 
@@ -87,10 +107,12 @@ const jsonLd = JSON.stringify({
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Arklens" />
     {!noindex && <meta property="og:url" content={canonicalURL} />}
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Arklens" />
@@ -98,11 +120,11 @@ const jsonLd = JSON.stringify({
     {locales.filter((code) => code !== lang).map((code) => <meta property="og:locale:alternate" content={ogLocales[code]} />)}
     
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    {!noindex && <meta property="twitter:url" content={canonicalURL} />}
-    <meta property="twitter:title" content={fullTitle} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(ogImage, Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {!noindex && <meta name="twitter:url" content={canonicalURL} />}
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
     
     <meta name="theme-color" content="#FAFAF7" />
 

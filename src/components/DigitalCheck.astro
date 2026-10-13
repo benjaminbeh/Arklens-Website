@@ -87,7 +87,7 @@ const checks = [
             </li>
           ))}
         </ol>
-        <a href={getLocalizedPath('/start?path=check', lang)} class="btn btn-primary btn-lg mt-8">
+        <a href={getLocalizedPath('/start/?path=check', lang)} class="btn btn-primary btn-lg mt-8">
           {pick(lang, { en: 'Check my business', fr: 'Évaluer mon entreprise', de: 'Mein Unternehmen prüfen', it: 'Analizza la mia azienda' })}
           <ArrowRight size={18} class="arrow" stroke-width={1.75} />
         </a>

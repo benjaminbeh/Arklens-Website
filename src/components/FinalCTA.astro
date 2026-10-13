@@ -31,11 +31,11 @@ const points = [
       <p class="lead mt-6">{t('finalCta.text')}</p>
 
       <div class="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
-        <a href={getLocalizedPath('/start', lang)} class="btn btn-primary btn-lg">
+        <a href={getLocalizedPath('/start/', lang)} class="btn btn-primary btn-lg">
           {t('finalCta.primary')}
           <ArrowRight size={18} class="arrow" stroke-width={1.75} />
         </a>
-        <a href={getLocalizedPath('/start?path=extend', lang)} class="link-arrow self-start sm:self-auto py-2">
+        <a href={getLocalizedPath('/start/?path=extend', lang)} class="link-arrow self-start sm:self-auto py-2">
           {t('finalCta.secondary')}
           <ArrowRight size={16} stroke-width={1.75} />
         </a>
