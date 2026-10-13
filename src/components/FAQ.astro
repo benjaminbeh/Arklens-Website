@@ -26,7 +26,7 @@ const faqs = order.map((n) => ({ q: `q${n}`, a: `a${n}` }));
             <p class="eyebrow">FAQ</p>
           </div>
           <h2 id="faq-title" class="text-display-md">{t('faq.title')}</h2>
-          <a href={getLocalizedPath('/terms', lang)} class="link-arrow mt-6 py-2 text-sm">
+          <a href={getLocalizedPath('/terms/', lang)} class="link-arrow mt-6 py-2 text-sm">
             {pick(lang, { en: 'Read the Terms of Use', fr: 'Lire les Conditions d’utilisation', de: 'Nutzungsbedingungen lesen', it: 'Leggi le Condizioni d’uso' })}
             <ArrowRight size={14} stroke-width={1.75} />
           </a>

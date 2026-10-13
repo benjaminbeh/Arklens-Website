@@ -65,11 +65,11 @@ const city = pick(lang, { en: 'Fribourg', fr: 'Fribourg', de: 'Freiburg', it: 'F
         </dl>
 
         <div class="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
-          <a href={getLocalizedPath('/start', lang)} class="btn btn-primary btn-lg">
+          <a href={getLocalizedPath('/start/', lang)} class="btn btn-primary btn-lg">
             {t('hero.cta.primary')}
             <ArrowRight size={18} class="arrow" stroke-width={1.75} />
           </a>
-          <a href={getLocalizedPath('/start?path=update', lang)} class="link-arrow self-start sm:self-auto py-2">
+          <a href={getLocalizedPath('/start/?path=update', lang)} class="link-arrow self-start sm:self-auto py-2">
             {t('hero.cta.secondary')}
             <ArrowRight size={16} stroke-width={1.75} />
           </a>
