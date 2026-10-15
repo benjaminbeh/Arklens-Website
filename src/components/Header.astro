@@ -182,6 +182,19 @@ const langShort = (code: string) => code.toUpperCase();
   syncLangLinks();
   window.addEventListener('hashchange', syncLangLinks);
 
+  // Remember an explicit language choice (functional cookie, read by functions/index.ts on "/").
+  const SAVED_LANGS = ['en', 'fr', 'de', 'it'];
+  function saveLang(this: HTMLAnchorElement) {
+    const code = this.getAttribute('lang') ?? '';
+    if (!SAVED_LANGS.includes(code)) return;
+    const secure = location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `arklens_lang=${code}; Max-Age=31536000; Path=/; SameSite=Lax${secure}`;
+  }
+  document.querySelectorAll<HTMLAnchorElement>('[data-lang-link]').forEach((a) => {
+    a.addEventListener('click', saveLang); // mouse, touch, keyboard Enter
+    a.addEventListener('auxclick', saveLang); // middle-click / new tab
+  });
+
   const langButton = document.querySelector<HTMLButtonElement>('[data-lang-button]');
   const langMenu = document.querySelector<HTMLElement>('[data-lang-menu]');
 
