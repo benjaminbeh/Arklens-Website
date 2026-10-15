@@ -20,15 +20,15 @@ const en = {
     
     // Hero
     'hero.title': 'Your business website. Free.',
-    'hero.subtitle': 'We build or modernise a professional website for your Swiss business — using your own domain, with hosting included under the Free Website Programme.',
+    'hero.subtitle': 'We build or modernise a professional website for your Swiss business — on your own domain, with hosting included.',
     'hero.cta.primary': 'Get my free website',
     'hero.cta.secondary': 'Improve my website',
     'hero.trust': 'Your domain always belongs to you · No long-term contract',
     
     // Free offer
     'freeOffer.title': 'A professional starting point — CHF\u00A00',
-    'freeOffer.domain': 'You only pay for your domain registration and renewal. The domain remains yours. Website and hosting are included under the Free Website Programme.',
-    'freeOffer.features.website': 'One-page professional website',
+    'freeOffer.domain': 'You only pay for your domain registration and renewal. The domain remains yours. The website and hosting are included as part of the Free Website Programme.',
+    'freeOffer.features.website': 'Professional one-page website',
     'freeOffer.features.domain': 'Your own domain',
     'freeOffer.features.hosting': 'Hosting included (Free Website Programme)',
     'freeOffer.features.ssl': 'Secure connection (HTTPS)',
@@ -55,11 +55,11 @@ const en = {
     'whyFree.trust.yourDomain': 'Your domain always belongs to you',
 
     // How it works
-    'howItWorks.title': 'Simple from start to launch',
+    'howItWorks.title': 'A simple path from start to launch',
     'howItWorks.step1.title': 'Tell us about your business',
     'howItWorks.step1.text': 'Complete a short form with your services, contact information, logo and photos.',
     'howItWorks.step2.title': 'We build or improve your website',
-    'howItWorks.step2.text': 'We create the first version using a professional template adapted to your business.',
+    'howItWorks.step2.text': 'We create the first version using a professional template tailored to your business.',
     'howItWorks.step3.title': 'Review and go live',
     'howItWorks.step3.text': 'You receive one revision round, then we connect your domain and launch.',
     'howItWorks.cta': 'Start my website',
@@ -104,11 +104,11 @@ const en = {
     'faq.q2': 'What do I have to pay for?',
     'faq.a2': 'Only your domain registration and renewal (typically CHF\u00A015–30 per year) unless you choose optional services like additional languages, booking systems, or automation.',
     'faq.q3': 'Who owns my domain?',
-    'faq.a3': 'You do. We guide you to purchase it directly, so you always retain full ownership and control. You can transfer your domain to any provider at any time.',
+    'faq.a3': 'You do. We help you purchase it directly, so you retain full ownership and control. You can transfer your domain to any provider at any time.',
     'faq.q4': 'Is hosting really included?',
     'faq.a4': 'Yes, for the basic static website under the Free Website Programme. Our infrastructure allows us to provide reliable, fast hosting at no cost.',
     'faq.q5': 'Can you improve my existing website?',
-    'faq.a5': "Yes, we can modernise old websites, simplify difficult-to-use sites, or add new features to existing websites.",
+    'faq.a5': "Yes, we can modernise older websites, make difficult-to-use sites easier to use, or add new features to existing websites.",
     'faq.q6': 'Can I add another language later?',
     'faq.a6': 'Absolutely. Multilingual support is available as a paid add-on whenever you need it.',
     'faq.q7': 'Will I be forced into a subscription?',
