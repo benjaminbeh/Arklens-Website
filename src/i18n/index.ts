@@ -326,7 +326,7 @@ const de = {
 
     // Hero
     'hero.title': 'Die Website für Ihr Unternehmen. Kostenlos.',
-    'hero.subtitle': 'Wir erstellen oder modernisieren die professionelle Website Ihres Schweizer KMU – auf Ihrer eigenen Domain und mit inbegriffenem Hosting.',
+    'hero.subtitle': 'Wir erstellen oder modernisieren eine professionelle Website für Ihr Schweizer KMU – auf Ihrer eigenen Domain, Hosting inklusive.',
     'hero.cta.primary': 'Website kostenlos anfragen',
     'hero.cta.secondary': 'Meine Website verbessern',
     'hero.trust': 'Ihre Domain gehört immer Ihnen · Keine lange Vertragsbindung',
@@ -479,7 +479,7 @@ const it = {
 
     // Hero
     'hero.title': 'Il sito web della tua azienda. Gratuito.',
-    'hero.subtitle': 'Creiamo o modernizziamo il sito web professionale della tua PMI svizzera, sul tuo dominio e con l’hosting incluso.',
+    'hero.subtitle': 'Creiamo o modernizziamo un sito web professionale per la tua PMI svizzera, sul tuo dominio e con hosting incluso.',
     'hero.cta.primary': 'Richiedi il sito gratuito',
     'hero.cta.secondary': 'Migliora il mio sito',
     'hero.trust': 'Il dominio resta sempre tuo · Nessun contratto a lungo termine',

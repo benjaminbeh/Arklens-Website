@@ -57,6 +57,7 @@
   ],
   "values": [
     { "v": "Make", "locales": ["fr", "de", "it"], "//": "automation product brand name (Make.com); kept whole-value, not a global term, to avoid masking the English verb elsewhere (ExistingTools)" },
+    { "v": "Follow-up", "locales": ["it"], "//": "established IT business loanword, chosen over «Riscontro» for the ExistingTools workflow step (approved language polish)" },
     { "v": "Hosting", "locales": ["de", "it"], "//": "standard DE/IT term; FR must say «Hébergement» (design §3)" },
     { "v": "Website", "locales": ["de"], "//": "standard DE noun (die Website); FR «Site web», IT «Sito web»" },
     { "v": "Partnership", "locales": ["it"], "//": "established IT business loanword, design §5.1 reason label" },

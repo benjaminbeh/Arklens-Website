@@ -41,13 +41,13 @@ const categories = [
   {
     icon: Users,
     title: pick(lang, { en: 'CRM & sales', fr: 'CRM et ventes', de: 'CRM und Vertrieb', it: 'CRM e vendite' }),
-    note: pick(lang, { en: 'Keeping track of customers and quotes', fr: 'Garder le suivi des clients et des offres', de: 'Den Überblick über Kundschaft und Offerten behalten', it: 'Tenere traccia di clienti e offerte' }),
+    note: pick(lang, { en: 'Keeping track of customers and quotes', fr: 'Suivre les clients et les offres', de: 'Den Überblick über Kundschaft und Offerten behalten', it: 'Tenere traccia di clienti e offerte' }),
     tools: ['Salesforce', 'HubSpot', 'Microsoft Dynamics'],
   },
   {
     icon: Factory,
     title: pick(lang, { en: 'ERP & operations', fr: 'ERP et opérations', de: 'ERP und Betriebsabläufe', it: 'ERP e operations' }),
-    note: pick(lang, { en: 'More common in larger or industrial SMEs', fr: 'Plus courant dans les PME plus grandes ou industrielles', de: 'Häufiger bei grösseren oder industriellen KMU', it: 'Più diffuso nelle PMI più grandi o industriali' }),
+    note: pick(lang, { en: 'More common in larger or industrial SMEs', fr: 'Plus courant dans les PME de plus grande taille ou industrielles', de: 'Häufiger bei grösseren oder industriellen KMU', it: 'Più diffuso nelle PMI più grandi o industriali' }),
     tools: ['SAP', 'Abacus', 'Odoo'],
   },
   {
@@ -59,7 +59,7 @@ const categories = [
   {
     icon: Workflow,
     title: pick(lang, { en: 'Automation & workflows', fr: 'Automatisation et processus', de: 'Automatisierung und Abläufe', it: 'Automazione e processi' }),
-    note: pick(lang, { en: 'Connecting steps so work moves on its own', fr: 'Relier les étapes pour que le travail avance tout seul', de: 'Schritte verbinden, damit die Arbeit von selbst weiterläuft', it: 'Collegare i passaggi perché il lavoro proceda da solo' }),
+    note: pick(lang, { en: 'Connecting steps so work moves on its own', fr: 'Relier les étapes pour que le travail avance automatiquement', de: 'Schritte verbinden, damit die Arbeit von selbst weiterläuft', it: 'Collegare i passaggi perché il lavoro proceda da solo' }),
     tools: ['Power Automate', 'Make', 'Zapier'],
   },
 ];
@@ -70,7 +70,7 @@ const workflowSteps = [
   'Microsoft 365',
   'CRM / ERP',
   pick(lang, { en: 'Quotation', fr: 'Offre', de: 'Offerte', it: 'Offerta' }),
-  pick(lang, { en: 'Follow-up', fr: 'Suivi', de: 'Nachfassen', it: 'Riscontro' }),
+  pick(lang, { en: 'Follow-up', fr: 'Suivi', de: 'Nachfassen', it: 'Follow-up' }),
 ];
 ---
 
@@ -88,7 +88,7 @@ const workflowSteps = [
       })}
       lead={pick(lang, {
         en: 'From everyday office software and accounting platforms to CRM, ERP and hosting, we help Swiss SMEs get more from the systems they already use.',
-        fr: 'De la bureautique du quotidien aux logiciels de comptabilité, en passant par le CRM, l’ERP et l’hébergement, nous aidons les PME suisses à tirer davantage des systèmes qu’elles utilisent déjà.',
+        fr: 'De la bureautique du quotidien aux logiciels de comptabilité, en passant par le CRM, l’ERP et l’hébergement, nous aidons les PME suisses à tirer davantage parti des systèmes qu’elles utilisent déjà.',
         de: 'Von der täglichen Bürosoftware über Buchhaltungslösungen bis hin zu CRM, ERP und Hosting: Wir helfen Schweizer KMU, mehr aus den Systemen herauszuholen, die sie bereits nutzen.',
         it: 'Dalla produttività di ogni giorno ai software di contabilità, fino a CRM, ERP e hosting, aiutiamo le PMI svizzere a ottenere di più dai sistemi che già utilizzano.',
       })}
@@ -132,7 +132,7 @@ const workflowSteps = [
           en: 'We can assess how your existing tools fit together and where small improvements or automation would help most.',
           fr: 'Nous pouvons évaluer comment vos outils actuels fonctionnent ensemble et où de petites améliorations ou de l’automatisation aideraient le plus.',
           de: 'Wir können beurteilen, wie Ihre bestehenden Programme zusammenspielen und wo kleine Verbesserungen oder Automatisierung am meisten bringen.',
-          it: 'Possiamo valutare come i tuoi strumenti attuali lavorano insieme e dove piccoli miglioramenti o l’automazione aiuterebbero di più.',
+          it: 'Possiamo valutare come i tuoi strumenti attuali funzionano insieme e dove piccoli miglioramenti o l’automazione aiuterebbero di più.',
         })}
       </p>
 
