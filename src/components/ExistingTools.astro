@@ -7,9 +7,9 @@
  * wall, no endorsement/partnership implication. Platform names are shown as examples
  * only; the disclaimer and framing copy keep this as plain, honest, visible content.
  *
- * English-first. FR/DE/IT currently carry English fallbacks and are flagged for the
- * upcoming combined Swiss-localisation pass. Do NOT ship to production until FR/DE/IT
- * are localised.
+ * English-first source meaning; FR/DE/IT are natural Swiss localisations (not literal
+ * translations). Product/brand names and the CRM/ERP acronyms are intentionally
+ * identical in every language and are covered by scripts/i18n-allowlist.json.
  */
 import type { Language } from '@i18n/index';
 import { getLocalizedPath } from '@i18n/index';
@@ -28,43 +28,50 @@ const { lang } = Astro.props;
 const categories = [
   {
     icon: Mail,
-    title: pick(lang, { en: 'Office & collaboration', fr: 'Office & collaboration', de: 'Office & collaboration', it: 'Office & collaboration' }),
-    note: pick(lang, { en: 'Everyday email, documents and shared files', fr: 'Everyday email, documents and shared files', de: 'Everyday email, documents and shared files', it: 'Everyday email, documents and shared files' }),
+    title: pick(lang, { en: 'Office & collaboration', fr: 'Bureautique et collaboration', de: 'Büro und Zusammenarbeit', it: 'Produttività e collaborazione' }),
+    note: pick(lang, { en: 'Everyday email, documents and shared files', fr: 'E-mails, documents et fichiers partagés au quotidien', de: 'E-Mails, Dokumente und gemeinsame Dateien im Alltag', it: 'E-mail, documenti e file condivisi di ogni giorno' }),
     tools: ['Microsoft 365', 'Google Workspace', 'SharePoint'],
   },
   {
     icon: Calculator,
-    title: pick(lang, { en: 'Business & accounting', fr: 'Business & accounting', de: 'Business & accounting', it: 'Business & accounting' }),
-    note: pick(lang, { en: 'Widely used by Swiss small businesses', fr: 'Widely used by Swiss small businesses', de: 'Widely used by Swiss small businesses', it: 'Widely used by Swiss small businesses' }),
+    title: pick(lang, { en: 'Business & accounting', fr: 'Gestion et comptabilité', de: 'Betrieb und Buchhaltung', it: 'Gestione e contabilità' }),
+    note: pick(lang, { en: 'Business and accounting tools used by Swiss SMEs', fr: 'Outils de gestion et de comptabilité utilisés par les PME suisses', de: 'Betriebs- und Buchhaltungslösungen, die Schweizer KMU nutzen', it: 'Strumenti di gestione e contabilità usati dalle PMI svizzere' }),
     tools: ['bexio', 'Abacus', 'KLARA'],
   },
   {
     icon: Users,
-    title: pick(lang, { en: 'CRM & sales', fr: 'CRM & sales', de: 'CRM & sales', it: 'CRM & sales' }),
-    note: pick(lang, { en: 'Keeping track of customers and quotes', fr: 'Keeping track of customers and quotes', de: 'Keeping track of customers and quotes', it: 'Keeping track of customers and quotes' }),
+    title: pick(lang, { en: 'CRM & sales', fr: 'CRM et ventes', de: 'CRM und Vertrieb', it: 'CRM e vendite' }),
+    note: pick(lang, { en: 'Keeping track of customers and quotes', fr: 'Garder le suivi des clients et des offres', de: 'Den Überblick über Kundschaft und Offerten behalten', it: 'Tenere traccia di clienti e offerte' }),
     tools: ['Salesforce', 'HubSpot', 'Microsoft Dynamics'],
   },
   {
     icon: Factory,
-    title: pick(lang, { en: 'ERP & operations', fr: 'ERP & operations', de: 'ERP & operations', it: 'ERP & operations' }),
-    note: pick(lang, { en: 'More common in larger or industrial SMEs', fr: 'More common in larger or industrial SMEs', de: 'More common in larger or industrial SMEs', it: 'More common in larger or industrial SMEs' }),
+    title: pick(lang, { en: 'ERP & operations', fr: 'ERP et opérations', de: 'ERP und Betriebsabläufe', it: 'ERP e operations' }),
+    note: pick(lang, { en: 'More common in larger or industrial SMEs', fr: 'Plus courant dans les PME plus grandes ou industrielles', de: 'Häufiger bei grösseren oder industriellen KMU', it: 'Più diffuso nelle PMI più grandi o industriali' }),
     tools: ['SAP', 'Abacus', 'Odoo'],
   },
   {
     icon: Server,
-    title: pick(lang, { en: 'Hosting & web', fr: 'Hosting & web', de: 'Hosting & web', it: 'Hosting & web' }),
-    note: pick(lang, { en: 'Where your website and email are hosted', fr: 'Where your website and email are hosted', de: 'Where your website and email are hosted', it: 'Where your website and email are hosted' }),
+    title: pick(lang, { en: 'Hosting & web', fr: 'Hébergement et web', de: 'Hosting und Web', it: 'Hosting e web' }),
+    note: pick(lang, { en: 'Hosting, domains and web infrastructure', fr: 'Hébergement, noms de domaine et infrastructure web', de: 'Hosting, Domains und Web-Infrastruktur', it: 'Hosting, domini e infrastruttura web' }),
     tools: ['Infomaniak', 'Hostpoint', 'Cloudflare'],
   },
   {
     icon: Workflow,
-    title: pick(lang, { en: 'Automation & workflows', fr: 'Automation & workflows', de: 'Automation & workflows', it: 'Automation & workflows' }),
-    note: pick(lang, { en: 'Connecting steps so work moves on its own', fr: 'Connecting steps so work moves on its own', de: 'Connecting steps so work moves on its own', it: 'Connecting steps so work moves on its own' }),
+    title: pick(lang, { en: 'Automation & workflows', fr: 'Automatisation et processus', de: 'Automatisierung und Abläufe', it: 'Automazione e processi' }),
+    note: pick(lang, { en: 'Connecting steps so work moves on its own', fr: 'Relier les étapes pour que le travail avance tout seul', de: 'Schritte verbinden, damit die Arbeit von selbst weiterläuft', it: 'Collegare i passaggi perché il lavoro proceda da solo' }),
     tools: ['Power Automate', 'Make', 'Zapier'],
   },
 ];
 
-const workflowSteps = ['Enquiry', 'Microsoft 365', 'CRM / ERP', 'Quotation', 'Follow-up'];
+// Translatable workflow words stay localised; brand/acronym steps are fixed.
+const workflowSteps = [
+  pick(lang, { en: 'Enquiry', fr: 'Demande', de: 'Anfrage', it: 'Richiesta' }),
+  'Microsoft 365',
+  'CRM / ERP',
+  pick(lang, { en: 'Quotation', fr: 'Offre', de: 'Offerte', it: 'Offerta' }),
+  pick(lang, { en: 'Follow-up', fr: 'Suivi', de: 'Nachfassen', it: 'Riscontro' }),
+];
 ---
 
 <section class="section bg-white border-y border-ink-900/10" id="your-systems" aria-labelledby="systems-title">
@@ -72,26 +79,26 @@ const workflowSteps = ['Enquiry', 'Microsoft 365', 'CRM / ERP', 'Quotation', 'Fo
     <SectionHeader
       id="systems-title"
       index="07"
-      eyebrow={pick(lang, { en: 'Your systems', fr: 'Your systems', de: 'Your systems', it: 'Your systems' })}
+      eyebrow={pick(lang, { en: 'Your systems', fr: 'Vos systèmes', de: 'Ihre Systeme', it: 'I tuoi sistemi' })}
       title={pick(lang, {
         en: 'We work with the tools you already use',
-        fr: 'We work with the tools you already use',
-        de: 'We work with the tools you already use',
-        it: 'We work with the tools you already use',
+        fr: 'Nous travaillons avec les outils que vous utilisez déjà',
+        de: 'Wir arbeiten mit den Programmen, die Sie bereits nutzen',
+        it: 'Lavoriamo con gli strumenti che già utilizzi',
       })}
       lead={pick(lang, {
         en: 'From everyday office software and accounting platforms to CRM, ERP and hosting, we help Swiss SMEs get more from the systems they already use.',
-        fr: 'From everyday office software and accounting platforms to CRM, ERP and hosting, we help Swiss SMEs get more from the systems they already use.',
-        de: 'From everyday office software and accounting platforms to CRM, ERP and hosting, we help Swiss SMEs get more from the systems they already use.',
-        it: 'From everyday office software and accounting platforms to CRM, ERP and hosting, we help Swiss SMEs get more from the systems they already use.',
+        fr: 'De la bureautique du quotidien aux logiciels de comptabilité, en passant par le CRM, l’ERP et l’hébergement, nous aidons les PME suisses à tirer davantage des systèmes qu’elles utilisent déjà.',
+        de: 'Von der täglichen Bürosoftware über Buchhaltungslösungen bis hin zu CRM, ERP und Hosting: Wir helfen Schweizer KMU, mehr aus den Systemen herauszuholen, die sie bereits nutzen.',
+        it: 'Dalla produttività di ogni giorno ai software di contabilità, fino a CRM, ERP e hosting, aiutiamo le PMI svizzere a ottenere di più dai sistemi che già utilizzano.',
       })}
     >
       <p class="mt-5 text-heading-sm font-medium text-ink-900 max-w-2xl">
         {pick(lang, {
           en: 'You don’t need to replace everything. We start with what already works, then connect, improve and automate from there.',
-          fr: 'You don’t need to replace everything. We start with what already works, then connect, improve and automate from there.',
-          de: 'You don’t need to replace everything. We start with what already works, then connect, improve and automate from there.',
-          it: 'You don’t need to replace everything. We start with what already works, then connect, improve and automate from there.',
+          fr: 'Pas besoin de tout remplacer. Nous partons de ce qui fonctionne déjà, puis nous relions, améliorons et automatisons à partir de là.',
+          de: 'Sie müssen nicht alles ersetzen. Wir starten mit dem, was bereits funktioniert, und verbinden, verbessern und automatisieren von dort aus.',
+          it: 'Non devi sostituire tutto. Partiamo da ciò che già funziona e da lì colleghiamo, miglioriamo e automatizziamo.',
         })}
       </p>
     </SectionHeader>
@@ -123,9 +130,9 @@ const workflowSteps = ['Enquiry', 'Microsoft 365', 'CRM / ERP', 'Quotation', 'Fo
       <p class="text-steel-600 max-w-2xl">
         {pick(lang, {
           en: 'We can assess how your existing tools fit together and where small improvements or automation would help most.',
-          fr: 'We can assess how your existing tools fit together and where small improvements or automation would help most.',
-          de: 'We can assess how your existing tools fit together and where small improvements or automation would help most.',
-          it: 'We can assess how your existing tools fit together and where small improvements or automation would help most.',
+          fr: 'Nous pouvons évaluer comment vos outils actuels fonctionnent ensemble et où de petites améliorations ou de l’automatisation aideraient le plus.',
+          de: 'Wir können beurteilen, wie Ihre bestehenden Programme zusammenspielen und wo kleine Verbesserungen oder Automatisierung am meisten bringen.',
+          it: 'Possiamo valutare come i tuoi strumenti attuali lavorano insieme e dove piccoli miglioramenti o l’automazione aiuterebbero di più.',
         })}
       </p>
 
@@ -133,9 +140,9 @@ const workflowSteps = ['Enquiry', 'Microsoft 365', 'CRM / ERP', 'Quotation', 'Fo
         class="mt-6 flex flex-wrap items-center gap-x-2 gap-y-2 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-steel-700"
         aria-label={pick(lang, {
           en: 'Example workflow: enquiry through to follow-up',
-          fr: 'Example workflow: enquiry through to follow-up',
-          de: 'Example workflow: enquiry through to follow-up',
-          it: 'Example workflow: enquiry through to follow-up',
+          fr: 'Exemple de processus : de la demande au suivi',
+          de: 'Beispielablauf: von der Anfrage bis zum Nachfassen',
+          it: 'Esempio di processo: dalla richiesta al riscontro',
         })}
       >
         {workflowSteps.map((step, i) => (
@@ -150,13 +157,13 @@ const workflowSteps = ['Enquiry', 'Microsoft 365', 'CRM / ERP', 'Quotation', 'Fo
         <p class="text-xs text-steel-500 max-w-2xl">
           {pick(lang, {
             en: 'Examples only. Names and trademarks belong to their respective owners. What’s possible depends on your systems and the project.',
-            fr: 'Examples only. Names and trademarks belong to their respective owners. What’s possible depends on your systems and the project.',
-            de: 'Examples only. Names and trademarks belong to their respective owners. What’s possible depends on your systems and the project.',
-            it: 'Examples only. Names and trademarks belong to their respective owners. What’s possible depends on your systems and the project.',
+            fr: 'Exemples uniquement. Les noms et marques appartiennent à leurs propriétaires respectifs. Ce qui est possible dépend de vos systèmes et du projet.',
+            de: 'Nur Beispiele. Namen und Marken gehören den jeweiligen Eigentümern. Was möglich ist, hängt von Ihren Systemen und vom Projekt ab.',
+            it: 'Solo esempi. I nomi e i marchi appartengono ai rispettivi proprietari. Ciò che è possibile dipende dai tuoi sistemi e dal progetto.',
           })}
         </p>
         <a href={getLocalizedPath('/contact/', lang)} class="link-arrow self-start sm:self-auto shrink-0">
-          {pick(lang, { en: 'Tell us what you use', fr: 'Tell us what you use', de: 'Tell us what you use', it: 'Tell us what you use' })}
+          {pick(lang, { en: 'Tell us what you use', fr: 'Dites-nous ce que vous utilisez', de: 'Sagen Sie uns, was Sie nutzen', it: 'Dicci cosa utilizzi' })}
           <ArrowRight size={16} stroke-width={1.75} />
         </a>
       </div>

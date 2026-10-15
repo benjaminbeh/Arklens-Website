@@ -174,7 +174,7 @@ const fr = {
 
     // Hero
     'hero.title': 'Votre site web professionnel. Gratuit.',
-    'hero.subtitle': 'Nous créons ou modernisons le site web de votre PME suisse, avec votre propre nom de domaine. L’hébergement est inclus dans le Programme Site web gratuit.',
+    'hero.subtitle': 'Nous créons ou modernisons le site web professionnel de votre PME suisse, sur votre propre nom de domaine et avec l’hébergement inclus.',
     'hero.cta.primary': 'Demander mon site gratuit',
     'hero.cta.secondary': 'Améliorer mon site',
     'hero.trust': 'Votre nom de domaine vous appartient toujours · Pas de contrat à long terme',
@@ -209,7 +209,7 @@ const fr = {
     'whyFree.trust.yourDomain': 'Votre nom de domaine vous appartient toujours',
 
     // How it works
-    'howItWorks.title': 'Simple, de la demande à la mise en ligne',
+    'howItWorks.title': 'Un parcours simple, de la demande à la mise en ligne',
     'howItWorks.step1.title': 'Présentez-nous votre entreprise',
     'howItWorks.step1.text': 'Remplissez un court formulaire avec vos prestations, vos coordonnées, votre logo et vos photos.',
     'howItWorks.step2.title': 'Nous créons ou améliorons votre site',
@@ -258,7 +258,7 @@ const fr = {
     'faq.q2': 'Qu’est-ce qui est payant\u202F?',
     'faq.a2': 'Uniquement l’enregistrement et le renouvellement de votre nom de domaine (en général CHF\u00A015–30 par an), sauf si vous choisissez des options comme des langues supplémentaires, un système de réservation ou de l’automatisation.',
     'faq.q3': 'À qui appartient mon nom de domaine\u202F?',
-    'faq.a3': 'À vous. Nous vous guidons pour l’acheter directement, afin que vous en gardiez toujours la pleine propriété et le contrôle. Vous pouvez transférer votre domaine chez n’importe quel fournisseur, à tout moment.',
+    'faq.a3': 'À vous. Nous vous aidons à l’acheter directement, afin que vous en gardiez la pleine propriété et le contrôle. Vous pouvez transférer votre domaine chez n’importe quel fournisseur, à tout moment.',
     'faq.q4': 'L’hébergement est-il vraiment inclus\u202F?',
     'faq.a4': 'Oui, pour le site web statique de base du Programme Site web gratuit. Notre infrastructure nous permet de proposer un hébergement fiable et rapide, sans frais.',
     'faq.q5': 'Pouvez-vous améliorer mon site actuel\u202F?',
@@ -326,7 +326,7 @@ const de = {
 
     // Hero
     'hero.title': 'Die Website für Ihr Unternehmen. Kostenlos.',
-    'hero.subtitle': 'Wir erstellen oder modernisieren die Website Ihres Schweizer KMU, mit Ihrer eigenen Domain. Das Hosting ist im Programm «Kostenlose Website» inbegriffen.',
+    'hero.subtitle': 'Wir erstellen oder modernisieren die professionelle Website Ihres Schweizer KMU – auf Ihrer eigenen Domain und mit inbegriffenem Hosting.',
     'hero.cta.primary': 'Website kostenlos anfragen',
     'hero.cta.secondary': 'Meine Website verbessern',
     'hero.trust': 'Ihre Domain gehört immer Ihnen · Keine lange Vertragsbindung',
@@ -361,7 +361,7 @@ const de = {
     'whyFree.trust.yourDomain': 'Ihre Domain gehört immer Ihnen',
 
     // How it works
-    'howItWorks.title': 'Einfach, von der Anfrage bis zur Aufschaltung',
+    'howItWorks.title': 'Ein einfacher Weg von der Anfrage bis zur Aufschaltung',
     'howItWorks.step1.title': 'Stellen Sie uns Ihr Unternehmen vor',
     'howItWorks.step1.text': 'Füllen Sie ein kurzes Formular aus: Dienstleistungen, Kontaktangaben, Logo und Fotos.',
     'howItWorks.step2.title': 'Wir erstellen oder verbessern Ihre Website',
@@ -410,7 +410,7 @@ const de = {
     'faq.q2': 'Was muss ich bezahlen?',
     'faq.a2': 'Nur die Registrierung und Verlängerung Ihrer Domain (meist CHF\u00A015–30 pro Jahr), ausser Sie entscheiden sich für Zusatzleistungen wie weitere Sprachen, ein Buchungssystem oder Automatisierung.',
     'faq.q3': 'Wem gehört meine Domain?',
-    'faq.a3': 'Ihnen. Wir zeigen Ihnen, wie Sie sie direkt selbst kaufen. So behalten Sie immer das volle Eigentum und die Kontrolle. Sie können Ihre Domain jederzeit zu einem beliebigen Anbieter übertragen.',
+    'faq.a3': 'Ihnen. Wir helfen Ihnen, sie direkt selbst zu kaufen. So behalten Sie das volle Eigentum und die Kontrolle. Sie können Ihre Domain jederzeit zu einem beliebigen Anbieter übertragen.',
     'faq.q4': 'Ist das Hosting wirklich inbegriffen?',
     'faq.a4': 'Ja, für die einfache statische Website im Programm «Kostenlose Website». Dank unserer Infrastruktur können wir zuverlässiges, schnelles Hosting kostenlos anbieten.',
     'faq.q5': 'Können Sie meine bestehende Website verbessern?',
@@ -479,7 +479,7 @@ const it = {
 
     // Hero
     'hero.title': 'Il sito web della tua azienda. Gratuito.',
-    'hero.subtitle': 'Creiamo o modernizziamo il sito web della tua PMI svizzera, con il tuo dominio. L’hosting è incluso nel Programma Sito web gratuito.',
+    'hero.subtitle': 'Creiamo o modernizziamo il sito web professionale della tua PMI svizzera, sul tuo dominio e con l’hosting incluso.',
     'hero.cta.primary': 'Richiedi il sito gratuito',
     'hero.cta.secondary': 'Migliora il mio sito',
     'hero.trust': 'Il dominio resta sempre tuo · Nessun contratto a lungo termine',
@@ -514,7 +514,7 @@ const it = {
     'whyFree.trust.yourDomain': 'Il dominio è sempre tuo',
 
     // How it works
-    'howItWorks.title': 'Semplice, dalla richiesta alla messa online',
+    'howItWorks.title': 'Un percorso semplice, dalla richiesta alla messa online',
     'howItWorks.step1.title': 'Presentaci la tua azienda',
     'howItWorks.step1.text': 'Compila un breve modulo con i tuoi servizi, i dati di contatto, il logo e le foto.',
     'howItWorks.step2.title': 'Creiamo o miglioriamo il tuo sito',
@@ -563,7 +563,7 @@ const it = {
     'faq.q2': 'Cosa devo pagare?',
     'faq.a2': 'Solo la registrazione e il rinnovo del dominio (di solito CHF\u00A015–30 all’anno), a meno che tu scelga servizi opzionali come lingue aggiuntive, un sistema di prenotazione o l’automazione.',
     'faq.q3': 'Di chi è il mio dominio?',
-    'faq.a3': 'Tuo. Ti guidiamo nell’acquisto diretto, così mantieni sempre la piena proprietà e il controllo. Puoi trasferire il dominio a qualsiasi fornitore in qualsiasi momento.',
+    'faq.a3': 'Tuo. Ti aiutiamo ad acquistarlo direttamente, così mantieni la piena proprietà e il controllo. Puoi trasferire il dominio a qualsiasi fornitore in qualsiasi momento.',
     'faq.q4': 'L’hosting è davvero incluso?',
     'faq.a4': 'Sì, per il sito web statico di base del Programma Sito web gratuito. La nostra infrastruttura ci permette di offrire un hosting affidabile e veloce senza costi.',
     'faq.q5': 'Potete migliorare il mio sito attuale?',
