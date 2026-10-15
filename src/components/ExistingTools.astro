@@ -1,0 +1,165 @@
+---
+/**
+ * "We work with the tools you already use" — credibility bridge between the
+ * add-ons section (06) and the dark "Tools that work together" zone (Progression).
+ *
+ * Restrained text-name chips grouped into six category cards. No logos, no partner
+ * wall, no endorsement/partnership implication. Platform names are shown as examples
+ * only; the disclaimer and framing copy keep this as plain, honest, visible content.
+ *
+ * English-first. FR/DE/IT currently carry English fallbacks and are flagged for the
+ * upcoming combined Swiss-localisation pass. Do NOT ship to production until FR/DE/IT
+ * are localised.
+ */
+import type { Language } from '@i18n/index';
+import { getLocalizedPath } from '@i18n/index';
+import { pick } from '@lib/pick';
+import { Mail, Calculator, Users, Factory, Server, Workflow, ArrowRight } from '@lucide/astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+
+// Platform names are brand/trademark strings, shown identically in every language.
+// `note` is a short honest qualifier so we never imply every tool is equally common.
+const categories = [
+  {
+    icon: Mail,
+    title: pick(lang, { en: 'Office & collaboration', fr: 'Office & collaboration', de: 'Office & collaboration', it: 'Office & collaboration' }),
+    note: pick(lang, { en: 'Everyday email, documents and shared files', fr: 'Everyday email, documents and shared files', de: 'Everyday email, documents and shared files', it: 'Everyday email, documents and shared files' }),
+    tools: ['Microsoft 365', 'Google Workspace', 'SharePoint'],
+  },
+  {
+    icon: Calculator,
+    title: pick(lang, { en: 'Business & accounting', fr: 'Business & accounting', de: 'Business & accounting', it: 'Business & accounting' }),
+    note: pick(lang, { en: 'Widely used by Swiss small businesses', fr: 'Widely used by Swiss small businesses', de: 'Widely used by Swiss small businesses', it: 'Widely used by Swiss small businesses' }),
+    tools: ['bexio', 'Abacus', 'KLARA'],
+  },
+  {
+    icon: Users,
+    title: pick(lang, { en: 'CRM & sales', fr: 'CRM & sales', de: 'CRM & sales', it: 'CRM & sales' }),
+    note: pick(lang, { en: 'Keeping track of customers and quotes', fr: 'Keeping track of customers and quotes', de: 'Keeping track of customers and quotes', it: 'Keeping track of customers and quotes' }),
+    tools: ['Salesforce', 'HubSpot', 'Microsoft Dynamics'],
+  },
+  {
+    icon: Factory,
+    title: pick(lang, { en: 'ERP & operations', fr: 'ERP & operations', de: 'ERP & operations', it: 'ERP & operations' }),
+    note: pick(lang, { en: 'More common in larger or industrial SMEs', fr: 'More common in larger or industrial SMEs', de: 'More common in larger or industrial SMEs', it: 'More common in larger or industrial SMEs' }),
+    tools: ['SAP', 'Abacus', 'Odoo'],
+  },
+  {
+    icon: Server,
+    title: pick(lang, { en: 'Hosting & web', fr: 'Hosting & web', de: 'Hosting & web', it: 'Hosting & web' }),
+    note: pick(lang, { en: 'Where your website and email are hosted', fr: 'Where your website and email are hosted', de: 'Where your website and email are hosted', it: 'Where your website and email are hosted' }),
+    tools: ['Infomaniak', 'Hostpoint', 'Cloudflare'],
+  },
+  {
+    icon: Workflow,
+    title: pick(lang, { en: 'Automation & workflows', fr: 'Automation & workflows', de: 'Automation & workflows', it: 'Automation & workflows' }),
+    note: pick(lang, { en: 'Connecting steps so work moves on its own', fr: 'Connecting steps so work moves on its own', de: 'Connecting steps so work moves on its own', it: 'Connecting steps so work moves on its own' }),
+    tools: ['Power Automate', 'Make', 'Zapier'],
+  },
+];
+
+const workflowSteps = ['Enquiry', 'Microsoft 365', 'CRM / ERP', 'Quotation', 'Follow-up'];
+---
+
+<section class="section bg-white border-y border-ink-900/10" id="your-systems" aria-labelledby="systems-title">
+  <div class="container-custom">
+    <SectionHeader
+      id="systems-title"
+      index="07"
+      eyebrow={pick(lang, { en: 'Your systems', fr: 'Your systems', de: 'Your systems', it: 'Your systems' })}
+      title={pick(lang, {
+        en: 'We work with the tools you already use',
+        fr: 'We work with the tools you already use',
+        de: 'We work with the tools you already use',
+        it: 'We work with the tools you already use',
+      })}
+      lead={pick(lang, {
+        en: 'From everyday office software and accounting platforms to CRM, ERP and hosting, we help Swiss SMEs get more from the systems they already use.',
+        fr: 'From everyday office software and accounting platforms to CRM, ERP and hosting, we help Swiss SMEs get more from the systems they already use.',
+        de: 'From everyday office software and accounting platforms to CRM, ERP and hosting, we help Swiss SMEs get more from the systems they already use.',
+        it: 'From everyday office software and accounting platforms to CRM, ERP and hosting, we help Swiss SMEs get more from the systems they already use.',
+      })}
+    >
+      <p class="mt-5 text-heading-sm font-medium text-ink-900 max-w-2xl">
+        {pick(lang, {
+          en: 'You don’t need to replace everything. We start with what already works, then connect, improve and automate from there.',
+          fr: 'You don’t need to replace everything. We start with what already works, then connect, improve and automate from there.',
+          de: 'You don’t need to replace everything. We start with what already works, then connect, improve and automate from there.',
+          it: 'You don’t need to replace everything. We start with what already works, then connect, improve and automate from there.',
+        })}
+      </p>
+    </SectionHeader>
+
+    <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-ink-900/10 border border-ink-900/10 rounded-md overflow-hidden">
+      {categories.map((category, i) => {
+        const Icon = category.icon;
+        return (
+          <li class="card-grid-hover relative bg-white p-7 transition-colors hover:bg-paper">
+            <div class="flex items-center justify-between">
+              <Icon size={22} class="text-ink-900" stroke-width={1.5} />
+              <span class="font-mono text-xs text-steel-400" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <h3 class="mt-8 text-heading-sm text-ink-900">{category.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-steel-600">{category.note}</p>
+            <ul class="mt-5 flex flex-wrap gap-2">
+              {category.tools.map((tool) => (
+                <li class="inline-flex items-center rounded-full border border-ink-900/15 bg-paper px-3 py-1 text-sm text-steel-700">
+                  {tool}
+                </li>
+              ))}
+            </ul>
+          </li>
+        );
+      })}
+    </ul>
+
+    <div class="mt-10 border-t border-ink-900/10 pt-8">
+      <p class="text-steel-600 max-w-2xl">
+        {pick(lang, {
+          en: 'We can assess how your existing tools fit together and where small improvements or automation would help most.',
+          fr: 'We can assess how your existing tools fit together and where small improvements or automation would help most.',
+          de: 'We can assess how your existing tools fit together and where small improvements or automation would help most.',
+          it: 'We can assess how your existing tools fit together and where small improvements or automation would help most.',
+        })}
+      </p>
+
+      <ol
+        class="mt-6 flex flex-wrap items-center gap-x-2 gap-y-2 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-steel-700"
+        aria-label={pick(lang, {
+          en: 'Example workflow: enquiry through to follow-up',
+          fr: 'Example workflow: enquiry through to follow-up',
+          de: 'Example workflow: enquiry through to follow-up',
+          it: 'Example workflow: enquiry through to follow-up',
+        })}
+      >
+        {workflowSteps.map((step, i) => (
+          <li class="flex items-center gap-2">
+            <span class="whitespace-nowrap">{step}</span>
+            {i < workflowSteps.length - 1 && <span class="text-steel-400" aria-hidden="true">→</span>}
+          </li>
+        ))}
+      </ol>
+
+      <div class="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+        <p class="text-xs text-steel-500 max-w-2xl">
+          {pick(lang, {
+            en: 'Examples only. Names and trademarks belong to their respective owners. What’s possible depends on your systems and the project.',
+            fr: 'Examples only. Names and trademarks belong to their respective owners. What’s possible depends on your systems and the project.',
+            de: 'Examples only. Names and trademarks belong to their respective owners. What’s possible depends on your systems and the project.',
+            it: 'Examples only. Names and trademarks belong to their respective owners. What’s possible depends on your systems and the project.',
+          })}
+        </p>
+        <a href={getLocalizedPath('/contact/', lang)} class="link-arrow self-start sm:self-auto shrink-0">
+          {pick(lang, { en: 'Tell us what you use', fr: 'Tell us what you use', de: 'Tell us what you use', it: 'Tell us what you use' })}
+          <ArrowRight size={16} stroke-width={1.75} />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
