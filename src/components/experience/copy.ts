@@ -164,7 +164,7 @@ const fr: ExperienceCopy = {
   hero: {
     eyebrow: 'Arklens Experience Programme',
     titleLead: 'Apprendre en faisant.',
-    titleAccent: 'Créer du concret.',
+    titleAccent: 'Construire quelque chose de concret.',
     lead: 'Participez à de vrais projets liés à de vraies entreprises. Acquérez une expérience pratique à faire valoir dans votre CV, développez des connaissances concrètes et tissez des contacts professionnels au fil du projet.',
     cta: 'Postuler au programme',
     secondary: 'Voir comment ça marche',
@@ -176,7 +176,7 @@ const fr: ExperienceCopy = {
     eyebrow: 'Pourquoi ce programme',
     title: 'Donnez de la valeur à votre temps.',
     lead: 'Que vous soyez en études, à la recherche de votre prochain poste, en reconversion ou entre deux opportunités, le temps passé sur de vrais projets vous laisse quelque chose de durable\u00A0: de l’expérience, des connaissances et des contacts.',
-    support: 'Garder le rythme. Continuer d’apprendre. Continuer de construire.',
+    support: 'Garder le rythme. Continuer d’apprendre. Continuer d’avancer.',
   },
   gain: {
     title: 'Une expérience qui vous fait avancer',
@@ -317,7 +317,7 @@ const de: ExperienceCopy = {
       { title: 'Praxiswissen', text: 'Erleben Sie, wie Projekte, Unternehmen, Kundschaft und Technik ausserhalb des Hörsaals zusammenspielen.' },
       { title: 'Berufliche Kontakte', text: 'Lernen Sie Menschen und Unternehmen ganz natürlich über die Projekte kennen, an denen Sie mitwirken.' },
       { title: 'Neue und gestärkte Fähigkeiten', text: 'Setzen Sie ein, was Sie schon können, und lernen Sie Neues, indem Sie es anwenden.' },
-      { title: 'Schwung', text: 'Bleiben Sie aktiv und produktiv – während des Studiums, der Stellensuche oder während Sie Ihren nächsten Schritt planen.' },
+      { title: 'Dranbleiben', text: 'Bleiben Sie aktiv und produktiv – während des Studiums, der Stellensuche oder während Sie Ihren nächsten Schritt planen.' },
     ],
   },
   cv: {
@@ -447,7 +447,7 @@ const it: ExperienceCopy = {
       { title: 'Conoscenze operative', text: 'Scopri come progetti, aziende, clienti e tecnologia si integrano fuori dall’aula.' },
       { title: 'Contatti professionali', text: 'Conosci persone e aziende in modo naturale, attraverso i progetti a cui partecipi.' },
       { title: 'Competenze nuove e più solide', text: 'Metti in pratica ciò che sai già e acquisisci nuove competenze applicandole.' },
-      { title: 'Slancio', text: 'Mantieni il ritmo e usa bene il tuo tempo mentre studi, cerchi lavoro o decidi il prossimo passo.' },
+      { title: 'Continuità', text: 'Mantieni il ritmo e usa bene il tuo tempo mentre studi, cerchi lavoro o decidi il prossimo passo.' },
     ],
   },
   cv: {
@@ -495,7 +495,7 @@ const it: ExperienceCopy = {
     line: 'Forse stai studiando, sei tra un impiego e l’altro, stai cambiando carriera, stai rientrando nel mondo del lavoro o vuoi semplicemente fare esperienza in un nuovo ambito.',
     groups: [
       'Studenti',
-      'Neolaureati',
+      'Chi ha appena concluso gli studi',
       'Chi cerca il prossimo impiego',
       'Chi cambia carriera',
       'Chi rientra nel mondo del lavoro',
@@ -514,7 +514,7 @@ const it: ExperienceCopy = {
       { title: 'Valutiamo la compatibilità', text: 'Esaminiamo i progetti in corso e dove le tue competenze o i tuoi obiettivi di apprendimento potrebbero inserirsi.' },
       { title: 'Troviamo il progetto giusto', text: 'Se c’è un’opportunità adatta, prima di iniziare parliamo del progetto, delle aspettative e del tempo richiesto.' },
       { title: 'Metti in pratica le tue competenze', text: 'Partecipa al progetto, con accompagnamento e riscontri lungo il percorso.' },
-      { title: 'Porta avanti l’esperienza', text: 'Riparti con esperienza, conoscenze e contatti su cui costruire.' },
+      { title: 'Fai tesoro dell’esperienza', text: 'Riparti con esperienza, conoscenze e contatti su cui costruire.' },
     ],
     stepLabel: (n: number) => `Fase ${n}: `,
     note: 'Candidarsi non garantisce un progetto. Le opportunità dipendono dai progetti disponibili e dalla compatibilità.',
