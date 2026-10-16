@@ -328,7 +328,7 @@ const de: ApplyCopy = {
     hint: 'Wählen Sie für jede Sprache, die Sie verwenden, ein Niveau. Mindestens eine ist nötig.',
     notSelected: 'Nicht ausgewählt',
     names: { en: 'Englisch', fr: 'Französisch', de: 'Deutsch', it: 'Italienisch' },
-    levels: { basic: 'Grundkenntnisse', conversational: 'Kann mich gut verständigen', working: 'Sicher im Beruf', fluent: 'Fliessend / Erstsprache' },
+    levels: { basic: 'Grundkenntnisse', conversational: 'Gute Verständigung', working: 'Sicher im Beruf', fluent: 'Fliessend / Erstsprache' },
     other: 'Weitere Sprache',
     otherPlaceholder: 'z.\u00A0B. Spanisch',
     otherLevel: 'Niveau für diese Sprache',
