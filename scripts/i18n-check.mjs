@@ -13,7 +13,13 @@ const LOCALES = ['en', 'fr', 'de', 'it'];
 const NON_EN = ['fr', 'de', 'it'];
 const REGION = { en: 'en-CH', fr: 'fr-CH', de: 'de-CH', it: 'it-CH' };
 const OG = { en: 'en_CH', fr: 'fr_CH', de: 'de_CH', it: 'it_CH' };
-const PAGES = ['/', '/start/', '/contact/', '/legal/', '/privacy/', '/terms/', '/ai/', '/experience/'];
+const INDEXED_PAGES = ['/', '/start/', '/contact/', '/legal/', '/privacy/', '/terms/', '/ai/', '/experience/'];
+// Localised pages that must be noindex: same checks as indexed pages, except (b) requires
+// <meta name="robots" content="noindex"> with no canonical/hreflang/WebPage, and (c) requires
+// them to be absent from the sitemap.
+const NOINDEX_PAGES = ['/experience/apply/'];
+const PAGES = [...INDEXED_PAGES, ...NOINDEX_PAGES];
+const isNoindex = (page) => NOINDEX_PAGES.includes(page);
 const MSG_ATTRS = ['sending', 'submit', 'invalid', 'rate-limited', 'verification', 'network', 'retry'];
 const ASSET_PREFIXES = ['/api/', '/favicon', '/apple-touch-icon.png', '/android-chrome-', '/arklens-logo.png', '/_astro/', '/sitemap.xml', '/robots.txt'];
 const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr']);
@@ -315,11 +321,19 @@ function main() {
     const html = attrsOf(tokens, (t) => t.name === 'html')[0];
     if (html?.lang !== REGION[lang]) fail(file, 'b', `<html lang="${html?.lang}"> expected "${REGION[lang]}"`);
     const canon = attrsOf(tokens, (t) => t.name === 'link' && t.attrs.rel === 'canonical');
-    if (canon.length !== 1 || canon[0].href !== ownUrl) fail(file, 'b', `canonical ${JSON.stringify(canon.map((c) => c.href))} expected ${ownUrl}`);
+    if (!isNoindex(page) && (canon.length !== 1 || canon[0].href !== ownUrl)) fail(file, 'b', `canonical ${JSON.stringify(canon.map((c) => c.href))} expected ${ownUrl}`);
     const alts = attrsOf(tokens, (t) => t.name === 'link' && t.attrs.rel === 'alternate' && 'hreflang' in t.attrs);
+    const robotsMeta = attrsOf(tokens, (t) => t.name === 'meta' && t.attrs.name === 'robots');
+    if (isNoindex(page)) {
+      if (!robotsMeta.some((x) => x.content === 'noindex')) fail(file, 'b', 'noindex page missing <meta name="robots" content="noindex">');
+      if (canon.length) fail(file, 'b', 'noindex page must not have a canonical');
+      if (alts.length) fail(file, 'b', 'noindex page must not have hreflang links');
+    } else if (robotsMeta.length) {
+      fail(file, 'b', `indexed page has <meta name="robots"> ${JSON.stringify(robotsMeta.map((x) => x.content))}`);
+    }
     const wantAlts = { ...Object.fromEntries(LOCALES.map((l) => [REGION[l], SITE + urlPath(l, page)])), 'x-default': SITE + page };
-    if (alts.length !== 5) fail(file, 'b', `${alts.length} hreflang links, expected 5`);
-    for (const [hl, href] of Object.entries(wantAlts)) {
+    if (!isNoindex(page) && alts.length !== 5) fail(file, 'b', `${alts.length} hreflang links, expected 5`);
+    for (const [hl, href] of isNoindex(page) ? [] : Object.entries(wantAlts)) {
       const got = alts.filter((a) => a.hreflang === hl);
       if (got.length !== 1 || got[0].href !== href) fail(file, 'b', `hreflang ${hl} -> ${JSON.stringify(got.map((a) => a.href))} expected ${href}`);
     }
@@ -335,7 +349,8 @@ function main() {
       try { json = JSON.parse(block); } catch (e) { fail(file, 'b', `JSON-LD does not parse: ${e.message}`); continue; }
       const nodes = Array.isArray(json['@graph']) ? json['@graph'] : [json];
       const wp = nodes.filter((n) => n['@type'] === 'WebPage');
-      if (wp.length !== 1 || wp[0].inLanguage !== REGION[lang]) fail(file, 'b', `JSON-LD WebPage inLanguage ${JSON.stringify(wp.map((n) => n.inLanguage))} expected ${REGION[lang]}`);
+      if (isNoindex(page)) { if (wp.length) fail(file, 'b', 'noindex page must not declare a JSON-LD WebPage'); }
+      else if (wp.length !== 1 || wp[0].inLanguage !== REGION[lang]) fail(file, 'b', `JSON-LD WebPage inLanguage ${JSON.stringify(wp.map((n) => n.inLanguage))} expected ${REGION[lang]}`);
       else if (wp[0].url !== ownUrl) fail(file, 'b', `JSON-LD WebPage url ${wp[0].url} expected ${ownUrl}`);
     }
     const titleIdx = findOpen(tokens, (t) => t.name === 'title');
@@ -459,7 +474,10 @@ function main() {
     const xml = fs.readFileSync(smFile, 'utf8');
     const urls = [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((m) => m[1]);
     const locs = urls.map((u) => (u.match(/<loc>([^<]*)<\/loc>/) || [])[1]);
-    const want = new Set([...actual].map((f) => SITE + '/' + path.relative(DIST, path.dirname(f)).split(path.sep).filter(Boolean).map((s) => s + '/').join('')));
+    const pathOf = (f) => '/' + path.relative(DIST, path.dirname(f)).split(path.sep).filter(Boolean).map((s) => s + '/').join('');
+    const noindexPaths = new Set(LOCALES.flatMap((l) => NOINDEX_PAGES.map((p) => urlPath(l, p))));
+    const want = new Set([...actual].map(pathOf).filter((p) => !noindexPaths.has(p)).map((p) => SITE + p));
+    for (const p of noindexPaths) if (locs.includes(SITE + p)) fail(smFile, 'c', `noindex page ${SITE + p} must not be in the sitemap`);
     const got = new Set(locs);
     for (const u of want) if (!got.has(u)) fail(smFile, 'c', `missing <loc> ${u}`);
     for (const u of got) if (!want.has(u)) fail(smFile, 'c', `<loc> ${u} has no index.html page`);

@@ -12,11 +12,11 @@
 import type { Language } from '@i18n/index';
 
 /**
- * Phase 2 sets this to '/experience/apply/'. While it is null the hero CTA
- * scrolls to the final call to action and the final CTA renders as a disabled
- * preview, so nobody is sent to the SME /start/ flow or a missing page.
+ * Localised application page. If set to null, the hero CTA scrolls to the final
+ * call to action and the final CTA renders as a disabled preview (Phase 1 behaviour),
+ * so nobody is sent to the SME /start/ flow or a missing page.
  */
-export const APPLY_PATH: string | null = null;
+export const APPLY_PATH: string | null = '/experience/apply/';
 
 const en = {
   meta: {

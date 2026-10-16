@@ -73,6 +73,7 @@
     { "v": "Area", "locales": ["it"], "//": "standard IT noun (l’area), DigitalCheck table header" },
     { "v": "Hybrid", "locales": ["de"], "//": "correct DE adjective, identical spelling (cognate policy §11); AI page hero tag" },
     { "v": "+41 XX XXX XX XX", "//": "Swiss phone-number placeholder format" },
+    { "v": "https://", "//": "URL-field placeholder (Experience application links), identical in every language" },
     { "v": "www.arklens.ch", "//": "URL" },
     { "v": "www.cloudflare.com", "//": "URL" },
     { "v": "www.maison-dupont.ch", "//": "fictional mockup URL" },
