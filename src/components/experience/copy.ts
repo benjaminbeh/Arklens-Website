@@ -310,13 +310,13 @@ const de: ExperienceCopy = {
   },
   gain: {
     title: 'Erfahrung, die Sie weiterbringt',
-    lead: 'Sammeln Sie Praxiserfahrung, Praxiswissen, gefestigte Fähigkeiten und berufliche Kontakte, die Sie in Ihre nächste Aufgabe mitnehmen können.',
+    lead: 'Bauen Sie Praxiserfahrung, Fachwissen, gefestigte Fähigkeiten und berufliche Kontakte auf, die Sie in Ihre nächste Aufgabe mitnehmen können.',
     cards: [
       { title: 'Echte Praxiserfahrung', text: 'Wirken Sie an echten Projekten mit realen Zielen und realen Rahmenbedingungen mit, statt an erfundenen Übungen.' },
       { title: 'Etwas für Ihren Lebenslauf', text: 'Sammeln Sie Projekterfahrung, die Sie künftigen Arbeitgebern konkret beschreiben können.' },
       { title: 'Praxiswissen', text: 'Erleben Sie, wie Projekte, Unternehmen, Kundschaft und Technik ausserhalb des Hörsaals zusammenspielen.' },
       { title: 'Berufliche Kontakte', text: 'Lernen Sie Menschen und Unternehmen ganz natürlich über die Projekte kennen, an denen Sie mitwirken.' },
-      { title: 'Neue und gestärkte Fähigkeiten', text: 'Wenden Sie an, was Sie schon können, und eignen Sie sich Neues an, indem Sie es anwenden.' },
+      { title: 'Neue und gestärkte Fähigkeiten', text: 'Setzen Sie ein, was Sie schon können, und lernen Sie Neues, indem Sie es anwenden.' },
       { title: 'Schwung', text: 'Bleiben Sie aktiv und produktiv – während des Studiums, der Stellensuche oder während Sie Ihren nächsten Schritt planen.' },
     ],
   },
