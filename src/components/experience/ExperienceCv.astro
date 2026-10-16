@@ -1,0 +1,60 @@
+---
+import type { Language } from '@i18n/index';
+import { Check } from '@lucide/astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import { experienceCopy } from './copy';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const c = experienceCopy(lang).cv;
+---
+
+<section class="theme-dark section relative isolate overflow-hidden bg-ink-900 text-white" aria-labelledby="experience-cv-title">
+  <div class="cv-grid grid-bg absolute inset-0 -z-10" aria-hidden="true"></div>
+
+  <div class="container-custom">
+    <SectionHeader id="experience-cv-title" index="03" eyebrow={c.eyebrow} title={c.title} lead={c.lead} />
+
+    <!-- Illustrative comparison, explicitly labelled as an example (not a testimonial) -->
+    <figure class="m-0">
+      <figcaption class="mb-4"><span class="tag">{c.example}</span></figcaption>
+      <div class="grid md:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-md overflow-hidden">
+        <div class="bg-ink-900 p-7 md:p-8">
+          <p class="eyebrow">{c.studiedLabel}</p>
+          <p class="mt-5 text-heading-sm text-steel-300">{c.studied}</p>
+        </div>
+        <div class="bg-ink-800 p-7 md:p-8">
+          <p class="eyebrow flex items-center gap-2"><span class="h-1.5 w-1.5 bg-signal-400" aria-hidden="true"></span>{c.builtLabel}</p>
+          <p class="mt-5 text-heading-sm text-white">{c.built}</p>
+        </div>
+      </div>
+    </figure>
+
+    <p class="mt-12 text-heading-md text-white max-w-3xl">{c.line}</p>
+
+    <div class="mt-12 grid grid-cols-12 gap-x-6 gap-y-6 border-t border-white/15 pt-8">
+      <h3 class="col-span-12 md:col-span-4 text-heading-sm text-white">{c.takeawayTitle}</h3>
+      <div class="col-span-12 md:col-span-8">
+        <ul class="space-y-3">
+          {c.takeaways.map((t) => (
+            <li class="flex items-start gap-3 text-steel-300">
+              <Check size={18} class="mt-0.5 flex-none text-signal-400" stroke-width={2} />
+              <span>{t}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-6 text-sm text-steel-400 max-w-2xl">{c.note}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cv-grid {
+    mask-image: linear-gradient(to bottom, #000, transparent 70%);
+    -webkit-mask-image: linear-gradient(to bottom, #000, transparent 70%);
+  }
+</style>

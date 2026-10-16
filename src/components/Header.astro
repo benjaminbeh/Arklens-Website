@@ -10,16 +10,18 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
+// Experience replaces the former Benefits anchor (the homepage section itself is unchanged)
+// and sits last, next to the "Get started" CTA.
 const navItems = [
   { href: '/#how-it-works', label: t('nav.howItWorks') },
   { href: '/#what-we-offer', label: t('nav.whatWeOffer') },
-  { href: '/#examples', label: t('nav.examples') },
   { href: '/#for-business', label: t('nav.forBusiness') },
   { href: '/ai/', label: t('nav.ai') },
   { href: '/#faq', label: t('nav.faq') },
   { href: '/contact/', label: t('nav.contact') },
+  { href: '/experience/', label: t('nav.experience') },
 ];
-// Only '/ai/' and '/contact/' can match: the other items are anchors.
+// Only '/ai/', '/contact/' and '/experience/' can match: the other items are anchors.
 const current = stripLocale(pagePath(Astro.url.pathname));
 
 const langLinks = (Object.entries(languages) as [Language, string][]).map(([code, name]) => ({

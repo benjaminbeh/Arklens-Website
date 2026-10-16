@@ -1,0 +1,20 @@
+---
+import type { Language } from '@i18n/index';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import { experienceCopy } from './copy';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const c = experienceCopy(lang).why;
+---
+
+<section class="section-tight" aria-labelledby="experience-why-title">
+  <div class="container-custom">
+    <SectionHeader id="experience-why-title" index="01" eyebrow={c.eyebrow} title={c.title} lead={c.lead} class="!mb-0">
+      <p class="mt-8 text-heading-md text-ink-900 max-w-2xl">{c.support}</p>
+    </SectionHeader>
+  </div>
+</section>

@@ -1,0 +1,56 @@
+---
+import type { Language } from '@i18n/index';
+import { getLocalizedPath } from '@i18n/index';
+import { ArrowRight } from '@lucide/astro';
+import { experienceCopy, APPLY_PATH } from './copy';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const c = experienceCopy(lang).final;
+---
+
+<section class="relative isolate overflow-hidden border-t border-ink-900/10 bg-paper py-24 md:py-32 scroll-mt-[var(--sfg-header-h)]" id="apply" aria-labelledby="experience-cta-title">
+  <div class="experience-final-grid grid-bg absolute inset-0 -z-10" aria-hidden="true"></div>
+
+  <div class="container-custom">
+    <div class="max-w-4xl">
+      <p class="eyebrow flex items-center gap-3 mb-8">
+        <span class="h-px w-8 bg-signal-600" aria-hidden="true"></span>
+        {c.eyebrow}
+      </p>
+      <h2 id="experience-cta-title" class="text-display-lg">{c.title}</h2>
+      <p class="lead mt-6">{c.lead}</p>
+
+      <div class="mt-10 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-4 sm:gap-x-8">
+        {APPLY_PATH ? (
+          <a href={getLocalizedPath(APPLY_PATH, lang)} class="btn btn-primary btn-lg">
+            {c.cta}
+            <ArrowRight size={18} class="arrow" stroke-width={1.75} />
+          </a>
+        ) : (
+          /* Phase 1 dev preview: no application page yet, so the CTA is shown but not actionable. */
+          <span class="btn btn-primary btn-lg opacity-60 cursor-not-allowed" role="link" aria-disabled="true" aria-describedby="experience-apply-preview">
+            {c.cta}
+            <ArrowRight size={18} class="arrow" stroke-width={1.75} />
+          </span>
+        )}
+        <a href={getLocalizedPath('/contact/', lang)} class="link-arrow self-start sm:self-auto py-2">
+          {c.contact}
+          <ArrowRight size={16} stroke-width={1.75} />
+        </a>
+      </div>
+
+      {!APPLY_PATH && <p id="experience-apply-preview" class="mt-5 font-mono text-xs uppercase tracking-[0.08em] text-steel-500">{c.preview}</p>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .experience-final-grid {
+    mask-image: radial-gradient(ellipse 70% 80% at 90% 50%, #000 10%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 80% at 90% 50%, #000 10%, transparent 70%);
+  }
+</style>

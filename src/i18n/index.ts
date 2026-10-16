@@ -13,6 +13,7 @@ const en = {
     'nav.howItWorks': 'How it works',
     'nav.whatWeOffer': 'What we offer',
     'nav.examples': 'Benefits',
+    'nav.experience': 'Experience',
     'nav.forBusiness': 'For businesses',
     'nav.ai': 'AI',
     'nav.faq': 'FAQ',
@@ -167,6 +168,7 @@ const fr = {
     'nav.howItWorks': 'Comment ça marche',
     'nav.whatWeOffer': 'Notre offre',
     'nav.examples': 'Avantages',
+    'nav.experience': 'Experience', // TODO(localisation): English placeholder until the Swiss-localisation pass
     'nav.forBusiness': 'Pour les PME',
     'nav.ai': 'IA',
     'nav.faq': 'FAQ',
@@ -319,6 +321,7 @@ const de = {
     'nav.howItWorks': 'So funktioniert’s',
     'nav.whatWeOffer': 'Angebot',
     'nav.examples': 'Vorteile',
+    'nav.experience': 'Experience', // TODO(localisation): English placeholder until the Swiss-localisation pass
     'nav.forBusiness': 'Für KMU',
     'nav.ai': 'KI',
     'nav.faq': 'FAQ',
@@ -472,6 +475,7 @@ const it = {
     'nav.howItWorks': 'Come funziona',
     'nav.whatWeOffer': 'Offerta',
     'nav.examples': 'Vantaggi',
+    'nav.experience': 'Experience', // TODO(localisation): English placeholder until the Swiss-localisation pass
     'nav.forBusiness': 'Per le PMI',
     'nav.ai': 'IA',
     'nav.faq': 'FAQ',
@@ -634,7 +638,7 @@ export const ogLocales: Record<Language, string> = { en: 'en_CH', fr: 'fr_CH', d
 export const dateLocales: Record<Language, string> = { en: 'en-GB', fr: 'fr-CH', de: 'de-CH', it: 'it-CH' };
 
 /** Unprefixed (EN) paths of every page generated under src/pages/[...lang]/. */
-export const sitePages = ['/', '/start/', '/contact/', '/legal/', '/privacy/', '/terms/', '/ai/'] as const;
+export const sitePages = ['/', '/start/', '/contact/', '/legal/', '/privacy/', '/terms/', '/ai/', '/experience/'] as const;
 
 export function getLangFromUrl(url: URL): Language {
   const [, lang] = url.pathname.split('/');

@@ -1,0 +1,146 @@
+---
+import type { Language } from '@i18n/index';
+import { getLocalizedPath } from '@i18n/index';
+import { Check, ArrowRight } from '@lucide/astro';
+import { experienceCopy, APPLY_PATH } from './copy';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const c = experienceCopy(lang).hero;
+// Until the application page exists, the hero CTA scrolls to the final call to action.
+const applyHref = APPLY_PATH ? getLocalizedPath(APPLY_PATH, lang) : '#apply';
+---
+
+<section class="relative isolate overflow-hidden border-b border-ink-900/10 pt-[calc(var(--sfg-header-h)+3rem)] pb-16 md:pt-[calc(var(--sfg-header-h)+5rem)] md:pb-24" aria-labelledby="experience-hero-title">
+  <div class="experience-hero-grid grid-bg absolute inset-0 -z-10" aria-hidden="true"></div>
+
+  <div class="container-custom">
+    <div class="grid grid-cols-12 gap-x-6 gap-y-14 items-start">
+      <div class="col-span-12 lg:col-span-7">
+        <p class="eyebrow flex items-center gap-3 mb-8">
+          <span class="h-px w-8 bg-signal-600" aria-hidden="true"></span>
+          <span>{c.eyebrow}</span>
+        </p>
+
+        <h1 id="experience-hero-title" class="text-display-xl text-ink-900 max-w-[14ch]">
+          {c.titleLead}
+          <span class="block text-signal-600">{c.titleAccent}</span>
+        </h1>
+
+        <p class="lead mt-7 md:text-[1.25rem] md:leading-[1.6]">{c.lead}</p>
+
+        <div class="mt-10 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-4 sm:gap-x-8">
+          <a href={applyHref} class="btn btn-primary btn-lg">
+            {c.cta}
+            <ArrowRight size={18} class="arrow" stroke-width={1.75} />
+          </a>
+          <a href="#how-it-works" class="link-arrow self-start sm:self-auto py-2">
+            {c.secondary}
+            <ArrowRight size={16} stroke-width={1.75} />
+          </a>
+        </div>
+
+        <ul class="mt-10 flex flex-col sm:flex-row sm:flex-wrap gap-x-8 gap-y-3 text-sm text-steel-700">
+          {c.points.map((p) => (
+            <li class="flex items-center gap-2.5">
+              <Check size={16} class="text-signal-600 flex-none" stroke-width={2} />
+              <span>{p}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Project flow: restrained Signal Line diagram, no imagery -->
+      <div class="col-span-12 lg:col-span-5 lg:pt-6">
+        <figure class="xp-flow" aria-label={c.flowLabel}>
+          <ol class="xp-flow-list">
+            {c.flow.map((step, i) => (
+              <li class="xp-flow-step" data-last={i === c.flow.length - 1 ? '' : undefined}>
+                <span class="xp-flow-node" aria-hidden="true"></span>
+                <div class="xp-flow-box">
+                  <span class="xp-flow-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="xp-flow-label">{step}</span>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .experience-hero-grid {
+    mask-image: radial-gradient(ellipse 80% 70% at 70% 30%, #000 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 70% 30%, #000 20%, transparent 75%);
+  }
+
+  .xp-flow {
+    margin: 0;
+    padding: 1.5rem;
+    border: 1px solid var(--sfg-line);
+    border-radius: 6px;
+    background: theme('colors.white');
+    box-shadow: 0 1px 0 rgba(17, 20, 24, 0.04), 0 24px 48px -32px rgba(17, 20, 24, 0.25);
+  }
+  .xp-flow-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .xp-flow-step {
+    position: relative;
+    padding-left: 1.75rem;
+    padding-bottom: 1rem;
+  }
+  .xp-flow-step[data-last] {
+    padding-bottom: 0;
+  }
+  .xp-flow-step:not([data-last])::before {
+    content: '';
+    position: absolute;
+    left: 3.5px;
+    top: 1.75rem;
+    bottom: -1.75rem;
+    width: 1px;
+    background: theme('colors.signal.600');
+  }
+  .xp-flow-node {
+    position: absolute;
+    left: 0;
+    top: calc(1.75rem - 4px);
+    width: 8px;
+    height: 8px;
+    background: theme('colors.signal.600');
+  }
+  .xp-flow-box {
+    display: flex;
+    align-items: baseline;
+    gap: 0.875rem;
+    padding: 1rem 1.125rem;
+    border: 1px solid var(--sfg-line);
+    border-radius: 4px;
+    background: theme('colors.paper.DEFAULT');
+  }
+  .xp-flow-step[data-last] .xp-flow-box {
+    border-color: theme('colors.signal.600');
+    background: theme('colors.white');
+  }
+  .xp-flow-index {
+    font-family: theme('fontFamily.mono');
+    font-size: 0.6875rem;
+    color: theme('colors.steel.500');
+    font-variant-numeric: tabular-nums;
+  }
+  .xp-flow-label {
+    font-weight: 500;
+    font-size: 1.0625rem;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: theme('colors.ink.900');
+  }
+</style>

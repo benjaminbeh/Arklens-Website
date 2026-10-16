@@ -1,0 +1,38 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import ExperienceHero from '@components/experience/ExperienceHero.astro';
+import ExperienceWhy from '@components/experience/ExperienceWhy.astro';
+import ExperienceGain from '@components/experience/ExperienceGain.astro';
+import ExperienceCv from '@components/experience/ExperienceCv.astro';
+import ExperienceProjects from '@components/experience/ExperienceProjects.astro';
+import ExperienceConnections from '@components/experience/ExperienceConnections.astro';
+import ExperienceAudience from '@components/experience/ExperienceAudience.astro';
+import ExperienceProcess from '@components/experience/ExperienceProcess.astro';
+import ExperienceExpectations from '@components/experience/ExperienceExpectations.astro';
+import ExperienceFinalCTA from '@components/experience/ExperienceFinalCTA.astro';
+import { experienceCopy } from '@components/experience/copy';
+import { localeStaticPaths, type Language } from '@i18n/index';
+
+export function getStaticPaths() { return localeStaticPaths(); }
+const { lang } = Astro.props as { lang: Language };
+const { meta } = experienceCopy(lang);
+---
+
+<BaseLayout title={meta.title} description={meta.description} lang={lang}>
+  <Header lang={lang} />
+  <main id="main">
+    <ExperienceHero lang={lang} />
+    <ExperienceWhy lang={lang} />
+    <ExperienceGain lang={lang} />
+    <ExperienceCv lang={lang} />
+    <ExperienceProjects lang={lang} />
+    <ExperienceConnections lang={lang} />
+    <ExperienceAudience lang={lang} />
+    <ExperienceProcess lang={lang} />
+    <ExperienceExpectations lang={lang} />
+    <ExperienceFinalCTA lang={lang} />
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>

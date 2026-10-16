@@ -1,0 +1,42 @@
+---
+import type { Language } from '@i18n/index';
+import { Globe, Workflow, Briefcase, PenTool } from '@lucide/astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import { experienceCopy } from './copy';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const c = experienceCopy(lang).projects;
+const icons = [Globe, Workflow, Briefcase, PenTool];
+---
+
+<section class="section" aria-labelledby="experience-projects-title">
+  <div class="container-custom">
+    <SectionHeader id="experience-projects-title" index="04" eyebrow={c.eyebrow} title={c.title} lead={c.lead} />
+
+    <ul class="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-ink-900/10 border border-ink-900/10 rounded-md overflow-hidden">
+      {c.groups.map((group, i) => {
+        const Icon = icons[i];
+        return (
+          <li class="card-grid-hover relative bg-white p-7 transition-colors hover:bg-paper">
+            <div class="flex items-center justify-between">
+              <Icon size={22} class="text-ink-900" stroke-width={1.5} />
+              <span class="font-mono text-xs text-steel-400" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <h3 class="mt-8 text-heading-sm text-ink-900">{group.title}</h3>
+            <ul class="mt-5 flex flex-wrap gap-2">
+              {group.items.map((item) => (
+                <li class="inline-flex items-center rounded-full border border-ink-900/15 bg-paper px-3 py-1 text-sm text-steel-700">{item}</li>
+              ))}
+            </ul>
+          </li>
+        );
+      })}
+    </ul>
+
+    <p class="mt-8 text-sm text-steel-600 max-w-2xl">{c.note}</p>
+  </div>
+</section>
