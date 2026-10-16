@@ -168,7 +168,7 @@ const fr = {
     'nav.howItWorks': 'Comment ça marche',
     'nav.whatWeOffer': 'Notre offre',
     'nav.examples': 'Avantages',
-    'nav.experience': 'Experience', // TODO(localisation): English placeholder until the Swiss-localisation pass
+    'nav.experience': 'Expérience',
     'nav.forBusiness': 'Pour les PME',
     'nav.ai': 'IA',
     'nav.faq': 'FAQ',
@@ -321,7 +321,7 @@ const de = {
     'nav.howItWorks': 'So funktioniert’s',
     'nav.whatWeOffer': 'Angebot',
     'nav.examples': 'Vorteile',
-    'nav.experience': 'Experience', // TODO(localisation): English placeholder until the Swiss-localisation pass
+    'nav.experience': 'Erfahrung',
     'nav.forBusiness': 'Für KMU',
     'nav.ai': 'KI',
     'nav.faq': 'FAQ',
@@ -475,7 +475,7 @@ const it = {
     'nav.howItWorks': 'Come funziona',
     'nav.whatWeOffer': 'Offerta',
     'nav.examples': 'Vantaggi',
-    'nav.experience': 'Experience', // TODO(localisation): English placeholder until the Swiss-localisation pass
+    'nav.experience': 'Esperienza',
     'nav.forBusiness': 'Per le PMI',
     'nav.ai': 'IA',
     'nav.faq': 'FAQ',

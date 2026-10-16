@@ -53,7 +53,10 @@
     { "v": "Website", "locales": ["de"], "//": "standard DE noun (die Website), also inside DE labels such as «Website:» and «Website CHF 0»" },
     { "v": "Introduction", "locales": ["fr"], "//": "correct FR noun, identical spelling (privacy §1 heading)" },
     { "v": "Cookies", "locales": ["fr", "de"], "//": "standard FR/DE term for browser cookies (privacy §7 heading)" },
-    { "v": "Documents", "locales": ["fr"], "//": "correct FR noun, identical spelling (automation example title)" }
+    { "v": "Documents", "locales": ["fr"], "//": "correct FR noun, identical spelling (automation example title)" },
+    { "v": "Arklens Experience Programme", "locales": ["fr", "de", "it"], "//": "programme name, kept in English in every language by decision (Experience page eyebrow)" },
+    { "v": "Marketing", "locales": ["fr", "de", "it"], "//": "standard FR/DE/IT term, identical spelling (Experience project tags)" },
+    { "v": "Design", "locales": ["fr", "de", "it"], "//": "standard FR/DE/IT term for design work, identical spelling (Experience project tags)" }
   ],
   "values": [
     { "v": "Make", "locales": ["fr", "de", "it"], "//": "automation product brand name (Make.com); kept whole-value, not a global term, to avoid masking the English verb elsewhere (ExistingTools)" },
@@ -65,6 +68,7 @@
     { "v": "Message", "locales": ["fr"], "//": "correct FR form label, identical spelling (cognate policy §11)" },
     { "v": "Restaurant / Café", "locales": ["fr", "de"], "//": "both nouns are native in FR/DE" },
     { "v": "Domain", "locales": ["de"], "//": "standard DE term (die Domain), design §3 core terms" },
+    { "v": "Websites", "locales": ["de"], "//": "standard DE plural (die Websites), identical spelling (Experience project tag)" },
     { "v": "Optional", "locales": ["de"], "//": "correct DE adjective for optional form fields, identical spelling" },
     { "v": "Area", "locales": ["it"], "//": "standard IT noun (l’area), DigitalCheck table header" },
     { "v": "Hybrid", "locales": ["de"], "//": "correct DE adjective, identical spelling (cognate policy §11); AI page hero tag" },
