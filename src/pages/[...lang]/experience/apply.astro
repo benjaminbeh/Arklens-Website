@@ -357,7 +357,10 @@ const num = (key: keyof typeof sections) => String(Object.keys(sections).indexOf
     margin-top: 0;
     border-top: 0;
   }
+  /* A floated legend leaves the fieldset border, so it sits below the divider like a normal heading. */
   .xp-legend {
+    float: left;
+    width: 100%;
     display: flex;
     align-items: baseline;
     gap: 0.75rem;
@@ -368,6 +371,9 @@ const num = (key: keyof typeof sections) => String(Object.keys(sections).indexOf
     font-weight: 600;
     letter-spacing: -0.01em;
     color: theme('colors.ink.900');
+  }
+  .xp-legend + * {
+    clear: both;
   }
   .xp-optional {
     margin-left: 0.5rem;
