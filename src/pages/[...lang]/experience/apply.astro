@@ -180,7 +180,7 @@ const num = (key: keyof typeof sections) => String(Object.keys(sections).indexOf
                 <div>
                   <label for="xp-skills" class="field-label">{c.skills.label}</label>
                   <textarea id="xp-skills" name="skills" rows="5" required class="field resize-y" minlength={L.textMin} maxlength={L.skills}
-                    aria-describedby="xp-skills-hint xp-skills-error"></textarea>
+                    aria-describedby="xp-skills-hint xp-sensitive-hint xp-skills-error"></textarea>
                   <div class="flex justify-between gap-4">
                     <p id="xp-skills-hint" class="field-hint">{c.skills.hint}</p>
                     <p class="field-hint tabular-nums whitespace-nowrap" aria-hidden="true"><span data-count-for="skills">0</span> / {L.skills}</p>
@@ -190,13 +190,14 @@ const num = (key: keyof typeof sections) => String(Object.keys(sections).indexOf
                 <div class="mt-8">
                   <label for="xp-learn" class="field-label">{c.learn.label}</label>
                   <textarea id="xp-learn" name="learn" rows="4" required class="field resize-y" minlength={L.textMin} maxlength={L.learn}
-                    aria-describedby="xp-learn-hint xp-learn-error"></textarea>
+                    aria-describedby="xp-learn-hint xp-sensitive-hint xp-learn-error"></textarea>
                   <div class="flex justify-between gap-4">
                     <p id="xp-learn-hint" class="field-hint">{c.learn.hint}</p>
                     <p class="field-hint tabular-nums whitespace-nowrap" aria-hidden="true"><span data-count-for="learn">0</span> / {L.learn}</p>
                   </div>
                   <p id="xp-learn-error" class="error hidden" data-error-for="learn">{c.errors.learn}</p>
                 </div>
+                <p id="xp-sensitive-hint" class="field-hint mt-6">{c.skillsLearn.sensitiveHint}</p>
               </fieldset>
 
               <!-- 06 Availability -->
@@ -280,10 +281,11 @@ const num = (key: keyof typeof sections) => String(Object.keys(sections).indexOf
                 </div>
                 <p id="xp-expectationsAccepted-error" class="error hidden" data-error-for="expectationsAccepted" role="alert">{c.errors.expectations}</p>
 
-                <!-- Dev-only: privacy information for applicants is pending review -->
+                <!-- Short-form privacy notice: informational only, no consent checkbox -->
                 <div class="mt-8 border border-ink-900/15 bg-paper rounded-[4px] p-4 text-sm text-steel-700">
-                  <span class="tag mb-2">{c.privacy.badge}</span>
-                  <p>{c.privacy.text}</p>
+                  <p>
+                    {c.privacy.text} {c.privacy.policyBefore}<a href={getLocalizedPath('/privacy/', lang)} class="text-ink-900 underline underline-offset-4 decoration-1 hover:text-signal-700">{c.privacy.policyLink}</a>{c.privacy.policyAfter}
+                  </p>
                 </div>
 
                 <!-- Honeypot: hidden from people and assistive tech -->

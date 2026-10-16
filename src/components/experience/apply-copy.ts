@@ -65,6 +65,7 @@ const en = {
   /** One numbered section holding the two separate skills and learn questions. */
   skillsLearn: {
     legend: 'Skills & learning',
+    sensitiveHint: 'Please don’t include sensitive personal information, such as health information, that isn’t relevant to your application.',
   },
   skills: {
     label: 'What skills, tools or experience could you bring to a project?',
@@ -99,7 +100,7 @@ const en = {
     legend: 'Show us more, if you want',
     label1: 'Profile or work example',
     label2: 'Another link',
-    hint: 'LinkedIn, GitHub, portfolio, personal website or another relevant link. Up to two links.',
+    hint: 'LinkedIn, GitHub, portfolio, personal website or another relevant link. Up to two links. Only share links you’re comfortable with us reviewing.',
   },
   expectations: {
     legend: 'Before you send',
@@ -113,9 +114,12 @@ const en = {
     ],
     checkbox: 'I understand and want to apply.',
   },
+  /** Short-form privacy notice (informational, no consent checkbox). Link text points to the localised Privacy Policy. */
   privacy: {
-    badge: 'Draft',
-    text: 'Privacy information for Experience Programme applications is still being finalised and will be published before applications open. Your information is used to review your application and to contact you about it.',
+    text: 'We use the information you provide to review your application, see which Experience Programme projects could suit you and contact you about your application or a suitable project. Unmatched applications are normally kept for up to 6 months and are not used for marketing.',
+    policyBefore: 'See our ',
+    policyLink: 'Privacy Policy',
+    policyAfter: ' for more information and your rights.',
   },
   errors: {
     name: 'Please enter your name.',
@@ -211,6 +215,7 @@ const fr: ApplyCopy = {
   },
   skillsLearn: {
     legend: 'Compétences et apprentissage',
+    sensitiveHint: 'Veuillez ne pas indiquer d’informations personnelles sensibles, par exemple sur votre santé, sans rapport avec votre candidature.',
   },
   skills: {
     label: 'Quelles compétences, quels outils ou quelle expérience pourriez-vous apporter à un projet\u202F?',
@@ -245,7 +250,7 @@ const fr: ApplyCopy = {
     legend: 'Montrez-nous en plus, si vous le souhaitez',
     label1: 'Profil ou exemple de travail',
     label2: 'Autre lien',
-    hint: 'LinkedIn, GitHub, portfolio, site personnel ou un autre lien utile. Deux liens au maximum.',
+    hint: 'LinkedIn, GitHub, portfolio, site personnel ou un autre lien utile. Deux liens au maximum. Ne partagez que des liens que vous souhaitez nous montrer pour l’examen de votre candidature.',
   },
   expectations: {
     legend: 'Avant d’envoyer',
@@ -260,8 +265,10 @@ const fr: ApplyCopy = {
     checkbox: 'J’ai compris et je souhaite postuler.',
   },
   privacy: {
-    badge: 'Brouillon',
-    text: 'Les informations sur la protection des données pour les candidatures à l’Experience Programme sont en cours de finalisation et seront publiées avant l’ouverture des candidatures. Vos informations servent à examiner votre candidature et à vous contacter à son sujet.',
+    text: 'Nous utilisons les informations que vous nous transmettez pour examiner votre candidature, voir quels projets de l’Experience Programme pourraient vous convenir et vous contacter au sujet de votre candidature ou d’un projet adapté. Les candidatures qui n’aboutissent pas à un projet sont normalement conservées 6 mois au maximum et ne sont pas utilisées à des fins de marketing.',
+    policyBefore: 'Pour en savoir plus et connaître vos droits, consultez notre ',
+    policyLink: 'politique de confidentialité',
+    policyAfter: '.',
   },
   errors: {
     name: 'Veuillez indiquer votre nom.',
@@ -355,6 +362,7 @@ const de: ApplyCopy = {
   },
   skillsLearn: {
     legend: 'Fähigkeiten und Lernziele',
+    sensitiveHint: 'Bitte machen Sie keine sensiblen persönlichen Angaben, etwa zur Gesundheit, die für Ihre Bewerbung nicht relevant sind.',
   },
   skills: {
     label: 'Welche Fähigkeiten, Tools oder Erfahrungen könnten Sie in ein Projekt einbringen?',
@@ -389,7 +397,7 @@ const de: ApplyCopy = {
     legend: 'Zeigen Sie uns mehr, wenn Sie möchten',
     label1: 'Profil oder Arbeitsbeispiel',
     label2: 'Weiterer Link',
-    hint: 'LinkedIn, GitHub, Portfolio, persönliche Website oder ein anderer passender Link. Höchstens zwei Links.',
+    hint: 'LinkedIn, GitHub, Portfolio, persönliche Website oder ein anderer passender Link. Höchstens zwei Links. Teilen Sie nur Links, die Sie uns für die Prüfung Ihrer Bewerbung zeigen möchten.',
   },
   expectations: {
     legend: 'Bevor Sie senden',
@@ -404,8 +412,10 @@ const de: ApplyCopy = {
     checkbox: 'Ich habe das verstanden und möchte mich bewerben.',
   },
   privacy: {
-    badge: 'Entwurf',
-    text: 'Die Datenschutzinformationen für Bewerbungen zum Experience Programme werden noch fertiggestellt und vor dem Start der Bewerbungen veröffentlicht. Ihre Angaben werden verwendet, um Ihre Bewerbung zu prüfen und Sie dazu zu kontaktieren.',
+    text: 'Wir verwenden Ihre Angaben, um Ihre Bewerbung zu prüfen, passende Projekte im Experience Programme zu finden und Sie zu Ihrer Bewerbung oder zu einem passenden Projekt zu kontaktieren. Bewerbungen, die zu keinem Projekt führen, werden in der Regel höchstens 6 Monate aufbewahrt und nicht für Marketing verwendet.',
+    policyBefore: 'Mehr dazu und zu Ihren Rechten finden Sie in unserer ',
+    policyLink: 'Datenschutzerklärung',
+    policyAfter: '.',
   },
   errors: {
     name: 'Bitte geben Sie Ihren Namen ein.',
@@ -499,6 +509,7 @@ const it: ApplyCopy = {
   },
   skillsLearn: {
     legend: 'Competenze e apprendimento',
+    sensitiveHint: 'Non inserire informazioni personali sensibili, ad esempio sulla salute, che non siano rilevanti per la candidatura.',
   },
   skills: {
     label: 'Quali competenze, strumenti o esperienze potresti portare in un progetto?',
@@ -533,7 +544,7 @@ const it: ApplyCopy = {
     legend: 'Mostraci di più, se vuoi',
     label1: 'Profilo o esempio di lavoro',
     label2: 'Un altro link',
-    hint: 'LinkedIn, GitHub, portfolio, sito personale o un altro link utile. Al massimo due link.',
+    hint: 'LinkedIn, GitHub, portfolio, sito personale o un altro link utile. Al massimo due link. Condividi solo link che vuoi mostrarci per la valutazione della tua candidatura.',
   },
   expectations: {
     legend: 'Prima di inviare',
@@ -548,8 +559,10 @@ const it: ApplyCopy = {
     checkbox: 'Ho capito e voglio candidarmi.',
   },
   privacy: {
-    badge: 'Bozza',
-    text: 'Le informazioni sulla privacy per le candidature all’Experience Programme sono in fase di definizione e saranno pubblicate prima dell’apertura delle candidature. Le tue informazioni servono per valutare la candidatura e contattarti in merito.',
+    text: 'Usiamo le informazioni che ci fornisci per valutare la tua candidatura, capire quali progetti dell’Experience Programme potrebbero fare al caso tuo e contattarti in merito alla candidatura o a un progetto adatto. Le candidature che non portano a un progetto vengono normalmente conservate per un massimo di 6 mesi e non vengono usate per il marketing.',
+    policyBefore: 'Per saperne di più e conoscere i tuoi diritti, consulta la nostra ',
+    policyLink: 'informativa sulla privacy',
+    policyAfter: '.',
   },
   errors: {
     name: 'Inserisci il tuo nome.',

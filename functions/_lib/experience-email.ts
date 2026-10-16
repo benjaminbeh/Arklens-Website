@@ -127,11 +127,14 @@ const CONFIRM_COPY: Record<XpLang, {
   reference: string;
   submitted: string;
   disclaimer: string;
+  /** Update/withdraw + Privacy Policy line; {ref} = application reference. */
+  privacy: string;
+  privacyUrl: string;
   closing: string;
   tagline: string;
 }> = {
   en: {
-    subject: 'We received your application — Arklens Experience Programme',
+    subject: 'We received your application ({ref}) — Arklens Experience Programme',
     greeting: 'Hi',
     intro: [
       'Thank you for applying to the Arklens Experience Programme.',
@@ -140,11 +143,13 @@ const CONFIRM_COPY: Record<XpLang, {
     reference: 'Application reference:',
     submitted: 'Submitted:',
     disclaimer: 'Submitting an application doesn’t guarantee a project, and timing depends on the opportunities available. This email confirms that we received your application; it is not an acceptance.',
+    privacy: 'If you’d like to update or withdraw your application, just reply to this email and quote your reference ({ref}). Our Privacy Policy explains how we handle your information:',
+    privacyUrl: 'https://www.arklens.ch/privacy/',
     closing: 'Best regards,',
     tagline: 'Arklens Experience Programme',
   },
   fr: {
-    subject: 'Nous avons bien reçu votre candidature — Arklens Experience Programme',
+    subject: 'Candidature reçue ({ref}) — Arklens Experience Programme',
     greeting: 'Bonjour',
     intro: [
       'Merci pour votre candidature à l’Arklens Experience Programme.',
@@ -153,11 +158,13 @@ const CONFIRM_COPY: Record<XpLang, {
     reference: 'Référence de la candidature\u00A0:',
     submitted: 'Envoyée le\u00A0:',
     disclaimer: 'L’envoi d’une candidature ne garantit pas un projet, et les délais dépendent des opportunités disponibles. Cet e-mail confirme uniquement la réception de votre candidature\u00A0; il ne s’agit pas d’une acceptation.',
+    privacy: 'Si vous souhaitez modifier ou retirer votre candidature, il vous suffit de répondre à cet e-mail en indiquant votre référence ({ref}). Notre politique de confidentialité explique comment nous traitons vos informations\u00A0:',
+    privacyUrl: 'https://www.arklens.ch/fr/privacy/',
     closing: 'Meilleures salutations,',
     tagline: 'Arklens Experience Programme',
   },
   de: {
-    subject: 'Wir haben Ihre Bewerbung erhalten — Arklens Experience Programme',
+    subject: 'Bewerbung erhalten ({ref}) — Arklens Experience Programme',
     greeting: 'Guten Tag',
     intro: [
       'Vielen Dank für Ihre Bewerbung für das Arklens Experience Programme.',
@@ -166,11 +173,13 @@ const CONFIRM_COPY: Record<XpLang, {
     reference: 'Referenz Ihrer Bewerbung:',
     submitted: 'Gesendet am:',
     disclaimer: 'Eine Bewerbung garantiert kein Projekt, und der Zeitpunkt hängt von den verfügbaren Möglichkeiten ab. Diese E-Mail bestätigt nur den Eingang Ihrer Bewerbung; sie ist keine Zusage.',
+    privacy: 'Wenn Sie Ihre Bewerbung ändern oder zurückziehen möchten, antworten Sie einfach auf diese E-Mail und nennen Sie Ihre Referenz ({ref}). Wie wir mit Ihren Angaben umgehen, erfahren Sie in unserer Datenschutzerklärung:',
+    privacyUrl: 'https://www.arklens.ch/de/privacy/',
     closing: 'Freundliche Grüsse',
     tagline: 'Arklens Experience Programme',
   },
   it: {
-    subject: 'Abbiamo ricevuto la tua candidatura — Arklens Experience Programme',
+    subject: 'Candidatura ricevuta ({ref}) — Arklens Experience Programme',
     greeting: 'Buongiorno',
     intro: [
       'Grazie per la tua candidatura all’Arklens Experience Programme.',
@@ -179,6 +188,8 @@ const CONFIRM_COPY: Record<XpLang, {
     reference: 'Riferimento della candidatura:',
     submitted: 'Inviata il:',
     disclaimer: 'L’invio di una candidatura non garantisce un progetto e i tempi dipendono dalle opportunità disponibili. Questa e-mail conferma solo che abbiamo ricevuto la tua candidatura: non si tratta di un’accettazione.',
+    privacy: 'Se vuoi aggiornare o ritirare la tua candidatura, rispondi a questa e-mail indicando il tuo riferimento ({ref}). La nostra informativa sulla privacy spiega come trattiamo le tue informazioni:',
+    privacyUrl: 'https://www.arklens.ch/it/privacy/',
     closing: 'Cordiali saluti,',
     tagline: 'Arklens Experience Programme',
   },
@@ -196,6 +207,9 @@ export function buildExperienceConfirmation(name: string, lang: XpLang, applicat
     [c.submitted, submitted],
   ];
   const greetingLine = name ? `${c.greeting} ${name},` : `${c.greeting},`;
+  // applicationId is server-generated ([A-Z0-9-] only), so it is safe in the subject header.
+  const subject = c.subject.replace('{ref}', applicationId);
+  const privacyLine = c.privacy.replace('{ref}', applicationId);
 
   const text = [
     greetingLine,
@@ -203,6 +217,8 @@ export function buildExperienceConfirmation(name: string, lang: XpLang, applicat
     ...c.intro.flatMap((l) => [l, '']),
     ...pairs.flatMap(([k, v]) => [k, v, '']),
     c.disclaimer,
+    '',
+    `${privacyLine} ${c.privacyUrl}`,
     '',
     c.closing,
     '',
@@ -220,11 +236,12 @@ export function buildExperienceConfirmation(name: string, lang: XpLang, applicat
 ${c.intro.map((l) => `<p style="${p}">${escapeHtml(l)}</p>`).join('\n')}
 ${pairs.map(([k, v]) => `<p style="${p}">${escapeHtml(k)}<br><strong>${escapeHtml(v)}</strong></p>`).join('\n')}
 <p style="${p}">${escapeHtml(c.disclaimer)}</p>
+<p style="${p}">${escapeHtml(privacyLine)} <a href="${escapeHtml(c.privacyUrl)}" style="color:#111418">${escapeHtml(c.privacyUrl)}</a></p>
 <p style="margin:24px 0 0;font-size:15px;line-height:1.6">${escapeHtml(c.closing)}</p>
 <p style="margin:0 0 24px;font-size:15px;line-height:1.6"><strong>Arklens</strong></p>
 </td></tr>
 <tr><td style="padding:16px 28px;border-top:1px solid #E6EAF0;font-size:12px;line-height:1.6;color:#66727F">${escapeHtml(c.tagline)}<br>arklens.ch</td></tr>
 </table></body></html>`;
 
-  return { subject: c.subject, text, html };
+  return { subject, text, html };
 }
