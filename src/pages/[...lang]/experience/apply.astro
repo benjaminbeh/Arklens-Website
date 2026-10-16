@@ -139,15 +139,23 @@ const num = (key: keyof typeof sections) => String(Object.keys(sections).indexOf
               </fieldset>
 
               <!-- 03 Where are you now? -->
-              <fieldset class="xp-section">
-                <legend class="xp-legend"><span class="index-num index-accent">{num('situation')}</span>{sections.situation}</legend>
-                <label for="xp-situation" class="field-label">{c.situation.question}<span class="xp-optional">{c.optional}</span></label>
-                <select id="xp-situation" name="situation" class="field xp-select sm:max-w-lg" aria-describedby="xp-situation-hint">
-                  <option value="">{c.choose}</option>
-                  {XP_SITUATIONS.map((s) => <option value={s}>{c.situation.options[s]}</option>)}
-                </select>
-                <p id="xp-situation-hint" class="field-hint">{c.situation.hint}</p>
-              </fieldset>
+              <!-- Choice cards rather than a select: long answers wrap instead of being cut off on phones. -->
+              <div class="xp-section" role="group" aria-labelledby="xp-situation-title">
+                <h2 id="xp-situation-title" class="xp-legend"><span class="index-num index-accent">{num('situation')}</span>{sections.situation}</h2>
+                <fieldset aria-describedby="xp-situation-hint">
+                  <legend class="field-label">{c.situation.question}<span class="xp-optional">{c.optional}</span></legend>
+                  <p id="xp-situation-hint" class="field-hint -mt-1 mb-3">{c.situation.hint}</p>
+                  <div class="grid sm:grid-cols-2 gap-2">
+                    {XP_SITUATIONS.map((s) => (
+                      <label class="choice py-3.5 px-4 items-center gap-3">
+                        <input type="radio" name="situation" value={s} />
+                        <span class="choice-mark mt-0" aria-hidden="true"><Check size={12} stroke-width={3} /></span>
+                        <span class="text-[0.9375rem] text-ink-900">{c.situation.options[s]}</span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+              </div>
 
               <!-- 04 What interests you? -->
               <fieldset class="xp-section" aria-describedby="xp-interests-hint xp-interests-error" data-group="interests">

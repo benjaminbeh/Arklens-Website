@@ -24,7 +24,6 @@ const en = {
     note: 'Applying doesn’t guarantee a project.',
   },
   optional: 'Optional',
-  choose: 'Choose…',
   about: {
     legend: 'About you',
     name: 'Your name',
@@ -176,7 +175,6 @@ const fr: ApplyCopy = {
     note: 'Postuler ne garantit pas un projet.',
   },
   optional: 'Facultatif',
-  choose: 'Choisir…',
   about: {
     legend: 'À propos de vous',
     name: 'Votre nom',
@@ -326,7 +324,6 @@ const de: ApplyCopy = {
     note: 'Eine Bewerbung garantiert kein Projekt.',
   },
   optional: 'Optional',
-  choose: 'Bitte wählen',
   about: {
     legend: 'Zu Ihrer Person',
     name: 'Ihr Name',
@@ -476,7 +473,6 @@ const it: ApplyCopy = {
     note: 'Candidarsi non garantisce un progetto.',
   },
   optional: 'Facoltativo',
-  choose: 'Scegli…',
   about: {
     legend: 'Su di te',
     name: 'Il tuo nome',
