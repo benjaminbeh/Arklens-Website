@@ -398,6 +398,12 @@ const num = (key: keyof typeof sections) => String(Object.keys(sections).indexOf
     background-repeat: no-repeat;
     background-position: right 0.875rem center;
   }
+  @media (max-width: 374.98px) {
+    /* Narrow phones: 8px more text room so "Fliessend / Erstsprache" fits; the arrow keeps clear. */
+    .xp-select {
+      padding-right: 2rem;
+    }
+  }
   .xp-final {
     background: theme('colors.paper.DEFAULT');
     margin-left: -1.5rem;
