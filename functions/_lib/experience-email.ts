@@ -25,7 +25,6 @@ export interface ExperienceApplication {
   time: XpTime;
   mode: XpMode | '';
   links: string[];
-  motivation: string;
   page: string;
   lang: XpLang;
 }
@@ -75,7 +74,6 @@ export function buildExperienceEmail(app: ExperienceApplication, record: Experie
   const texts: [string, string][] = [
     ['Skills, tools or experience they could bring', app.skills],
     ['What they would like to learn', app.learn],
-    ['Why the programme interests them', app.motivation || dash],
   ];
   const ack: [string, string][] = [
     ['Expectations acknowledged', 'Yes'],

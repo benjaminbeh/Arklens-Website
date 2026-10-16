@@ -36,11 +36,9 @@ const sections = {
   languages: c.languages.legend,
   situation: c.situation.legend,
   interests: c.interests.legend,
-  skills: c.skills.legend,
-  learn: c.learn.legend,
+  skillsLearn: c.skillsLearn.legend,
   availability: c.availability.legend,
   links: c.links.legend,
-  motivation: c.motivation.legend,
 };
 const num = (key: keyof typeof sections) => String(Object.keys(sections).indexOf(key) + 1).padStart(2, '0');
 ---
@@ -176,33 +174,32 @@ const num = (key: keyof typeof sections) => String(Object.keys(sections).indexOf
                 <p id="xp-interests-error" class="error hidden" data-error-for="interests">{c.errors.interests}</p>
               </fieldset>
 
-              <!-- 05 What can you already do? -->
+              <!-- 05 Skills & learning: one section, two separate required answers -->
               <fieldset class="xp-section">
-                <legend class="xp-legend"><span class="index-num index-accent">{num('skills')}</span>{sections.skills}</legend>
-                <label for="xp-skills" class="field-label">{c.skills.label}</label>
-                <textarea id="xp-skills" name="skills" rows="5" required class="field resize-y" minlength={L.textMin} maxlength={L.skills}
-                  aria-describedby="xp-skills-hint xp-skills-error"></textarea>
-                <div class="flex justify-between gap-4">
-                  <p id="xp-skills-hint" class="field-hint">{c.skills.hint}</p>
-                  <p class="field-hint tabular-nums whitespace-nowrap" aria-hidden="true"><span data-count-for="skills">0</span> / {L.skills}</p>
+                <legend class="xp-legend"><span class="index-num index-accent">{num('skillsLearn')}</span>{sections.skillsLearn}</legend>
+                <div>
+                  <label for="xp-skills" class="field-label">{c.skills.label}</label>
+                  <textarea id="xp-skills" name="skills" rows="5" required class="field resize-y" minlength={L.textMin} maxlength={L.skills}
+                    aria-describedby="xp-skills-hint xp-skills-error"></textarea>
+                  <div class="flex justify-between gap-4">
+                    <p id="xp-skills-hint" class="field-hint">{c.skills.hint}</p>
+                    <p class="field-hint tabular-nums whitespace-nowrap" aria-hidden="true"><span data-count-for="skills">0</span> / {L.skills}</p>
+                  </div>
+                  <p id="xp-skills-error" class="error hidden" data-error-for="skills">{c.errors.skills}</p>
                 </div>
-                <p id="xp-skills-error" class="error hidden" data-error-for="skills">{c.errors.skills}</p>
+                <div class="mt-8">
+                  <label for="xp-learn" class="field-label">{c.learn.label}</label>
+                  <textarea id="xp-learn" name="learn" rows="4" required class="field resize-y" minlength={L.textMin} maxlength={L.learn}
+                    aria-describedby="xp-learn-hint xp-learn-error"></textarea>
+                  <div class="flex justify-between gap-4">
+                    <p id="xp-learn-hint" class="field-hint">{c.learn.hint}</p>
+                    <p class="field-hint tabular-nums whitespace-nowrap" aria-hidden="true"><span data-count-for="learn">0</span> / {L.learn}</p>
+                  </div>
+                  <p id="xp-learn-error" class="error hidden" data-error-for="learn">{c.errors.learn}</p>
+                </div>
               </fieldset>
 
-              <!-- 06 What would you like to learn? -->
-              <fieldset class="xp-section">
-                <legend class="xp-legend"><span class="index-num index-accent">{num('learn')}</span>{sections.learn}</legend>
-                <label for="xp-learn" class="field-label">{c.learn.label}</label>
-                <textarea id="xp-learn" name="learn" rows="4" required class="field resize-y" minlength={L.textMin} maxlength={L.learn}
-                  aria-describedby="xp-learn-hint xp-learn-error"></textarea>
-                <div class="flex justify-between gap-4">
-                  <p id="xp-learn-hint" class="field-hint">{c.learn.hint}</p>
-                  <p class="field-hint tabular-nums whitespace-nowrap" aria-hidden="true"><span data-count-for="learn">0</span> / {L.learn}</p>
-                </div>
-                <p id="xp-learn-error" class="error hidden" data-error-for="learn">{c.errors.learn}</p>
-              </fieldset>
-
-              <!-- 07 Availability -->
+              <!-- 06 Availability -->
               <div class="xp-section" role="group" aria-labelledby="xp-availability-title">
                 <h2 id="xp-availability-title" class="xp-legend"><span class="index-num index-accent">{num('availability')}</span>{sections.availability}</h2>
 
@@ -249,7 +246,7 @@ const num = (key: keyof typeof sections) => String(Object.keys(sections).indexOf
                 </fieldset>
               </div>
 
-              <!-- 08 Links -->
+              <!-- 07 Links -->
               <fieldset class="xp-section" aria-describedby="xp-links-hint">
                 <legend class="xp-legend"><span class="index-num index-accent">{num('links')}</span>{sections.links}<span class="xp-optional">{c.optional}</span></legend>
                 <p id="xp-links-hint" class="field-hint -mt-2 mb-5">{c.links.hint}</p>
@@ -263,19 +260,6 @@ const num = (key: keyof typeof sections) => String(Object.keys(sections).indexOf
                     </div>
                   ))}
                 </div>
-              </fieldset>
-
-              <!-- 09 Motivation -->
-              <fieldset class="xp-section">
-                <legend class="xp-legend"><span class="index-num index-accent">{num('motivation')}</span>{sections.motivation}<span class="xp-optional">{c.optional}</span></legend>
-                <label for="xp-motivation" class="field-label">{c.motivation.label}</label>
-                <textarea id="xp-motivation" name="motivation" rows="3" class="field resize-y" maxlength={L.motivation}
-                  aria-describedby="xp-motivation-hint xp-motivation-error"></textarea>
-                <div class="flex justify-between gap-4">
-                  <p id="xp-motivation-hint" class="field-hint">{c.motivation.hint}</p>
-                  <p class="field-hint tabular-nums whitespace-nowrap" aria-hidden="true"><span data-count-for="motivation">0</span> / {L.motivation}</p>
-                </div>
-                <p id="xp-motivation-error" class="error hidden" data-error-for="motivation">{c.errors.motivation}</p>
               </fieldset>
 
               <!-- Before you send -->
@@ -337,7 +321,8 @@ const num = (key: keyof typeof sections) => String(Object.keys(sections).indexOf
                 <p class="mt-2 font-mono text-lg text-ink-900" data-application-id></p>
               </div>
               <div class="mt-10 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-4 sm:gap-x-8">
-                <a href={getLocalizedPath('/experience/', lang)} class="btn btn-primary btn-lg">
+                <!-- Tighter padding/text below sm so the label stays on one line at 320 px. -->
+                <a href={getLocalizedPath('/experience/', lang)} class="btn btn-primary btn-lg px-4 text-[0.9375rem] sm:px-7 sm:text-base">
                   {c.success.back}<ArrowRight size={18} class="arrow" stroke-width={1.75} />
                 </a>
                 <a href={getLocalizedPath('/contact/', lang)} class="link-arrow self-start sm:self-auto py-2">
@@ -539,12 +524,11 @@ const num = (key: keyof typeof sections) => String(Object.keys(sections).indexOf
     if (!form?.querySelector('input[name="time"]:checked')) bad.push('time');
     if (!urlOk(val('link1'))) bad.push('link1');
     if (!urlOk(val('link2'))) bad.push('link2');
-    if (val('motivation').length > XP_LIMITS.motivation) bad.push('motivation');
     if (el('expectationsAccepted')?.checked !== true) bad.push('expectationsAccepted');
     return bad;
   }
 
-  const ALL_FIELDS = ['name', 'email', 'region', 'languages', 'otherLanguage', 'interests', 'skills', 'learn', 'start', 'time', 'link1', 'link2', 'motivation', 'expectationsAccepted'];
+  const ALL_FIELDS = ['name', 'email', 'region', 'languages', 'otherLanguage', 'interests', 'skills', 'learn', 'start', 'time', 'link1', 'link2', 'expectationsAccepted'];
 
   function showErrors(bad: string[], focus = true) {
     ALL_FIELDS.forEach((f) => setError(f, bad.includes(f)));
@@ -665,7 +649,6 @@ const num = (key: keyof typeof sections) => String(Object.keys(sections).indexOf
             time: form.querySelector<HTMLInputElement>('input[name="time"]:checked')?.value ?? '',
             mode: form.querySelector<HTMLInputElement>('input[name="mode"]:checked')?.value ?? '',
             links: [val('link1'), val('link2')].filter(Boolean),
-            motivation: el<HTMLTextAreaElement>('motivation')?.value ?? '',
             expectationsAccepted: el('expectationsAccepted')?.checked === true,
             company_url: val('company_url'),
             started_at: startedAt,

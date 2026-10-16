@@ -62,13 +62,15 @@ const en = {
     hint: 'Choose all that apply.',
     unsure: 'Other / not sure yet',
   },
+  /** One numbered section holding the two separate skills and learn questions. */
+  skillsLearn: {
+    legend: 'Skills & learning',
+  },
   skills: {
-    legend: 'What can you already do?',
     label: 'What skills, tools or experience could you bring to a project?',
     hint: 'This can come from work, school, personal projects, volunteering, hobbies or self-learning.',
   },
   learn: {
-    legend: 'What would you like to learn?',
     label: 'What would you like to learn or get better at?',
     hint: 'A sentence or two is enough.',
   },
@@ -99,11 +101,6 @@ const en = {
     label2: 'Another link',
     hint: 'LinkedIn, GitHub, portfolio, personal website or another relevant link. Up to two links.',
   },
-  motivation: {
-    legend: 'Short motivation',
-    label: 'Why does the Experience Programme interest you?',
-    hint: 'Keep it short — a few sentences are enough.',
-  },
   expectations: {
     legend: 'Before you send',
     intro: 'By applying, you confirm that you understand the following:',
@@ -132,7 +129,6 @@ const en = {
     start: 'Please choose when you could start.',
     time: 'Please choose how much time you could usually make available.',
     link: 'Please enter a valid web address, or leave this field empty.',
-    motivation: 'Please keep this a little shorter.',
     expectations: 'Please confirm that you understand these points.',
     turnstile: 'Please complete the security check.',
   },
@@ -155,7 +151,7 @@ const en = {
     confirmation: 'We’ve also sent a confirmation to your email address.',
     review: 'We’ll review it against suitable projects and opportunities. Applying doesn’t guarantee a project, and matching may take time depending on what is available.',
     reference: 'Application reference:',
-    back: 'Back to Experience',
+    back: 'Back to the programme',
     contact: 'Contact us',
   },
 };
@@ -213,13 +209,14 @@ const fr: ApplyCopy = {
     hint: 'Choisissez tout ce qui s’applique.',
     unsure: 'Autre / je ne sais pas encore',
   },
+  skillsLearn: {
+    legend: 'Compétences et apprentissage',
+  },
   skills: {
-    legend: 'Que savez-vous déjà faire\u202F?',
     label: 'Quelles compétences, quels outils ou quelle expérience pourriez-vous apporter à un projet\u202F?',
     hint: 'Cela peut venir du travail, des études, de projets personnels, de bénévolat, de loisirs ou d’un apprentissage en autodidacte.',
   },
   learn: {
-    legend: 'Qu’aimeriez-vous apprendre\u202F?',
     label: 'Qu’aimeriez-vous apprendre ou améliorer\u202F?',
     hint: 'Une ou deux phrases suffisent.',
   },
@@ -250,11 +247,6 @@ const fr: ApplyCopy = {
     label2: 'Autre lien',
     hint: 'LinkedIn, GitHub, portfolio, site personnel ou un autre lien utile. Deux liens au maximum.',
   },
-  motivation: {
-    legend: 'Motivation en bref',
-    label: 'Pourquoi l’Experience Programme vous intéresse-t-il\u202F?',
-    hint: 'Quelques phrases suffisent.',
-  },
   expectations: {
     legend: 'Avant d’envoyer',
     intro: 'En postulant, vous confirmez avoir compris les points suivants\u00A0:',
@@ -283,7 +275,6 @@ const fr: ApplyCopy = {
     start: 'Veuillez indiquer quand vous pourriez commencer.',
     time: 'Veuillez indiquer le temps que vous pourriez généralement y consacrer.',
     link: 'Veuillez saisir une adresse web valide ou laisser ce champ vide.',
-    motivation: 'Veuillez raccourcir un peu votre texte.',
     expectations: 'Veuillez confirmer que vous avez compris ces points.',
     turnstile: 'Veuillez effectuer la vérification de sécurité.',
   },
@@ -306,7 +297,7 @@ const fr: ApplyCopy = {
     confirmation: 'Nous vous avons également envoyé une confirmation par e-mail.',
     review: 'Nous allons l’examiner au regard des projets et des opportunités adaptés. Postuler ne garantit pas un projet, et la mise en relation peut prendre du temps selon les possibilités.',
     reference: 'Référence de la candidature\u00A0:',
-    back: 'Retour à la page Expérience',
+    back: 'Retour au programme',
     contact: 'Nous contacter',
   },
 };
@@ -362,13 +353,14 @@ const de: ApplyCopy = {
     hint: 'Mehrfachauswahl möglich.',
     unsure: 'Anderes / weiss ich noch nicht',
   },
+  skillsLearn: {
+    legend: 'Fähigkeiten und Lernziele',
+  },
   skills: {
-    legend: 'Was können Sie schon?',
     label: 'Welche Fähigkeiten, Tools oder Erfahrungen könnten Sie in ein Projekt einbringen?',
     hint: 'Das kann aus Beruf, Ausbildung, eigenen Projekten, Freiwilligenarbeit, Hobbys oder Selbststudium stammen.',
   },
   learn: {
-    legend: 'Was möchten Sie lernen?',
     label: 'Was möchten Sie lernen oder verbessern?',
     hint: 'Ein, zwei Sätze genügen.',
   },
@@ -399,11 +391,6 @@ const de: ApplyCopy = {
     label2: 'Weiterer Link',
     hint: 'LinkedIn, GitHub, Portfolio, persönliche Website oder ein anderer passender Link. Höchstens zwei Links.',
   },
-  motivation: {
-    legend: 'Kurze Motivation',
-    label: 'Warum interessiert Sie das Experience Programme?',
-    hint: 'Halten Sie es kurz – ein paar Sätze genügen.',
-  },
   expectations: {
     legend: 'Bevor Sie senden',
     intro: 'Mit Ihrer Bewerbung bestätigen Sie, dass Sie Folgendes verstanden haben:',
@@ -432,7 +419,6 @@ const de: ApplyCopy = {
     start: 'Bitte wählen Sie, wann Sie beginnen könnten.',
     time: 'Bitte wählen Sie, wie viel Zeit Sie in der Regel einsetzen könnten.',
     link: 'Bitte geben Sie eine gültige Webadresse ein oder lassen Sie das Feld leer.',
-    motivation: 'Bitte fassen Sie sich etwas kürzer.',
     expectations: 'Bitte bestätigen Sie, dass Sie diese Punkte verstanden haben.',
     turnstile: 'Bitte schliessen Sie die Sicherheitsprüfung ab.',
   },
@@ -455,7 +441,7 @@ const de: ApplyCopy = {
     confirmation: 'Wir haben Ihnen zudem eine Bestätigung per E-Mail gesendet.',
     review: 'Wir prüfen sie im Hinblick auf passende Projekte und Möglichkeiten. Eine Bewerbung garantiert kein Projekt, und es kann je nach Angebot dauern, bis etwas passt.',
     reference: 'Referenz Ihrer Bewerbung:',
-    back: 'Zurück zur Seite Erfahrung',
+    back: 'Zur Programmseite',
     contact: 'Kontakt aufnehmen',
   },
 };
@@ -511,13 +497,14 @@ const it: ApplyCopy = {
     hint: 'Puoi sceglierne più di uno.',
     unsure: 'Altro / non lo so ancora',
   },
+  skillsLearn: {
+    legend: 'Competenze e apprendimento',
+  },
   skills: {
-    legend: 'Cosa sai già fare?',
     label: 'Quali competenze, strumenti o esperienze potresti portare in un progetto?',
     hint: 'Possono venire dal lavoro, dalla scuola, da progetti personali, dal volontariato, da hobby o dallo studio da autodidatta.',
   },
   learn: {
-    legend: 'Cosa vorresti imparare?',
     label: 'Cosa vorresti imparare o migliorare?',
     hint: 'Bastano una o due frasi.',
   },
@@ -548,11 +535,6 @@ const it: ApplyCopy = {
     label2: 'Un altro link',
     hint: 'LinkedIn, GitHub, portfolio, sito personale o un altro link utile. Al massimo due link.',
   },
-  motivation: {
-    legend: 'Motivazione in breve',
-    label: 'Perché ti interessa l’Experience Programme?',
-    hint: 'Resta breve: bastano poche frasi.',
-  },
   expectations: {
     legend: 'Prima di inviare',
     intro: 'Candidandoti, confermi di aver capito quanto segue:',
@@ -581,7 +563,6 @@ const it: ApplyCopy = {
     start: 'Indica quando potresti iniziare.',
     time: 'Indica quanto tempo potresti dedicarci di solito.',
     link: 'Inserisci un indirizzo web valido o lascia vuoto il campo.',
-    motivation: 'Accorcia un po’ il testo.',
     expectations: 'Conferma di aver capito questi punti.',
     turnstile: 'Completa il controllo di sicurezza.',
   },
@@ -604,7 +585,7 @@ const it: ApplyCopy = {
     confirmation: 'Ti abbiamo anche inviato una conferma via e-mail.',
     review: 'La valuteremo in base ai progetti e alle opportunità adatti. Candidarsi non garantisce un progetto e l’abbinamento può richiedere tempo, a seconda di cosa è disponibile.',
     reference: 'Riferimento della candidatura:',
-    back: 'Torna alla pagina Esperienza',
+    back: 'Torna al programma',
     contact: 'Contattaci',
   },
 };

@@ -36,7 +36,6 @@ export const XP_LIMITS = {
   otherLanguage: 60,
   skills: 2000,
   learn: 1500,
-  motivation: 1500,
   url: 300,
   links: 2,
   page: 200,

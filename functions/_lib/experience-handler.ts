@@ -54,6 +54,8 @@ export interface ExperienceDeps {
 
 const MIN_FILL_MS = 3000;
 const RATE_PREFIX = 'arklens-experience:';
+// Higher than /api/start: schools, universities and workplaces may share one external IP.
+const RATE = { windowSeconds: 600, max: 10 };
 
 // Same sender/recipient setup as /api/start.
 const MAIL_FROM = { name: 'Arklens Website', email: 'swiss_contact@arklens.ch' };
@@ -154,9 +156,6 @@ export function parseExperience(raw: Record<string, unknown>): { app?: Experienc
     else links.push(url);
   });
 
-  const motivation = cleanText(raw.motivation, L.motivation + 1);
-  if (motivation.length > L.motivation) invalid.push('motivation');
-
   if (raw.expectationsAccepted !== true) invalid.push('expectationsAccepted');
 
   const page = cleanLine(raw.page, L.page).replace(/[^A-Za-z0-9/_\-.?=&%#]/g, '') || '/experience/apply';
@@ -169,7 +168,7 @@ export function parseExperience(raw: Record<string, unknown>): { app?: Experienc
   return {
     app: {
       name, email, region, languages, otherLanguage, otherLanguageLevel, situation, interests,
-      skills, learn, start, time, mode, links, motivation, page, lang,
+      skills, learn, start, time, mode, links, page, lang,
     },
   };
 }
@@ -203,7 +202,7 @@ export async function handleExperience(request: Request, env: ExperienceEnv, dep
     }
 
     const ip = request.headers.get('CF-Connecting-IP') ?? '0.0.0.0';
-    if (!(await allowRequest(ip, env, RATE_PREFIX))) return json(429, { ok: false, error: 'rate_limited' });
+    if (!(await allowRequest(ip, env, RATE_PREFIX, RATE))) return json(429, { ok: false, error: 'rate_limited' });
 
     const { app, invalid } = parseExperience(raw);
     if (!app) return json(422, { ok: false, error: 'invalid', fields: invalid });
