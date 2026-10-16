@@ -1,5 +1,10 @@
 ---
+/**
+ * Section 01: "Make your time count." with the benefit cards introduced by an
+ * unnumbered subheading (formerly two separate sections).
+ */
 import type { Language } from '@i18n/index';
+import { Target, FileText, Compass, Users, Layers, TrendingUp } from '@lucide/astro';
 import SectionHeader from '@components/ui/SectionHeader.astro';
 import { experienceCopy } from './copy';
 
@@ -8,13 +13,38 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const c = experienceCopy(lang).why;
+const { why, gain } = experienceCopy(lang);
+const icons = [Target, FileText, Compass, Users, Layers, TrendingUp];
 ---
 
-<section class="section-tight" aria-labelledby="experience-why-title">
+<section class="section" aria-labelledby="experience-why-title">
   <div class="container-custom">
-    <SectionHeader id="experience-why-title" index="01" eyebrow={c.eyebrow} title={c.title} lead={c.lead} class="!mb-0">
-      <p class="mt-8 text-heading-md text-ink-900 max-w-2xl">{c.support}</p>
+    <SectionHeader id="experience-why-title" index="01" eyebrow={why.eyebrow} title={why.title} lead={why.lead}>
+      <p class="mt-8 text-heading-md text-ink-900 max-w-2xl">{why.support}</p>
     </SectionHeader>
+
+    <!-- Unnumbered subheading, aligned with the header's text column -->
+    <div class="grid grid-cols-12 gap-x-6 mb-10 md:mb-12">
+      <div class="col-span-12 md:col-start-5 md:col-span-8 lg:col-start-4 lg:col-span-9">
+        <h3 class="text-heading-lg text-ink-900">{gain.title}</h3>
+        <p class="mt-3 text-steel-600 max-w-2xl">{gain.lead}</p>
+      </div>
+    </div>
+
+    <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-ink-900/10 border border-ink-900/10 rounded-md overflow-hidden">
+      {gain.cards.map((card, i) => {
+        const Icon = icons[i];
+        return (
+          <li class="card-grid-hover relative bg-white p-7 transition-colors hover:bg-paper">
+            <div class="flex items-center justify-between">
+              <Icon size={22} class="text-ink-900" stroke-width={1.5} />
+              <span class="font-mono text-xs text-steel-400" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <h4 class="mt-8 text-heading-sm text-ink-900">{card.title}</h4>
+            <p class="mt-2 text-sm leading-relaxed text-steel-600">{card.text}</p>
+          </li>
+        );
+      })}
+    </ul>
   </div>
 </section>

@@ -42,8 +42,8 @@ const en = {
     lead: 'Whether you’re studying, looking for your next role, changing direction or between opportunities, time spent on real projects builds something you keep: experience, knowledge and connections.',
     support: 'Stay active. Keep learning. Keep building.',
   },
+  // Unnumbered subheading inside section 01 (no eyebrow).
   gain: {
-    eyebrow: 'What you gain',
     title: 'Experience that moves you forward',
     lead: 'Build practical experience, working knowledge, stronger skills and professional connections you can take into your next opportunity.',
     cards: [
@@ -118,7 +118,7 @@ const en = {
       { title: 'Apply', text: 'Tell us about yourself, your skills, your interests and what you would like to learn.' },
       { title: 'We review the fit', text: 'We look at current projects and where your skills or learning goals could fit.' },
       { title: 'Get matched', text: 'If there is a suitable opportunity, we discuss the project, what is expected and the time involved before anything starts.' },
-      { title: 'Take part in something real', text: 'Take part in the project, with guidance and review along the way.' },
+      { title: 'Put your skills into practice', text: 'Take part in the project, with guidance and review along the way.' },
       { title: 'Take it forward', text: 'Leave with experience, knowledge and connections you can build on.' },
     ],
     stepLabel: (n: number) => `Step ${n}: `,
