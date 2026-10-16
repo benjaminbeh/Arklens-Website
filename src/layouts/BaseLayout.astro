@@ -1,4 +1,5 @@
 ---
+import '../styles/fonts.css';
 import '../styles/global.css';
 import type { Language } from '@i18n/index';
 import { useTranslations, getLocalizedPath, hreflangs, ogLocales, locales, pagePath, stripLocale } from '@i18n/index';
@@ -153,11 +154,6 @@ const jsonLd = JSON.stringify({
       })();
     </script>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    
     <!-- Schema.org markup for Google -->
     <script type="application/ld+json" set:html={jsonLd} />
   </head>

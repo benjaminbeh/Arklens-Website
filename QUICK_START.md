@@ -195,11 +195,8 @@ Edit `src/layouts/BaseLayout.astro`:
 <meta name="description" content={description} />
 ```
 
-### Add Google Fonts
-Edit `src/layouts/BaseLayout.astro` in `<head>`:
-```html
-<link href="https://fonts.googleapis.com/css2?family=Your+Font" rel="stylesheet" />
-```
+### Fonts
+Inter is self-hosted (no Google Fonts requests). The `@font-face` rules are in `src/styles/fonts.css` and load the woff2 files from the pinned `@fontsource/inter` package. Licence: `public/fonts/Inter-OFL.txt`.
 
 ### Modify Footer
 Edit `src/components/Footer.astro`
