@@ -387,7 +387,8 @@ const num = (key: keyof typeof sections) => String(Object.keys(sections).indexOf
   }
   @media (min-width: 640px) {
     .xp-lang-row {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 16rem);
+      /* 18rem: the longest FR/DE level ("Fliessend oder Muttersprache") fits without clipping. */
+      grid-template-columns: minmax(0, 1fr) minmax(0, 18rem);
     }
   }
   .xp-select {
