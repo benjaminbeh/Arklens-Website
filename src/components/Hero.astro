@@ -64,7 +64,7 @@ const city = pick(lang, { en: 'Fribourg', fr: 'Fribourg', de: 'Freiburg', it: 'F
           ))}
         </dl>
 
-        <div class="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+        <div class="mt-10 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-4 sm:gap-x-8">
           <a href={getLocalizedPath('/start/', lang)} class="btn btn-primary btn-lg">
             {t('hero.cta.primary')}
             <ArrowRight size={18} class="arrow" stroke-width={1.75} />
