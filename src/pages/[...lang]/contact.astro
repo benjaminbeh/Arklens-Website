@@ -68,7 +68,8 @@ const errorText = {
 // Option values stay the English CONTACT_REASONS (validated server-side); only labels are localised.
 const reasonLabel: Record<ContactReason, Copy> = {
   'General enquiry': { en: 'General enquiry', fr: 'Demande générale', de: 'Allgemeine Anfrage', it: 'Richiesta generale' },
-  'Free website': { en: 'Free website', fr: 'Site web gratuit', de: 'Kostenlose Website', it: 'Sito web gratuito' },
+  // Value stays 'Free website' (server enum in src/lib/contact.ts); only the label shows the programme name.
+  'Free website': { en: 'Arklens Website Programme', fr: 'Programme Site web Arklens', de: 'Arklens Website-Programm', it: 'Programma Sito web Arklens' },
   'Improve existing website': { en: 'Improve existing website', fr: 'Améliorer mon site actuel', de: 'Bestehende Website verbessern', it: 'Migliorare il sito attuale' },
   'Add features': { en: 'Add features', fr: 'Ajouter des fonctionnalités', de: 'Funktionen ergänzen', it: 'Aggiungere funzionalità' },
   'Automation / AI': { en: 'Automation / AI', fr: 'Automatisation / IA', de: 'Automatisierung / KI', it: 'Automazione / IA' },
@@ -94,22 +95,22 @@ const C = {
     it: 'Hai domande sul tuo sito web, ti serve una nuova funzione o vuoi capire come l’automazione può aiutare la tua azienda? Scrivici e ti risponderemo.',
   }),
   programme: pick(lang, {
-    en: 'Free Website Programme',
-    fr: 'Programme Site web gratuit',
-    de: 'Programm «Kostenlose Website»',
-    it: 'Programma Sito web gratuito',
+    en: 'Arklens Website Programme',
+    fr: 'Programme Site web Arklens',
+    de: 'Arklens Website-Programm',
+    it: 'Programma Sito web Arklens',
   }),
   programmeText: pick(lang, {
-    en: 'Ready to start your free website? The guided form takes about two minutes.',
-    fr: 'Vous souhaitez lancer votre site web gratuit\u202F? Le formulaire guidé prend environ deux minutes.',
-    de: 'Möchten Sie mit Ihrer kostenlosen Website starten? Das geführte Formular dauert etwa zwei Minuten.',
-    it: 'Vuoi iniziare con il tuo sito web gratuito? Il modulo guidato richiede circa due minuti.',
+    en: 'Ready to apply for the programme? The guided form takes about two minutes, and applying is free.',
+    fr: 'Prêt à déposer votre demande pour le programme\u202F? Le formulaire guidé prend environ deux minutes et la demande est gratuite.',
+    de: 'Bereit für Ihre Anfrage zum Programm? Das geführte Formular dauert etwa zwei Minuten und die Anfrage ist kostenlos.',
+    it: 'Vuoi candidarti al programma? Il modulo guidato richiede circa due minuti e la richiesta è gratuita.',
   }),
   programmeLink: pick(lang, {
-    en: 'Start my free website',
-    fr: 'Demander mon site gratuit',
-    de: 'Website kostenlos anfragen',
-    it: 'Richiedi il sito gratuito',
+    en: 'Start my application',
+    fr: 'Commencer ma demande',
+    de: 'Anfrage starten',
+    it: 'Inizia la mia richiesta',
   }),
   required: pick(lang, {
     en: 'All fields are required unless marked optional.',

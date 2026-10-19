@@ -12,7 +12,7 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-// "Your business website. CHF 0." → ["Your business website.", "CHF 0."]
+// "Your business website. Built for CHF 0." → ["Your business website.", "Built for CHF 0."]
 const title = t('hero.title');
 const splitAt = title.indexOf('. ');
 const titleLead = splitAt > -1 ? title.slice(0, splitAt + 1) : title;
@@ -20,8 +20,10 @@ const titlePrice = splitAt > -1 ? title.slice(splitAt + 2) : '';
 
 const trust = t('hero.trust').split(' · ').filter(Boolean);
 
-const specs = [
-  { k: pick(lang, { en: 'Website', fr: 'Site web', de: 'Website', it: 'Sito web' }), v: 'CHF\u00A00' },
+// `mark` adds the footnote asterisk that points to the fee note below the row.
+const specs: { k: string; v: string; mark?: boolean }[] = [
+  // DE soft hyphen: "ERSTELLUNG" is close to the first column's width at 320 px.
+  { k: pick(lang, { en: 'Website build', fr: 'Création du site', de: 'Website-Erstel\u00ADlung', it: 'Creazione sito' }), v: 'CHF\u00A00', mark: true },
   // FR soft hyphen: "HÉBERGEMENT" is wider than the middle column at 320 px.
   { k: pick(lang, { en: 'Hosting', fr: 'Héber\u00ADgement', de: 'Hosting', it: 'Hosting' }), v: pick(lang, { en: 'Included', fr: 'Inclus', de: 'Inklusive', it: 'Incluso' }) },
   { k: pick(lang, { en: 'Domain', fr: 'Domaine', de: 'Domain', it: 'Dominio' }), v: pick(lang, { en: 'Yours', fr: 'À vous', de: 'Ihre', it: 'Il tuo' }) },
@@ -41,13 +43,13 @@ const city = pick(lang, { en: 'Fribourg', fr: 'Fribourg', de: 'Freiburg', it: 'F
         <p class="eyebrow flex items-center gap-3 mb-8">
           <span class="h-px w-8 bg-signal-600" aria-hidden="true"></span>
           <span>
-            {pick(lang, { en: 'Free Website Programme', fr: 'Programme Site web gratuit', de: 'Programm «Kostenlose Website»', it: 'Programma Sito web gratuito' })}<span class="max-sm:hidden"> · {pick(lang, { en: 'Switzerland', fr: 'Suisse', de: 'Schweiz', it: 'Svizzera' })}</span>
+            {pick(lang, { en: 'Arklens Website Programme', fr: 'Programme Site web Arklens', de: 'Arklens Website-Programm', it: 'Programma Sito web Arklens' })}<span class="max-sm:hidden"> · {pick(lang, { en: 'Switzerland', fr: 'Suisse', de: 'Schweiz', it: 'Svizzera' })}</span>
           </span>
         </p>
 
         <h1 id="hero-title" class="text-display-xl text-ink-900 max-w-[14ch]">
           {titleLead}
-          {titlePrice && <span class="block text-signal-600">{titlePrice}</span>}
+          {titlePrice && <span class="block text-signal-600">{titlePrice}<span aria-hidden="true">*</span></span>}
         </h1>
 
         <p class="lead mt-7 md:text-[1.25rem] md:leading-[1.6]">
@@ -55,14 +57,17 @@ const city = pick(lang, { en: 'Fribourg', fr: 'Fribourg', de: 'Freiburg', it: 'F
         </p>
 
         <!-- Offer at a glance: the 5-second read -->
+        <!-- flex-col + mt-auto keeps the values on one line when a label wraps (e.g. "Website build" at 320 px) -->
         <dl class="mt-10 grid grid-cols-3 max-w-lg border-y border-ink-900/15">
           {specs.map((s, i) => (
-            <div class:list={['py-4 pr-2 sm:pr-3', i > 0 && 'pl-3 sm:pl-4 border-l border-ink-900/15']}>
+            <div class:list={['flex flex-col py-4 pr-2 sm:pr-3', i > 0 && 'pl-3 sm:pl-4 border-l border-ink-900/15']}>
               <dt class="eyebrow text-[0.6875rem]">{s.k}</dt>
-              <dd class="mt-1.5 text-base min-[360px]:text-lg min-[400px]:text-xl sm:text-2xl font-semibold tracking-[-0.02em] text-ink-900 whitespace-nowrap">{s.v}</dd>
+              <dd class="mt-auto pt-1.5 text-base min-[360px]:text-lg min-[400px]:text-xl sm:text-2xl font-semibold tracking-[-0.02em] text-ink-900 whitespace-nowrap">{s.v}{s.mark && <span aria-hidden="true">*</span>}</dd>
             </div>
           ))}
         </dl>
+        <!-- Fee footnote for the asterisks: smaller, but steel-700 on paper keeps it clearly readable -->
+        <p class="mt-3 max-w-lg text-sm text-steel-700"><span aria-hidden="true">*</span>{t('hero.feeNote')}</p>
 
         <div class="mt-10 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-4 sm:gap-x-8">
           <a href={getLocalizedPath('/start/', lang)} class="btn btn-primary btn-lg">

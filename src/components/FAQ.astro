@@ -11,8 +11,9 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-// Display order groups related topics: offer, ownership, portability, exit, fair use.
-const order = [1, 2, 3, 10, 4, 5, 6, 7, 8, 13, 14, 9, 11, 12, 15, 16];
+// Display order groups related topics: offer and fee, ownership, portability, exit, fair use.
+// 19 (who it is for), 17 (why the CHF 120 fee) and 18 (when to pay) sit with the offer questions.
+const order = [1, 19, 17, 18, 2, 3, 10, 4, 5, 6, 7, 8, 13, 14, 9, 11, 12, 15, 16];
 const faqs = order.map((n) => ({ q: `q${n}`, a: `a${n}` }));
 ---
 

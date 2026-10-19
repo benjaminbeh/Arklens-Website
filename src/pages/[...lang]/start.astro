@@ -41,8 +41,9 @@ const paths = [
   {
     value: 'check',
     icon: Activity,
-    title: pick(lang, { en: 'Check my business first', fr: 'Évaluer d’abord mon entreprise', de: 'Zuerst mein Unternehmen prüfen', it: 'Prima analizza la mia azienda' }),
-    text: pick(lang, { en: 'Free Digital Business Check with practical recommendations', fr: 'Évaluation numérique gratuite, avec des recommandations concrètes', de: 'Kostenloser Digital-Check mit konkreten Empfehlungen', it: 'Analisi digitale gratuita con consigli concreti' }),
+    // Value stays 'check' (server enum). The check itself runs during onboarding, after acceptance and payment.
+    title: pick(lang, { en: 'Start with a Digital Business Check', fr: 'Commencer par une évaluation numérique', de: 'Mit einem Digital-Check beginnen', it: 'Iniziare con un’analisi digitale' }),
+    text: pick(lang, { en: 'If accepted, onboarding begins with a look at where your business stands digitally', fr: 'Si votre demande est acceptée, la mise en route commence par un état des lieux de votre présence numérique', de: 'Nach der Aufnahme beginnt das Onboarding mit einer Standortbestimmung Ihrer digitalen Präsenz', it: 'Se la richiesta viene accettata, l’avvio del progetto inizia con un quadro della tua presenza digitale' }),
   },
 ] satisfies ({ value: StartPath } & Record<string, unknown>)[];
 
@@ -58,10 +59,45 @@ const industries = [
   { value: 'other', label: pick(lang, { en: 'Other', fr: 'Autre', de: 'Andere', it: 'Altro' }) },
 ] satisfies ({ value: StartIndustry } & Record<string, unknown>)[];
 
+// Shown in the desktop aside, below the form on mobile and in the success panel.
 const next = [
-  pick(lang, { en: 'We’ll review your information (usually within 24 hours)', fr: 'Nous examinons vos informations (en général sous 24 heures)', de: 'Wir prüfen Ihre Angaben (meist innerhalb von 24 Stunden)', it: 'Esaminiamo le tue informazioni (di solito entro 24 ore)' }),
-  pick(lang, { en: 'We’ll contact you about the next steps', fr: 'Nous vous contactons ensuite au sujet des prochaines étapes', de: 'Danach melden wir uns bei Ihnen zu den nächsten Schritten', it: 'Poi ti contattiamo per i prossimi passi' }),
+  pick(lang, { en: 'We review your application (usually within 24 hours)', fr: 'Nous examinons votre demande (en général sous 24 heures)', de: 'Wir prüfen Ihre Anfrage (meist innerhalb von 24 Stunden)', it: 'Esaminiamo la tua richiesta (di solito entro 24 ore)' }),
+  pick(lang, { en: 'If it’s accepted, you pay the CHF\u00A0120 one-time administration & launch fee', fr: 'Si elle est acceptée, vous réglez les frais uniques d’administration et de lancement de CHF\u00A0120', de: 'Wird sie angenommen, bezahlen Sie die einmalige Administrations- und Lancierungspauschale von CHF\u00A0120', it: 'Se viene accettata, paghi la tariffa unica di amministrazione e lancio di CHF\u00A0120' }),
+  pick(lang, { en: 'We begin onboarding and your Digital Business Check', fr: 'Nous commençons la mise en route et votre évaluation numérique', de: 'Wir starten das Onboarding und Ihren Digital-Check', it: 'Iniziamo l’avvio del progetto e la tua analisi digitale' }),
+  pick(lang, { en: 'We prepare and build your website at CHF\u00A00', fr: 'Nous préparons et réalisons votre site pour CHF\u00A00', de: 'Wir bereiten Ihre Website vor und erstellen sie für CHF\u00A00', it: 'Prepariamo e realizziamo il tuo sito a CHF\u00A00' }),
+  pick(lang, { en: 'We launch your website and hand it over to you', fr: 'Nous mettons votre site en ligne et vous le remettons', de: 'Wir schalten Ihre Website auf und übergeben sie Ihnen', it: 'Mettiamo online il sito e te lo consegniamo' }),
 ];
+
+// "Before you apply" notice in step 3, directly above the Terms checkbox. Information only, no payment.
+const beforeApply = {
+  title: pick(lang, { en: 'Before you apply', fr: 'Avant d’envoyer votre demande', de: 'Bevor Sie Ihre Anfrage senden', it: 'Prima di inviare la richiesta' }),
+  items: [
+    pick(lang, {
+      en: 'Applying is free and does not guarantee acceptance.',
+      fr: 'Le dépôt d’une demande est gratuit et ne garantit pas son acceptation.',
+      de: 'Die Anfrage ist kostenlos und garantiert keine Aufnahme.',
+      it: 'Inviare la richiesta è gratuito e non ne garantisce l’accettazione.',
+    }),
+    pick(lang, {
+      en: 'The programme is designed for Swiss SMEs. We review every application individually.',
+      fr: 'Le programme est conçu pour les PME suisses. Nous examinons chaque demande individuellement.',
+      de: 'Das Programm ist für Schweizer KMU gedacht. Wir prüfen jede Anfrage einzeln.',
+      it: 'Il programma è pensato per le PMI svizzere. Esaminiamo ogni richiesta individualmente.',
+    }),
+    pick(lang, {
+      en: 'If your business is accepted, a CHF\u00A0120 one-time administration & launch fee is payable before onboarding begins.',
+      fr: 'Si votre entreprise est acceptée, des frais uniques d’administration et de lancement de CHF\u00A0120 sont à régler avant la mise en route.',
+      de: 'Wird Ihr Unternehmen aufgenommen, ist vor Beginn des Onboardings eine einmalige Administrations- und Lancierungspauschale von CHF\u00A0120 zu bezahlen.',
+      it: 'Se la tua azienda viene accettata, prima dell’avvio del progetto va pagata una tariffa unica di amministrazione e lancio di CHF\u00A0120.',
+    }),
+    pick(lang, {
+      en: 'Website design and development remain CHF\u00A00 and hosting stays included. Domain registration and renewal remain your responsibility.',
+      fr: 'La conception et le développement du site restent à CHF\u00A00 et l’hébergement reste inclus. L’enregistrement et le renouvellement du nom de domaine restent à votre charge.',
+      de: 'Gestaltung und Entwicklung der Website kosten weiterhin CHF\u00A00 und das Hosting bleibt inbegriffen. Registrierung und Verlängerung der Domain übernehmen Sie selbst.',
+      it: 'La progettazione e lo sviluppo del sito restano a CHF\u00A00 e l’hosting resta incluso. La registrazione e il rinnovo del dominio restano a tuo carico.',
+    }),
+  ],
+};
 
 const T = {
   required: pick(lang, { en: 'required', fr: 'obligatoire', de: 'Pflichtfeld', it: 'obbligatorio' }),
@@ -167,10 +203,10 @@ const T = {
 <BaseLayout
   title={pick(lang, { en: 'Get Started', fr: 'Commencer', de: 'Loslegen', it: 'Inizia' })}
   description={pick(lang, {
-    en: 'Request your free Arklens website in three short steps: tell us where you are starting from, describe your business and share your contact details.',
-    fr: 'Demandez votre site web gratuit en quelques minutes avec Arklens, en trois étapes simples.',
-    de: 'Fragen Sie Ihre kostenlose Website bei Arklens an: drei kurze Schritte, wenige Minuten.',
-    it: 'Richiedi il tuo sito web gratuito ad Arklens in pochi minuti, in tre semplici passi.',
+    en: 'Apply for the Arklens Website Programme in three short steps. Designed for Swiss SMEs: applying is free, the website build is CHF\u00A00 and hosting is included.',
+    fr: 'Déposez votre demande pour le Programme Site web Arklens en trois étapes. Conçu pour les PME suisses\u00A0: la demande est gratuite, la création du site coûte CHF\u00A00 et l’hébergement est inclus.',
+    de: 'Stellen Sie Ihre Anfrage für das Arklens Website-Programm in drei kurzen Schritten. Für Schweizer KMU gemacht: Die Anfrage ist kostenlos, die Website-Erstellung kostet CHF\u00A00 und das Hosting ist inbegriffen.',
+    it: 'Invia la tua richiesta per il Programma Sito web Arklens in tre semplici passi. Pensato per le PMI svizzere: la richiesta è gratuita, la creazione del sito costa CHF\u00A00 e l’hosting è incluso.',
   })}
   lang={lang}
 >
@@ -184,7 +220,7 @@ const T = {
           <div class="lg:sticky lg:top-[calc(var(--sfg-header-h)+2.5rem)]">
             <p class="eyebrow flex items-center gap-3 mb-6">
               <span class="h-px w-8 bg-signal-600" aria-hidden="true"></span>
-              {pick(lang, { en: 'Free Website Programme', fr: 'Programme Site web gratuit', de: 'Programm «Kostenlose Website»', it: 'Programma Sito web gratuito' })}
+              {pick(lang, { en: 'Arklens Website Programme', fr: 'Programme Site web Arklens', de: 'Arklens Website-Programm', it: 'Programma Sito web Arklens' })}
             </p>
             <h1 class="text-display-md">{pick(lang, { en: 'Let’s get started', fr: 'C’est parti', de: 'Legen wir los', it: 'Iniziamo' })}</h1>
             <p class="lead mt-5">
@@ -413,6 +449,13 @@ const T = {
                 <noscript>
                   <p class="mt-6 text-sm text-ink-900">{T.noscript}</p>
                 </noscript>
+
+                <div class="mt-8 border-l-2 border-signal-600 bg-paper p-4" role="note" aria-labelledby="before-apply-title">
+                  <h3 id="before-apply-title" class="font-medium text-ink-900">{beforeApply.title}</h3>
+                  <ul class="mt-2 space-y-1.5 text-sm text-steel-700">
+                    {beforeApply.items.map((item) => <li>{item}</li>)}
+                  </ul>
+                </div>
 
                 <!-- Terms acceptance: last item before the Submit row. Never pre-checked; validated server-side too. -->
                 <div class="mt-8">

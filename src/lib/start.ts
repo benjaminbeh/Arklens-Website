@@ -27,7 +27,7 @@ export const START_PATH_LABELS: Record<StartPath, string> = {
   new: 'I need a website',
   update: 'My website needs an update',
   extend: 'My website works, but I need more',
-  check: 'Check my business first',
+  check: 'Start with a Digital Business Check',
 };
 
 export const START_INDUSTRY_LABELS: Record<StartIndustry, string> = {

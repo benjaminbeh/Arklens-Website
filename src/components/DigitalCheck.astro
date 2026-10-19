@@ -67,13 +67,13 @@ const checks = [
     <SectionHeader
       id="check-title"
       index="09"
-      eyebrow={pick(lang, { en: 'Diagnostics', fr: 'Diagnostic', de: 'Diagnose', it: 'Diagnostica' })}
-      title={pick(lang, { en: 'Free Digital Business Check', fr: 'Évaluation numérique gratuite', de: 'Kostenloser Digital-Check', it: 'Analisi digitale gratuita' })}
+      eyebrow={pick(lang, { en: 'Onboarding', fr: 'Mise en route', de: 'Projektstart', it: 'Avvio del progetto' })}
+      title={pick(lang, { en: 'Digital Business Check', fr: 'Évaluation numérique', de: 'Digital-Check', it: 'Analisi digitale' })}
       lead={pick(lang, {
-        en: 'Understand where your business stands digitally and discover practical improvements.',
-        fr: 'Faites le point sur la situation numérique de votre entreprise et découvrez des améliorations concrètes.',
-        de: 'Erfahren Sie, wo Ihr Unternehmen digital steht, und entdecken Sie konkrete Verbesserungen.',
-        it: 'Scopri a che punto è la tua azienda nel digitale e quali miglioramenti concreti sono possibili.',
+        en: 'Included during onboarding for accepted businesses. We look at where your business stands digitally, so your new website starts from the right place.',
+        fr: 'Incluse dans la mise en route pour les entreprises acceptées. Nous faisons le point sur votre situation numérique, pour que votre nouveau site parte sur de bonnes bases.',
+        de: 'Für aufgenommene Unternehmen im Onboarding inbegriffen. Wir schauen, wo Ihr Unternehmen digital steht, damit Ihre neue Website am richtigen Punkt ansetzt.',
+        it: 'Inclusa nell’avvio del progetto per le aziende accettate. Valutiamo a che punto è la tua azienda nel digitale, così il nuovo sito parte dalla base giusta.',
       })}
     />
 
@@ -87,17 +87,26 @@ const checks = [
             </li>
           ))}
         </ol>
+        <!-- path=check: the applicant asks to start onboarding with the check; the check itself runs after acceptance and payment -->
         <a href={getLocalizedPath('/start/?path=check', lang)} class="btn btn-primary btn-lg mt-8">
-          {pick(lang, { en: 'Check my business', fr: 'Évaluer mon entreprise', de: 'Mein Unternehmen prüfen', it: 'Analizza la mia azienda' })}
+          {pick(lang, { en: 'Start my application', fr: 'Commencer ma demande', de: 'Anfrage starten', it: 'Inizia la mia richiesta' })}
           <ArrowRight size={18} class="arrow" stroke-width={1.75} />
         </a>
+        <p class="mt-3 text-sm text-steel-600">
+          {pick(lang, {
+            en: 'Applying is free. The check begins with onboarding.',
+            fr: 'La demande est gratuite. L’évaluation commence avec la mise en route.',
+            de: 'Die Anfrage ist kostenlos. Der Check beginnt mit dem Onboarding.',
+            it: 'La richiesta è gratuita. L’analisi inizia con l’avvio del progetto.',
+          })}
+        </p>
       </div>
 
       <!-- Example report -->
       <div class="col-span-12 lg:col-span-8">
         <figure class="report bg-white border border-ink-900/15 rounded-md overflow-hidden" data-signal>
           <figcaption class="flex flex-wrap items-center justify-between gap-3 px-5 sm:px-7 py-4 border-b border-ink-900/10 bg-paper/60">
-            <span class="eyebrow text-ink-900">{pick(lang, { en: 'Example report', fr: 'Exemple de rapport', de: 'Beispielbericht', it: 'Report di esempio' })}</span>
+            <span class="eyebrow text-ink-900">{pick(lang, { en: 'Example onboarding report', fr: 'Exemple de rapport de mise en route', de: 'Beispielbericht aus dem Onboarding', it: 'Report di esempio dell’avvio' })}</span>
             <span class="font-mono text-xs text-steel-600">{pick(lang, { en: 'Local business', fr: 'Entreprise locale', de: 'Lokales Unternehmen', it: 'Azienda locale' })} · CH</span>
           </figcaption>
 

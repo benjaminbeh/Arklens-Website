@@ -67,6 +67,8 @@ export function buildApplicationEmail(app: StartApplication, record: AcceptanceR
     ...(app.currentWebsite ? [['Current website', app.currentWebsite] as [string, string]] : []),
     ['Website language', app.lang.toUpperCase()],
     ['Source page', app.page],
+    // Reminder for the reviewer; nothing is charged at application stage.
+    ['Programme fee', 'CHF\u00A0120, payable after acceptance (not yet requested)'],
   ];
 
   const legal: [string, string][] = [
@@ -139,7 +141,7 @@ const CONFIRM_COPY: Record<StartLang, {
     submitted: 'Submitted:',
     terms: 'Terms of Use accepted (version):',
     privacy: 'Privacy Policy acknowledged (version):',
-    disclaimer: 'Submitting an application does not mean that Arklens has accepted the project. We will contact you after reviewing your request.',
+    disclaimer: 'Submitting an application does not mean that Arklens has accepted the project. We will contact you after reviewing your request. If your application is accepted, the next step is the CHF\u00A0120 one-time administration & launch fee, payable before onboarding and the Digital Business Check begin. The website design and development remain CHF\u00A00, and hosting stays included.',
     closing: 'Best regards,',
     tagline: 'Smarter technology for Swiss SMEs.',
   },
@@ -151,7 +153,7 @@ const CONFIRM_COPY: Record<StartLang, {
     submitted: 'Envoyée le\u00A0:',
     terms: 'Conditions d’utilisation acceptées (version)\u00A0:',
     privacy: 'Prise de connaissance de la Politique de confidentialité (version)\u00A0:',
-    disclaimer: 'L’envoi d’une demande ne signifie pas qu’Arklens a accepté le projet. Nous vous contacterons après avoir examiné votre demande.',
+    disclaimer: 'L’envoi d’une demande ne signifie pas qu’Arklens a accepté le projet. Nous vous contacterons après avoir examiné votre demande. Si votre demande est acceptée, l’étape suivante est le règlement des frais uniques d’administration et de lancement de CHF\u00A0120, avant la mise en route et l’évaluation numérique. La conception et le développement du site restent à CHF\u00A00 et l’hébergement reste inclus.',
     closing: 'Meilleures salutations,',
     tagline: 'Des technologies plus intelligentes pour les PME suisses.',
   },
@@ -163,7 +165,7 @@ const CONFIRM_COPY: Record<StartLang, {
     submitted: 'Gesendet am:',
     terms: 'Nutzungsbedingungen akzeptiert (Version):',
     privacy: 'Datenschutzerklärung zur Kenntnis genommen (Version):',
-    disclaimer: 'Das Einreichen einer Anfrage bedeutet nicht, dass Arklens das Projekt angenommen hat. Wir melden uns bei Ihnen, nachdem wir Ihre Anfrage geprüft haben.',
+    disclaimer: 'Das Einreichen einer Anfrage bedeutet nicht, dass Arklens das Projekt angenommen hat. Wir melden uns bei Ihnen, nachdem wir Ihre Anfrage geprüft haben. Wird Ihre Anfrage angenommen, ist der nächste Schritt die einmalige Administrations- und Lancierungspauschale von CHF\u00A0120, zahlbar vor Beginn des Onboardings und des Digital-Checks. Gestaltung und Entwicklung der Website kosten weiterhin CHF\u00A00 und das Hosting bleibt inbegriffen.',
     closing: 'Freundliche Grüsse',
     tagline: 'Intelligente Technologien für Schweizer KMU.',
   },
@@ -175,7 +177,7 @@ const CONFIRM_COPY: Record<StartLang, {
     submitted: 'Inviata il:',
     terms: 'Condizioni d’uso accettate (versione):',
     privacy: 'Presa visione dell’Informativa sulla privacy (versione):',
-    disclaimer: 'L’invio di una richiesta non significa che Arklens abbia accettato il progetto. Ti contatteremo dopo aver esaminato la tua richiesta.',
+    disclaimer: 'L’invio di una richiesta non significa che Arklens abbia accettato il progetto. Ti contatteremo dopo aver esaminato la tua richiesta. Se la richiesta viene accettata, il passo successivo è la tariffa unica di amministrazione e lancio di CHF\u00A0120, da pagare prima dell’avvio del progetto e dell’analisi digitale. La progettazione e lo sviluppo del sito restano a CHF\u00A00 e l’hosting resta incluso.',
     closing: 'Cordiali saluti,',
     tagline: 'Tecnologie intelligenti per le PMI svizzere.',
   },

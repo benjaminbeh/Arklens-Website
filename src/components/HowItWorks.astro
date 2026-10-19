@@ -12,7 +12,8 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-const steps = ['step1', 'step2', 'step3'];
+// Apply → review → accepted + CHF 120 fee → build at CHF 0 (after onboarding) → launch
+const steps = ['step1', 'step2', 'step3', 'step4', 'step5'];
 ---
 
 <section class="section" aria-labelledby="process-title">
@@ -24,9 +25,9 @@ const steps = ['step1', 'step2', 'step3'];
       title={t('howItWorks.title')}
     />
 
-    <ol class="grid md:grid-cols-3 gap-x-8 gap-y-12">
+    <ol class="grid sm:grid-cols-2 lg:grid-cols-5 gap-x-6 gap-y-12">
       {steps.map((key, i) => (
-        <li class="process-step reveal relative pt-8" style={`--reveal-delay:${i * 120}ms`}>
+        <li class="process-step reveal relative pt-8" style={`--reveal-delay:${i * 100}ms`}>
           <span class="process-rule" aria-hidden="true"></span>
           <span class="big-num block" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
           <h3 class="mt-8 text-heading-md text-ink-900">
