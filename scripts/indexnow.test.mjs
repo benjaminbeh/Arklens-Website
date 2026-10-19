@@ -162,10 +162,74 @@ test('writeKeyFile', () => {
   }
 });
 
-test('dist sitemap has 28 production URLs', (t) => {
-  const file = path.join(root, 'dist', 'sitemap.xml');
+// Sitemap contents are checked against two independent sources instead of a hard-coded count:
+//  (a) the `sitePages` × `locales` declarations in src/i18n/index.ts (what the sitemap route emits)
+//  (b) the pages actually built into dist/: every <dir>/index.html without a robots noindex meta.
+// Adding a route deliberately (page + sitePages entry) keeps the test green; a page missing from
+// sitePages, a stale sitePages entry, or a noindex page leaking into the sitemap fails it.
+const SITE = 'https://www.arklens.ch';
+const NOINDEX_PAGES = ['/experience/apply/'];
+
+function readI18nConst(src, name) {
+  const m = src.match(new RegExp(`export const ${name} = \\[([^\\]]*)\\]`));
+  assert.ok(m, `${name} not found in src/i18n/index.ts`);
+  return [...m[1].matchAll(/'([^']*)'/g)].map((x) => x[1]);
+}
+
+function builtIndexPages(dist) {
+  const out = [];
+  const walk = (dir) => {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) walk(p);
+      else if (e.name === 'index.html') {
+        const rel = path.relative(dist, dir).split(path.sep).filter(Boolean);
+        const urlPath = '/' + rel.map((s) => s + '/').join('');
+        const noindex = /<meta\s+name="robots"\s+content="[^"]*noindex/i.test(fs.readFileSync(p, 'utf8'));
+        out.push({ urlPath, noindex });
+      }
+    }
+  };
+  walk(dist);
+  return out;
+}
+
+const sorted = (xs) => [...xs].sort();
+const diff = (a, b) => sorted([...a].filter((x) => !b.has(x)));
+
+test('dist sitemap lists exactly the indexable localised pages', (t) => {
+  const dist = path.join(root, 'dist');
+  const file = path.join(dist, 'sitemap.xml');
   if (!fs.existsSync(file)) return t.skip('dist not built');
   const locs = parseSitemapLocs(fs.readFileSync(file, 'utf8'));
-  assert.equal(locs.length, 28);
+  const got = new Set(locs);
+  assert.equal(got.size, locs.length, 'duplicate <loc> entries');
   assert.ok(locs.every(isProductionUrl));
+
+  // (a) declared routes
+  const i18nSrc = fs.readFileSync(path.join(root, 'src', 'i18n', 'index.ts'), 'utf8');
+  const sitePages = readI18nConst(i18nSrc, 'sitePages');
+  const locales = readI18nConst(i18nSrc, 'locales');
+  assert.ok(sitePages.includes('/experience/'), 'sitePages should include /experience/');
+  const localize = (p, l) => (l === 'en' ? p : `/${l}${p}`);
+  const declared = new Set(sitePages.flatMap((p) => locales.map((l) => SITE + localize(p, l))));
+  assert.deepEqual(diff(declared, got), [], 'declared pages missing from sitemap');
+  assert.deepEqual(diff(got, declared), [], 'sitemap entries not declared in sitePages');
+
+  // (b) built pages
+  const built = builtIndexPages(dist);
+  const indexable = new Set(built.filter((b) => !b.noindex).map((b) => SITE + b.urlPath));
+  const noindex = new Set(built.filter((b) => b.noindex).map((b) => SITE + b.urlPath));
+  assert.deepEqual(diff(indexable, got), [], 'built indexable pages missing from sitemap');
+  assert.deepEqual(diff(got, indexable), [], 'sitemap entries without an indexable built page');
+
+  // noindex pages (Experience application form in every locale) are built and excluded
+  for (const p of NOINDEX_PAGES) {
+    for (const l of locales) {
+      const u = SITE + localize(p, l);
+      assert.ok(noindex.has(u), `${u} should be built with robots noindex`);
+      assert.ok(!got.has(u), `${u} must not be in the sitemap`);
+    }
+  }
+  for (const u of noindex) assert.ok(!got.has(u), `noindex page ${u} must not be in the sitemap`);
 });

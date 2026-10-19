@@ -188,7 +188,7 @@ const fr = {
     'nav.getStarted': 'Commencer',
 
     // Hero
-    'hero.title': 'Votre site web professionnel. Réalisé pour CHF\u00A00.',
+    'hero.title': 'Votre site web. Créé pour CHF\u00A00.',
     'hero.subtitle': 'Un programme de site web professionnel conçu pour les PME suisses\u00A0: nous créons ou modernisons votre site sur votre propre nom de domaine, hébergement inclus.',
     'hero.feeNote': 'Des frais uniques d’administration et de lancement de CHF\u00A0120 s’appliquent. Payables après l’acceptation de votre demande et avant la mise en route.',
     'hero.cta.primary': 'Commencer ma demande',
