@@ -11,9 +11,10 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-// Display order groups related topics: offer and fee, ownership, portability, exit, fair use.
-// 19 (who it is for), 17 (why the CHF 120 fee) and 18 (when to pay) sit with the offer questions.
-const order = [1, 19, 17, 18, 2, 3, 10, 4, 5, 6, 7, 8, 13, 14, 9, 11, 12, 15, 16];
+// Display order groups related topics: about Arklens, offer and fee, ownership, portability, exit, fair use.
+// 20 (what is Arklens) opens the list; 19 (who it is for), 17 (why the CHF 120 fee) and 18 (when to pay)
+// sit with the offer questions. 17 is the only entry that states the CHF 120 amount.
+const order = [20, 1, 19, 17, 18, 2, 3, 10, 4, 5, 6, 7, 8, 13, 14, 9, 11, 12, 15, 16];
 const faqs = order.map((n) => ({ q: `q${n}`, a: `a${n}` }));
 ---
 

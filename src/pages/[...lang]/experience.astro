@@ -10,6 +10,7 @@ import ExperienceConnections from '@components/experience/ExperienceConnections.
 import ExperienceAudience from '@components/experience/ExperienceAudience.astro';
 import ExperienceProcess from '@components/experience/ExperienceProcess.astro';
 import ExperienceExpectations from '@components/experience/ExperienceExpectations.astro';
+import ExperienceFAQ from '@components/experience/ExperienceFAQ.astro';
 import ExperienceFinalCTA from '@components/experience/ExperienceFinalCTA.astro';
 import { experienceCopy } from '@components/experience/copy';
 import { localeStaticPaths, type Language } from '@i18n/index';
@@ -30,6 +31,7 @@ const { meta } = experienceCopy(lang);
     <ExperienceAudience lang={lang} />
     <ExperienceProcess lang={lang} />
     <ExperienceExpectations lang={lang} />
+    <ExperienceFAQ lang={lang} />
     <ExperienceFinalCTA lang={lang} />
   </main>
   <Footer lang={lang} />

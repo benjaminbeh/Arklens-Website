@@ -9,7 +9,7 @@
  * "unpaid" or "free work" wording, and no statement about pay or legal status
  * until the programme structure has been reviewed.
  */
-import type { Language } from '@i18n/index';
+import { ui, type Language } from '@i18n/index';
 
 /**
  * Localised application page. If set to null, the hero CTA scrolls to the final
@@ -137,6 +137,18 @@ const en = {
       'Not every project can be shown publicly or added to a portfolio.',
       'References and recommendations aren’t automatic.',
       'Future paid work may sometimes be possible, but it is never promised.',
+    ],
+  },
+  // Q1 reuses the homepage Website Programme FAQ entry (faq.q20/a20) so both pages describe Arklens identically.
+  faq: {
+    eyebrow: 'FAQ',
+    title: 'Questions about the programme',
+    items: [
+      { q: ui.en['faq.q20'], a: ui.en['faq.a20'] },
+      {
+        q: 'What is the Arklens Experience Programme?',
+        a: 'The Arklens Experience Programme helps students, graduates, career changers and early-career professionals gain practical experience by contributing to real projects for Swiss SMEs while building skills, knowledge and professional connections.',
+      },
     ],
   },
   final: {
@@ -274,6 +286,17 @@ const fr: ExperienceCopy = {
       'Un travail rémunéré par la suite est parfois possible, mais il n’est jamais promis.',
     ],
   },
+  faq: {
+    eyebrow: 'FAQ',
+    title: 'Questions sur le programme',
+    items: [
+      { q: ui.fr['faq.q20'], a: ui.fr['faq.a20'] },
+      {
+        q: 'Qu’est-ce que l’Arklens Experience Programme\u202F?',
+        a: 'L’Arklens Experience Programme aide les étudiantes et étudiants, les personnes récemment diplômées, en reconversion ou en début de carrière à acquérir une expérience pratique en contribuant à de vrais projets pour des PME suisses, tout en développant leurs compétences, leurs connaissances et leur réseau professionnel.',
+      },
+    ],
+  },
   final: {
     eyebrow: 'Passer à l’étape suivante',
     title: 'Un projet peut ouvrir des portes. Et même si ce n’est pas le cas, vous repartez avec du concret.',
@@ -404,6 +427,17 @@ const de: ExperienceCopy = {
       'Eine spätere bezahlte Tätigkeit ist manchmal möglich, wird aber nie versprochen.',
     ],
   },
+  faq: {
+    eyebrow: 'FAQ',
+    title: 'Fragen zum Programm',
+    items: [
+      { q: ui.de['faq.q20'], a: ui.de['faq.a20'] },
+      {
+        q: 'Was ist das Arklens Experience Programme?',
+        a: 'Das Arklens Experience Programme hilft Studierenden, Absolventinnen und Absolventen, Quereinsteigenden sowie Personen am Anfang ihrer beruflichen Laufbahn, praktische Erfahrung zu sammeln: Sie wirken an echten Projekten für Schweizer KMU mit und bauen dabei Fähigkeiten, Wissen und berufliche Kontakte auf.',
+      },
+    ],
+  },
   final: {
     eyebrow: 'Der nächste Schritt',
     title: 'Ein Projekt kann Türen öffnen. Und selbst wenn nicht: Sie nehmen etwas Konkretes mit.',
@@ -532,6 +566,17 @@ const it: ExperienceCopy = {
       'Non tutti i progetti possono essere mostrati pubblicamente o inseriti in un portfolio.',
       'Referenze e raccomandazioni non sono automatiche.',
       'In futuro un lavoro retribuito può talvolta essere possibile, ma non è mai promesso.',
+    ],
+  },
+  faq: {
+    eyebrow: 'FAQ',
+    title: 'Domande sul programma',
+    items: [
+      { q: ui.it['faq.q20'], a: ui.it['faq.a20'] },
+      {
+        q: 'Che cos’è l’Arklens Experience Programme?',
+        a: 'L’Arklens Experience Programme aiuta studenti, neolaureati, chi cambia percorso professionale e chi è all’inizio della carriera a fare esperienza pratica contribuendo a progetti reali per PMI svizzere, sviluppando nel contempo competenze, conoscenze e contatti professionali.',
+      },
     ],
   },
   final: {

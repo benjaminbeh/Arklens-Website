@@ -1,0 +1,51 @@
+---
+import type { Language } from '@i18n/index';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import { Plus } from '@lucide/astro';
+import { experienceCopy } from './copy';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const c = experienceCopy(lang).faq;
+// Accordion markup mirrors the homepage FAQ (src/components/FAQ.astro). No FAQPage JSON-LD.
+---
+
+<section class="section" aria-labelledby="experience-faq-title">
+  <div class="container-custom">
+    <SectionHeader id="experience-faq-title" index="08" eyebrow={c.eyebrow} title={c.title} />
+
+    <div class="grid grid-cols-12 gap-x-6">
+      <ul class="col-span-12 md:col-span-8 md:col-start-5 lg:col-span-9 lg:col-start-4 border-t border-ink-900/15">
+        {c.items.map((faq, i) => (
+          <li class="border-b border-ink-900/15">
+            <details class="faq group">
+              <summary class="flex cursor-pointer list-none items-start gap-4 py-5 md:py-6 focus-visible:outline-offset-[-2px]">
+                <span class="index-num w-7 flex-none pt-0.5">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="flex-1 text-heading-sm text-ink-900 font-medium">{faq.q}</h3>
+                <span class="mt-0.5 flex h-6 w-6 flex-none items-center justify-center text-ink-900 transition-transform duration-300 ease-swiss group-open:rotate-45" aria-hidden="true">
+                  <Plus size={18} stroke-width={1.5} />
+                </span>
+              </summary>
+              <div class="pb-6 pl-11 pr-10">
+                <div class="space-y-3 max-w-2xl">
+                  {faq.a.split('\n\n').map((para) => (
+                    <p class="text-steel-700 leading-relaxed">{para}</p>
+                  ))}
+                </div>
+              </div>
+            </details>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq > summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

@@ -124,7 +124,7 @@ const en = {
     'faq.q6': 'Can I add another language later?',
     'faq.a6': 'Absolutely. Multilingual support is available as a paid add-on whenever you need it.',
     'faq.q7': 'Will I be forced into a subscription?',
-    'faq.a7': 'No. The CHF\u00A0120 administration & launch fee is a one-time payment, not a subscription. All other paid services are optional and clearly priced before any work begins.',
+    'faq.a7': 'No. The administration & launch fee is a one-time payment, not a subscription. All other paid services are optional and clearly priced before any work begins.',
     'faq.q8': 'Can I move my domain later?',
     'faq.a8': 'Yes, because you own it. You can transfer your domain to any provider at any time. See our Terms of Use for details on service exit and data portability.',
     'faq.q9': "What happens if I want to leave Arklens?",
@@ -149,6 +149,8 @@ const en = {
     'faq.a18': 'There is no charge to apply. If your business is accepted into the programme, the administration & launch fee is paid before onboarding and detailed project discussions begin. We send you the payment details together with your acceptance.\n\nIt is a one-time payment, not a subscription.',
     'faq.q19': 'Who is the Arklens Website Programme for?',
     'faq.a19': 'The programme is designed for Swiss small and medium-sized businesses that need a professional website or want to modernise an existing one: local shops and services, owner-managed and independent businesses, and small teams.\n\nApplications are reviewed individually to make sure the programme is a good fit.',
+    'faq.q20': 'What is Arklens?',
+    'faq.a20': 'Arklens is a Swiss digital partner for SMEs, helping businesses strengthen their online presence and adopt practical digital tools, automation and AI.',
 
     // Final CTA
     'finalCta.title': 'Start with your website. Improve your business from there.',
@@ -294,7 +296,7 @@ const fr = {
     'faq.q6': 'Puis-je ajouter une autre langue plus tard\u202F?',
     'faq.a6': 'Oui, sans problème. Des langues supplémentaires sont disponibles en option payante, quand vous en avez besoin.',
     'faq.q7': 'Suis-je obligé de prendre un abonnement\u202F?',
-    'faq.a7': 'Non. Les frais d’administration et de lancement de CHF\u00A0120 sont un paiement unique, pas un abonnement. Toutes les autres prestations payantes sont facultatives et leur prix est clairement fixé avant le début des travaux.',
+    'faq.a7': 'Non. Les frais d’administration et de lancement sont un paiement unique, pas un abonnement. Toutes les autres prestations payantes sont facultatives et leur prix est clairement fixé avant le début des travaux.',
     'faq.q8': 'Puis-je transférer mon nom de domaine plus tard\u202F?',
     'faq.a8': 'Oui, puisqu’il vous appartient. Vous pouvez transférer votre domaine chez n’importe quel fournisseur, à tout moment. Nos Conditions d’utilisation précisent la sortie du service et la portabilité des données.',
     'faq.q9': 'Que se passe-t-il si je veux quitter Arklens\u202F?',
@@ -319,6 +321,8 @@ const fr = {
     'faq.a18': 'Le dépôt d’une demande est gratuit. Si votre entreprise est acceptée dans le programme, les frais d’administration et de lancement sont réglés avant la mise en route et les échanges détaillés sur le projet. Nous vous envoyons les informations de paiement avec l’acceptation de votre demande.\n\nIl s’agit d’un paiement unique, pas d’un abonnement.',
     'faq.q19': 'À qui s’adresse le Programme Site web Arklens\u202F?',
     'faq.a19': 'Le programme est conçu pour les petites et moyennes entreprises suisses qui ont besoin d’un site web professionnel ou qui souhaitent moderniser leur site actuel\u00A0: commerces et services locaux, entreprises indépendantes ou dirigées par leur propriétaire, petites équipes.\n\nChaque demande est examinée individuellement, afin de vérifier que le programme vous convient.',
+    'faq.q20': 'Qu’est-ce qu’Arklens\u202F?',
+    'faq.a20': 'Arklens est un partenaire numérique suisse pour les PME, qui aide les entreprises à renforcer leur présence en ligne et à adopter des outils numériques pratiques, l’automatisation et l’IA.',
 
     // Final CTA
     'finalCta.title': 'Commencez par votre site web. Développez votre entreprise ensuite.',
@@ -462,7 +466,7 @@ const de = {
     'faq.q6': 'Kann ich später eine weitere Sprache ergänzen?',
     'faq.a6': 'Ja, jederzeit. Weitere Sprachen sind als kostenpflichtige Erweiterung erhältlich, sobald Sie sie brauchen.',
     'faq.q7': 'Muss ich ein Abo abschliessen?',
-    'faq.a7': 'Nein. Die Administrations- und Lancierungspauschale von CHF\u00A0120 ist eine einmalige Zahlung, kein Abo. Alle anderen kostenpflichtigen Leistungen sind optional, und der Preis steht klar fest, bevor die Arbeit beginnt.',
+    'faq.a7': 'Nein. Die Administrations- und Lancierungspauschale ist eine einmalige Zahlung, kein Abo. Alle anderen kostenpflichtigen Leistungen sind optional, und der Preis steht klar fest, bevor die Arbeit beginnt.',
     'faq.q8': 'Kann ich meine Domain später übertragen?',
     'faq.a8': 'Ja, denn sie gehört Ihnen. Sie können Ihre Domain jederzeit zu einem beliebigen Anbieter übertragen. Details zum Austritt aus dem Service und zur Datenportabilität finden Sie in unseren Nutzungsbedingungen.',
     'faq.q9': 'Was passiert, wenn ich Arklens verlassen möchte?',
@@ -487,6 +491,8 @@ const de = {
     'faq.a18': 'Die Anfrage ist kostenlos. Wird Ihr Unternehmen ins Programm aufgenommen, bezahlen Sie die Administrations- und Lancierungspauschale vor Beginn des Onboardings und der detaillierten Projektgespräche. Die Zahlungsangaben erhalten Sie zusammen mit der Annahme Ihrer Anfrage.\n\nEs ist eine einmalige Zahlung, kein Abo.',
     'faq.q19': 'Für wen ist das Arklens Website-Programm gedacht?',
     'faq.a19': 'Das Programm ist für kleine und mittlere Unternehmen in der Schweiz gedacht, die eine professionelle Website brauchen oder ihre bestehende Website modernisieren möchten: lokale Geschäfte und Dienstleister, inhabergeführte und unabhängige Unternehmen sowie kleine Teams.\n\nWir prüfen jede Anfrage einzeln, damit das Programm auch wirklich zu Ihrem Unternehmen passt.',
+    'faq.q20': 'Was ist Arklens?',
+    'faq.a20': 'Arklens ist ein Schweizer Digitalpartner für KMU und hilft Unternehmen, ihren Online-Auftritt zu stärken und praktische digitale Tools, Automatisierung und KI einzusetzen.',
 
     // Final CTA
     'finalCta.title': 'Starten Sie mit Ihrer Website. Und entwickeln Sie Ihr Unternehmen von dort aus weiter.',
@@ -631,7 +637,7 @@ const it = {
     'faq.q6': 'Posso aggiungere un’altra lingua in seguito?',
     'faq.a6': 'Certo. Altre lingue sono disponibili come opzione a pagamento, quando ti servono.',
     'faq.q7': 'Devo sottoscrivere un abbonamento?',
-    'faq.a7': 'No. La tariffa di amministrazione e lancio di CHF\u00A0120 è un pagamento unico, non un abbonamento. Tutti gli altri servizi a pagamento sono facoltativi e il prezzo viene definito chiaramente prima di iniziare qualsiasi lavoro.',
+    'faq.a7': 'No. La tariffa di amministrazione e lancio è un pagamento unico, non un abbonamento. Tutti gli altri servizi a pagamento sono facoltativi e il prezzo viene definito chiaramente prima di iniziare qualsiasi lavoro.',
     'faq.q8': 'Posso trasferire il mio dominio in seguito?',
     'faq.a8': 'Sì, perché è tuo. Puoi trasferire il dominio a qualsiasi fornitore in qualsiasi momento. Per i dettagli sull’uscita dal servizio e sulla portabilità dei dati consulta le nostre Condizioni d’uso.',
     'faq.q9': 'Cosa succede se voglio lasciare Arklens?',
@@ -656,6 +662,8 @@ const it = {
     'faq.a18': 'Inviare una richiesta è gratuito. Se la tua azienda viene accettata nel programma, la tariffa di amministrazione e lancio si paga prima dell’avvio del progetto e dei colloqui dettagliati. Ti inviamo i dati per il pagamento insieme all’accettazione della richiesta.\n\nÈ un pagamento unico, non un abbonamento.',
     'faq.q19': 'A chi si rivolge il Programma Sito web Arklens?',
     'faq.a19': 'Il programma è pensato per le piccole e medie imprese svizzere che hanno bisogno di un sito web professionale o vogliono modernizzare quello attuale: negozi e servizi locali, aziende indipendenti o gestite dai titolari, piccoli team.\n\nOgni richiesta viene esaminata individualmente, per verificare che il programma sia adatto alla tua azienda.',
+    'faq.q20': 'Che cos’è Arklens?',
+    'faq.a20': 'Arklens è un partner digitale svizzero per le PMI, che aiuta le aziende a rafforzare la propria presenza online e ad adottare strumenti digitali pratici, automazione e IA.',
 
     // Final CTA
     'finalCta.title': 'Inizia dal sito web. Poi fai crescere la tua azienda.',
