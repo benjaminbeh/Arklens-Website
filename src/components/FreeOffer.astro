@@ -25,42 +25,24 @@ const features = [
       index="02"
       eyebrow={pick(lang, { en: 'The offer', fr: 'L’offre', de: 'Das Angebot', it: 'L’offerta' })}
       title={t('freeOffer.title')}
+      lead={t('freeOffer.lead')}
     />
 
     <div class="grid grid-cols-12 gap-x-6 gap-y-12">
-      <!-- Price block -->
+      <!-- Programme card -->
       <div class="col-span-12 lg:col-span-4">
         <div class="lg:sticky lg:top-[calc(var(--sfg-header-h)+2rem)]">
           <div class="border border-ink-900/15 rounded-md p-7">
-            <p class="eyebrow">{pick(lang, { en: 'Website build', fr: 'Création du site', de: 'Website-Erstellung', it: 'Creazione del sito' })}</p>
-            <p class="mt-2 text-[3.5rem] leading-none font-semibold tracking-[-0.04em] text-ink-900">{'CHF\u00A00'}</p>
-            <p class="mt-4 text-sm text-steel-600">
-              {pick(lang, {
-                en: 'Hosting included under the Arklens Website Programme.',
-                fr: 'Hébergement inclus dans le Programme Site web Arklens.',
-                de: 'Hosting im Arklens Website-Programm inbegriffen.',
-                it: 'Hosting incluso nel Programma Sito web Arklens.',
-              })}
-            </p>
-            <p class="mt-2 text-sm text-steel-700">
-              {pick(lang, {
-                en: 'Plus a CHF\u00A0120 one-time administration & launch fee, payable only after your application is accepted.',
-                fr: 'Des frais uniques d’administration et de lancement de CHF\u00A0120 s’y ajoutent, payables uniquement après l’acceptation de votre demande.',
-                de: 'Dazu kommt eine einmalige Administrations- und Lancierungspauschale von CHF\u00A0120. Sie ist erst nach Annahme Ihrer Anfrage zahlbar.',
-                it: 'A questo si aggiunge una tariffa unica di amministrazione e lancio di CHF\u00A0120 da pagare solo dopo l’accettazione della richiesta.',
-              })}
-            </p>
+            <p class="eyebrow">{t('freeOffer.cardLabel')}</p>
+            <p class="mt-3 text-[1.75rem] leading-[1.1] font-semibold tracking-[-0.03em] text-ink-900 text-balance">{t('freeOffer.cardTitle')}</p>
+            <p class="mt-4 text-sm text-steel-600">{t('freeOffer.cardBody')}</p>
             <div class="mt-7">
               <a href={getLocalizedPath('/start/', lang)} class="btn btn-primary btn-block">
                 {pick(lang, { en: 'Apply for the programme', fr: 'Postuler au programme', de: 'Teilnahme anfragen', it: 'Candidati al programma' })}
                 <ArrowRight size={16} class="arrow" stroke-width={1.75} />
               </a>
-              <p class="mt-3 text-center text-sm text-steel-600">
-                {pick(lang, { en: 'Applying is free.', fr: 'La demande est gratuite.', de: 'Die Anfrage ist kostenlos.', it: 'La richiesta è gratuita.' })}
-              </p>
             </div>
           </div>
-
           <!-- Domain ownership note -->
           <div class="mt-4 flex gap-4 border-l-2 border-signal-600 bg-paper p-5">
             <KeyRound size={20} class="flex-none mt-0.5 text-ink-900" stroke-width={1.5} />

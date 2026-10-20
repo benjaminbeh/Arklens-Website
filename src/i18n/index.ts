@@ -30,8 +30,12 @@ const en = {
     'hero.trust': 'Applying is free · Your domain always belongs to you · No long-term contract',
     
     // Free offer
-    'freeOffer.title': 'Your professional website, built for CHF\u00A00',
-    'freeOffer.domain': 'Your domain registration and renewal are paid directly by you, and the domain remains yours. The website build and hosting are included in the Arklens Website Programme.',
+    'freeOffer.title': 'Your professional website, without the hassle.',
+    'freeOffer.lead': 'We take care of the technical side — from setup and hosting to security and launch — so you can stay focused on running your business.',
+    'freeOffer.cardLabel': 'Website programme',
+    'freeOffer.cardTitle': 'Simple from start to launch.',
+    'freeOffer.cardBody': 'A professional website setup designed for Swiss SMEs. We guide you through the process and take care of the technical details, so getting online is straightforward.',
+    'freeOffer.domain': 'Your domain registration and renewal are paid directly by you, and the domain remains yours.',
     'freeOffer.features.website': 'Professional one-page website',
     'freeOffer.features.domain': 'Your own domain',
     'freeOffer.features.hosting': 'Hosting included (Arklens Website Programme)',
@@ -196,8 +200,12 @@ const fr = {
     'hero.trust': 'Demande gratuite · Votre nom de domaine vous appartient toujours · Pas de contrat à long terme',
 
     // Free offer
-    'freeOffer.title': 'Votre site web professionnel, réalisé pour CHF\u00A00',
-    'freeOffer.domain': 'Vous payez directement l’enregistrement et le renouvellement de votre nom de domaine, qui reste à vous. La création du site et l’hébergement sont inclus dans le Programme Site web Arklens.',
+    'freeOffer.title': 'Votre site web professionnel, sans tracas.',
+    'freeOffer.lead': 'Nous nous occupons de la partie technique — de la mise en place et de l’hébergement jusqu’à la sécurité et la mise en ligne — pour que vous puissiez vous concentrer sur votre entreprise.',
+    'freeOffer.cardLabel': 'Programme Site web',
+    'freeOffer.cardTitle': 'Simple, du début à la mise en ligne.',
+    'freeOffer.cardBody': 'Une mise en place professionnelle de votre site web, conçue pour les PME suisses. Nous vous accompagnons tout au long du processus et nous chargeons des détails techniques\u00A0: votre mise en ligne se fait en toute simplicité.',
+    'freeOffer.domain': 'Vous payez directement l’enregistrement et le renouvellement de votre nom de domaine, qui reste à vous.',
     'freeOffer.features.website': 'Site web professionnel d’une page',
     'freeOffer.features.domain': 'Votre propre nom de domaine',
     'freeOffer.features.hosting': 'Hébergement inclus (Programme Site web Arklens)',
@@ -360,8 +368,12 @@ const de = {
     'hero.trust': 'Anfrage kostenlos · Ihre Domain gehört immer Ihnen · Keine lange Vertragsbindung',
 
     // Free offer
-    'freeOffer.title': 'Ihre professionelle Website, erstellt für CHF\u00A00',
-    'freeOffer.domain': 'Registrierung und Verlängerung Ihrer Domain bezahlen Sie direkt selbst. Die Domain gehört Ihnen. Website-Erstellung und Hosting sind im Arklens Website-Programm inbegriffen.',
+    'freeOffer.title': 'Ihre professionelle Website, ohne Aufwand.',
+    'freeOffer.lead': 'Wir kümmern uns um die Technik — von der Einrichtung und dem Hosting bis zur Sicherheit und Aufschaltung — damit Sie sich auf Ihr Unternehmen konzentrieren können.',
+    'freeOffer.cardLabel': 'Website-Programm',
+    'freeOffer.cardTitle': 'Einfach vom Start bis zur Aufschaltung.',
+    'freeOffer.cardBody': 'Eine professionelle Website, gemacht für Schweizer KMU. Wir begleiten Sie durch den Prozess und übernehmen die technischen Details, damit Ihr Auftritt im Web unkompliziert online geht.',
+    'freeOffer.domain': 'Registrierung und Verlängerung Ihrer Domain bezahlen Sie direkt selbst. Die Domain gehört Ihnen.',
     'freeOffer.features.website': 'Professionelle Website mit einer Seite',
     'freeOffer.features.domain': 'Ihre eigene Domain',
     'freeOffer.features.hosting': 'Hosting inbegriffen (Arklens Website-Programm)',
@@ -525,8 +537,12 @@ const it = {
     'hero.trust': 'Richiesta gratuita · Il dominio resta sempre tuo · Nessun contratto a lungo termine',
 
     // Free offer
-    'freeOffer.title': 'Il tuo sito web professionale, realizzato a CHF\u00A00',
-    'freeOffer.domain': 'Paghi direttamente la registrazione e il rinnovo del dominio, che resta tuo. La creazione del sito e l’hosting sono inclusi nel Programma Sito web Arklens.',
+    'freeOffer.title': 'Il tuo sito web professionale, senza complicazioni.',
+    'freeOffer.lead': 'Ci occupiamo noi della parte tecnica — dalla configurazione e dall’hosting fino alla sicurezza e alla messa online — così puoi concentrarti sulla tua attività.',
+    'freeOffer.cardLabel': 'Programma Sito web',
+    'freeOffer.cardTitle': 'Semplice, dall’inizio alla messa online.',
+    'freeOffer.cardBody': 'Un sito web professionale pensato per le PMI svizzere. Ti accompagniamo lungo tutto il percorso e ci occupiamo dei dettagli tecnici, così andare online diventa semplice.',
+    'freeOffer.domain': 'Paghi direttamente la registrazione e il rinnovo del dominio, che resta tuo.',
     'freeOffer.features.website': 'Sito web professionale di una pagina',
     'freeOffer.features.domain': 'Il tuo dominio',
     'freeOffer.features.hosting': 'Hosting incluso (Programma Sito web Arklens)',
