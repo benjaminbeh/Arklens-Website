@@ -31,10 +31,10 @@ const en = {
     
     // Free offer
     'freeOffer.title': 'Your professional website, without the hassle.',
-    'freeOffer.lead': 'We take care of the technical side — from setup and hosting to security and launch — so you can stay focused on running your business.',
+    'freeOffer.lead': 'Refresh your existing site or start fresh with a clear, modern online presence that reflects your business and is easy for customers to understand.',
     'freeOffer.cardLabel': 'Website programme',
     'freeOffer.cardTitle': 'Simple from start to launch.',
-    'freeOffer.cardBody': 'A professional website setup designed for Swiss SMEs. We guide you through the process and take care of the technical details, so getting online is straightforward.',
+    'freeOffer.cardBody': 'We take care of the technical side — from setup and hosting to security and launch — so you can stay focused on running your business.',
     'freeOffer.domain': 'You pay your domain provider directly for registration and renewal, and the domain remains yours.',
     'freeOffer.features.website': 'Professional one-page website',
     'freeOffer.features.domain': 'Your own domain',
@@ -201,10 +201,10 @@ const fr = {
 
     // Free offer
     'freeOffer.title': 'Votre site web professionnel, sans tracas.',
-    'freeOffer.lead': 'Nous nous occupons de la partie technique — de la mise en place et de l’hébergement jusqu’à la sécurité et la mise en ligne — pour que vous puissiez vous concentrer sur votre entreprise.',
+    'freeOffer.lead': 'Modernisez votre site actuel ou repartez de zéro avec une présence en ligne claire et moderne, à l’image de votre entreprise et facile à comprendre pour vos clients.',
     'freeOffer.cardLabel': 'Programme Site web',
     'freeOffer.cardTitle': 'Simple, du début à la mise en ligne.',
-    'freeOffer.cardBody': 'Une mise en place professionnelle de votre site web, conçue pour les PME suisses. Nous vous accompagnons tout au long du processus et nous chargeons des détails techniques\u00A0: votre mise en ligne se fait en toute simplicité.',
+    'freeOffer.cardBody': 'Nous nous occupons de la partie technique — de la mise en place et de l’hébergement jusqu’à la sécurité et la mise en ligne — pour que vous puissiez vous concentrer sur votre entreprise.',
     'freeOffer.domain': 'Vous payez directement votre prestataire de domaine pour l’enregistrement et le renouvellement, et le nom de domaine reste à vous.',
     'freeOffer.features.website': 'Site web professionnel d’une page',
     'freeOffer.features.domain': 'Votre propre nom de domaine',
@@ -369,10 +369,10 @@ const de = {
 
     // Free offer
     'freeOffer.title': 'Ihre professionelle Website, ohne Aufwand.',
-    'freeOffer.lead': 'Wir kümmern uns um die Technik — von der Einrichtung und dem Hosting bis zur Sicherheit und Aufschaltung — damit Sie sich auf Ihr Unternehmen konzentrieren können.',
+    'freeOffer.lead': 'Erneuern Sie Ihre bestehende Website oder starten Sie neu, mit einem klaren, modernen Online-Auftritt, der zu Ihrem Unternehmen passt und für Ihre Kundschaft leicht verständlich ist.',
     'freeOffer.cardLabel': 'Website-Programm',
     'freeOffer.cardTitle': 'Einfach vom Start bis zur Aufschaltung.',
-    'freeOffer.cardBody': 'Eine professionelle Website, gemacht für Schweizer KMU. Wir begleiten Sie durch den Prozess und übernehmen die technischen Details, damit Ihr Auftritt im Web unkompliziert online geht.',
+    'freeOffer.cardBody': 'Wir kümmern uns um die Technik — von der Einrichtung und dem Hosting bis zur Sicherheit und Aufschaltung — damit Sie sich auf Ihr Unternehmen konzentrieren können.',
     'freeOffer.domain': 'Sie bezahlen Registrierung und Verlängerung Ihrer Domain direkt bei Ihrem Domain-Anbieter. Die Domain bleibt Ihre.',
     'freeOffer.features.website': 'Professionelle Website mit einer Seite',
     'freeOffer.features.domain': 'Ihre eigene Domain',
@@ -538,10 +538,10 @@ const it = {
 
     // Free offer
     'freeOffer.title': 'Il tuo sito web professionale, senza complicazioni.',
-    'freeOffer.lead': 'Ci occupiamo noi della parte tecnica — dalla configurazione e dall’hosting fino alla sicurezza e alla messa online — così puoi concentrarti sulla tua attività.',
+    'freeOffer.lead': 'Rinnova il tuo sito attuale o riparti da zero con una presenza online chiara e moderna, che rispecchia la tua azienda ed è facile da capire per i tuoi clienti.',
     'freeOffer.cardLabel': 'Programma Sito web',
     'freeOffer.cardTitle': 'Semplice, dall’inizio alla messa online.',
-    'freeOffer.cardBody': 'Un sito web professionale pensato per le PMI svizzere. Ti accompagniamo lungo tutto il percorso e ci occupiamo dei dettagli tecnici, così andare online diventa semplice.',
+    'freeOffer.cardBody': 'Ci occupiamo noi della parte tecnica — dalla configurazione e dall’hosting fino alla sicurezza e alla messa online — così puoi concentrarti sulla tua attività.',
     'freeOffer.domain': 'Paghi direttamente il tuo provider per la registrazione e il rinnovo del dominio, che resta tuo.',
     'freeOffer.features.website': 'Sito web professionale di una pagina',
     'freeOffer.features.domain': 'Il tuo dominio',
