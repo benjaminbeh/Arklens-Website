@@ -8,7 +8,9 @@
  * Contains no Astro or i18n imports so Pages Functions can import it.
  */
 export const TERMS_VERSION = '2026-10-08';
-export const PRIVACY_VERSION = '2026-10-08';
+// Effective / "Last updated" date of the Privacy Policy, shared by all four language versions.
+// DRAFT for review: set to the actual release date when the rewritten Privacy Policy is deployed.
+export const PRIVACY_VERSION = '2026-10-21';
 
 /** 'YYYY-MM-DD' → Date at 00:00 UTC. Throws on a malformed version. */
 export function legalVersionDate(version: string): Date {

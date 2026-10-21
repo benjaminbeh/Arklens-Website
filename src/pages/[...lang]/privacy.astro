@@ -2,14 +2,128 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
-import { pick } from '@lib/pick';
+import { pick, type Copy } from '@lib/pick';
 import { PRIVACY_VERSION, formatLegalVersion } from '@lib/legal';
 
 import { localeStaticPaths, dateLocales, type Language } from '@i18n/index';
 export function getStaticPaths() { return localeStaticPaths(); }
 const { lang } = Astro.props as { lang: Language };
 
+/*
+ * INTERNAL NOTE (not rendered): payments are not live.
+ * When Payrexx or another provider is confirmed and payment collection is enabled,
+ * Privacy must be updated before or at the same time to identify the payment provider
+ * and relevant payment data processing.
+ */
+
+// The only public contact address. Never publish the internal form mailbox here.
+const EMAIL = 'swiss_contact@arklens.ch';
+
 const policyName = pick(lang, { en: 'Privacy Policy', fr: 'Politique de confidentialité', de: 'Datenschutzerklärung', it: 'Informativa sulla privacy' });
+
+const h2 = 'text-heading-lg mb-4';
+const h3 = 'text-heading-md mb-3 mt-6 text-neutral-900';
+const ul = 'list-disc pl-6 text-neutral-700 space-y-2';
+const link = 'text-primary-600 hover:text-primary-700';
+
+const addedLabel: Copy = {
+  en: 'Added when you submit the form: ',
+  fr: 'Ajouté lors de l’envoi du formulaire\u00A0: ',
+  de: 'Beim Absenden ergänzt: ',
+  it: 'Aggiunto al momento dell’invio: ',
+};
+
+// 3.1 General contact form (functions/api/contact.ts parseFields + buildEmail)
+const contactFields: Copy[] = [
+  { en: 'Name', fr: 'Nom', de: 'Name', it: 'Nome' },
+  { en: 'Business or organisation', fr: 'Entreprise ou organisation', de: 'Unternehmen oder Organisation', it: 'Azienda o organizzazione' },
+  { en: 'Email address', fr: 'Adresse e-mail', de: 'E-Mail-Adresse', it: 'Indirizzo e-mail' },
+  { en: 'Phone number (optional)', fr: 'Numéro de téléphone (facultatif)', de: 'Telefonnummer (optional)', it: 'Numero di telefono (facoltativo)' },
+  { en: 'Existing website (optional)', fr: 'Site web existant (facultatif)', de: 'Bestehende Website (optional)', it: 'Sito web esistente (facoltativo)' },
+  { en: 'Reason for contact', fr: 'Motif de la prise de contact', de: 'Grund der Kontaktaufnahme', it: 'Motivo del contatto' },
+  { en: 'Your message', fr: 'Votre message', de: 'Ihre Nachricht', it: 'Messaggio' },
+];
+const contactAdded: Copy = {
+  en: 'the date and time of submission, the language version of the website and the page from which the form was sent.',
+  fr: 'la date et l’heure d’envoi, la version linguistique du site et la page depuis laquelle le formulaire a été envoyé.',
+  de: 'Datum und Uhrzeit des Absendens, die Sprachversion der Website und die Seite, von der aus das Formular gesendet wurde.',
+  it: 'data e ora dell’invio, versione linguistica del sito e pagina da cui è stato inviato il modulo.',
+};
+
+// 3.2 Website Programme application /start/ (functions/_lib/start-handler.ts parseStart)
+const startFields: Copy[] = [
+  {
+    en: 'Your starting point (for example a new website, an update or additional features for an existing website, or starting with a Digital Business Check)',
+    fr: 'Votre point de départ (par exemple un nouveau site web, une mise à jour ou des fonctionnalités supplémentaires pour un site existant, ou commencer par une évaluation numérique)',
+    de: 'Ihr Ausgangspunkt (zum Beispiel eine neue Website, eine Aktualisierung oder zusätzliche Funktionen für eine bestehende Website oder ein Digital-Check als Einstieg)',
+    it: 'Il punto di partenza (ad esempio un nuovo sito web, un aggiornamento o funzionalità aggiuntive per un sito esistente, oppure iniziare con un’analisi digitale)',
+  },
+  {
+    en: 'The address of your current website, only if you want to update or extend it',
+    fr: 'L’adresse de votre site web actuel, uniquement si vous souhaitez le mettre à jour ou le compléter',
+    de: 'Die Adresse Ihrer aktuellen Website, nur wenn Sie diese aktualisieren oder erweitern möchten',
+    it: 'L’indirizzo del sito web attuale, solo se si desidera aggiornarlo o ampliarlo',
+  },
+  { en: 'Business name and industry', fr: 'Nom de l’entreprise et secteur d’activité', de: 'Name des Unternehmens und Branche', it: 'Nome dell’azienda e settore' },
+  { en: 'What you want to achieve (optional)', fr: 'Ce que vous souhaitez atteindre (facultatif)', de: 'Was Sie erreichen möchten (optional)', it: 'Gli obiettivi che si desidera raggiungere (facoltativo)' },
+  { en: 'Your name and email address', fr: 'Votre nom et votre adresse e-mail', de: 'Ihr Name und Ihre E-Mail-Adresse', it: 'Nome e indirizzo e-mail' },
+  { en: 'Phone number (optional)', fr: 'Numéro de téléphone (facultatif)', de: 'Telefonnummer (optional)', it: 'Numero di telefono (facoltativo)' },
+  {
+    en: 'Your agreement to the Terms of Use and acknowledgement of this Privacy Policy',
+    fr: 'Votre acceptation des conditions d’utilisation et votre prise de connaissance de la présente politique de confidentialité',
+    de: 'Ihre Zustimmung zu den Nutzungsbedingungen und Ihre Kenntnisnahme dieser Datenschutzerklärung',
+    it: 'L’accettazione delle condizioni d’uso e la presa d’atto della presente informativa sulla privacy',
+  },
+];
+const startAdded: Copy = {
+  en: 'an application reference, the date and time of submission and acceptance, the versions of the Terms of Use and Privacy Policy you accepted, the application language and the page from which the form was sent.',
+  fr: 'une référence de demande, la date et l’heure d’envoi et d’acceptation, les versions des conditions d’utilisation et de la politique de confidentialité acceptées, la langue de la demande et la page depuis laquelle le formulaire a été envoyé.',
+  de: 'eine Referenznummer, Datum und Uhrzeit des Absendens und der Zustimmung, die Versionen der akzeptierten Nutzungsbedingungen und Datenschutzerklärung, die Sprache der Anfrage und die Seite, von der aus das Formular gesendet wurde.',
+  it: 'un riferimento della richiesta, data e ora dell’invio e dell’accettazione, le versioni delle condizioni d’uso e dell’informativa sulla privacy accettate, la lingua della richiesta e la pagina da cui è stato inviato il modulo.',
+};
+
+// 3.3 Experience Programme application (functions/_lib/experience-handler.ts parseExperience)
+const experienceFields: Copy[] = [
+  { en: 'Your name and email address', fr: 'Votre nom et votre adresse e-mail', de: 'Ihr Name und Ihre E-Mail-Adresse', it: 'Nome e indirizzo e-mail' },
+  { en: 'Canton or region (optional)', fr: 'Canton ou région (facultatif)', de: 'Kanton oder Region (optional)', it: 'Cantone o regione (facoltativo)' },
+  { en: 'Languages and your level in each', fr: 'Langues et votre niveau dans chacune d’elles', de: 'Sprachen und Ihr Niveau in jeder Sprache', it: 'Lingue e livello in ciascuna di esse' },
+  { en: 'Current situation (optional)', fr: 'Situation actuelle (facultatif)', de: 'Aktuelle Situation (optional)', it: 'Situazione attuale (facoltativo)' },
+  { en: 'Project interests', fr: 'Centres d’intérêt pour les projets', de: 'Interessen an Projekten', it: 'Interessi per i progetti' },
+  {
+    en: 'Skills, tools or experience you could bring, and what you would like to learn',
+    fr: 'Compétences, outils ou expérience que vous pourriez apporter, et ce que vous aimeriez apprendre',
+    de: 'Fähigkeiten, Tools oder Erfahrungen, die Sie einbringen könnten, und was Sie lernen möchten',
+    it: 'Competenze, strumenti o esperienze che si possono apportare e ciò che si desidera imparare',
+  },
+  {
+    en: 'Availability: when you could start and how much time you could usually make available',
+    fr: 'Disponibilité\u00A0: à partir de quand vous pourriez commencer et combien de temps vous pourriez habituellement y consacrer',
+    de: 'Verfügbarkeit: wann Sie beginnen könnten und wie viel Zeit Sie in der Regel zur Verfügung hätten',
+    it: 'Disponibilità: quando si potrebbe iniziare e quanto tempo si potrebbe di solito dedicare',
+  },
+  { en: 'Remote or on-site preference (optional)', fr: 'Préférence pour le travail à distance ou sur place (facultatif)', de: 'Präferenz für Remote-Arbeit oder Arbeit vor Ort (optional)', it: 'Preferenza per il lavoro a distanza o in presenza (facoltativo)' },
+  { en: 'Up to two links, such as a profile or work example (optional)', fr: 'Jusqu’à deux liens, par exemple un profil ou un exemple de travail (facultatif)', de: 'Bis zu zwei Links, zum Beispiel ein Profil oder eine Arbeitsprobe (optional)', it: 'Fino a due link, ad esempio un profilo o un esempio di lavoro (facoltativo)' },
+  {
+    en: 'Your acknowledgement of the programme expectations, with the version of that text',
+    fr: 'Votre confirmation d’avoir pris connaissance des attentes du programme, avec la version de ce texte',
+    de: 'Ihre Bestätigung der Erwartungen an das Programm, mit der Version dieses Textes',
+    it: 'La conferma di aver preso atto delle aspettative del programma, con la versione di tale testo',
+  },
+];
+const experienceAdded: Copy = {
+  en: 'an application reference, the application language, the date and time of submission and the page from which the form was sent.',
+  fr: 'une référence de candidature, la langue de la candidature, la date et l’heure d’envoi et la page depuis laquelle le formulaire a été envoyé.',
+  de: 'eine Referenznummer, die Sprache der Bewerbung, Datum und Uhrzeit des Absendens und die Seite, von der aus das Formular gesendet wurde.',
+  it: 'un riferimento della candidatura, la lingua della candidatura, data e ora dell’invio e la pagina da cui è stato inviato il modulo.',
+};
+
+const rights: Copy[] = [
+  { en: 'request information about your personal data', fr: 'demander des informations sur vos données personnelles', de: 'Auskunft über Ihre Personendaten verlangen', it: 'chiedere informazioni sui propri dati personali' },
+  { en: 'have incorrect data corrected', fr: 'faire corriger des données inexactes', de: 'unrichtige Daten berichtigen lassen', it: 'far rettificare i dati inesatti' },
+  { en: 'have your data deleted, where applicable', fr: 'faire supprimer vos données, lorsque cela s’applique', de: 'Ihre Daten löschen lassen, soweit anwendbar', it: 'far cancellare i propri dati, ove applicabile' },
+  { en: 'have processing restricted or object to it, where applicable', fr: 'faire limiter le traitement ou vous y opposer, lorsque cela s’applique', de: 'die Bearbeitung einschränken lassen oder ihr widersprechen, soweit anwendbar', it: 'chiedere la limitazione del trattamento od opporvisi, ove applicabile' },
+  { en: 'withdraw your consent at any time where processing is based on consent', fr: 'retirer à tout moment votre consentement lorsque le traitement repose sur celui-ci', de: 'Ihre Einwilligung jederzeit widerrufen, wenn die Bearbeitung auf einer Einwilligung beruht', it: 'revocare in qualsiasi momento il consenso, se il trattamento si basa sul consenso' },
+];
 ---
 
 <BaseLayout 
@@ -29,21 +143,22 @@ const policyName = pick(lang, { en: 'Privacy Policy', fr: 'Politique de confiden
         {pick(lang, { en: 'Privacy Policy', fr: 'Politique de confidentialité', de: 'Datenschutz\u00ADerklärung', it: 'Informativa sulla privacy' })}
       </h1>
       
-      <div class="prose prose-lg max-w-none">
+      {/* break-words lets long strings (e-mail address) wrap on narrow screens; the UID stays whole (nowrap) */}
+      <div class="prose prose-lg max-w-none break-words">
         <p class="text-body-lg text-neutral-600 mb-8">
           {pick(lang, { en: 'Last updated: ', fr: 'Dernière mise à jour\u00A0: ', de: 'Zuletzt aktualisiert: ', it: 'Ultimo aggiornamento: ' })}{formatLegalVersion(PRIVACY_VERSION, dateLocales[lang])}
         </p>
 
         <section class="mb-8">
-          <h2 class="text-heading-lg mb-4">
+          <h2 class={h2}>
             {pick(lang, { en: '1. Introduction', fr: '1. Introduction', de: '1. Einleitung', it: '1. Introduzione' })}
           </h2>
           <p class="text-neutral-700">
             {pick(lang, {
-              en: 'Arklens is committed to protecting your privacy and personal data. This privacy policy explains how we collect, use and protect your information.',
-              fr: 'Arklens s’engage à protéger votre vie privée et vos données personnelles. La présente politique de confidentialité explique comment nous collectons, utilisons et protégeons vos informations.',
-              de: 'Arklens verpflichtet sich, Ihre Privatsphäre und Ihre Personendaten zu schützen. Diese Datenschutzerklärung beschreibt, wie wir Ihre Informationen erheben, verwenden und schützen.',
-              it: 'Arklens si impegna a proteggere la privacy e i dati personali degli utenti. La presente informativa sulla privacy spiega come raccogliamo, utilizziamo e proteggiamo tali informazioni.',
+              en: 'This Privacy Policy explains how Arklens processes personal data when you visit www.arklens.ch and when you contact us or apply through the forms on this website.',
+              fr: 'La présente politique de confidentialité explique comment Arklens traite les données personnelles lorsque vous consultez www.arklens.ch et lorsque vous nous contactez ou déposez une demande via les formulaires de ce site.',
+              de: 'Diese Datenschutzerklärung erläutert, wie Arklens Personendaten bearbeitet, wenn Sie www.arklens.ch besuchen und wenn Sie uns über die Formulare dieser Website kontaktieren oder sich bewerben.',
+              it: 'La presente informativa sulla privacy spiega come Arklens tratta i dati personali quando l’utente visita www.arklens.ch e quando ci contatta o presenta una richiesta tramite i moduli di questo sito.',
             })}
           </p>
           <p class="text-neutral-700 mt-4">
@@ -57,53 +172,303 @@ const policyName = pick(lang, { en: 'Privacy Policy', fr: 'Politique de confiden
         </section>
 
         <section class="mb-8">
-          <h2 class="text-heading-lg mb-4">
-            {pick(lang, { en: '2. Data Collected', fr: '2. Données collectées', de: '2. Erhobene Daten', it: '2. Dati raccolti' })}
+          <h2 class={h2}>
+            {pick(lang, { en: '2. Controller', fr: '2. Responsable du traitement', de: '2. Verantwortliche Stelle', it: '2. Titolare del trattamento' })}
           </h2>
           <p class="text-neutral-700 mb-4">
             {pick(lang, {
-              en: 'We only collect data necessary to provide our services:',
-              fr: 'Nous collectons uniquement les données nécessaires à la fourniture de nos services\u00A0:',
-              de: 'Wir erheben nur die Daten, die für die Erbringung unserer Dienstleistungen erforderlich sind:',
-              it: 'Raccogliamo solo i dati necessari per fornire i nostri servizi:',
+              en: 'The controller responsible for the processing described in this policy is:',
+              fr: 'Le responsable du traitement décrit dans la présente politique est\u00A0:',
+              de: 'Verantwortlich für die in dieser Datenschutzerklärung beschriebene Bearbeitung ist:',
+              it: 'Il titolare del trattamento descritto nella presente informativa è:',
             })}
           </p>
-          <ul class="list-disc pl-6 text-neutral-700 space-y-2">
-            <li>{pick(lang, { en: 'Business name and contact person', fr: 'Nom de l’entreprise et personne de contact', de: 'Name des Unternehmens und Kontaktperson', it: 'Nome dell’azienda e persona di contatto' })}</li>
-            <li>{pick(lang, { en: 'Professional email address', fr: 'Adresse e-mail professionnelle', de: 'Geschäftliche E-Mail-Adresse', it: 'Indirizzo e-mail professionale' })}</li>
-            <li>{pick(lang, { en: 'Professional phone number', fr: 'Numéro de téléphone professionnel', de: 'Geschäftliche Telefonnummer', it: 'Numero di telefono professionale' })}</li>
-            <li>{pick(lang, { en: 'Business information (industry, services)', fr: 'Informations sur votre entreprise (secteur, services)', de: 'Angaben zum Unternehmen (Branche, Dienstleistungen)', it: 'Informazioni sull’azienda (settore, servizi)' })}</li>
-            <li>{pick(lang, { en: 'Logo and business photos (if provided)', fr: 'Logo et photos de l’entreprise (si fournis)', de: 'Logo und Fotos des Unternehmens (falls zur Verfügung gestellt)', it: 'Logo e foto dell’azienda (se forniti)' })}</li>
+          <div class="text-neutral-700 space-y-2">
+            <address class="not-italic">
+              Arklens Sàrl<br />
+              Rue de Champ-Barby 18<br />
+              1630 Bulle<br />
+              {pick(lang, { en: 'Switzerland', fr: 'Suisse', de: 'Schweiz', it: 'Svizzera' })}
+            </address>
+            <p><strong>{pick(lang, { en: 'UID:', fr: 'IDE\u00A0:', de: 'UID:', it: 'IDI:' })}</strong> <span class="whitespace-nowrap">CHE-160.960.708</span></p>
+            <p><strong>{pick(lang, { en: 'Email:', fr: 'E-mail\u00A0:', de: 'E-Mail:', it: 'E-mail:' })}</strong> <a href={`mailto:${EMAIL}`} class={link}>{EMAIL}</a></p>
+          </div>
+          <p class="text-neutral-700 mt-4">
+            {pick(lang, {
+              en: 'For any questions about privacy or to exercise your rights, please contact us at this email address.',
+              fr: 'Pour toute question relative à la protection des données ou pour exercer vos droits, veuillez nous contacter à cette adresse e-mail.',
+              de: 'Bei Fragen zum Datenschutz oder zur Ausübung Ihrer Rechte kontaktieren Sie uns bitte unter dieser E-Mail-Adresse.',
+              it: 'Per qualsiasi domanda sulla protezione dei dati o per esercitare i propri diritti, è possibile contattarci a questo indirizzo e-mail.',
+            })}
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class={h2}>
+            {pick(lang, { en: '3. Data we receive through our forms', fr: '3. Données reçues via nos formulaires', de: '3. Daten aus unseren Formularen', it: '3. Dati ricevuti tramite i nostri moduli' })}
+          </h2>
+          <p class="text-neutral-700">
+            {pick(lang, {
+              en: 'We only receive the information you enter in a form, plus a few details our server adds when you submit it. Our forms do not ask for sensitive personal data. Please do not include any in your messages.',
+              fr: 'Nous recevons uniquement les informations que vous saisissez dans un formulaire, ainsi que quelques indications ajoutées par notre serveur lors de l’envoi. Nos formulaires ne demandent pas de données personnelles sensibles. Merci de ne pas en indiquer dans vos messages.',
+              de: 'Wir erhalten nur die Angaben, die Sie in ein Formular eingeben, sowie einige Angaben, die unser Server beim Absenden ergänzt. Unsere Formulare fragen keine besonders schützenswerten Personendaten ab. Bitte geben Sie solche Daten auch in Ihren Nachrichten nicht an.',
+              it: 'Riceviamo solo le informazioni inserite dall’utente in un modulo, oltre ad alcuni dati che il nostro server aggiunge al momento dell’invio. I nostri moduli non richiedono dati personali degni di particolare protezione. Si prega di non indicarne nei messaggi.',
+            })}
+          </p>
+
+          <h3 class={h3}>
+            {pick(lang, { en: '3.1 General contact form', fr: '3.1 Formulaire de contact', de: '3.1 Allgemeines Kontaktformular', it: '3.1 Modulo di contatto' })}
+          </h3>
+          <ul class={ul}>
+            {contactFields.map((f) => <li>{pick(lang, f)}</li>)}
+          </ul>
+          <p class="text-neutral-700 mt-4">{pick(lang, addedLabel)}{pick(lang, contactAdded)}</p>
+
+          <h3 class={h3}>
+            {pick(lang, { en: '3.2 Arklens Website Programme application', fr: '3.2 Demande pour le Programme Site web Arklens', de: '3.2 Anfrage für das Arklens Website-Programm', it: '3.2 Richiesta per il Programma Sito web Arklens' })}
+          </h3>
+          <ul class={ul}>
+            {startFields.map((f) => <li>{pick(lang, f)}</li>)}
+          </ul>
+          <p class="text-neutral-700 mt-4">{pick(lang, addedLabel)}{pick(lang, startAdded)}</p>
+          <p class="text-neutral-700 mt-4">
+            {pick(lang, {
+              en: 'No payment information is collected through this form.',
+              fr: 'Aucune information de paiement n’est collectée via ce formulaire.',
+              de: 'Über dieses Formular werden keine Zahlungsinformationen erhoben.',
+              it: 'Tramite questo modulo non vengono raccolte informazioni di pagamento.',
+            })}
+          </p>
+
+          <h3 class={h3}>
+            {pick(lang, { en: '3.3 Arklens Experience Programme application', fr: '3.3 Candidature à l’Arklens Experience Programme', de: '3.3 Bewerbung für das Arklens Experience Programme', it: '3.3 Candidatura all’Arklens Experience Programme' })}
+          </h3>
+          <ul class={ul}>
+            {experienceFields.map((f) => <li>{pick(lang, f)}</li>)}
+          </ul>
+          <p class="text-neutral-700 mt-4">{pick(lang, addedLabel)}{pick(lang, experienceAdded)}</p>
+          <p class="text-neutral-700 mt-4">
+            {pick(lang, {
+              en: 'The application does not ask for a CV, date of birth, nationality, gender, photo, home address, work permit, salary or health information.',
+              fr: 'La candidature ne demande pas de CV, de date de naissance, de nationalité, de genre, de photo, d’adresse privée, de permis de travail, de salaire ni d’informations de santé.',
+              de: 'Die Bewerbung fragt weder nach einem Lebenslauf noch nach Geburtsdatum, Staatsangehörigkeit, Geschlecht, Foto, Wohnadresse, Arbeitsbewilligung, Lohn oder Gesundheitsdaten.',
+              it: 'La candidatura non richiede CV, data di nascita, nazionalità, genere, foto, indirizzo di domicilio, permesso di lavoro, salario o informazioni sulla salute.',
+            })}
+          </p>
+
+          <p class="text-neutral-700 mt-6">
+            {pick(lang, {
+              en: 'After you submit a form, we send a confirmation email to the address you entered.',
+              fr: 'Après l’envoi d’un formulaire, nous envoyons un e-mail de confirmation à l’adresse que vous avez indiquée.',
+              de: 'Nach dem Absenden eines Formulars senden wir eine Bestätigungs-E-Mail an die von Ihnen angegebene Adresse.',
+              it: 'Dopo l’invio di un modulo, inviamo un’e-mail di conferma all’indirizzo indicato.',
+            })}
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class={h2}>
+            {pick(lang, { en: '4. How we use your data', fr: '4. Utilisation des données', de: '4. Verwendung der Daten', it: '4. Utilizzo dei dati' })}
+          </h2>
+          <ul class={ul}>
+            <li>{pick(lang, {
+              en: 'General contact form: to respond to your message and follow up on your enquiry.',
+              fr: 'Formulaire de contact\u00A0: pour répondre à votre message et assurer le suivi de votre demande.',
+              de: 'Allgemeines Kontaktformular: um Ihre Nachricht zu beantworten und Ihr Anliegen weiterzuverfolgen.',
+              it: 'Modulo di contatto: per rispondere al messaggio e dare seguito alla richiesta.',
+            })}</li>
+            <li>{pick(lang, {
+              en: 'Arklens Website Programme: to review your application, check whether your business is suitable for the programme, contact you and, if your application is accepted, administer your project.',
+              fr: 'Programme Site web Arklens\u00A0: pour examiner votre demande, vérifier si votre entreprise convient au programme, vous contacter et, si votre demande est acceptée, gérer votre projet.',
+              de: 'Arklens Website-Programm: um Ihre Anfrage zu prüfen, abzuklären, ob Ihr Unternehmen für das Programm geeignet ist, Sie zu kontaktieren und, falls Ihre Anfrage angenommen wird, Ihr Projekt zu verwalten.',
+              it: 'Programma Sito web Arklens: per esaminare la richiesta, verificare se l’azienda è adatta al programma, contattare l’utente e, se la richiesta viene accettata, gestire il progetto.',
+            })}</li>
+            <li>{pick(lang, {
+              en: 'Arklens Experience Programme: to review your application, assess possible project matches, contact you and manage the application process. We do not use Experience applications for marketing.',
+              fr: 'Arklens Experience Programme\u00A0: pour examiner votre candidature, évaluer les projets qui pourraient vous correspondre, vous contacter et gérer le processus de candidature. Nous n’utilisons pas les candidatures à l’Experience Programme à des fins de marketing.',
+              de: 'Arklens Experience Programme: um Ihre Bewerbung zu prüfen, mögliche passende Projekte abzuklären, Sie zu kontaktieren und das Bewerbungsverfahren abzuwickeln. Bewerbungen für das Experience Programme verwenden wir nicht für Marketing.',
+              it: 'Arklens Experience Programme: per esaminare la candidatura, valutare possibili progetti adatti, contattare l’utente e gestire la procedura di candidatura. Non utilizziamo le candidature all’Experience Programme per scopi di marketing.',
+            })}</li>
+          </ul>
+          <p class="text-neutral-700 mt-4">
+            {pick(lang, {
+              en: 'The Experience Programme is intended for eligible participants under the programme rules. Additional consent or information may be required before a project begins, where applicable.',
+              fr: 'L’Experience Programme s’adresse aux participants qui remplissent les conditions prévues par les règles du programme. Un consentement ou des informations supplémentaires peuvent être nécessaires avant le début d’un projet, le cas échéant.',
+              de: 'Das Experience Programme richtet sich an Teilnehmende, welche die Voraussetzungen gemäss den Programmregeln erfüllen. Gegebenenfalls können vor Beginn eines Projekts zusätzliche Einwilligungen oder Angaben erforderlich sein.',
+              it: 'L’Experience Programme è destinato ai partecipanti che soddisfano i requisiti previsti dalle regole del programma. Se del caso, prima dell’inizio di un progetto possono essere necessari un consenso o informazioni supplementari.',
+            })}
+          </p>
+          <p class="text-neutral-700 mt-4">
+            {pick(lang, {
+              en: 'For all forms, we also use technical data to protect them against spam and abuse (see section 5).',
+              fr: 'Pour tous les formulaires, nous utilisons également des données techniques afin de les protéger contre le spam et les abus (voir section 5).',
+              de: 'Bei allen Formularen verwenden wir zudem technische Daten, um sie vor Spam und Missbrauch zu schützen (siehe Abschnitt 5).',
+              it: 'Per tutti i moduli utilizziamo inoltre dati tecnici per proteggerli da spam e abusi (vedi sezione 5).',
+            })}
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class={h2}>
+            {pick(lang, { en: '5. Website, security and technical data', fr: '5. Site web, sécurité et données techniques', de: '5. Website, Sicherheit und technische Daten', it: '5. Sito web, sicurezza e dati tecnici' })}
+          </h2>
+          <p class="text-neutral-700">
+            {pick(lang, {
+              en: 'Our website is hosted on Cloudflare Pages and delivered through Cloudflare’s network (CDN). When you visit it, Cloudflare processes technical information needed to deliver and protect the website, such as your IP address, browser information and the page requested.',
+              fr: 'Notre site web est hébergé sur Cloudflare Pages et diffusé via le réseau de Cloudflare (CDN). Lorsque vous le consultez, Cloudflare traite les informations techniques nécessaires pour diffuser et protéger le site, par exemple votre adresse IP, des informations sur votre navigateur et la page demandée.',
+              de: 'Unsere Website wird auf Cloudflare Pages gehostet und über das Netzwerk von Cloudflare (CDN) ausgeliefert. Bei Ihrem Besuch bearbeitet Cloudflare technische Informationen, die für die Auslieferung und den Schutz der Website erforderlich sind, zum Beispiel Ihre IP-Adresse, Angaben zu Ihrem Browser und die aufgerufene Seite.',
+              it: 'Il nostro sito web è ospitato su Cloudflare Pages e distribuito tramite la rete di Cloudflare (CDN). Durante la visita, Cloudflare tratta le informazioni tecniche necessarie per distribuire e proteggere il sito, ad esempio l’indirizzo IP, informazioni sul browser e la pagina richiesta.',
+            })}
+          </p>
+          <p class="text-neutral-700 mt-4">
+            {pick(lang, {
+              en: 'Our forms use Cloudflare Turnstile to protect against spam and automated abuse. Turnstile processes technical signals from your browser, such as your IP address and browser characteristics. When you submit a form, our server sends the result of this security check and your IP address to Cloudflare for verification.',
+              fr: 'Nos formulaires utilisent Cloudflare Turnstile pour se protéger contre le spam et les abus automatisés. Turnstile traite des signaux techniques de votre navigateur, par exemple votre adresse IP et les caractéristiques de votre navigateur. Lorsque vous envoyez un formulaire, notre serveur transmet le résultat de ce contrôle de sécurité et votre adresse IP à Cloudflare pour vérification.',
+              de: 'Unsere Formulare verwenden Cloudflare Turnstile zum Schutz vor Spam und automatisiertem Missbrauch. Turnstile bearbeitet technische Signale Ihres Browsers, zum Beispiel Ihre IP-Adresse und Merkmale Ihres Browsers. Wenn Sie ein Formular absenden, übermittelt unser Server das Ergebnis dieser Sicherheitsprüfung und Ihre IP-Adresse zur Überprüfung an Cloudflare.',
+              it: 'I nostri moduli utilizzano Cloudflare Turnstile per proteggersi da spam e abusi automatizzati. Turnstile tratta segnali tecnici del browser, ad esempio l’indirizzo IP e le caratteristiche del browser. Al momento dell’invio di un modulo, il nostro server trasmette a Cloudflare il risultato di questo controllo di sicurezza e l’indirizzo IP per la verifica.',
+            })}
+          </p>
+          <p class="text-neutral-700 mt-4">
+            {pick(lang, {
+              en: 'To prevent abuse, our server limits the number of form submissions from the same IP address. For this, it briefly stores only a shortened, hashed (pseudonymised) value derived from your IP address, together with a counter. This entry is deleted automatically after no more than 10 minutes. Your IP address is not included in the messages we receive.',
+              fr: 'Pour prévenir les abus, notre serveur limite le nombre d’envois de formulaires depuis une même adresse IP. Pour cela, il enregistre brièvement uniquement une valeur raccourcie et hachée (pseudonymisée) dérivée de votre adresse IP, avec un compteur. Cette entrée est supprimée automatiquement après 10 minutes au plus. Votre adresse IP ne figure pas dans les messages que nous recevons.',
+              de: 'Um Missbrauch zu verhindern, begrenzt unser Server die Anzahl der Formularübermittlungen von derselben IP-Adresse. Dafür speichert er kurzzeitig nur einen gekürzten, gehashten (pseudonymisierten) Wert, der aus Ihrer IP-Adresse abgeleitet wird, zusammen mit einem Zähler. Dieser Eintrag wird nach höchstens 10 Minuten automatisch gelöscht. Ihre IP-Adresse ist in den Nachrichten, die wir erhalten, nicht enthalten.',
+              it: 'Per prevenire abusi, il nostro server limita il numero di invii di moduli dallo stesso indirizzo IP. A tal fine memorizza brevemente solo un valore abbreviato e sottoposto a hash (pseudonimizzato), derivato dall’indirizzo IP, insieme a un contatore. Questa voce viene cancellata automaticamente dopo al massimo 10 minuti. L’indirizzo IP non è incluso nei messaggi che riceviamo.',
+            })}
+          </p>
+          <p class="text-neutral-700 mt-4">
+            {pick(lang, {
+              en: 'When you open the home page, our server may use your browser’s language setting and your saved language choice (see section 6) to show the matching language version. This information is not stored.',
+              fr: 'Lorsque vous ouvrez la page d’accueil, notre serveur peut utiliser le réglage de langue de votre navigateur et votre choix de langue enregistré (voir section 6) pour afficher la version linguistique correspondante. Ces informations ne sont pas enregistrées.',
+              de: 'Wenn Sie die Startseite öffnen, kann unser Server die Spracheinstellung Ihres Browsers und Ihre gespeicherte Sprachwahl (siehe Abschnitt 6) verwenden, um die passende Sprachversion anzuzeigen. Diese Informationen werden nicht gespeichert.',
+              it: 'Quando l’utente apre la pagina iniziale, il nostro server può utilizzare l’impostazione della lingua del browser e la scelta della lingua salvata (vedi sezione 6) per mostrare la versione linguistica corrispondente. Queste informazioni non vengono memorizzate.',
+            })}
+          </p>
+          <p class="text-neutral-700 mt-4">
+            {pick(lang, {
+              en: 'We do not use analytics or tracking tools, and we do not build behavioural profiles. The fonts used on this website are served from our own website.',
+              fr: 'Nous n’utilisons pas d’outils d’analyse ou de suivi et nous ne créons pas de profils comportementaux. Les polices de caractères utilisées sur ce site sont fournies par notre propre site.',
+              de: 'Wir verwenden keine Analyse- oder Tracking-Tools und erstellen keine Verhaltensprofile. Die auf dieser Website verwendeten Schriften werden von unserer eigenen Website bereitgestellt.',
+              it: 'Non utilizziamo strumenti di analisi o di tracciamento e non creiamo profili comportamentali. I caratteri tipografici utilizzati su questo sito sono forniti dal nostro stesso sito.',
+            })}
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class={h2}>
+            {pick(lang, { en: '6. Cookies', fr: '6. Cookies', de: '6. Cookies', it: '6. Cookie' })}
+          </h2>
+          <ul class={ul}>
+            <li>{pick(lang, {
+              en: 'We do not use marketing, advertising or analytics cookies.',
+              fr: 'Nous n’utilisons pas de cookies de marketing, de publicité ou d’analyse.',
+              de: 'Wir verwenden keine Marketing-, Werbe- oder Analyse-Cookies.',
+              it: 'Non utilizziamo cookie di marketing, pubblicitari o di analisi.',
+            })}</li>
+            <li>{pick(lang, {
+              en: 'If you choose a language in the language menu, we store this choice in a cookie named arklens_lang for 12 months, so that the home page opens in your language next time.',
+              fr: 'Si vous choisissez une langue dans le menu des langues, nous enregistrons ce choix pendant 12 mois dans un cookie nommé arklens_lang, afin que la page d’accueil s’ouvre dans votre langue lors de votre prochaine visite.',
+              de: 'Wenn Sie im Sprachmenü eine Sprache wählen, speichern wir diese Wahl während 12 Monaten in einem Cookie namens arklens_lang, damit die Startseite beim nächsten Besuch in Ihrer Sprache erscheint.',
+              it: 'Se l’utente sceglie una lingua nel menu delle lingue, memorizziamo questa scelta per 12 mesi in un cookie denominato arklens_lang, in modo che la pagina iniziale si apra nella sua lingua alla visita successiva.',
+            })}</li>
+            <li>{pick(lang, {
+              en: 'On pages with a form, Cloudflare Turnstile may use technically necessary storage in your browser for the security check.',
+              fr: 'Sur les pages comportant un formulaire, Cloudflare Turnstile peut utiliser un stockage techniquement nécessaire dans votre navigateur pour le contrôle de sécurité.',
+              de: 'Auf Seiten mit einem Formular kann Cloudflare Turnstile für die Sicherheitsprüfung technisch notwendigen Speicher in Ihrem Browser verwenden.',
+              it: 'Nelle pagine con un modulo, Cloudflare Turnstile può utilizzare una memorizzazione tecnicamente necessaria nel browser per il controllo di sicurezza.',
+            })}</li>
+          </ul>
+          <p class="text-neutral-700 mt-4">
+            {pick(lang, {
+              en: 'You can delete cookies in your browser settings at any time.',
+              fr: 'Vous pouvez supprimer les cookies à tout moment dans les réglages de votre navigateur.',
+              de: 'Sie können Cookies jederzeit in den Einstellungen Ihres Browsers löschen.',
+              it: 'È possibile cancellare i cookie in qualsiasi momento nelle impostazioni del browser.',
+            })}
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class={h2}>
+            {pick(lang, { en: '7. Service providers and data sharing', fr: '7. Prestataires et partage des données', de: '7. Dienstleister und Weitergabe von Daten', it: '7. Fornitori di servizi e condivisione dei dati' })}
+          </h2>
+          <p class="text-neutral-700 mb-4">
+            {pick(lang, {
+              en: 'We do not sell personal information. We share data only where needed with service providers that support our website and communication, and where we are legally required to do so. Our service providers are:',
+              fr: 'Nous ne vendons pas de données personnelles. Nous partageons des données uniquement lorsque cela est nécessaire avec des prestataires qui soutiennent notre site web et notre communication, ainsi que lorsque la loi nous y oblige. Nos prestataires sont\u00A0:',
+              de: 'Wir verkaufen keine Personendaten. Wir geben Daten nur weiter, soweit dies nötig ist, an Dienstleister, die unsere Website und unsere Kommunikation unterstützen, sowie wenn wir gesetzlich dazu verpflichtet sind. Unsere Dienstleister sind:',
+              it: 'Non vendiamo dati personali. Condividiamo i dati solo se necessario con fornitori di servizi che supportano il nostro sito web e la nostra comunicazione, nonché quando siamo tenuti a farlo per legge. I nostri fornitori di servizi sono:',
+            })}
+          </p>
+          <ul class={ul}>
+            <li>{pick(lang, {
+              en: 'Cloudflare (Cloudflare, Inc.): hosting and CDN, website security and Turnstile verification. Cloudflare may process technical information as required to provide these services.',
+              fr: 'Cloudflare (Cloudflare, Inc.)\u00A0: hébergement et CDN, sécurité du site web et vérification Turnstile. Cloudflare peut traiter des informations techniques dans la mesure nécessaire à la fourniture de ces services.',
+              de: 'Cloudflare (Cloudflare, Inc.): Hosting und CDN, Sicherheit der Website und Turnstile-Überprüfung. Cloudflare kann technische Informationen bearbeiten, soweit dies für die Erbringung dieser Dienste erforderlich ist.',
+              it: 'Cloudflare (Cloudflare, Inc.): hosting e CDN, sicurezza del sito web e verifica Turnstile. Cloudflare può trattare informazioni tecniche nella misura necessaria per fornire questi servizi.',
+            })}</li>
+            <li>{pick(lang, {
+              en: 'Infomaniak (Infomaniak Network SA, Switzerland): email. Form submissions and our confirmation emails are delivered and managed through Infomaniak, a Swiss email provider.',
+              fr: 'Infomaniak (Infomaniak Network SA, Suisse)\u00A0: messagerie électronique. Les envois de formulaires et nos e-mails de confirmation sont acheminés et gérés via Infomaniak, un fournisseur de messagerie suisse.',
+              de: 'Infomaniak (Infomaniak Network SA, Schweiz): E-Mail. Formularübermittlungen und unsere Bestätigungs-E-Mails werden über Infomaniak, einen Schweizer E-Mail-Anbieter, zugestellt und verwaltet.',
+              it: 'Infomaniak (Infomaniak Network SA, Svizzera): posta elettronica. I moduli inviati e le nostre e-mail di conferma vengono recapitati e gestiti tramite Infomaniak, un fornitore svizzero di posta elettronica.',
+            })}</li>
           </ul>
         </section>
 
         <section class="mb-8">
-          <h2 class="text-heading-lg mb-4">
-            {pick(lang, { en: '3. Use of Data', fr: '3. Utilisation des données', de: '3. Verwendung der Daten', it: '3. Utilizzo dei dati' })}
+          <h2 class={h2}>
+            {pick(lang, { en: '8. Processing outside Switzerland', fr: '8. Traitement hors de Suisse', de: '8. Bearbeitung ausserhalb der Schweiz', it: '8. Trattamento al di fuori della Svizzera' })}
           </h2>
           <p class="text-neutral-700">
             {pick(lang, {
-              en: 'Your data is used exclusively to:',
-              fr: 'Vos données sont utilisées exclusivement pour\u00A0:',
-              de: 'Ihre Daten werden ausschliesslich zu folgenden Zwecken verwendet:',
-              it: 'I dati dell’utente vengono utilizzati esclusivamente per:',
+              en: 'Some service providers may process data in other countries, for example through Cloudflare’s global network. Where required, we use appropriate providers and safeguards to protect your data.',
+              fr: 'Certains prestataires peuvent traiter des données dans d’autres pays, par exemple via le réseau mondial de Cloudflare. Lorsque cela est requis, nous recourons à des prestataires et à des garanties appropriés pour protéger vos données.',
+              de: 'Einige Dienstleister können Daten in anderen Ländern bearbeiten, zum Beispiel über das globale Netzwerk von Cloudflare. Wo erforderlich, setzen wir geeignete Dienstleister und Garantien ein, um Ihre Daten zu schützen.',
+              it: 'Alcuni fornitori di servizi possono trattare i dati in altri Paesi, ad esempio tramite la rete globale di Cloudflare. Ove necessario, ricorriamo a fornitori e garanzie adeguati per proteggere i dati.',
             })}
           </p>
-          <ul class="list-disc pl-6 text-neutral-700 space-y-2">
-            <li>{pick(lang, { en: 'Create and host your website', fr: 'Créer et héberger votre site web', de: 'Erstellung und Hosting Ihrer Website', it: 'Creare e ospitare il sito web dell’utente' })}</li>
-            <li>{pick(lang, { en: 'Communicate with you regarding your project', fr: 'Communiquer avec vous au sujet de votre projet', de: 'Kommunikation mit Ihnen zu Ihrem Projekt', it: 'Comunicare con l’utente in merito al suo progetto' })}</li>
-            <li>{pick(lang, { en: 'Provide technical support', fr: 'Fournir un support technique', de: 'Technischer Support', it: 'Fornire assistenza tecnica' })}</li>
-            <li>{pick(lang, { en: 'Improve our services', fr: 'Améliorer nos services', de: 'Verbesserung unserer Dienstleistungen', it: 'Migliorare i nostri servizi' })}</li>
+        </section>
+
+        <section class="mb-8">
+          <h2 class={h2}>
+            {pick(lang, { en: '9. Retention', fr: '9. Durée de conservation', de: '9. Aufbewahrung', it: '9. Conservazione' })}
+          </h2>
+          <ul class={ul}>
+            <li>{pick(lang, {
+              en: 'General contact form: contact messages are retained only as long as reasonably necessary to respond, follow up and keep appropriate business records.',
+              fr: 'Formulaire de contact\u00A0: les messages de contact sont conservés uniquement aussi longtemps que raisonnablement nécessaire pour y répondre, en assurer le suivi et tenir des dossiers commerciaux appropriés.',
+              de: 'Allgemeines Kontaktformular: Kontaktnachrichten werden nur so lange aufbewahrt, wie dies vernünftigerweise nötig ist, um sie zu beantworten, weiterzuverfolgen und angemessene Geschäftsunterlagen zu führen.',
+              it: 'Modulo di contatto: i messaggi di contatto vengono conservati solo per il tempo ragionevolmente necessario per rispondere, dare seguito alla richiesta e tenere un’adeguata documentazione commerciale.',
+            })}</li>
+            <li>{pick(lang, {
+              en: 'Arklens Website Programme: applications that do not proceed are normally retained only for a limited period for follow-up and administration. If your application is accepted, records relating to your project may be retained longer where needed for project administration, contractual records or legal and accounting obligations.',
+              fr: 'Programme Site web Arklens\u00A0: les demandes qui n’aboutissent pas sont normalement conservées uniquement pendant une durée limitée, pour le suivi et l’administration. Si votre demande est acceptée, les documents relatifs à votre projet peuvent être conservés plus longtemps lorsque cela est nécessaire pour la gestion du projet, les dossiers contractuels ou des obligations légales et comptables.',
+              de: 'Arklens Website-Programm: Anfragen, die nicht weiterverfolgt werden, werden in der Regel nur für eine begrenzte Zeit für Nachfragen und Verwaltung aufbewahrt. Wird Ihre Anfrage angenommen, können Unterlagen zu Ihrem Projekt länger aufbewahrt werden, soweit dies für die Projektverwaltung, Vertragsunterlagen oder gesetzliche und buchhalterische Pflichten nötig ist.',
+              it: 'Programma Sito web Arklens: le richieste che non hanno seguito vengono normalmente conservate solo per un periodo limitato, per il seguito e l’amministrazione. Se la richiesta viene accettata, la documentazione relativa al progetto può essere conservata più a lungo se necessario per la gestione del progetto, la documentazione contrattuale o obblighi legali e contabili.',
+            })}</li>
+            <li>{pick(lang, {
+              en: 'Arklens Experience Programme: if your application is not matched to a project, we keep it for up to 6 months, so that we can contact you if a suitable Experience project becomes available during that period. After that, we delete it unless there is another valid reason to keep specific records.',
+              fr: 'Arklens Experience Programme\u00A0: si votre candidature n’aboutit pas à un projet, nous la conservons 6 mois au maximum, afin de pouvoir vous contacter si un projet Experience adapté se présente pendant cette période. Nous la supprimons ensuite, sauf s’il existe un autre motif valable de conserver certains éléments.',
+              de: 'Arklens Experience Programme: Führt Ihre Bewerbung zu keinem Projekt, bewahren wir sie höchstens 6 Monate auf, damit wir Sie kontaktieren können, falls in dieser Zeit ein passendes Experience-Projekt verfügbar wird. Danach löschen wir sie, sofern kein anderer berechtigter Grund besteht, bestimmte Unterlagen aufzubewahren.',
+              it: 'Arklens Experience Programme: se la candidatura non porta a un progetto, la conserviamo per un massimo di 6 mesi, per poter contattare l’utente se in quel periodo si rende disponibile un progetto Experience adatto. Successivamente la cancelliamo, salvo che vi sia un altro motivo valido per conservare determinati documenti.',
+            })}</li>
+            <li>{pick(lang, {
+              en: 'Security data: the rate-limiting entry described in section 5 is deleted automatically after no more than 10 minutes.',
+              fr: 'Données de sécurité\u00A0: l’entrée de limitation des envois décrite à la section 5 est supprimée automatiquement après 10 minutes au plus.',
+              de: 'Sicherheitsdaten: Der in Abschnitt 5 beschriebene Eintrag zur Begrenzung der Übermittlungen wird nach höchstens 10 Minuten automatisch gelöscht.',
+              it: 'Dati di sicurezza: la voce per la limitazione degli invii descritta nella sezione 5 viene cancellata automaticamente dopo al massimo 10 minuti.',
+            })}</li>
           </ul>
         </section>
 
         <section class="mb-8">
-          <h2 class="text-heading-lg mb-4">
-            {pick(lang, { en: '4. Data Protection', fr: '4. Protection des données', de: '4. Datenschutz', it: '4. Protezione dei dati' })}
+          <h2 class={h2}>
+            {pick(lang, { en: '10. Data security', fr: '10. Sécurité des données', de: '10. Datensicherheit', it: '10. Sicurezza dei dati' })}
           </h2>
           <p class="text-neutral-700">
             {pick(lang, {
-              en: 'We implement appropriate technical and organizational security measures to protect your data from unauthorized access, loss or destruction.',
+              en: 'We implement appropriate technical and organisational security measures to protect your data from unauthorised access, loss or destruction.',
               fr: 'Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles appropriées pour protéger vos données contre tout accès non autorisé, toute perte ou toute destruction.',
               de: 'Wir treffen angemessene technische und organisatorische Sicherheitsmassnahmen, um Ihre Daten vor unbefugtem Zugriff, Verlust oder Zerstörung zu schützen.',
               it: 'Adottiamo misure di sicurezza tecniche e organizzative adeguate per proteggere i dati dell’utente da accessi non autorizzati, perdita o distruzione.',
@@ -112,100 +477,43 @@ const policyName = pick(lang, { en: 'Privacy Policy', fr: 'Politique de confiden
         </section>
 
         <section class="mb-8">
-          <h2 class="text-heading-lg mb-4">
-            {pick(lang, { en: '5. Data Sharing', fr: '5. Partage des données', de: '5. Weitergabe von Daten', it: '5. Condivisione dei dati' })}
-          </h2>
-          <p class="text-neutral-700">
-            {pick(lang, {
-              en: 'We never sell your data. Your information may only be shared with:',
-              fr: 'Nous ne vendons jamais vos données. Vos informations peuvent uniquement être partagées avec\u00A0:',
-              de: 'Wir verkaufen Ihre Daten nie. Ihre Informationen können nur an folgende Stellen weitergegeben werden:',
-              it: 'Non vendiamo mai i dati dell’utente. Le informazioni possono essere condivise solo con:',
-            })}
-          </p>
-          <ul class="list-disc pl-6 text-neutral-700 space-y-2">
-            <li>{pick(lang, {
-              en: 'Cloudflare (hosting, CDN and Turnstile spam protection on our forms)',
-              fr: 'Cloudflare (hébergement, CDN et protection anti-spam Turnstile sur nos formulaires)',
-              de: 'Cloudflare (Hosting, CDN und Turnstile-Spamschutz für unsere Formulare)',
-              it: 'Cloudflare (hosting, CDN e protezione antispam Turnstile sui nostri moduli)',
-            })}</li>
-            <li>{pick(lang, {
-              en: 'Infomaniak Network SA, Geneva, Switzerland (email provider, delivery of contact form messages to our inbox)',
-              fr: 'Infomaniak Network SA, Genève, Suisse (fournisseur de messagerie électronique, acheminement des messages du formulaire de contact vers notre boîte de réception)',
-              de: 'Infomaniak Network SA, Genf, Schweiz (E-Mail-Anbieter, Zustellung der Nachrichten aus dem Kontaktformular an unser Postfach)',
-              it: 'Infomaniak Network SA, Ginevra, Svizzera (fornitore di posta elettronica, recapito dei messaggi del modulo di contatto nella nostra casella di posta)',
-            })}</li>
-            <li>{pick(lang, {
-              en: 'Essential service providers under confidentiality agreement',
-              fr: 'Prestataires de services essentiels liés par un accord de confidentialité',
-              de: 'Unverzichtbare Dienstleister, die an eine Vertraulichkeitsvereinbarung gebunden sind',
-              it: 'Fornitori di servizi essenziali vincolati da un accordo di riservatezza',
-            })}</li>
-          </ul>
-        </section>
-
-        <section class="mb-8">
-          <h2 class="text-heading-lg mb-4">
-            {pick(lang, { en: '6. Your Rights', fr: '6. Vos droits', de: '6. Ihre Rechte', it: '6. Diritti dell’utente' })}
+          <h2 class={h2}>
+            {pick(lang, { en: '11. Your rights', fr: '11. Vos droits', de: '11. Ihre Rechte', it: '11. Diritti dell’utente' })}
           </h2>
           <p class="text-neutral-700 mb-4">
             {pick(lang, {
-              en: 'In accordance with Swiss data protection law (LPD), you have the right to:',
-              fr: 'Conformément à la loi suisse sur la protection des données (LPD), vous avez le droit de\u00A0:',
-              de: 'Gemäss dem Schweizer Datenschutzgesetz (DSG) haben Sie folgende Rechte:',
-              it: 'Ai sensi della legge svizzera sulla protezione dei dati (LPD), l’utente ha il diritto di:',
+              en: 'Under the Swiss Federal Act on Data Protection (FADP), you can in particular:',
+              fr: 'En vertu de la loi fédérale sur la protection des données (LPD), vous pouvez notamment\u00A0:',
+              de: 'Gemäss dem Bundesgesetz über den Datenschutz (DSG) können Sie insbesondere:',
+              it: 'Ai sensi della legge federale sulla protezione dei dati (LPD), l’utente può in particolare:',
             })}
           </p>
-          <ul class="list-disc pl-6 text-neutral-700 space-y-2">
-            <li>{pick(lang, { en: 'Access your personal data', fr: 'Accéder à vos données personnelles', de: 'Auskunft über Ihre Personendaten', it: 'Accedere ai propri dati personali' })}</li>
-            <li>{pick(lang, { en: 'Correct your inaccurate data', fr: 'Corriger vos données inexactes', de: 'Berichtigung Ihrer unrichtigen Daten', it: 'Rettificare i propri dati inesatti' })}</li>
-            <li>{pick(lang, { en: 'Delete your data', fr: 'Supprimer vos données', de: 'Löschung Ihrer Daten', it: 'Cancellare i propri dati' })}</li>
-            <li>{pick(lang, { en: 'Limit the processing of your data', fr: 'Limiter le traitement de vos données', de: 'Einschränkung der Bearbeitung Ihrer Daten', it: 'Limitare il trattamento dei propri dati' })}</li>
-            <li>{pick(lang, { en: 'Data portability', fr: 'Obtenir la portabilité de vos données', de: 'Datenübertragbarkeit', it: 'Ottenere la portabilità dei propri dati' })}</li>
-            <li>{pick(lang, { en: 'Object to processing', fr: 'Vous opposer au traitement', de: 'Widerspruch gegen die Bearbeitung', it: 'Opporsi al trattamento' })}</li>
+          <ul class={ul}>
+            {rights.map((r) => <li>{pick(lang, r)}</li>)}
           </ul>
-        </section>
-
-        <section class="mb-8">
-          <h2 class="text-heading-lg mb-4">
-            {pick(lang, { en: '7. Cookies', fr: '7. Cookies', de: '7. Cookies', it: '7. Cookie' })}
-          </h2>
-          <p class="text-neutral-700">
+          <p class="text-neutral-700 mt-4">
             {pick(lang, {
-              en: 'We use cookies strictly necessary for the operation of the site. No advertising tracking cookies are used.',
-              fr: 'Nous utilisons des cookies strictement nécessaires au fonctionnement du site. Aucun cookie de suivi publicitaire n’est utilisé.',
-              de: 'Wir verwenden Cookies, die für den Betrieb der Website unbedingt erforderlich sind. Es werden keine Tracking-Cookies zu Werbezwecken eingesetzt.',
-              it: 'Utilizziamo cookie strettamente necessari al funzionamento del sito. Non vengono utilizzati cookie di tracciamento pubblicitario.',
-            })}
+              en: 'To make a request, please contact us at ',
+              fr: 'Pour toute demande, veuillez nous contacter à l’adresse ',
+              de: 'Für Anfragen kontaktieren Sie uns bitte unter ',
+              it: 'Per qualsiasi richiesta è possibile contattarci all’indirizzo ',
+            })}<a href={`mailto:${EMAIL}`} class={link}>{EMAIL}</a>.
           </p>
         </section>
 
         <section class="mb-8">
-          <h2 class="text-heading-lg mb-4">
-            {pick(lang, { en: '8. Contact', fr: '8. Contact', de: '8. Kontakt', it: '8. Contatto' })}
+          <h2 class={h2}>
+            {pick(lang, { en: '12. Changes to this policy', fr: '12. Modifications de la présente politique', de: '12. Änderungen dieser Datenschutzerklärung', it: '12. Modifiche alla presente informativa' })}
           </h2>
           <p class="text-neutral-700">
             {pick(lang, {
-              en: 'For any questions regarding this privacy policy or to exercise your rights, contact us at: privacy@arklens.ch',
-              fr: 'Pour toute question concernant la présente politique de confidentialité ou pour exercer vos droits, contactez-nous à l’adresse suivante\u00A0: privacy@arklens.ch',
-              de: 'Bei Fragen zu dieser Datenschutzerklärung oder zur Ausübung Ihrer Rechte erreichen Sie uns unter: privacy@arklens.ch',
-              it: 'Per qualsiasi domanda sulla presente informativa o per esercitare i propri diritti è possibile contattarci all’indirizzo: privacy@arklens.ch',
+              en: 'We may update this Privacy Policy when our website or services change. The current version is published on this page. The date at the top shows when it was last updated.',
+              fr: 'Nous pouvons mettre à jour la présente politique de confidentialité lorsque notre site web ou nos services évoluent. La version en vigueur est publiée sur cette page. La date indiquée en haut de page correspond à la dernière mise à jour.',
+              de: 'Wir können diese Datenschutzerklärung anpassen, wenn sich unsere Website oder unsere Dienstleistungen ändern. Die aktuelle Fassung ist auf dieser Seite veröffentlicht. Das Datum oben auf der Seite zeigt die letzte Aktualisierung.',
+              it: 'Possiamo aggiornare la presente informativa sulla privacy quando il nostro sito web o i nostri servizi cambiano. La versione in vigore è pubblicata su questa pagina. La data in alto indica l’ultimo aggiornamento.',
             })}
           </p>
         </section>
-
-        <div class="bg-neutral-50 rounded-xl p-6 mt-12 border border-neutral-200">
-          <p class="text-sm text-neutral-600">
-            <strong>{pick(lang, { en: 'Legal note:', fr: 'Note juridique\u00A0:', de: 'Rechtlicher Hinweis:', it: 'Nota legale:' })}</strong> 
-            {pick(lang, {
-              en: 'This privacy policy is provided for informational purposes. For full compliance with Swiss and European legislation, we recommend a review by a legal advisor.',
-              fr: 'La présente politique de confidentialité est fournie à titre informatif. Pour une conformité complète avec la législation suisse et européenne, nous recommandons de la faire vérifier par un conseil juridique.',
-              de: 'Diese Datenschutzerklärung dient zu Informationszwecken. Für die vollständige Einhaltung der schweizerischen und europäischen Gesetzgebung empfehlen wir eine Prüfung durch eine juristische Fachperson.',
-              it: 'La presente informativa sulla privacy è fornita a scopo informativo. Per la piena conformità alla legislazione svizzera ed europea raccomandiamo una verifica da parte di un consulente legale.',
-            })}
-          </p>
-        </div>
       </div>
     </div>
   </main>
