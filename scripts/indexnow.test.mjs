@@ -15,6 +15,10 @@ import {
   buildPayload,
   redact,
   writeKeyFile,
+  isNoindexHtml,
+  filterNoindex,
+  formatSummary,
+  runNotify,
 } from './indexnow.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -232,4 +236,227 @@ test('dist sitemap lists exactly the indexable localised pages', (t) => {
     }
   }
   for (const u of noindex) assert.ok(!got.has(u), `noindex page ${u} must not be in the sitemap`);
+});
+
+// ---------------------------------------------------------------------------
+// Noindex guard, failure warnings and deployment summary (temp dist, mocked fetch, no network)
+// ---------------------------------------------------------------------------
+
+test('isNoindexHtml', () => {
+  assert.equal(isNoindexHtml('<meta name="robots" content="noindex">'), true);
+  assert.equal(isNoindexHtml("<meta content='NoIndex, follow' name='Robots'>"), true);
+  assert.equal(isNoindexHtml('<meta name="robots" content="none">'), true);
+  assert.equal(isNoindexHtml('<meta name="bingbot" content="noindex">'), true);
+  assert.equal(isNoindexHtml('<meta name="robots" content="index, follow">'), false);
+  assert.equal(isNoindexHtml('<meta name="description" content="noindex in text">'), false);
+  assert.equal(isNoindexHtml(page()), false);
+});
+
+const O = 'https://www.arklens.ch';
+const TEST_KEY = 'testkey-ABCDEF12';
+const indexable = (main) => page({ main });
+const noindexPage = (main) => page({ main, head: '<meta name="robots" content="noindex">' });
+
+/** Temp dist with the given { urlPath: html } pages and sitemap locs. */
+function makeDist(pages, locs = Object.keys(pages).map((p) => O + p)) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'indexnow-dist-'));
+  for (const [p, html] of Object.entries(pages)) {
+    fs.mkdirSync(path.join(dir, p), { recursive: true });
+    fs.writeFileSync(path.join(dir, p, 'index.html'), html);
+  }
+  fs.writeFileSync(path.join(dir, 'sitemap.xml'), `<urlset>${locs.map((l) => `<url><loc>${l}</loc></url>`).join('')}</urlset>`);
+  return dir;
+}
+
+function writeSnapshot(dir, entries) {
+  const file = path.join(dir, '..', `${path.basename(dir)}-before.json`);
+  fs.writeFileSync(file, JSON.stringify({ version: 1, origin: O, entries }));
+  return file;
+}
+
+/** fetch mock: key-file GET answers keyFile, POST answers post (status number or Error). */
+function mockFetch({ keyFile = { status: 200, body: TEST_KEY }, post = 200 } = {}) {
+  const calls = [];
+  const fetchImpl = async (url, init = {}) => {
+    calls.push({ url, method: init.method || 'GET', body: init.body });
+    if (init.method === 'POST') {
+      if (post instanceof Error) throw post;
+      return { status: post, text: async () => '' };
+    }
+    return { status: keyFile.status, text: async () => keyFile.body ?? '' };
+  };
+  return { fetchImpl, calls };
+}
+
+async function notifyWith(dist, opts, ctx) {
+  const lines = [];
+  const summaryFile = path.join(dist, '..', `${path.basename(dist)}-summary.md`);
+  const s = await runNotify(
+    { dist, ...opts },
+    { key: TEST_KEY, inActions: true, isMain: true, allEnv: false, sleepImpl: async () => {}, out: (l) => lines.push(String(l)), summaryFile, ...ctx },
+  );
+  const summary = fs.existsSync(summaryFile) ? fs.readFileSync(summaryFile, 'utf8') : '';
+  fs.rmSync(summaryFile, { force: true });
+  const log = lines.join('\n');
+  assert.ok(!log.includes(TEST_KEY) && !summary.includes(TEST_KEY), 'key must never be printed');
+  return { s, log, summary };
+}
+
+const cleanup = (...ps) => ps.forEach((p) => p && fs.rmSync(p, { recursive: true, force: true }));
+
+test('filterNoindex drops built noindex pages and keeps indexable and removed (unbuilt) URLs', () => {
+  const dist = makeDist({ '/a/': indexable('<p>A</p>'), '/apply/': noindexPage('<p>Form</p>') });
+  try {
+    const r = filterNoindex([`${O}/a/`, `${O}/apply/`, `${O}/gone/`], dist);
+    assert.deepEqual(r.submit, [`${O}/a/`, `${O}/gone/`]);
+    assert.deepEqual(r.noindex, [`${O}/apply/`]);
+  } finally {
+    cleanup(dist);
+  }
+});
+
+test('notify never submits a noindex page and writes a summary with reason counts', async () => {
+  const pages = { '/': indexable('<p>Home v2</p>'), '/same/': indexable('<p>Same</p>'), '/apply/': noindexPage('<p>Form</p>') };
+  const dist = makeDist(pages, [...Object.keys(pages).map((p) => O + p), 'https://arklens.pages.dev/x/']);
+  const snap = writeSnapshot(dist, {
+    [`${O}/`]: { status: 'ok', sig: 'old' },
+    [`${O}/same/`]: { status: 'ok', sig: pageSignature(pages['/same/']) },
+  });
+  const { fetchImpl, calls } = mockFetch();
+  try {
+    const { s, log, summary } = await notifyWith(dist, { before: snap }, { fetchImpl });
+    const posts = calls.filter((c) => c.method === 'POST');
+    assert.equal(posts.length, 1);
+    assert.deepEqual(JSON.parse(posts[0].body).urlList, [`${O}/`]);
+    assert.equal(s.status, 'success');
+    assert.equal(s.http, 200);
+    assert.equal(s.considered, 4);
+    assert.equal(s.submitted, 1);
+    assert.deepEqual(s.skippedBy, { unchanged: 1, noindex: 1, 'non-production': 1 });
+    assert.ok(!log.includes('::warning::'), log);
+    assert.equal(
+      summary,
+      [
+        '### IndexNow summary',
+        '',
+        '- Mode: changed',
+        '- URLs considered: 4',
+        '- Submitted: 1',
+        '- Skipped: 3 (unchanged 1, noindex 1, non-production 1)',
+        '- Status: success (HTTP 200): OK, URLs submitted',
+        '',
+        '',
+      ].join('\n'),
+    );
+    assert.ok(log.includes('### IndexNow summary'), 'summary is also printed to stdout');
+    assert.ok(!summary.includes('https://'), 'no URL lists in the step summary');
+  } finally {
+    cleanup(dist, snap);
+  }
+});
+
+test('notify --all skips noindex pages that leaked into the sitemap', async () => {
+  const dist = makeDist({ '/': indexable('<p>Home</p>'), '/apply/': noindexPage('<p>Form</p>') });
+  const { fetchImpl, calls } = mockFetch();
+  try {
+    const { s } = await notifyWith(dist, { all: true }, { fetchImpl });
+    assert.deepEqual(JSON.parse(calls.find((c) => c.method === 'POST').body).urlList, [`${O}/`]);
+    assert.equal(s.mode, 'all');
+    assert.deepEqual([s.considered, s.submitted, s.skippedBy.noindex], [2, 1, 1]);
+  } finally {
+    cleanup(dist);
+  }
+});
+
+test('notify warns on non-2xx IndexNow responses', async () => {
+  const dist = makeDist({ '/': indexable('<p>Home</p>') });
+  try {
+    for (const status of [403, 422, 429, 503]) {
+      const { fetchImpl } = mockFetch({ post: status });
+      const { s, log, summary } = await notifyWith(dist, { all: true }, { fetchImpl });
+      assert.equal(s.status, 'failure');
+      assert.equal(s.http, status);
+      assert.equal(s.submitted, 0);
+      assert.match(log, new RegExp(`::warning::\\[indexnow\\] IndexNow submission failed: HTTP ${status}`));
+      assert.match(summary, new RegExp(`- Status: failure \\(HTTP ${status}\\)`));
+    }
+    const { fetchImpl } = mockFetch({ post: 202 });
+    const { s } = await notifyWith(dist, { all: true }, { fetchImpl });
+    assert.deepEqual([s.status, s.http, s.submitted], ['success', 202, 1]);
+  } finally {
+    cleanup(dist);
+  }
+});
+
+test('notify warns on network errors and timeouts', async () => {
+  const dist = makeDist({ '/': indexable('<p>Home</p>') });
+  try {
+    const timeout = Object.assign(new Error('timed out'), { name: 'TimeoutError' });
+    let r = await notifyWith(dist, { all: true }, { fetchImpl: mockFetch({ post: timeout }).fetchImpl });
+    assert.equal(r.s.status, 'failure');
+    assert.match(r.log, /::warning::\[indexnow\] IndexNow submission failed: request timed out/);
+    assert.match(r.summary, /- Status: failure: request timed out; 1 URL\(s\) not submitted/);
+    r = await notifyWith(dist, { all: true }, { fetchImpl: mockFetch({ post: new TypeError('fetch failed') }).fetchImpl });
+    assert.match(r.log, /::warning::\[indexnow\] IndexNow submission failed: network error \(TypeError\)/);
+  } finally {
+    cleanup(dist);
+  }
+});
+
+test('notify warns and does not submit when the key file check fails', async () => {
+  const dist = makeDist({ '/': indexable('<p>Home</p>') });
+  try {
+    for (const keyFile of [{ status: 404 }, { status: 200, body: 'other-key' }]) {
+      const { fetchImpl, calls } = mockFetch({ keyFile });
+      const { s, log } = await notifyWith(dist, { all: true }, { fetchImpl });
+      assert.equal(calls.filter((c) => c.method === 'POST').length, 0);
+      assert.equal(s.status, 'failure');
+      assert.match(log, /::warning::\[indexnow\] IndexNow key file check failed/);
+      assert.ok(!log.includes('.txt'), 'key file name is never printed');
+    }
+    const { fetchImpl, calls } = mockFetch({ keyFile: { status: 503 } });
+    const { s, log } = await notifyWith(dist, { all: true }, { fetchImpl });
+    assert.match(log, /::warning::\[indexnow\] could not verify the IndexNow key file \(HTTP 503\); submitting anyway/);
+    assert.equal(calls.filter((c) => c.method === 'POST').length, 1);
+    assert.equal(s.status, 'success');
+  } finally {
+    cleanup(dist);
+  }
+});
+
+test('notify: missing snapshot is a warning when the key is set (changed mode)', async () => {
+  const dist = makeDist({ '/': indexable('<p>Home</p>') });
+  try {
+    const { fetchImpl, calls } = mockFetch();
+    let r = await notifyWith(dist, { before: path.join(dist, 'nope.json') }, { fetchImpl });
+    assert.match(r.log, /::warning::\[indexnow\] no snapshot of the live site; nothing submitted/);
+    assert.equal(r.s.status, 'failure');
+    assert.deepEqual(r.s.skippedBy, { 'no-snapshot': 1 });
+    assert.equal(calls.length, 0);
+    r = await notifyWith(dist, { dryRun: true }, { key: '', inActions: false, fetchImpl });
+    assert.ok(!r.log.includes('WARNING'), 'no key: plain info, no warning');
+    assert.equal(r.s.status, 'skipped');
+  } finally {
+    cleanup(dist);
+  }
+});
+
+test('notify dry-run without a key never calls the network', async () => {
+  const dist = makeDist({ '/': indexable('<p>Home</p>') });
+  const fetchImpl = async () => assert.fail('network must not be used');
+  try {
+    const { s, log } = await notifyWith(dist, { all: true }, { key: '', inActions: false, isMain: false, fetchImpl });
+    assert.equal(s.status, 'dry-run');
+    assert.equal(s.submitted, 0);
+    assert.match(log, /forcing dry-run/);
+  } finally {
+    cleanup(dist);
+  }
+});
+
+test('formatSummary', () => {
+  assert.equal(
+    formatSummary({ mode: 'changed', considered: 32, submitted: 0, skippedBy: { unchanged: 32 }, status: 'success', http: 0, detail: 'nothing to submit' }),
+    '### IndexNow summary\n\n- Mode: changed\n- URLs considered: 32\n- Submitted: 0\n- Skipped: 32 (unchanged 32)\n- Status: success: nothing to submit\n',
+  );
 });

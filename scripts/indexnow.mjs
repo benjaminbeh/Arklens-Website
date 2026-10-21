@@ -13,6 +13,9 @@
 //       and submits only new, materially changed or removed www.arklens.ch URLs.
 //       --all (or INDEXNOW_ALL=true) submits every sitemap URL (one-time initial submit).
 //       --dry-run prints the (redacted) payload and never POSTs.
+//       Built pages with a robots noindex meta are never submitted (counted as skipped). Ends with
+//       a short summary (mode, URLs considered/submitted/skipped by reason, status, HTTP code) on
+//       stdout and, in GitHub Actions, in $GITHUB_STEP_SUMMARY. Failures are ::warning:: annotations.
 //
 // Safety: the key comes only from the INDEXNOW_KEY environment variable (GitHub secret) and is
 // never printed. Missing/invalid config and network/protocol failures are logged as warnings and
@@ -131,6 +134,53 @@ export function pageSignature(html) {
 export function distFileFor(url, distDir) {
   return path.join(distDir, decodeURIComponent(new URL(url).pathname), 'index.html');
 }
+/** True if the HTML has a robots (or bingbot) meta whose content contains noindex or none. */
+export function isNoindexHtml(html) {
+  const re = /<meta\b[^>]*>/gi;
+  let m;
+  while ((m = re.exec(String(html)))) {
+    const name = (attr(m[0], 'name') || '').trim().toLowerCase();
+    if (name !== 'robots' && name !== 'bingbot') continue;
+    const directives = (attr(m[0], 'content') || '').toLowerCase().split(',').map((d) => d.trim());
+    if (directives.includes('noindex') || directives.includes('none')) return true;
+  }
+  return false;
+}
+/**
+ * Noindex guard: drops every URL whose built dist page carries a robots noindex meta.
+ * URLs without a built page (removed pages, submitted so search engines see the 404) are kept.
+ */
+export function filterNoindex(urls, distDir) {
+  const submit = [];
+  const noindex = [];
+  for (const url of urls) {
+    const file = distFileFor(url, distDir);
+    if (fs.existsSync(file) && isNoindexHtml(fs.readFileSync(file, 'utf8'))) noindex.push(url);
+    else submit.push(url);
+  }
+  return { submit, noindex };
+}
+const SKIP_REASONS = ['unchanged', 'noindex', 'non-production', 'missing-dist-page', 'unknown-before-deploy', 'not-live', 'no-snapshot', 'over-limit'];
+/**
+ * Concise deployment summary (Markdown; printed to stdout and appended to $GITHUB_STEP_SUMMARY).
+ * Contains counts and status only: never the key, the key file name or URL lists.
+ */
+export function formatSummary(s) {
+  const reasons = SKIP_REASONS.filter((r) => s.skippedBy && s.skippedBy[r]).map((r) => `${r} ${s.skippedBy[r]}`);
+  const skipped = reasons.length ? Object.values(s.skippedBy).reduce((a, b) => a + b, 0) : 0;
+  const http = s.http ? ` (HTTP ${s.http})` : '';
+  const detail = s.detail ? `: ${s.detail}` : '';
+  return [
+    '### IndexNow summary',
+    '',
+    `- Mode: ${s.mode}`,
+    `- URLs considered: ${s.considered}`,
+    `- Submitted: ${s.submitted}`,
+    `- Skipped: ${skipped}${reasons.length ? ` (${reasons.join(', ')})` : ''}`,
+    `- Status: ${s.status}${http}${detail}`,
+    '',
+  ].join('\n');
+}
 
 /**
  * before: { [url]: { status: 'ok', sig } | { status: 'absent' } | { status: 'unknown' } }
@@ -195,13 +245,17 @@ const KEY = (process.env.INDEXNOW_KEY || '').trim();
 const IN_ACTIONS = process.env.GITHUB_ACTIONS === 'true';
 const IS_MAIN = process.env.GITHUB_REF === 'refs/heads/main';
 
-function info(msg) {
-  console.log(redact(`[indexnow] ${msg}`, KEY));
+/** info/warn loggers; warnings become GitHub Actions ::warning:: annotations in CI. */
+function makeLog(key, inActions, out = console.log) {
+  return {
+    info: (msg) => out(redact(`[indexnow] ${msg}`, key)),
+    warn: (msg) => {
+      const line = redact(`[indexnow] ${msg}`, key);
+      out(inActions ? `::warning::${line}` : `WARNING ${line}`);
+    },
+  };
 }
-function warn(msg) {
-  const line = redact(`[indexnow] ${msg}`, KEY);
-  console.log(IN_ACTIONS ? `::warning::${line}` : `WARNING ${line}`);
-}
+const { info, warn } = makeLog(KEY, IN_ACTIONS);
 
 function parseArgs(argv) {
   const [mode, ...rest] = argv;
@@ -226,8 +280,8 @@ class UsageError extends Error {}
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-async function get(url, timeoutMs = 10000) {
-  return fetch(url, {
+async function get(url, timeoutMs = 10000, fetchImpl = fetch) {
+  return fetchImpl(url, {
     redirect: 'manual',
     headers: { 'User-Agent': UA },
     signal: AbortSignal.timeout(timeoutMs),
@@ -313,13 +367,13 @@ function readSnapshot(file) {
   return null;
 }
 
-async function verifyKeyFile(key) {
+async function verifyKeyFile(key, { fetchImpl = fetch, sleepImpl = sleep } = {}) {
   const url = `${ORIGIN}/${key}.txt`;
   let last = 'no response';
   let lastStatus = 0;
   for (let attempt = 1; attempt <= 6; attempt++) {
     try {
-      const res = await get(url);
+      const res = await get(url, 10000, fetchImpl);
       lastStatus = res.status;
       const body = res.status === 200 ? (await res.text()).trim() : '';
       if (res.status === 200 && body === key) return { ok: true };
@@ -328,7 +382,7 @@ async function verifyKeyFile(key) {
       lastStatus = 0;
       last = e.name;
     }
-    if (attempt < 6) await sleep(10000);
+    if (attempt < 6) await sleepImpl(10000);
   }
   // 404 or wrong content = real misconfiguration; transient/blocked responses = submit anyway.
   const abort = lastStatus === 404 || last === 'HTTP 200 with unexpected content';
@@ -344,25 +398,25 @@ const STATUS_TEXT = {
   429: 'too many requests',
 };
 
-async function post(payload) {
+async function post(payload, { fetchImpl = fetch, sleepImpl = sleep, warn: warnFn = warn } = {}) {
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
-      const res = await fetch(ENDPOINT, {
+      const res = await fetchImpl(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json; charset=utf-8', 'User-Agent': UA },
         body: JSON.stringify(payload),
         signal: AbortSignal.timeout(15000),
       });
       if (res.status >= 500 && attempt === 1) {
-        warn(`IndexNow returned HTTP ${res.status}; retrying once in 5 s`);
-        await sleep(5000);
+        warnFn(`IndexNow returned HTTP ${res.status}; retrying once in 5 s`);
+        await sleepImpl(5000);
         continue;
       }
       return res.status;
     } catch (e) {
       if (attempt === 1) {
-        warn(`IndexNow request failed (${e.name}); retrying once in 5 s`);
-        await sleep(5000);
+        warnFn(`IndexNow request failed (${e.name}); retrying once in 5 s`);
+        await sleepImpl(5000);
         continue;
       }
       throw e;
@@ -371,28 +425,76 @@ async function post(payload) {
   return 0;
 }
 
-async function cmdNotify(opts) {
-  const all = opts.all || process.env.INDEXNOW_ALL === 'true';
+/**
+ * notify: diff, noindex guard, (dry-run) submission and the deployment summary.
+ * ctx overrides environment and I/O for tests (key, inActions, isMain, allEnv, fetchImpl,
+ * sleepImpl, out, summaryFile). Returns the summary object.
+ */
+export async function runNotify(opts, ctx = {}) {
+  const {
+    key: envKey = KEY,
+    inActions = IN_ACTIONS,
+    isMain = IS_MAIN,
+    allEnv = process.env.INDEXNOW_ALL === 'true',
+    fetchImpl = fetch,
+    sleepImpl = sleep,
+    out = console.log,
+    summaryFile = process.env.GITHUB_STEP_SUMMARY,
+  } = ctx;
+  const { info, warn } = makeLog(envKey, inActions, out);
+  const all = opts.all || allEnv;
+  const s = { mode: all ? 'all' : 'changed', considered: 0, submitted: 0, skippedBy: {}, status: 'failure', http: 0, detail: '' };
+  const skip = (reason, n = 1) => {
+    if (n) s.skippedBy[reason] = (s.skippedBy[reason] || 0) + n;
+  };
+  const finish = () => {
+    const text = redact(formatSummary(s), envKey);
+    out(text);
+    if (summaryFile) {
+      try {
+        fs.appendFileSync(summaryFile, `${text}\n`);
+      } catch (e) {
+        warn(`could not write the step summary (${e.code || e.name})`);
+      }
+    }
+    return s;
+  };
+
   let dryRun = opts.dryRun;
-  if (!dryRun && !(IN_ACTIONS && IS_MAIN)) {
+  if (!dryRun && !(inActions && isMain)) {
     dryRun = true;
     info('not a production CI run (needs GITHUB_ACTIONS=true and GITHUB_REF=refs/heads/main); forcing dry-run');
   }
-  let key = KEY;
+  let key = envKey;
   if (!key) {
-    if (!dryRun) return info('INDEXNOW_KEY not set; IndexNow disabled');
+    if (!dryRun) {
+      info('INDEXNOW_KEY not set; IndexNow disabled');
+      s.status = 'disabled';
+      s.detail = 'INDEXNOW_KEY not set';
+      return finish();
+    }
     key = 'dry-run-key';
   } else if (!isValidKey(key)) {
-    return warn('INDEXNOW_KEY has an invalid format; nothing submitted');
+    warn('INDEXNOW_KEY has an invalid format; nothing submitted');
+    s.detail = 'invalid key format; nothing submitted';
+    return finish();
   }
 
-  const distLocs = readDistLocs(opts.dist);
-  if (!distLocs) return warn(`no sitemap.xml in ${opts.dist}; nothing submitted`);
+  const sitemapFile = path.join(opts.dist, 'sitemap.xml');
+  if (!fs.existsSync(sitemapFile)) {
+    warn(`no sitemap.xml in ${opts.dist}; nothing submitted`);
+    s.detail = 'no sitemap.xml in dist; nothing submitted';
+    return finish();
+  }
+  const sitemapLocs = [...new Set(parseSitemapLocs(fs.readFileSync(sitemapFile, 'utf8')))];
+  const distLocs = sitemapLocs.filter(isProductionUrl);
   const after = {};
+  const missing = new Set();
   for (const url of distLocs) {
     const file = distFileFor(url, opts.dist);
     if (!fs.existsSync(file)) {
       warn(`dist file missing for ${url}; skipped`);
+      missing.add(url);
       continue;
     }
     after[url] = pageSignature(fs.readFileSync(file, 'utf8'));
@@ -401,33 +503,92 @@ async function cmdNotify(opts) {
   let before = {};
   if (!all) {
     const snap = readSnapshot(opts.before);
-    if (!snap) return info('no snapshot; nothing submitted; use workflow input indexnow_all for a full submit');
+    if (!snap) {
+      const msg = 'no snapshot of the live site; nothing submitted; use workflow input indexnow_all for a full submit';
+      if (envKey) warn(msg);
+      else info(msg);
+      s.considered = sitemapLocs.length;
+      skip('no-snapshot', sitemapLocs.length);
+      s.status = envKey ? 'failure' : 'skipped';
+      s.detail = 'no snapshot of the live site';
+      return finish();
+    }
     before = snap;
   }
   const d = diffSignatures(before, after, { all });
   info(`mode=${all ? 'all' : 'changed'} added=${d.added.length} changed=${d.changed.length} removed=${d.removed.length} unchanged=${d.unchanged.length} skipped(unknown)=${d.skipped.length}`);
-  if (!d.submit.length) return info('no new or materially changed URLs; nothing submitted');
-  info(`${d.submit.length} URL(s) to submit:\n  ${d.submit.join('\n  ')}`);
 
-  const payload = buildPayload(key, d.submit);
-  if (dryRun) {
-    console.log(redact(`[indexnow] dry-run payload (not sent):\n${JSON.stringify(payload, null, 2)}`, key));
-    return;
+  // Never submit a noindex page, even if it slipped into the sitemap.
+  const guard = filterNoindex(d.submit, opts.dist);
+  if (guard.noindex.length) info(`${guard.noindex.length} noindex page(s) skipped; not submitted`);
+  const urls = guard.submit;
+
+  // Account for every considered URL exactly once: submitted, or skipped with one reason.
+  const universe = new Set([...sitemapLocs, ...(all ? [] : Object.keys(before))]);
+  const submitSet = new Set(urls);
+  const noindexSet = new Set(guard.noindex);
+  const unchangedSet = new Set(d.unchanged);
+  s.considered = universe.size;
+  for (const u of universe) {
+    if (submitSet.has(u)) continue;
+    const prev = before[u];
+    if (!isProductionUrl(u)) skip('non-production');
+    else if (noindexSet.has(u)) skip('noindex');
+    else if (missing.has(u)) skip('missing-dist-page');
+    else if (unchangedSet.has(u)) skip('unchanged');
+    else if (prev && prev.status === 'unknown') skip('unknown-before-deploy');
+    else if (prev && prev.status === 'absent' && !(u in after)) skip('not-live');
+    else skip('over-limit');
   }
 
-  const check = await verifyKeyFile(key);
+  if (!urls.length) {
+    info('no new or materially changed URLs; nothing submitted');
+    s.status = 'success';
+    s.detail = 'nothing to submit';
+    return finish();
+  }
+  info(`${urls.length} URL(s) to submit:\n  ${urls.join('\n  ')}`);
+
+  const payload = buildPayload(key, urls);
+  if (dryRun) {
+    out(redact(`[indexnow] dry-run payload (not sent):\n${JSON.stringify(payload, null, 2)}`, key));
+    s.status = 'dry-run';
+    s.detail = `${urls.length} URL(s) would be submitted; nothing sent`;
+    return finish();
+  }
+
+  const check = await verifyKeyFile(key, { fetchImpl, sleepImpl });
   if (!check.ok) {
-    if (check.abort) return warn(`key file check failed (${check.reason}); nothing submitted. Is INDEXNOW_KEY unchanged since the deploy?`);
-    warn(`could not verify key file (${check.reason}); submitting anyway`);
+    if (check.abort) {
+      warn(`IndexNow key file check failed (${check.reason}); nothing submitted. Is INDEXNOW_KEY unchanged since the deploy?`);
+      s.detail = `key file check failed (${check.reason}); ${urls.length} URL(s) not submitted`;
+      return finish();
+    }
+    warn(`could not verify the IndexNow key file (${check.reason}); submitting anyway`);
   }
   try {
-    const status = await post(payload);
+    const status = await post(payload, { fetchImpl, sleepImpl, warn });
     const text = STATUS_TEXT[status] || 'unexpected response';
-    if (status === 200 || status === 202) info(`IndexNow HTTP ${status}: ${text}; ${d.submit.length} URL(s)`);
-    else warn(`IndexNow HTTP ${status}: ${text}; ${d.submit.length} URL(s) not accepted`);
+    s.http = status;
+    if (status >= 200 && status < 300) {
+      info(`IndexNow HTTP ${status}: ${text}; ${urls.length} URL(s)`);
+      s.status = 'success';
+      s.submitted = urls.length;
+      s.detail = text;
+    } else {
+      warn(`IndexNow submission failed: HTTP ${status}: ${text}; ${urls.length} URL(s) not accepted`);
+      s.detail = `${text}; ${urls.length} URL(s) not accepted`;
+    }
   } catch (e) {
-    warn(`IndexNow request failed (${e.name}); nothing submitted`);
+    const why = e && e.name === 'TimeoutError' ? 'request timed out' : `network error (${e && e.name})`;
+    warn(`IndexNow submission failed: ${why}; nothing submitted`);
+    s.detail = `${why}; ${urls.length} URL(s) not submitted`;
   }
+  return finish();
+}
+
+async function cmdNotify(opts) {
+  await runNotify(opts);
 }
 
 async function main() {
