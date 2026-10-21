@@ -10,7 +10,8 @@ export function getStaticPaths() { return localeStaticPaths(); }
 const { lang } = Astro.props as { lang: Language };
 
 const termsName = pick(lang, { en: 'Terms of Use', fr: 'Conditions d’utilisation', de: 'Nutzungsbedingungen', it: 'Condizioni d’uso' });
-const contactPath = getLocalizedPath('/contact', lang);
+const contactHref = getLocalizedPath('/contact/', lang); // canonical URL (trailing slash)
+const contactPath = contactHref.replace(/\/$/, ''); // visible text stays www.arklens.ch/contact
 const contactUrl = `www.arklens.ch${contactPath}`;
 ---
 
@@ -772,7 +773,7 @@ const contactUrl = `www.arklens.ch${contactPath}`;
             })}
           </p>
           <p class="text-neutral-700 mt-4">
-            <strong>{pick(lang, { en: 'Contact form:', fr: 'Formulaire de contact\u00A0:', de: 'Kontaktformular:', it: 'Modulo di contatto:' })}</strong> <a href={contactPath} class="underline underline-offset-4">{contactUrl}</a><br />
+            <strong>{pick(lang, { en: 'Contact form:', fr: 'Formulaire de contact\u00A0:', de: 'Kontaktformular:', it: 'Modulo di contatto:' })}</strong> <a href={contactHref} class="underline underline-offset-4">{contactUrl}</a><br />
             <strong>{pick(lang, { en: 'Website:', fr: 'Site web\u00A0:', de: 'Website:', it: 'Sito web:' })}</strong> www.arklens.ch
           </p>
         </section>
