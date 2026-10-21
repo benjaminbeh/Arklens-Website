@@ -87,6 +87,7 @@
     { "v": "CHE-160.960.708", "//": "Swiss UID number (legal page)" },
     { "v": "CH-217.3.560.062-6", "//": "Commercial Register reference (legal page)" },
     { "v": "swiss_contact@arklens.ch", "//": "public e-mail address (legal page)" },
-    { "v": "UID:", "locales": ["de"], "//": "official DE abbreviation (Unternehmens-Identifikationsnummer), identical to EN label (legal page)" }
+    { "v": "UID:", "locales": ["de"], "//": "official DE abbreviation (Unternehmens-Identifikationsnummer), identical to EN label (legal page)" },
+    { "v": "Hosting / CDN:", "locales": ["de", "it"], "//": "standard DE/IT hosting term plus CDN abbreviation; FR uses «Hébergement / CDN :» (legal page)" }
   ]
 }

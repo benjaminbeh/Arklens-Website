@@ -63,8 +63,7 @@ const websiteLabel = pick(lang, { en: 'Website:', fr: 'Site web\u00A0:', de: 'We
             {pick(lang, { en: 'Hosting', fr: 'Hébergement', de: 'Hosting', it: 'Hosting' })}
           </h2>
           <div class="text-neutral-700">
-            <p><strong>{pick(lang, { en: 'Host:', fr: 'Hébergeur\u00A0:', de: 'Hosting-Anbieter:', it: 'Fornitore di hosting:' })}</strong> Cloudflare, Inc.</p>
-            <p>101 Townsend St, San Francisco, CA 94107, USA</p>
+            <p><strong>{pick(lang, { en: 'Hosting / CDN:', fr: 'Hébergement / CDN\u00A0:', de: 'Hosting / CDN:', it: 'Hosting / CDN:' })}</strong> Cloudflare, Inc.</p>
             <p>{websiteLabel} <a href="https://www.cloudflare.com" target="_blank" rel="noopener noreferrer" class="text-primary-600 hover:text-primary-700">www.cloudflare.com</a></p>
           </div>
         </section>
@@ -144,9 +143,7 @@ const websiteLabel = pick(lang, { en: 'Website:', fr: 'Site web\u00A0:', de: 'We
               de: 'Weitere Informationen dazu, wie wir Ihre Personendaten bearbeiten, finden Sie in unserer ',
               it: 'Per maggiori informazioni su come trattiamo i dati personali degli utenti, consultare la nostra ',
             })}
-            <a href={getLocalizedPath('/privacy', lang)} class="text-primary-600 hover:text-primary-700">
-              {pick(lang, { en: 'Privacy Policy', fr: 'Politique de confidentialité', de: 'Datenschutzerklärung', it: 'Informativa sulla privacy' })}
-            </a>.
+            <a href={getLocalizedPath('/privacy', lang)} class="text-primary-600 hover:text-primary-700">{pick(lang, { en: 'Privacy Policy', fr: 'Politique de confidentialité', de: 'Datenschutzerklärung', it: 'Informativa sulla privacy' })}</a>.
           </p>
         </section>
       </div>
