@@ -8,7 +8,8 @@ import { localeStaticPaths, getLocalizedPath, type Language } from '@i18n/index'
 export function getStaticPaths() { return localeStaticPaths(); }
 const { lang } = Astro.props as { lang: Language };
 
-const toComplete = pick(lang, { en: '[To be completed]', fr: '[À compléter]', de: '[Noch zu ergänzen]', it: '[Da completare]' });
+// Company identity as listed in the Swiss Federal UID register.
+const EMAIL = 'swiss_contact@arklens.ch';
 const websiteLabel = pick(lang, { en: 'Website:', fr: 'Site web\u00A0:', de: 'Website:', it: 'Sito web:' });
 ---
 
@@ -34,37 +35,26 @@ const websiteLabel = pick(lang, { en: 'Website:', fr: 'Site web\u00A0:', de: 'We
           <h2 class="text-heading-lg mb-4">
             {pick(lang, { en: 'Company Information', fr: 'Informations sur l’entreprise', de: 'Angaben zum Unternehmen', it: 'Informazioni sull’azienda' })}
           </h2>
-          <div class="text-neutral-700 space-y-2">
-            <p><strong>{pick(lang, { en: 'Company name:', fr: 'Nom de l’entreprise\u00A0:', de: 'Name des Unternehmens:', it: 'Nome dell’azienda:' })}</strong> Arklens</p>
-            <p><strong>{pick(lang, { en: 'Legal form:', fr: 'Forme juridique\u00A0:', de: 'Rechtsform:', it: 'Forma giuridica:' })}</strong> {toComplete}</p>
-            <p><strong>{pick(lang, { en: 'Address:', fr: 'Adresse\u00A0:', de: 'Adresse:', it: 'Indirizzo:' })}</strong> {toComplete}</p>
-            <p><strong>{pick(lang, { en: 'Switzerland', fr: 'Suisse', de: 'Schweiz', it: 'Svizzera' })}</strong></p>
-            <p><strong>{pick(lang, { en: 'Email:', fr: 'E-mail\u00A0:', de: 'E-Mail:', it: 'E-mail:' })}</strong> contact@arklens.ch</p>
+          <!-- break-words lets the e-mail wrap at 320 px; UID and register numbers stay whole (nowrap) so they never split at a hyphen -->
+          <div class="text-neutral-700 space-y-2 break-words">
+            <p><strong>{pick(lang, { en: 'Company name:', fr: 'Raison sociale\u00A0:', de: 'Firma:', it: 'Ragione sociale:' })}</strong> Arklens Sàrl</p>
+            <p><strong>{pick(lang, { en: 'Legal form:', fr: 'Forme juridique\u00A0:', de: 'Rechtsform:', it: 'Forma giuridica:' })}</strong> {pick(lang, {
+              en: 'Limited liability company under Swiss law (Sàrl)',
+              fr: 'Société à responsabilité limitée (Sàrl)',
+              de: 'Gesellschaft mit beschränkter Haftung (GmbH/Sàrl)',
+              it: 'Società a garanzia limitata (Sagl/Sàrl)',
+            })}</p>
+            <p><strong>{pick(lang, { en: 'Registered address:', fr: 'Adresse du siège\u00A0:', de: 'Domiziladresse:', it: 'Sede legale:' })}</strong></p>
+            <address class="not-italic">
+              Arklens Sàrl<br />
+              Rue de Champ-Barby 18<br />
+              1630 Bulle<br />
+              {pick(lang, { en: 'Switzerland', fr: 'Suisse', de: 'Schweiz', it: 'Svizzera' })}
+            </address>
+            <p><strong>{pick(lang, { en: 'UID:', fr: 'IDE\u00A0:', de: 'UID:', it: 'IDI:' })}</strong> <span class="whitespace-nowrap">CHE-160.960.708</span></p>
+            <p><strong>{pick(lang, { en: 'Commercial Register:', fr: 'Registre du commerce\u00A0:', de: 'Handelsregister:', it: 'Registro di commercio:' })}</strong> <span class="whitespace-nowrap">CH-217.3.560.062-6</span></p>
+            <p><strong>{pick(lang, { en: 'Email:', fr: 'E-mail\u00A0:', de: 'E-Mail:', it: 'E-mail:' })}</strong> <a href={`mailto:${EMAIL}`} class="text-primary-600 hover:text-primary-700">{EMAIL}</a></p>
             <p><strong>{websiteLabel}</strong> www.arklens.ch</p>
-          </div>
-        </section>
-
-        <section class="mb-8">
-          <h2 class="text-heading-lg mb-4">
-            {pick(lang, { en: 'Legal Representative', fr: 'Représentation légale', de: 'Vertretungs\u00ADberechtigte Person', it: 'Rappresentante legale' })}
-          </h2>
-          <p class="text-neutral-700">
-            {pick(lang, {
-              en: '[To be completed: Name of director or legal representative]',
-              fr: '[À compléter\u00A0: nom de la personne qui dirige l’entreprise ou qui la représente légalement]',
-              de: '[Noch zu ergänzen: Name der Geschäftsführung oder der vertretungsberechtigten Person]',
-              it: '[Da completare: nome di chi dirige l’azienda o la rappresenta legalmente]',
-            })}
-          </p>
-        </section>
-
-        <section class="mb-8">
-          <h2 class="text-heading-lg mb-4">
-            {pick(lang, { en: 'Identification Number', fr: 'Numéro d’identification', de: 'Identifikations\u00ADnummer', it: 'Numero d’identificazione' })}
-          </h2>
-          <div class="text-neutral-700 space-y-2">
-            <p><strong>{pick(lang, { en: 'IDE/UID:', fr: 'IDE\u00A0:', de: 'UID:', it: 'IDI:' })}</strong> {toComplete}</p>
-            <p><strong>{pick(lang, { en: 'VAT:', fr: 'TVA\u00A0:', de: 'MWST:', it: 'IVA:' })}</strong> {pick(lang, { en: '[To be completed if applicable]', fr: '[À compléter le cas échéant]', de: '[Noch zu ergänzen, falls zutreffend]', it: '[Da completare, se applicabile]' })}</p>
           </div>
         </section>
 
@@ -99,10 +89,10 @@ const websiteLabel = pick(lang, { en: 'Website:', fr: 'Site web\u00A0:', de: 'We
           </h2>
           <p class="text-neutral-700">
             {pick(lang, {
-              en: 'Arklens strives to provide accurate and up-to-date information on this site. However, we cannot guarantee the accuracy, precision or completeness of the information provided. We disclaim all liability for any errors or omissions.',
-              fr: 'Arklens s’efforce de fournir des informations exactes et à jour sur ce site. Toutefois, nous ne pouvons garantir l’exactitude, la précision ou l’exhaustivité des informations fournies. Nous déclinons toute responsabilité en cas d’erreur ou d’omission.',
-              de: 'Arklens bemüht sich, auf dieser Website korrekte und aktuelle Informationen bereitzustellen. Wir können jedoch die Richtigkeit, Genauigkeit oder Vollständigkeit der bereitgestellten Informationen nicht garantieren. Wir lehnen jede Haftung für Fehler oder Auslassungen ab.',
-              it: 'Arklens si impegna a fornire su questo sito informazioni corrette e aggiornate. Non possiamo tuttavia garantire l’esattezza, la precisione o la completezza delle informazioni fornite. Decliniamo ogni responsabilità per eventuali errori od omissioni.',
+              en: 'Arklens strives to provide accurate and up-to-date information on this site but cannot guarantee its accuracy or completeness. We disclaim all liability for any errors or omissions, to the extent permitted by law.',
+              fr: 'Arklens s’efforce de fournir des informations exactes et à jour sur ce site, mais ne peut en garantir l’exactitude ni l’exhaustivité. Nous déclinons toute responsabilité en cas d’erreur ou d’omission, dans la mesure permise par la loi.',
+              de: 'Arklens bemüht sich, auf dieser Website korrekte und aktuelle Informationen bereitzustellen, kann deren Richtigkeit und Vollständigkeit jedoch nicht garantieren. Wir lehnen jede Haftung für Fehler oder Auslassungen ab, soweit gesetzlich zulässig.',
+              it: 'Arklens si impegna a fornire su questo sito informazioni corrette e aggiornate, ma non può garantirne l’esattezza né la completezza. Decliniamo ogni responsabilità per eventuali errori od omissioni, nella misura consentita dalla legge.',
             })}
           </p>
         </section>
@@ -159,18 +149,6 @@ const websiteLabel = pick(lang, { en: 'Website:', fr: 'Site web\u00A0:', de: 'We
             </a>.
           </p>
         </section>
-
-        <div class="bg-neutral-50 rounded-xl p-6 mt-12 border border-neutral-200">
-          <p class="text-sm text-neutral-600">
-            <strong>{pick(lang, { en: 'Note:', fr: 'Remarque\u00A0:', de: 'Hinweis:', it: 'Nota:' })}</strong> 
-            {pick(lang, {
-              en: 'This legal notice is provided as a template. It is recommended to have it reviewed by a legal advisor to ensure compliance with applicable Swiss law.',
-              fr: 'Les présentes mentions légales sont fournies à titre de modèle. Il est recommandé de les faire vérifier par un conseil juridique afin d’assurer leur conformité avec le droit suisse applicable.',
-              de: 'Dieses Impressum dient als Vorlage. Es wird empfohlen, es von einer juristischen Fachperson prüfen zu lassen, um die Einhaltung des geltenden Schweizer Rechts sicherzustellen.',
-              it: 'Le presenti note legali sono fornite come modello. Si raccomanda di farle verificare da un consulente legale per garantirne la conformità al diritto svizzero applicabile.',
-            })}
-          </p>
-        </div>
       </div>
     </div>
   </main>

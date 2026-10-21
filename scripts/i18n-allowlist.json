@@ -80,6 +80,13 @@
     { "v": "www.maison-dupont.ch", "//": "fictional mockup URL" },
     { "v": "contact@arklens.ch", "//": "e-mail address" },
     { "v": "Rue de Lausanne 12", "//": "fictional street address in a mockup, proper noun" },
-    { "v": "101 Townsend St, San Francisco, CA 94107, USA", "//": "hosting provider's registered postal address (legal page)" }
+    { "v": "101 Townsend St, San Francisco, CA 94107, USA", "//": "hosting provider's registered postal address (legal page)" },
+    { "v": "Arklens Sàrl", "//": "registered legal name (UID register), identical in every language (legal page)" },
+    { "v": "Rue de Champ-Barby 18", "//": "registered street address, proper noun (legal page)" },
+    { "v": "1630 Bulle", "//": "registered postcode and locality (legal page)" },
+    { "v": "CHE-160.960.708", "//": "Swiss UID number (legal page)" },
+    { "v": "CH-217.3.560.062-6", "//": "Commercial Register reference (legal page)" },
+    { "v": "swiss_contact@arklens.ch", "//": "public e-mail address (legal page)" },
+    { "v": "UID:", "locales": ["de"], "//": "official DE abbreviation (Unternehmens-Identifikationsnummer), identical to EN label (legal page)" }
   ]
 }

@@ -41,13 +41,19 @@ const organization = {
   '@type': 'Organization',
   '@id': ORG_ID,
   name: 'Arklens',
+  // Company identity as listed in the Swiss Federal UID register (matches the Legal Notice).
+  legalName: 'Arklens Sàrl',
   url: SITE_URL,
   logo: { '@type': 'ImageObject', url: `${SITE_URL}android-chrome-512x512.png`, width: 512, height: 512 },
   description: plain(t('meta.orgDescription')),
   address: {
     '@type': 'PostalAddress',
+    streetAddress: 'Rue de Champ-Barby 18',
+    postalCode: '1630',
+    addressLocality: 'Bulle',
     addressCountry: 'CH',
   },
+  identifier: { '@type': 'PropertyValue', propertyID: 'CHE UID', value: 'CHE-160.960.708' },
   areaServed: {
     '@type': 'Country',
     name: plain(t('meta.country')),
