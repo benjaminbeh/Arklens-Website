@@ -47,9 +47,9 @@ export const TURNSTILE_ACTION_EXPERIENCE = 'experience';
 
 /**
  * Identifies the expectations wording the applicant acknowledged (recorded in the
- * internal email). Draft until the programme/legal review: bump when the text changes.
+ * internal email). Bump when the text changes.
  */
-export const XP_ACK_VERSION = '2026-10-draft';
+export const XP_ACK_VERSION = '2026-10-21';
 
 /** Server-generated application ID: EXP-<UTC YYYYMMDD>-<8 uppercase hex from 4 random bytes>. */
 export const EXPERIENCE_ID_RE = /^EXP-\d{8}-[0-9A-F]{8}$/;
